@@ -88,6 +88,3 @@ VERSION = $(shell echo `cat $(JROOT)/MAJOR`.`cat $(JROOT)/MINOR`)$(BUILD)
 # one to create test/debug versions of the libary using Git branches.
 #
 PKG_VERSION = $(VERSION)$(PKG_BUILD)
-
-version:
-	@echo $(VERSION)

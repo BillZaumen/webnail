@@ -4,6 +4,10 @@ buildno:
 pkg_buildno:
 	@echo $(PKG_BUILD)
 
+version:
+	@echo $(VERSION)
+
+
 release:
 	@cd $(JROOT) ;\
 	if git diff --quiet ;\
