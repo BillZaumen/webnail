@@ -1,0 +1,79 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<!ELEMENT webnail (domMap?, title?, descr?, head?, header?, 
+	  image*, trailer?, finalHtml?)>
+<!ATTLIST webnail
+	  windowTitle CDATA #IMPLIED
+	  mimeType  CDATA #IMPLIED
+	  webMode (true|false) #IMPLIED
+	  linkMode (true|false) #IMPLIED
+	  flatMode (true|false) #IMPLIED
+	  highResMode (true|false) #IMPLIED
+	  webArchiveMode (true|false) #IMPLIED
+	  syncMode (true|false) #IMPLIED
+	  waitOnError (true|false) #IMPLIED
+	  imageTime CDATA #IMPLIED
+	  minImageTime CDATA #IMPLIED
+	  bgcolor  CDATA #IMPLIED
+	  height  CDATA #IMPLIED
+	  width   CDATA #IMPLIED
+	  hrefToOrig (true|false) #IMPLIED
+	  layout CDATA #IMPLIED>
+
+<!ELEMENT domMap (mapping)*>
+
+<!ELEMENT mapping  EMPTY>
+<!ATTLIST mapping
+	  key CDATA #REQUIRED
+	  mode (property|method0|method1|function|test) #IMPLIED
+	  ids  CDATA #IMPLIED
+	  function CDATA #IMPLIED
+	  prop CDATA #IMPLIED
+	  method CDATA #IMPLIED
+	  defaultValue CDATA #IMPLIED
+	  callMode (onImageChange|onOverridden|onNotOverridden
+	            |onSlideshowStart|onSlideshowEnd
+	            |asSlideshowTest|asSlideshowEnabledTest) #IMPLIED
+	  callAsDefault (true | false) #IMPLIED
+	  defaultArgument CDATA #IMPLIED>
+
+
+<!ELEMENT title (#PCDATA)>
+<!ATTLIST title
+	  url CDATA #IMPLIED>
+
+<!ELEMENT descr (#PCDATA)>
+<!ATTLIST descr
+	  url CDATA #IMPLIED>
+
+<!ELEMENT head (#PCDATA) >
+<!ATTLIST head
+	  url CDATA #IMPLIED>
+<!ELEMENT header (#PCDATA) >
+<!ATTLIST header
+	  url CDATA #IMPLIED>
+
+
+<!ELEMENT image ((filename | url), title?, descr?, property*)>
+<!ATTLIST image
+	  mimeType  CDATA #IMPLIED
+	  linkMode (true|false) #IMPLIED
+	  hrefURL  CDATA #IMPLIED
+	  hrefTarget (_blank|_top) #IMPLIED
+	  imageTime CDATA #IMPLIED
+	  minImageTime CDATA #IMPLIED>
+	  
+<!ELEMENT filename  (#PCDATA)>
+<!ELEMENT url  (#PCDATA)>
+
+<!ELEMENT property (#PCDATA)>
+<!ATTLIST property
+	  key CDATA #REQUIRED>
+
+<!ELEMENT trailer (#PCDATA)>
+<!ATTLIST trailer
+	  url CDATA #IMPLIED>
+
+<!ELEMENT finalHtml (#PCDATA)>
+<!ATTLIST finalHtml
+	  url CDATA #IMPLIED>

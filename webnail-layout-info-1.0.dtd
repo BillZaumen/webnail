@@ -1,0 +1,33 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<!ELEMENT layout (multi | single)>
+
+<!ELEMENT multi (name)*>
+<!ATTLIST multi
+	  twidth CDATA #REQUIRED
+	  theight CDATA #REQUIRED
+	  mwidth CDATA #REQUIRED
+	  mheight CDATA #REQUIRED
+	  marginw CDATA #REQUIRED
+	  marginh CDATA #REQUIRED
+	  margin_hpad CDATA #REQUIRED
+	  margin_vpad CDATA #REQUIRED
+	  t_vpad  CDATA #REQUIRED
+	  num_t_images CDATA #REQUIRED
+	  t_vcorrection CDATA #REQUIRED
+	  name CDATA #REQUIRED
+	  url CDATA #REQUIRED>
+
+<!ELEMENT single (name)*>
+<!ATTLIST single
+	  max_thumbwidth CDATA #REQUIRED
+	  max_thumbheight CDATA #REQUIRED
+	  tiled (true | false) #IMPLIED
+	  tiledWidth CDATA #IMPLIED
+	  name CDATA #REQUIRED
+	  linkedURL CDATA #REQUIRED
+	  noLinkURL CDATA #REQUIRED>
+
+<!ELEMENT name (#PCDATA)>
+<!ATTLIST name
+	  lang CDATA #REQUIRED>

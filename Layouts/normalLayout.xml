@@ -1,0 +1,19 @@
+<?xml version="1.0" encoding="UTF-8"?><?M.T application/prs.wtz.webnail-layout+xml?>
+<!DOCTYPE layout PUBLIC "-//wtz//Webnail_Layout_Info 1.0//EN"
+	  "http://cmdl.org/DTD/webnail-layout-info-1.0.dtd">
+<layout>
+  <multi twidth="100"
+	 theight="100"
+	 mwidth="500"
+	 mheight="450"
+	 marginw="10"
+	 marginh="10"
+	 margin_hpad="30"
+	 margin_vpad="40"
+	 t_vpad="4"
+	 num_t_images="5"
+	 t_vcorrection="-30"
+	 name="Default Layout"
+	 url="sresource:/webnail/indexHTML.tpl">
+  </multi>
+</layout>

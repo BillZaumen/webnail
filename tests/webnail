@@ -1,0 +1,7 @@
+#!/bin/sh
+if [ -r /etc/webnail.conf ]
+then
+. /etc/webnail.conf
+fi
+version=`cd .. ; make version`
+exec ${java:-java} -jar ../jar/webnail-$version.jar "$@"

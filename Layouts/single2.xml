@@ -1,0 +1,11 @@
+<?xml version="1.0" encoding="UTF-8"?><?M.T application/prs.wtz.webnail-layout+xml?>
+<!DOCTYPE layout PUBLIC "-//wtz//Webnail_Layout_Info 1.0//EN"
+	  "http://cmdl.org/DTD/webnail-layout-info-1.0.dtd">
+<layout>
+  <single max_thumbwidth="200"
+	  max_thumbheight="200"
+	  tiled="false"
+	  name="Header, (Images &amp; Trailer)"
+	  linkedURL="sresource:/webnail/singleHTML2link.tpl"
+	  noLinkURL="sresource:/webnail/singleHTML2.tpl"/>
+</layout>

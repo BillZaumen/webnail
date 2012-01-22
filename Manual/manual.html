@@ -1,0 +1,1230 @@
+<!DOCTYPE HTML PUBLIC "-//W3C//DTD HTML 3.2 Final//EN">
+<html>
+<head>
+<title>Webnail Manual</title>
+</head>
+<body>
+<h1><a name="intro">Webnail</a></h1>
+<p><strong>Webnail</strong> is a program that scales images so
+that they fit within a box with a specified height and width, allowing images to be conveniently layed out in HTML tables. Both the height and width are scaled by the same amount.
+</p>
+<p>
+<strong>Webnail</strong> can be run using a GUI or as a command-line
+program, allowing <strong>webnail</strong> to be used conveniently in scripts.
+</p>
+
+<h1><a name="gui">Running webnail with a GUI</a></h1>
+
+<p>To run <strong>webnail</strong> with a Graphical User Interface
+(GUI), either type the command <strong>webnail</strong> in a
+terminal window or find it in a menu of installed programs (how to do
+this is window-system dependent). 
+
+<h2><a name="giuMain">Top-level Window</a></h2>
+
+Once <strong>webnail</strong is started, the following window will
+appear:
+<p>
+<A name="guiMain"><img src="sresource:/gui-main.png" width=600 height=359></A>
+</p>
+<p>
+<p>The menu bar contains three items, a
+<em>File</em> menu with an options for <strong>webnail</strong> to
+load a previously saved configuration, save the current configuration,
+or quit; an <em>Edit</em> menu with options to edit 
+<A HREF="#proxies">the current proxy configuration</A>;
+A <em>Tools</em> menu with an <em>Open Console</em> menu item for
+showing error messages; and a <em>Help</em> menu that includes two
+menu items, one providing a manual and the other providing information
+about the program.  Typing Control-Q will make <strong>webnail</strong>
+exit.  Keyboard navigation is supported (the following apply to the
+default Java look and feel):
+<ul>
+   <li>Hitting <em>tab</em> key will move the keyboard focus to the next
+     control.
+   <li>Hitting the <em>shift</em> key and the </em>tab</em> key 
+     simultaneously will move the keyboard focus to the previous control.
+   <li>Hitting the <em>space</em> key when a button has the keyboard focus
+     is equivalent to clicking on the button.
+</ul>
+<strong>Webnail</strong> starts execution with the keyboard focus
+set to the <em>Dir</em> radio button (the first radio button is selected
+by default as described below). 
+<p>
+There are a number of controls:
+</p>
+<blockquote>
+<DL>
+  <DT><strong>Output File Type</strong><DD>labels a set of radio
+      buttons to select the type of the output file. The options are
+      <UL>
+	<li> <strong>Image</strong>.  The output file is a single image (only
+	  one imput image may be selected), with a file extension recognized
+	  by the Java implementation (run "webnail -l" from a terminal window
+	  to see the allowed MIME types and extensions). This is the default
+	  when <strong>webnail</strong> starts up.
+	<li> <strong>Dir</strong>. The output is a directory used to store
+	  multiple image output files.
+	<li> <strong>Zip</strong>. The output is a ZIP file that will contain
+	  a set of images files.
+	<li> <strong>Web Dir</strong>. The output is a directory containing HTML
+	  and iamge files.  A browser should open index.html in this directory.
+	<li> <strong>Web Zip</strong>. The output is a ZIP file containing the
+	  files that would have been produced for <strong>Web Dir</strong>. 
+        <li> <strong>Web-Archive-Dir</strong>.  This creates all the directory
+	  entries for the <strong>Web Dir</strong> option and in addition adds
+	  a <strong>Web-Inf</strong> directory containing a file named
+	  <strong>web.xml</strong>.  The <strong>web.xml</strong> file specifies
+	  MIME type mappings and other information need to configure a web
+	  server.
+	<li> <strong>Web-Archive</strong>. This creates a file (Zip format)
+	  containing the files that would have been created if the 
+	  <strong>Web-Archive-Dir</strong> had been used. The file extension
+	  must be <strong>.war</strong>.
+      </UL>
+  <DT><strong><A name="mimeType">Output Image Format or MIME
+      Type</A></strong><DD> provides a selection of output-file
+      formats or MIME types nameing output-file formats. The choices
+      are dependent on what the Java implementation supports.
+  <DT><strong>Output File or Directory Name</strong><DD>provides the
+      file or directory name for output.  One can enter this in
+      the <em>Output File or Directory</em> text field.  Alternative
+      the button adjacent to the text field named <em>Chooose</em> can
+      be pushed, in which case a dialog box that helps the user
+      navigate through the file system will appear.  If a file name is
+      given, the corresponding file will contain the scaled image, so
+      only one input file may be selected.  If a directory name is
+      given, the scaled-image files will be placed in that directory
+      with names matching the names of the input files.
+  <DT><strong>Layout</strong><DD>can have several values. The value
+      <strong>Default Layout</strong> indicates that the web page
+      created should contain a table containing a scrollable table of
+      webnail images and a medium size image that changes depending
+      on what webnail image is selected. The other options specify
+      how to layout the images and text on a single page. The text is
+      divided into three sections name the header, trailer, and final
+      HTML.  The final HTML section always appears at the bottom of
+      the page, after the last script that the webnail program
+      provides (for the default layout). These additional options are
+      <UL>
+	<li><strong>Header, Images, Trailer</strong>. The header appears
+	  at the start of the page, followed by the images, which are layed
+	  out in a grid, followed by the trailer.
+	<li><strong>Header, (Images & Trailer)</strong>. The header appears
+	  at the start of the page.  The Images and the trailer are in two
+	  parallel columns with the trailer on the right and one image per
+	  line on the left.
+	<li><Strong>Header, (Trailer & Images)</strong>. The header appears
+	  at the start of the page.  The Images and the trailer are in two
+	  parallel columns with the trailer on the left and one image per
+	  line on the right.
+	<li><strong>Images & (Header, Trailer)</strong>. The pages starts
+	  with two parallel columns. The left column contains the images,
+	  one per line, and the right column contains the header followed
+	  by the trailer.
+	<li><strong>(Header, Trailer) & Images</strong>.  The pages starts
+	  with two parallel columns. The right column contains the images,
+	  one per line, and the left column contains the header followed
+	  by the trailer.
+      </UL>
+  <DT><strong>FullScreen Slideshow</strong><DD>is a check box that,
+      when selected, indicates that the web page created should allow
+      the user to open a full screen window (actually, nearly full
+      screen) showing the images in a slideshow at a high resolution.
+  <DT><strong>Sync Mode</strong><DD>indicates that a slideshow should
+      try to stay in syncronization with the timing information
+      provided. If one image takes too long to load, the subsequent
+      images will be displayed for less time until the timing is
+      correct. Unless the
+      <strong>Wait on Error</strong> option is in effect, images that are
+      "broken" (cannot be loaded with a detectable error) are ignored.
+  <DT><strong>Wait on Error</strong><DD>is a check box that, when
+      selected, indicates that, if an image is not available, that
+      image's duration should be added to the previous image's
+      duration rather than ignoring the image that caused the error.
+  <DT><strong>Set Window Title</strong><DD>when clicked opens a dialog
+      box that allows a title for a browser window to be specified (it
+      provides the value for the HTML TITLE element in the document
+      head).
+  <DT><strong>FullScreen Background Color</strong><DD>is a button that opens
+      a dialog that sets the background color for a full-screen
+      slideshow window.  This does not change the background color of
+      the main window.
+  <DT><strong><A name="imageTime">Image Time</A></strong><DD>is a text
+      field used to specify the time an image should be displayed in a
+      slideshow. The value is specified as SECONDS, MINUTES:SECONDS,
+      or HOURS:MINUTES:SECONDS, where SECONDS can either be an integer
+      or a decimal number with up to three digits past the decimal
+      point (comma in European notation).
+  <DT><strong><A name="minImageTime">Minimum Image Time</strong><DD>is
+      at text field used to specify a the minimum time for which an
+      image can be displayed in a slideshow.  When <strong>sync
+      mode</strong> is specified, the time an image is displayed may
+      be reduced if the image arrives late (e.g., due to network
+      delays) and this value ensures that reductions in display time
+      will be shared by multiple following images. The value is
+      specified as SECONDS, MINUTES:SECONDS, or HOURS:MINUTES:SECONDS,
+      where SECONDS can either be an integer or a decimal number with
+      up to three digits past the decimal point (comma in European
+      notation).
+  <DT><strong>Maximum Image Width</strong><DD>provides the maximum
+      allowed image width measured in pixels.
+  <DT><strong>Maximum Image Height</strong><DD>provides the maximum
+      allowed image height measured in pixels.
+  <DT><strong><A name="useLinks">Use links</a></strong><DD>is a check
+      box that, when selected, specifies that links to the original
+      images rather than copies should be used for any image that does
+      not have to be scaled.
+  <DT><strong>Flatten</strong><DD>specifies that, if the image width
+      and height are not given (which implies no scaling), then the
+      image appears in at the top level of the directory, ZIP file, or
+      WAR file that is created.
+  <DT><strong><A name="hrefToOrig">HREF link to Original
+      Image</A></strong><DD> specifies that, unless an optional
+      hyperlink URL fora specific image is given (see <strong>Edit
+      Images</strong>), a medium-sized image, when clicked, should
+      load the original image (which should be specified by a URL).
+  <DT><strong>DOM map</strong><DD>when clicked opens a panel for
+      editing the DOM (Document Object Model) map to be edited. The
+      panel and how it functions is
+      described <A HREF="#guiDOM">below</A>.
+  <DT><strong><A name="title">Title</A></strong><DD>when clicked opens
+      a dialog box that allows you to enter a default title for the
+      images. The default title can be entered in a text area or by
+      providing a URL indicating a resource that will be loaded to
+      obtain the title. In either case the title contains HTML
+      formated text.  This default can be overridden as
+      described <A HREF="#guiEdit">below.</A> When the Default Layout
+      option described above is used, the title appears directly below
+      the image on the web page that is generated.  Otherwise it the
+      title appears only if the mouse is stationary over the image.
+  <DT><strong><A name="descr">Description</A></strong><DD>when clicked
+      opens a dialog box that allows you to enter a default
+      description for the images. The default description can be
+      entered in a text area or by providing a URL indicating a
+      resource that will be loaded to obtain the description. In
+      either case the description contains HTML formated text.This
+      default can be overridden as described 
+      <A HREF="#guiEdit">below.</A> When the Default Layout option
+      described above is used, the description appears directly below
+      the title on the web page that is generated. For the other
+      layout options, the description is ignored.
+  <DT><strong>Head</strong><DD>when clicked opens a dialog box for
+      entering or editing HTML text that should appear in the document
+      head.  This can be used to add style sheets to the document.
+      This text can be entered in a text area or by providing a URL
+      indicating a resource that will be loaded to obtain the text. In
+      either case the text must be HTML formated.
+  <DT><strong>Header</strong><DD>when clicked opens a dialog box for
+      entering or editing HTML text that appears in the document. The
+      position depends on the </strong>layout</strong> option chosen.
+      This text can be entered in a text area or by providing a URL
+      indicating a resource that will be loaded to obtain the text. In
+      either case the text must be HTML formated.
+  <DT><strong>Trailer</strong><DD>when clicked opens a dialog box for
+      entering or editing HTML text that appears in the document. The
+      position depends on the </strong>layout</strong> option chosen.
+      This text can be entered in a text area or by providing a URL
+      indicating a resource that will be loaded to obtain the text. In
+      either case the text must be HTML formated.
+  <DT><strong>Final HTML</strong><DD>when clicked opens a dialog box
+      for entering or editing HTML text that appears in the
+      document. The position is always at the end of the document.
+      This text can be entered in a text area or by providing a URL
+      indicating a resource that will be loaded to obtain the text. In
+      either case the text must be HTML formated.  When the default
+      layout is used, the text will follow the <b>script</b> element
+      that loads the scripts needed for navigation controls.  It can
+      be used to load additional scripts (for performance reasons,
+      scripts should be loaded at the end of an HTML document when
+      possible).
+</DL>
+</blockquote>
+<P>
+The last 6 buttons, <strong>Title</strong>, <strong> Description</strong>,
+<strong>Head</strong>, <strong>Header</strong>, <strong>Trialer</strong>,
+<strong>Final HTML</strong> open similar dialog boxes. The one for the
+<strong>Title</strong> button is a suitable example:
+<P>
+<img src="sresource:/gui-title.png" width=592 height=287>
+</P>
+<P>
+One may either enter text directly into a text area or use a URL to
+reference the text.  The button <strong>load using new URL</strong>
+will open a dialog box asking for a URL (a button will bring up an
+file-chooser dialog for the case were the URL references a local
+file). If accepted, the text area is disabled, but will contain the
+text referenced by the URL, and the <strong>load using new URL</strong>
+changes to one labeled <strong>delete URL</strong>. When a
+<strong>delete URL</strong> is clicked, there are three options,
+<strong>Remove URL and clear text</strong>,
+<strong>Remove URL and keep text</strong>, and <strong>Cancel</strong>.
+The <strong>Remove URL and clear text</strong> option, when clicked,
+deletes the URL and clears the text associated with it.  The
+<strong>Remove URL and keep text</strong> option deletes the URL but
+keeps the text associated and enables the text area so that the text
+can be edited if desired.  Finally, the <strong>Cancel</strong> option
+closes the dialog box without performing any actions.
+ </P>
+<P>
+The next set of controls are used to insert images into the application.
+</P>
+<blockquote>
+<DL>
+  <DT><strong><A name="inputControls">Drag and Drop Input</A></strong>
+    <DD>when selected indicates that one intends to either drag and 
+      drop images into the application or paste images that have been
+      copied or cut from a file browser window. The drop target is
+      denoted by an icon (a folder with a target symbol on it) and a
+      paste operation is started by clicking the adjacent button.
+  <DT><strong>File Input</strong><DD>when selected indicates that will
+      either type a file name into a text field or click a "choose"
+      button to open a dialog box that allows a file (or multiple
+      files) to be selected.
+  <DT><strong>URL Input</strong><DD>when selected indicates that the
+      text field on the next line will contain a URL.
+  <DT><strong>Add Images</strong><DD>when clicked (it is enabled only
+      when necessary) causes the specified images to be copied into
+      the program.
+  <DT><strong>Edit Images</strong><DD>when clicked opens a panel for
+      editing images that have been added.
+  <DT><strong>Run</strong><DD>when clicked starts a task for
+      generating scaled images and creating HTML files.
+  <DT><strong>Cancel</strong><DD>when clicked cancels the last task.
+  <DT><strong>Progress Bar</strong><DD>is the lowest control in the
+      frame, and is a simple progress bar.  It turns green when image
+      files are being created and indicates the number of files that
+      have been processed.  It indicates the status of the
+      last <em>Create Webnails</em> operation.
+</DL>
+</blockquote>
+
+<H2><A name="guiDOM">The Document-Object-Model Map</A></H2>
+<P>
+The DOM map is used for the default layout, but not for any of the
+other layouts.  This map is indexed by keys which the property editor
+uses to look up DOM-map entries. For each key, there are three associated
+values: a comma-separated list of DOM IDs a DOM property associated with an
+element in the DOM, and a default value for that property.  When an image
+is selected, elements will be looked up by ID and the specified property
+will be changed to the default value, unless overridden for the specific
+image.  The following shows the window:
+</P>
+<P>
+<IMG SRC="sresource:/gui-dom.png" width=600 height=338>
+</p>
+<P>
+The controls in this window are the following:
+</P>
+<DL>
+  <DT><strong>Add Key</strong><DD>when clicked opens a dialog box that
+      allows a new key to be added.
+  <DT><strong>Remove Key</strong><DD>Removes the current key or keys
+      that have been selected.
+  <DT><strong>Dom-Map Key List</strong><DD> is a list of the keys. To
+      edit the values associated with a key, select the key by
+      clicking on it.
+  <DT><strong>HTML IDs</strong><DD> This is a comma-separated list of
+      the IDs indicating the elements in the DOM that may be modified
+      for this entry.
+  <DT><strong>DOM Javascript Property</strong><DD>specifies the
+      javascript property to change.
+  <DT><strong>Default Value</strong><DD>provides the default value for
+  the property.
+  <DT><strong>OK</strong><DD>accepts the current changes and closes the
+      window.
+  <DT><strong>Cancel</strong><DD>Ignore all changes since the window
+  was opened and closes the window.
+</DL>
+
+<H2><A name="guiEdit">The Image Editor</A></H2>
+
+<P>
+The Image Editor is displayed in a window shown below:
+</P>
+
+<P>
+<IMG SRC="sresource:/gui-edit.png" width=600 height=496>
+</P>
+<P>
+The controls in this window are the following:
+</P>
+<DL>
+  <DT><strong>Input Controls</strong><DD>is a copy of the set of
+      controls used to add images to the program described
+      <A HREF="#inputControls">above</A>.
+  <DT><strong>Image List</strong><DD>contains a single column of
+      images that have been added. To edit an image, simply select
+      it. In the figure above, the selected image is surrounded by a
+      blue background (the "look and feel" may be different on a
+      different platform). To edit entries, select a single one.  To
+      move or delete images, you can cut the images and then paste
+      them, or (for a contiguous range of images) drag and drop them.
+  <DT><strong>Cut Selected Images from the List</strong><DD>when
+      clicked cuts the currently selected images from the image list.
+      When used multiple times, the images that were previously cut
+      are kept and newly cut ones are appended to this list.  The drop
+      point is before or after the image the mouse is over depending
+      on whether the mouse is above or below the half-way point.  A
+      line will appear showing the current drop position.
+  <DT><strong>Delete Cut Images</strong><DD>permanently deletes the
+      images than have been cut.
+  <DT><strong>Paste Cut Images Before Selection</strong><DD>when
+      clicked puts the images that were cut just before the selection.
+      Only one image may be selected in this case.
+  <DT><strong>Paste Cut Images After Selection</strong><DD>when
+      clicked puts the images that were cut just after the selection.
+      Only one image may be selected in this case.
+  <DT><strong>URL</strong><DD>is an informative field simply showing
+      the URL of an image (for local files, a <it>file</it> URL will
+      be used.
+  <DT><strong>Link Option</strong><DD>indicates where high-resolution
+      images that do not have to be scaled are found. There are
+      several options:
+      <UL>
+	<li><strong>Default Link Option</strong>. In this case, the link
+	  option selected in the initial window is used as described
+	  <A HREF="#useLinks">above</A>.
+	<li><strong>Do not link</strong>. Regardless of the setting in the
+	  initial window, a link will never be used and instead a copy of
+	  the image will be used when the image does not have to be scaled.
+	<li><strong>Link to Original Image</strong>. Regardless of the
+	  setting in the initial window, a link to the original image will
+	  always be used when the image does not have to be scaled.
+      </UL>
+  <DT><strong>Output MIME Type</strong><DD>allows one to specify the
+      MIME type for the image that will be created.  If the
+      option <strong>Default</strong> is used, the value provided in
+      the initial window will be used as described
+      <A HREF="#mimeType">above</A>. The remaining options are either MIME types
+      or standard names for image formats that correspond to MIME types.
+  <DT><strong>Edit Properties</strong><DD>when clicked opens a dialog
+      box that allows an images properties to be edited as described
+      <A HREF="#guiProperties">below</A>.
+  <DT><strong>Image Time</strong><DD>is a text field used to specify
+      the time an image should be displayed in a slideshow. The value
+      is specified as SECONDS, MINUTES:SECONDS, or
+      HOURS:MINUTES:SECONDS, where SECONDS can either be an integer or
+      a decimal number with up to three digits past the decimal point
+      (comma in European notation). When not blank, this control
+      overrides the default image time specified in the initial window
+      as described <A HREF="#imageTime">above</A>.
+  <DT><strong>Minimum Image Time</strong><DD>is at text field used to
+      specify a the minimum time for which an image can be displayed
+      in a slideshow.  When <strong>sync mode</strong> is specified,
+      the time an image is displayed may be reduced if the image
+      arrives late (e.g., due to network delays) and this value
+      ensures that reductions in display time will be shared by
+      multiple following images. The value is specified as SECONDS,
+      MINUTES:SECONDS, or HOURS:MINUTES:SECONDS, where SECONDS can
+      either be an integer or a decimal number with up to three digits
+      past the decimal point (comma in European notation). When not
+      blank, this control overrides the default image time specified
+      in the initial window as
+      described <A HREF="#minImageTime">above</A>.
+  <DT><strong>Optional Hyperlink Target</strong><DD>indicates whether
+      clicking an image (not the thumbnail images used in the default
+      layout) that has a link associated with it will cause the page
+      the link references to appear in a new window or tab, or will
+      replace the current page.  Value are
+      <strong>_top</strong> (for a replacement) and <strong>_blank</strong>
+      for a new window or tab (the names are standard HTML ones). This option
+      is used for the default layout.  It is used for other layouts when the
+      <strong><A HREF="#hrefToOrig">HREF Link to Original
+      Image</A></strong> checkbox is selected.
+  <DT><strong>Optional Hyperlink URL for Image</strong><DD>specifies
+      the link to go to when a non-thumbnail image is clicked. This
+      allows the link to refer to an arbitrary page instead of a
+      larger version of the image. This option is used for the default
+      layout.  It is used for other layouts when the
+      <strong><A HREF="#hrefToOrig">HREF Link to Original Image</A></strong>
+      checkbox is selected.
+  <DT><strong>Title</strong><DD>allows you to enter a title for the
+      currently selected image. The <strong>load using new
+      URL</strong> button loads the title text from a server or file
+      after specifying a URL.  When the Default Layout option
+      described above is used, the title appears directly below the
+      image on the web page that is generated.  Otherwise it the title
+      appears only if the mouse is stationary over the image. If left
+      empty, the default title provided in the initial window is used
+      as described <A HREF="#title">above.</A>
+  <DT><strong>Description</strong><DD>allows you to enter a title for
+      the currently selected image. The <strong>load using new
+      URL</strong> button loads the title text from a server or file
+      after specifying a URL.  When the Default Layout option
+      described above is used, the description appears directly below
+      the title on the web page that is generated. For the other
+      layout options, the description is ignored. If left empty, the
+      default description provided in the initial window is used as
+      described <A HREF="#descr">above.</A>
+  <DT><strong>Done Editing</strong><DD>when clicked saves the latest
+      changes and closes the Image Editor window.
+</DL>
+
+<H3><A name="guiProperties">The Properties Editor</A></H3>
+<P>
+The properties editor allows specific entries in the DOM Map to be
+associated with an image. The editor's window is shown below:
+</P>
+<P>
+<IMG SRC="sresource:/gui-properties.png" width=600 height=253>
+</P>
+<P>
+The editor has several controls:
+</P>
+<DL>
+  <DT><strong>DOM-Map Keys</strong><DD>is a selectable list of keys
+  for entries in the
+      <A HREF="#guiDOM">DOM map</A>. Selecting an individual key allows
+      that key's property's value to be edited.  If multiple keys are
+      selected, there is no value to edit but the keys may be removed.
+  <DT><strong>Add Key</strong><DD>provides a list of keys in the
+  current DOM map.
+  <DT><strong>Remove Key</strong><DD>allows the selected keys in the
+      DOM-map key list to be deleted.
+  <DT><strong>Property Value</strong><DD>is a text area in which the
+      currently selected key's value for the current image can be
+      entered or modified, overriding the default provided in the DOM
+      map described
+      <A HREF="#guiDOM">above.</A>
+  <DT><strong>OK</strong><DD>when clicked accepts the lastest changes.
+  <DT><strong>Cancel</strong><DD>cancels all changes since this dialog
+  box was opened.
+</DL>
+
+<h2><A name="proxies">Proxy Configuration</A></h2>
+<P>
+If proxies are needed to access servers, the following window can
+be accessed via the <strong>Proxies</strong>menu item in the
+<strong>Edit</strong menu:
+</P>
+<br>
+<IMG SRC="sresource:/gui-proxy.png" width="600" height="442">
+<P>
+The controls are described below:
+</P>
+<DL>
+  <DT><strong>Use System Proxies</strong><DD>is a check box that, when
+      selected, allows a system-specific proxy configuration file to
+      be used to set up proxies.  Java documentation claims this has
+      been done for Windows and the Gnome desktop. If a system does
+      not support this option, the proxies <strong>webnail</strong>
+      uses can be manually set (the remaining configuration options
+      apply only when this check box is not selected).
+  <DT><strong>Configure HTTP Proxy</strong><DD>is a check box that,
+      when selected and enabled, indicates that a proxy should be used
+      for HTTP. The HTTP Proxy Host option must then
+      be filled in.
+  <DT><strong>HTTP Proxy Host</strong><DD>is a text field that
+      contains the domain name of the HTTP proxy.
+  <DT><strong>HTTP Proxy Port</strong><DD>is a text field that
+      contains port that the HTTP proxy is configured to use.  The
+      default value is 80.
+  <DT><strong>Configure HTTPS Proxy</strong><DD>is a check box that,
+      when selected and enabled, indicates that a proxy should be used
+      for HTTPS. The HTTPS Proxy Host option must then be filled in.
+  <DT><strong>HTTPS Proxy Host</strong><DD>is a text field that
+      contains the domain name of the HTTPS proxy.
+  <DT><strong>HTTPS Proxy Port</strong><DD>is a text field that
+      contains port that the HTTPS proxy is configured to use. The
+      default value is 443.
+  <DT><strong>Exclude from HTTP[S] Proxy</strong><DD>specifies hosts
+      that do not use an HHTP or HTTPS proxy. Multiple hosts can be
+      specified by separating them with the character "|". In addition
+      a wildcard character "*" can be used to indicate an arbitrary
+      host: for example, "*.foo.com" would indicate any host whose
+      domain name ends in ".foo.com".
+  <DT><strong>Configure FTP Proxy</strong><DD>is a check box that,
+      when selected and enabled, indicates that a proxy should be used
+      for FTP. The FTP Proxy Host option must then be filled in.
+  <DT><strong>FTP Proxy Host</strong><DD>is a text field that contains
+      the domain name of the FTP proxy.
+  <DT><strong>FTP Proxy Port</strong><DD>is a text field that contains
+      port that the FTP proxy is configured to use. The default value
+      is 80 (in the Java implementation, HTTP is used to contact the
+      proxy).
+  <DT><strong>Exclude from FTP Proxy</strong><DD>specifies hosts that
+      do not use an HHTP or HTTPS proxy. Multiple hosts can be
+      specified by separating them with the character "|". In addition
+      a wildcard character "*" can be used to indicate an arbitrary
+      host: for example, "*.foo.com" would indicate any host whose
+      domain name ends in ".foo.com".
+  <DT><strong>Configure SOCKS Proxy</strong><DD>is a check box that,
+      when selected and enabled, indicates that a proxy should be used
+      for SOCKS. The SOCKS Proxy Host and Proxy Port options must then
+      be filled in.
+  <DT><strong>SOCKS Proxy Host</strong><DD>is a text field that
+      contains the domain name of the SOCKS proxy.
+  <DT><strong>SOCKS Proxy Port</strong><DD>is a text field that
+      contains port that the SOCKS proxy is configured to use.
+  <DT><strong>Save &amp; Accept Preferences</strong><DD>when clicked,
+      the current configuation is saved an used.
+  <DT><strong>Accept Preferences</strong><DD>when clicked, the current
+      configutation is used but not saved permanently.
+  <DT><strong>Cancel Preference Changes</strong><DD>when clicked,
+      cancels the changes since the window became visible.
+</DL>
+
+<h1><a name="terminal">Running from a Terminal</a></h1>
+
+<p>When started with no arguments, the GUI is displayed. Otherwise
+the syntax is as follows:
+</p>
+<pre>
+<strong>webnail </strong>[<strong>-</strong>[<strong>uU</strong>] [<strong>-A </strong><em> USER PASSWORD</em>]] [<strong-t </strong><em>TYPE</em>] <em>WIDTH Height</em> [<em>IFILE OFILE</em>]...
+<strong>webnail </strong>[<strong>-</strong>[<strong>uU</strong>] [<strong>-A </strong><em> USER PASSWORD</em>]] [<strong>-t </strong><em>TYPE</em>] [<strong>-w </strong>[<strong>-i</strong>] [<em> WEB_OPTIONS</em>]]
+          [<strong>-d</strong> <em>DIR</em><strong>]</strong> <em>WIDTH Height IFILE</em>...
+<strong>webnail </strong>[<strong>-</strong>[<strong>uU</strong>] [<strong>-A </strong><em> USER PASSWORD</em>]] [<strong>-t </strong><em>TYPE</em>] [<strong>-w </strong>[<strong>-i</strong>] [<em> WEB_OPTIONS</em>]] 
+          [<strong>-z</strong> <em>ZIPFILE</em>] <em>WIDTH Height IFILE</em>...
+<strong>webnail -f</strong> <em> XML_INPUT_FILE</em> <strong>-d</strong> <em>TARGET_DIRECTORY</em>
+<strong>webnail -f</strong> <em> XML_INPUT_FILE</em> <strong>-z</strong> <em>ZIPFILE</em>
+<strong> webnail -l</strong>
+</pre>
+<p>where
+</p>
+<DL>
+  <DT><em>Type</em><DD>is the MIME type of the output image.
+  <DT><em>WIDTH</em><DD>is the maximum width in pixels of the
+  scaled image.
+  <DT><em>HEIGHT</em><DD>is the maximum height in pixels of
+  the scaled image.
+  <DT><em>IFILE</em><DD>is an input file.
+  <DT><em>OFILE</em><DD>is an output file.
+  <DT><em>DIR</em><DD>is a directory.
+  <DT><em>ZIPFILE</em><DD>is the name of a zip file. The file
+      name should end in the extension ".zip".  If
+      the <strong>-i</strong> option is present, the extension should
+      be ".war".
+</DL>
+<p>
+Multiple input files can be provided.  If a directory is not provided
+by using the <strong>-d</strong> option or a zip-file name is not provided
+by using the <strong>-z</strong> option, input and output names must
+appear in pairs, and if an output file name matches an existing file,
+that file will be overridden.
+</p>
+<p>
+The options are as follows:
+</p>
+<ul>
+  <li><strong>-l</strong> lists the MIME types acceptable for an output
+    file together with recognized file-name extensions.
+  <li><strong>-t</strong> specifies the MIME type of the output file(s).
+  <li><strong>-w</strong> indicates that the target directory or zip file 
+    will contain the  files  needed
+    for  a  web page displaying the images. Within this directory or
+    zip file, the file named index.html specifies the  web  page  to
+    display.
+  <li><strong>-i</strong> indicates that the target directory or zip file 
+    will contain a WEB-INF subdirectory that contains a web.xml file, as 
+    required by the web archive standard. This option simplifies deployment
+    to a web server.
+  <li><strong>-d</strong> specifies a directory in which output will be
+    placed, in which case the output file names will match the input file
+    names excluding the file extension. Duplicate input file names (the 
+    last component of the full path name) will result in an output file 
+    being overridden.
+  <li><strong>-z</strong> specifies a zip file in which output will be
+    placed, in which case the output file names will match the input file
+    names excluding the file extension.  Duplicate input file names (the 
+    last component of the full path name) will result in an output file 
+    being overridden.  If the file name is "-", standard output is used.
+  <li><strong>-f</strong> specifies an XML input file (the following 
+    argument) that provides all the relevant options for the directory
+    or zip file that will be created.  If the file name is "-", standard
+    input is used. File name extensions should be either ".xml" or ".wnl".
+    if a <strong>-u</strong> option precedes the <strong>-f</strong> option,
+    the argument following <strong>-f</strong> must be a URL. Aside from 
+    a preceding <strong>-u</strong> option, the only options allowed with 
+    a <strong>-f</strong> option are the <strong>-z</strong> and 
+    <strong>-d</strong> options.
+  <li><strong>-u</strong> indcates that the <em>FILENAME</em> arguments 
+    are URLs instead of system-dependent file names. This allows images 
+    to be fetched from a server, local file, etc.
+  <li><strong>-U</strong> indcates that the <em>FILENAME</em> arguments 
+    are URLs instead of system-dependent file names. This allows images 
+    to be fetched from a server, file, etc. In addition, for full-sized
+    images, a link to the original image instead of a local copy will be used.
+  <li><strong>-a</strong> provides a user name and password for servers
+    that require that a user be authenticated. The following arguments
+    <em>USERNAME</em> and <em>PASSWORD</em> provide the user name and
+    password respectively.
+</ul>
+<h2><a name="weboptions"> Web Options</a></h2>
+<p>
+Several options are applicable only when the <strong>-w</strong> command-line
+argument is present.
+<ul>
+  <li><strong>-C</strong> specifies the background color to use when
+    the full-screen option on the web page is selected.  The color 
+    is specified by any form acceptable as a color by CSS1 (Cascading
+    Style Sheets version 1).  The color is provided in the following
+    argument.
+  <li><strong>-W</strong> indicates that when a slideshow is running in 
+    full-screen mode, if there is an error loading an image, the previous
+    image will be displayed until the time interval for the image that
+    caused the error has expired.
+  <li><strong>-S</strong> indicates that when a slideshow is running in
+    full-screen mode, and an image arrives late, the time interval for
+    that image (and perhaps subsequent ones) will be shortened with a goal
+    of synchronizing the display time with the sequence of times indicated
+    by the image-Time interval.
+  <li><strong>-I</strong> gives the time interval for displaying an image
+    in a slideshow.  The following argument gives the time in units of
+    milliseconds.
+  <li><strong>-L</strong> gives the minimal time interval for displaying
+    an image in a slideshow, and is used when the image's time interval
+    has to be shortened for time synchronization.  The following argument
+    contains the value in units of milliseconds.
+  <li><strong>-T</strong> indicates that the following argument contains
+    a title to display below the image.
+  <li><strong>-X</strong> indicates that the following argument contains
+    a title for the browser's window (this sets the TITLE element in the
+    HTML HEAD element.  If not present, a default will be used.
+  <li><strong>-D</strong> indicates that the following argument contains
+    a description that will appear immediately below the title.
+  <li><strong>-M</strong> configures the web page to disable full-screen
+    mode for slideshows, and eliminates the presence of high-resolution
+    images.
+  <li><strong>-F</strong> indicates where to put high-resolution images.
+    Normally when the <strong>-w</strong> is used, high resolution images
+    are placed in a subdirectory named "high". When this option is
+    present, the high resolution images go into the directory specified
+    by the <strong>-d</strong> option (or the zip file specified by the
+    <strong>-z</strong> option).
+  <li><strong>-H</strong> sets up the web page so that when you click on 
+    the larger image (not one of the thumbnail images), one will follow 
+    a link to the original image.  The image arguments should in this 
+    case preferably be URLs, not file names (a file name would be converted
+    to a "file" URL, but this is appropriate only for use on a single 
+    computer system).
+</ul>
+</p>
+
+<h1><a name="reservedIDs">Reserved HTML IDs</a></h1>
+<P>
+With the web-page options, <strong>webnail</strong> will create a
+an HTML file named "index.html" that the user will open. This file is
+located in either the output directory or the zip file that
+<strong>webnail</strong> creates.  Elements in HTML files can
+have IDs associated with them, and a given ID may only appear once.
+The index.html file that <strong>webnail</strong> uses the following
+IDs for all layouts:
+</P>
+<DL>
+  <DT><strong>body</strong><DD>is the ID for the HTML <strong>body</strong>
+      element.  This explicitly sets the background color to lightgray for
+      the default layout and to white for the other layouts.
+  <DT><strong>imagesTable</strong><DD>is the ID for the outermost table
+      containing images.
+</DL>
+<P>
+The index.html file that <strong>webnail</strong> uses the following
+IDs for the default layout but not any of the other layout options:
+</P>
+<DL>
+  <DT><strong>webnailTable</strong><DD>is the ID of the table containing
+      an <strong>IFRAME</strong> that contains thumbnail images.
+  <DT><strong>imageTable</strong><DD>is the ID of the table containing images
+      scaled to fit in a bounding box 500 pixels by 500 pixels.
+  <DT><strong>titleDescrTable</strong><DD>is the ID of a table that contains
+      the title and the description, each on a seperate row.
+  <DT><strong>title</strong><DD>is the ID of a <strong>SPAN</strong> element
+      that contains the title for an image.
+  <DT><strong>descr</strong><DD>is the ID of a <strong>SPAN</strong> element
+      that contains the description of an image.
+  <DT><strong>noJavascriptMsg</strong><DD>is the ID of a Table-Data element
+      (a <strong>TD</strong> tag) that contains text indicating that
+      Javascript is needed.  This tag sets its text color to "red" by
+      default.
+</DL>
+
+A style sheet that changes the background and text colors should put
+the text "! important" after setting colors for the "body" ID and the
+"noJavascriptMsg" ID in order to override the explicit settings in the
+elements with these IDs.  Generally all three (background color,
+default text color, and the text color for the "no-script" warning)
+should be changed if any one is to be changed to ensure readibility by
+the user (e.g., to avoid red text on a red background as an extreme
+example). If the foreground or background color should vary depending
+on what image is selected, that can be handled by setting up a DOM
+Map entry and putting the selection in a matching property element
+for the image.
+
+
+<h1><a name="xml"> XML Syntax</a></h1>
+<P>
+An input file can be used to configure the output directory, ZIP file, or
+WAR file.  The following provides a specification of this input file's
+format. It is of interest primarily to those who want to create
+software that generates input files for <strong>webnail</strong> as
+<strong>webnail</strong> itself has a built-in editor that can read,
+edit, and write files in this format.
+</P>
+<P>
+When the <strong>-f</strong> option is used on the command-line or an
+input file is loaded via the "Load" menu option in the "File" menu
+when using the GUI, the output is completely specified by an XML
+file. This XML input file provides more options than are possible
+using the command-line interface, but identical options to those that
+the GUI provides.  The file should start with the
+following two lines:
+<blockquote>
+<pre>
+&lt;?xml version="1.1" encoding="UTF-8"?&gt;
+&lt;!DOCTYPE images PUBLIC "-//wtz//Webnail 1.0//EN"
+                           "http://cmdl.org/DTD/webnail-1.0.dtd"&gt;
+</pre>
+</blockquote>
+<P>
+The first line indicates the version of XML and the character set encoding.
+The second line specifies the DTD file giving the input syntax for the
+XML file.  URL's starting with "resource" are interpretted by the program
+as resources that can be obtained from the program's JAR file.
+</P>
+
+<H2><A name="dtdElements">XML Elements</A></H2>
+
+<P>
+The following describe the XML elements for <strong>webnail</strong>'s
+file format.
+</P>
+
+<H3><A name="dtdImages">The Images Element</A></H3>
+
+The top level element is named images, and it is defined as follows:
+</P>
+<blockquote>
+<pre>
+&lt;!ELEMENT images (domMap?, title?, descr?, (user, password)?,
+	  head?, header?, image*, trailer?, finalHtml?)&gt;
+&lt;!ATTLIST images
+	  windowTitle CDATA #IMPLIED
+	  mimeType  CDATA #IMPLIED
+	  webMode (true|false) #IMPLIED
+	  linkMode (true|false) #IMPLIED
+	  flatMode (true|false) #IMPLIED
+	  highResMode (true|false) #IMPLIED
+	  webArchiveMode (true|false) #IMPLIED
+	  syncMode (true|false) #IMPLIED
+	  waitOnError (true|false) #IMPLIED
+	  imageTime CDATA #IMPLIED
+	  minImageTime CDATA #IMPLIED
+	  bgcolor  CDATA #IMPLIED
+	  height  CDATA #IMPLIED
+	  width   CDATA #IMPLIED
+	  hrefToOrig (true|false) #IMPLIED
+	  layout (normal
+	          | headerThenImagesThenTrailer
+	          | headerThenImagesAndTrailer
+	          | headerThenTrailerAndImages
+	          | imagesAndHeaderWithTrailer
+                  | headerWithTrailerAndImages) #IMPLIED&gt;
+</pre>
+</blockquote>
+<P>
+The child elements are described below.  The attributes are defined
+as follows:
+</P>
+<ul>
+  <li><strong>windowTitle</strong> is
+    the title that will appear in the browser's menu bar.
+  <li><strong>mimeType</strong> is
+    the MIME type of scaled image files.  The default value is image/jpeg.
+  <li><strong>webMode</strong> has a default value of false. When
+    true,  the output directory or zip file will be set up for use
+    with a web site.
+  <li><strong>linkMode</strong> has a default value of false. When true
+    indicates that for full resolution images, when the image is specified
+    using a URL, provide a link to the image rather than copying it.
+  <li><strong>flatMode</strong> has a default value of false. When
+    true, it indicates that the high resolution images are not put in a
+    sub-directory when webMode is true.  If the images are not scaled and
+    its MIME type matches the MIME type specified by the mimeType
+    attribute (or its default value), then the image will not be copied.
+  <li><strong>highResMode</strong> has a default value of true. 
+    When it is false, high resolution images are
+    not included and the full-screen option for a slideshow will not appear.      <li><strong>webArchiveMode</strong> has a default value of
+      false.  When set to true (the default is false), the output
+      will be a web-archive file, or a directory with the same
+      structure.  There will be a WEB-INFO/web.xml entry that
+      specifies how a web server should be configured.
+  <li><strong>syncMode</strong> has a default value of
+    false. When it is true, if an image (e.g., one obtained
+    from a web server) arrives late, the duration over the
+    image and subsequent ones are shown will be adjusted to
+    compensate for the delay.
+  <li><strong>waitOnError</strong> has a default value of false.  When
+    true, if images were skipped because errors were detected while
+    attempting to download them, the skipped images' imageTime (the
+    duration for which an image should be displayed) will be added to
+    the imageTime of the currently displayed image.
+  <li><strong>imageTime</strong> has a default value of 10 seconds. It gives
+    the duration for which an image should be displayed in seconds (three digits
+    pass a decimal point are allowed to specify time in milliseconds).  To
+    specify times in minutes and seconds, separate minutes and seconds with a
+    colon. To specify the duration in hours, minutes and seconds, separate
+    hours and minutes, and minutes and seconds, with a colon.  Thus,
+    1:0:20.5, 60:20.5, and 80.5 all represent the same value.
+  <li><strong>minImageTime</strong> has a default value of 4
+    seconds. It gives the minimum duration for which an image should
+    be shown when syncMode is true.
+  <li><strong>bgcolor</strong> has a default value of "gray".  It
+    specifies the background color used in full-screen mode.  See the
+    CSS specification for the syntax.
+  <li><strong>height</strong> the height of a bounding box for 
+    high-resolution images in pixels.  The default value is 0, indicating the
+    width in pixels of the original image.
+  <li><strong>width</strong> the width of a bounding box for 
+    high-resolution images in pixels.  The default value is 0, indicating the
+    width in pixels of the original image.
+  <li><strong>hrefToOrig</strong>. This attribute has a value of true
+    or false.  When true, a default value for the hrefURL attribute of
+    each image element is provided, the URL of the original unscaled
+    image.  When false, the hrefURL attribute defaults to a scaled
+    copy whose bounding box is the height and width attributes above.
+  <li><strong><A name="layout">layout</A></strong>. This attribute
+    specifies a layout for the web page (index.html): the attribute
+    value are as follows (in all cases, the HTML text from the .B
+    finalHtml element will appear at the bottom of the page, just
+    before the end of the document):
+    <ul>
+      <li><strong>normal</strong>. This value indicates that the
+	images are placed in a table whose number of columns is chosen
+	based on the image size, with the header and trailer elements
+	providing HTML text above and belows the images respectively.
+      <li><strong>headerThenImagesThenTrailer</strong>. This value
+	indicates that the HTML text from the header element appears
+	first on the page, followed by two columns, the first showing
+	the images (one image per row) and the second the HTML text
+	provided by the trailer element.
+      <li><strong>headerThenImagesAndTrailer</strong>. This value
+	indicates that the HTML text from the header element appears
+	first on the page, followed by two columns, the first showing
+	the images (one image per row) and the second the HTML text
+	provided by the trailer element.
+      <li><strong>headerThenTrailerAndImages</strong>. This value
+	indicates that the HTML text from the header element appears
+	first on the page, followed by two columns, the first showing
+	the HTML text provided by the trailer element and the second
+	showing the images (one image per row).
+      <li><strong>imagesAndHeaderWithTrailer</strong>. This value
+	indicates that the web page should contain two colums, the
+	first containing the images (one image per row) and the second
+	containing the HTML text from the header element followed by
+	the HTML text from the trailer element.
+      <li><strong>headerWithTrailerAndImages</strong>. This value
+	indicates that the web page contains two coluns, the first
+	containing the HTML text from the header element followed by
+	the HTML text from the trailer element, and the second
+	containing the images (one image per row).
+    </ul>
+</ul>
+
+<H3><A name="dtdDomMap">The DOM Map Element</A></H3>
+<P>The domMap element provides a list of mappings, providing a key
+that will be used in an image's <strong>property</strong> element, the
+ID of an HTML element, the name of a property of the HTML element (the
+property names are defined in the Javascript DOM [Document Object
+Model] documentation), and a default value for that property:
+</P>
+<blockquote>
+<pre>
+&lt;!ELEMENT domMap (mapping)*&gt;
+
+&lt;!ELEMENT mapping  EMPTY&gt;
+&lt;!ATTLIST mapping
+	  key CDATA #REQUIRED
+	  id  CDATA #REQUIRED
+	  prop CDATA #REQUIRED
+	  defaultValue CDATA #REQUIRED&gt;
+</pre>
+</blockquote>
+<P>
+The attributes are as follows:
+</P>
+<ul>
+  <li><strong>key</strong> provides a key naming the mapping. This
+    will be used in the key attribute of an image's property element.
+    A key must have the same syntax as a javascript property name.
+  <li><strong>id</strong> specifies the id an HTML element.  The name
+    matches that of the HTML element's ID attribute.
+  <li><strong>prop</strong> specifies the Javascript property whose
+    value may be modified.
+  <li><strong>defaultValue</strong> provies the default value of the
+    Javascript property.
+</ul>
+<P>
+For example, a mapping might be defined as
+<blockquote>
+<pre><strong>
+&lt;mapping key="foo" id="div1", prop="style"  
+         defaultValue="background-color: white" /&gt;
+</strong></pre>
+</blockquote>
+</P>
+
+<H3><A name="dtdTitle">The Title Element</A></H3>
+
+<P> The <strong>title</strong> element is defined by the following
+declaration:
+</P>
+<blockquote>
+<pre>
+&lt;!ELEMENT title (#PCDATA)*&gt;
+&lt;!ATTLIST title
+             url CDATA #IMPLIED &gt;
+</pre>
+</blockquote>
+<P>
+The content gives a title. When it appears as a child of the
+<strong>images</strong> element, it gives the default title to display
+below an image. When it appears in an
+<strong>image</strong> element, it gives the title for a specific
+image.  The value is spliced into an HTML document. The entities
+"&amp;lt;", "&amp;gt;", "&amp;amp;", or "&amp;quot" should be used
+instead of the corresponding characters, or the value should appear in
+a CDATA section (delimited by "&lt;![CDATA[" and "]]&gt;").  If the
+<strong>url</strong> attribute is provided, the content should be empty,
+with the URL referencing a resource that contains the content (as HTML
+without the need to specially encode "&amp;", "&lt;", "&gt;", or "&quot;").
+</P>
+<H3><A name="dtdDescr">The Descr Element</A></H3>
+<P>
+The <strong>descr</strong> element is defined as follows:
+</P>
+<blockquote>
+<pre>
+&lt;!ELEMENT descr (#PCDATA)*&gt;
+&lt;!ATTLIST descr
+             url CDATA #IMPLIED &gt;
+</pre>
+</blockquote>
+<P>
+The <strong>descr</strong> element gives a description, which is
+displayed directly below the title.  When it appears as a child of the
+<strong>images</strong> element, it gives the default
+description. When it appears as a child of an <strong>image</strong>
+element, it provides the description for that specific image. The
+value is spliced into an HTML document. The entities "&amp;lt;",
+"&amp;gt;", "&amp;amp;", or "&amp;quot" should be used instead of the
+corresponding characters, or the value should appear in a CDATA
+section (delimited by "&lt;![CDATA[" and "]]&gt;"). If the
+<strong>url</strong> attribute is provided, the content should be empty,
+with the URL referencing a resource that contains the content (as HTML
+without the need to specially encode "&amp;", "&lt;", "&gt;", or "&quot;").
+</P>
+
+H3><A name="dtdHead">The Head Element</A></H3>
+
+
+<P>
+The <strong>head</strong> element is defined by the following
+declaration:
+</P>
+<blockquote>
+<pre>
+&lt;!ELEMENT head (#PCDATA)*&gt;
+&lt;!ATTLIST head
+             url CDATA #IMPLIED &gt;
+</pre>
+</blockquote>
+<P>
+and its content will appear in the HEAD section of an HTML document. 
+The entities "&amp;lt;", "&amp;gt;", "&amp;amp;", or "&amp;quot"
+should be used instead of the corresponding characters, or the value should
+appear in a CDATA section (delimited by "&lt;![CDATA[" and "]]&gt;".
+This allows various HTML elements to be added. These will be the last
+elements in the HEAD section of the document and for the default layout
+in particular, these declarations will follow the SCRIPT declarations that
+load the scripts <B>params.js</B> and <B>slideshow1.js</B>. If the
+<strong>url</strong> attribute is provided, the content should be empty,
+with the URL referencing a resource that contains the content (as HTML
+without the need to specially encode "&amp;", "&lt;", "&gt;", or "&quot;").
+</P>
+
+<H3><A name="dtdHeader">The HeaderElement</A></H3>
+
+<P>
+The <strong>header</strong> element is defined by the following declaration:
+</P>
+<blockquote>
+<pre>
+&lt;!ELEMENT header (#PCDATA)*&gt;
+&lt;!ATTLIST header
+             url CDATA #IMPLIED &gt;
+</pre>
+</blockquote>
+<P>
+Its content will appear at a position determined by
+the <A HREF="#layout">layout</A>. The entities "&amp;lt;", "&amp;gt;",
+"&amp;amp;", or "&amp;quot" should be used instead of the
+corresponding characters, or the value should appear in a CDATA
+section (delimited by "&lt;![CDATA[" and "]]&gt;". If the
+<strong>url</strong> attribute is provided, the content should be empty,
+with the URL referencing a resource that contains the content (as HTML
+without the need to specially encode "&amp;", "&lt;", "&gt;", or "&quot;").
+</P>
+
+<H3><A name="dtdImage">The Image Element</A></H3>
+
+<P>
+The <strong>image</strong> element is defined by the following:
+</P>
+<blockquote>
+<pre>
+&lt;!ELEMENT image ((filename | url), title?, descr?, (user, password)?,
+	  property*)&gt;
+&lt;!ATTLIST image
+	  mimeType  CDATA #IMPLIED
+	  linkMode (true|false) #IMPLIED
+	  clickURL  CDATA #IMPLIED
+	  clickTarget (_blank|_top) #IMPLIED
+	  imageTime CDATA #IMPLIED
+	  minImageTime CDATA #IMPLIED&gt;
+</pre>
+</blockquote>
+<P>
+Each <strong>image</strong> element and its children define a separate image.
+The attributes for the <strong>image</strong> element are:
+</P>
+<ul>
+  <li><strong>mimeType</strong> specifies the MIME type of scaled
+    image.  The default value that given as an attribute of
+    the <strong>images</strong> element.
+  <li><strong>linkMode</strong> has a default value equal to that for
+    the surrounding <strong>images</strong> element.  When true, for full
+    resolution images and when the image is specified using a URL, a link to
+    the original URL is used rather than a local copy.
+  <li><strong>hrefURL</strong> is an optional attribute that provides a URL
+    to load when the image (not the thumbnail) is clicked on the web page.
+  <li><strong>hrefTarget</strong> indicates the target when the image (not the 
+    thumbnail) is clicked.  Possible values are _blank (a new window or frame)
+    and _top (replace the current page).  The default is _blank.
+  <li><strong>imageTime</strong> is the duration for which the image
+    should be displayed in seconds (three digits pass a decimal point are
+    allowed to specify time in milliseconds).  To specify times in minutes
+    and seconds, separate minutes and seconds with a colon. To specify the
+    duration in hours, minutes and seconds, separate hours and minutes,
+    and minutes and seconds, with a colon.  Thus, 1:0:20.5, 60:20.5, and
+    80.5 all represent the same value. The default value is that of the
+    enclosing <strong>images</strong> element.
+  <li><strong>minImageTime</strong> specifies the minimum duration for
+    which an image should be shown when syncMode is true. The syntax
+    is the same as for the <strong>imageTime</strong>attribute.  The
+    default value is that of the enclosing <strong>images</strong>
+    element.
+</ul>
+
+<P> The children for the <strong>image</strong> element not previously
+defined  are the <strong>url</strong>, <strong>filename</strong>, and
+<strong>property</strong> elements.
+</P>
+
+<H3><A name="dtdFilename">The Filename Element</A></H3>
+
+
+<P>
+The <strong>filename</strong> element is defined as follows:
+</P>
+<blockquote>
+<pre>
+&lt;!ELEMENT filename (#PCDATA)*&gt;
+</pre>
+</blockquote>
+<P>
+Its content is a file name. A fully qualified name is preferrable.
+The <strong>filename</strong> and <strong>url</strong> elements are
+mutually exclusive within an image.
+</P>
+
+<H3><A name="dtdURL">The URL Element</A></H3>
+
+<P>
+The <strong>url</strong> element is defined as follows:
+</P>
+<blockquote>
+<pre>
+&lt;!ELEMENT url (#PCDATA)*&gt;
+</pre>
+</blockquote>
+<P>
+Its content is a URL indicating the location of the original image.
+The <strong>filename</strong> and <strong>url</strong> elements are
+mutually exclusive within an image.
+</P>
+
+<H3><A name="dtdProperty">The Property Element</A></H3>
+
+
+<P>
+The <strong>property</strong>element is defined as follows:
+</P>
+<blockquote>
+<pre>
+&lt;!ELEMENT property (#PCDATA)*&gt;
+&lt;!ATTLIST property
+	  key CDATA #REQUIRED&gt;
+</pre>
+</blockquote>
+<P>
+The <strong>key</strong> attribute contains the name of a key provided in a
+<strong>mapping</strong> element, which specifies an HTML element ID,
+and the Javascript property for the matching DOM element.  The contents of
+a <strong>property</strong> element gives the value to assign to the
+corresponding property of an HTML element in the DOM.  If a
+<strong>property</strong> element is not provided,
+</P>
+
+<H3><A name="dtdTrailer">The Trailer Element</A></H3>
+
+<P>
+The trailer element follows all of the <strong>image</strong> elements
+and is defined as follows:
+</P>
+<blockquote>
+<pre>
+&lt;!ELEMENT trailer (#PCDATA)*&gt;
+&lt;!ATTLIST trailer
+             url CDATA #IMPLIED &gt;
+</pre>
+</blockquote>
+<P>
+Its content provides HTML to insert in a position dependent on the
+<A HREF="#layout">layout</A>. The entities "&amp;lt;", "&amp;gt;",
+"&amp;amp;", or "&amp;quot" should be used instead of the
+corresponding characters, or the value should appear in a CDATA
+section (delimited by "&lt;![CDATA[" and "]]&gt;". If the
+<strong>url</strong> attribute is provided, the content should be empty,
+with the URL referencing a resource that contains the content (as HTML
+without the need to specially encode "&amp;", "&lt;", "&gt;", or "&quot;").
+</P>
+
+<H3><A name="dtdAfterScript"></A>The After-Script Element</H3>
+
+
+<P>
+The <strong>finalHtml</strong> element is the final element enclosed in an
+<strong>images</strong> element.  It is defined as follows:
+</P>
+<blockquote>
+<pre>
+&lt;!ELEMENT finalHtml  (#PCDATA)*&gt;
+&lt;!ATTLIST finalHtml
+             url CDATA #IMPLIED &gt;
+</pre>
+</blockquote>
+<P>
+Its content provides HTML that should follow
+the <strong>SCRIPT</strong> element that includes
+the <strong>slideshow2.js</strong> script.  This appears near the end
+of the document for performance reasons. The entities "&amp;lt;",
+"&amp;gt;", "&amp;amp;", or "&amp;quot" should be used instead of the
+corresponding characters, or the value should appear in a CDATA
+section (delimited by "&lt;![CDATA[" and "]]&gt;". If the
+<strong>url</strong> attribute is provided, the content should be empty,
+with the URL referencing a resource that contains the content (as HTML
+without the need to specially encode "&amp;", "&lt;", "&gt;", or "&quot;").
+</P>
+</body>
+</html>

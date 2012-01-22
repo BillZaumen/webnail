@@ -1,0 +1,10 @@
+[Desktop Entry]
+Encoding=UTF-8
+Name=Webnail
+Comment=Create scaled images or web pages with thumbnail images
+Exec=webnail
+Terminal=false
+Type=Application
+Icon=webnailicon.png
+Categories=Application;Graphics;
+
