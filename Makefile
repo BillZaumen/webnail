@@ -190,12 +190,12 @@ install: all
 	install -m 0644 webnail.conf  $(CONFDIR)
 	install -m 0644 $(SOURCEICON) $(APP_ICON_DIR)/$(TARGETICON)
 	(cd MIME ; \
-	 install -m 0644 MIME/webnail.xml $(MIMEDIR)/packages/webnail.xml)
+	 install -m 0644 webnail.xml $(MIMEDIR)/packages/webnail.xml)
 	(cd MIME ; \
-	 install -m 0644 MIME/webnail-layout.xml \
+	 install -m 0644 webnail-layout.xml \
 		$(MIMEDIR)/packages/webnail-layout.xml)
 	(cd MIME ; \
-	 install -m 0644 MIME/webnail-template.xml \
+	 install -m 0644 webnail-template.xml \
 		$(MIMEDIR)/packages/webnail-template.xml)
 	(cd Icons ; \
 	 install -m 0644 $(SOURCE_DOC_ICON) \
