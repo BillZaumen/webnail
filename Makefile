@@ -10,7 +10,7 @@ DATE = $(shell date -R)
 # all the files they see.  Setting this will allow a package
 # to be built without requiring root permissions.
 #
-DESTDIR =
+DESTDIR :=
 
 JROOT := $(shell while [ ! -d webnail -a `pwd` != / ] ; do cd .. ; done ; pwd)
 
@@ -87,7 +87,6 @@ JROOT_CONFDIR = $(JROOT)/etc
 #
 APP_ICON_DIR = $(DESTDIR)$(SYS_APP_ICON_DIR)
 
-DOCS = $(JROOT_DOCDIR)/ReadMe
 MANS = $(JROOT_MANDIR)/man1/webnail.1.gz $(JROOT_MANDIR)/man5/webnail.conf.5.gz
 
 HELPICONS = WebFiles/fleft.gif  WebFiles/fright.gif  \
@@ -116,8 +115,6 @@ TEMPLATES = Templates/indexHTML.tpl Templates/indexHTML5.tpl \
 	Templates/singleHTML2link.tpl Templates/singleHTML3link.tpl \
 	Templates/singleHTML4link.tpl Templates/singleHTML5link.tpl
 
-JDOCS = *.html stylesheet.css package-list
-RDOCS = *.gif
 
 JFILES = $(wildcard webnail/*.java)
 PROPERTIES = $(wildcard Properties/*.properties)
@@ -128,7 +125,7 @@ FILES = $(JFILES) $(PROPERTIES) webnail.mf $(ICONS) \
 
 PROGRAM = $(JROOT_BIN)/webnail $(JROOT_JARDIR)/webnail-$(VERSION).jar 
 ALL = $(PROGRAM) webnail.desktop webnail.conf \
-	 $(MANS) $(DOCS)
+	 $(MANS) 
 
 # program: $(JROOT_BIN)/webnail $(JROOT_JARDIR)/webnail-$(VERSION).jar 
 
@@ -179,10 +176,6 @@ clean:
 	$(JROOT_MANDIR)/man5/webnail.conf.5.gz \
 	$(JROOT_BIN)/webnail \
 
-$(JROOT_DOCDIR)/ReadMe:
-	mkdir -p $(JROOT_DOCDIR)
-	cp ReadMe $(JROOT_DOCDIR)
-
 install: all 
 	install -d $(CONFDIR)
 	install -d $(APP_ICON_DIR)
@@ -193,7 +186,6 @@ install: all
 	install -d $(MANDIR)
 	install -d $(MANDIR)/man1
 	install -d $(MANDIR)/man5
-	install -d $(DOCDIR)
 	install -d $(JARDIRECTORY)
 	install -m 0644 webnail.conf  $(CONFDIR)
 	install -m 0644 $(SOURCEICON) $(APP_ICON_DIR)/$(TARGETICON)
@@ -220,23 +212,8 @@ install: all
 	install -m 0644 webnail.desktop $(APPDIR)
 	install -m 0644 $(JROOT_MANDIR)/man1/webnail.1.gz $(MANDIR)/man1
 	install -m 0644 $(JROOT_MANDIR)/man5/webnail.conf.5.gz $(MANDIR)/man5
-	install -m 0644 ReadMe $(DOCDIR)
-	sed s/VERSION/"$(VERSION)"/ changelog.Debian | sed s/DATE/"$(DATE)"/ \
-	| gzip -9 > changelog.Debian.gz
-	install -m 0644 changelog.Debian.gz $(DOCDIR)
-	rm changelog.Debian.gz
-	gzip -9 < changelog > changelog.gz
-	install -m 0644 changelog.gz $(DOCDIR)
-	rm changelog.gz
-	install -m 0644 copyright $(DOCDIR)
 
 uninstall:
-	@(cd $(DOCDIR) && rm ReadMe) || echo ... rm ReadMe FAILED
-	@(cd $(DOCDIR) && rm copyright) || echo ... rm copyright FAILED
-	@(cd $(DOCDIR) && rm changelog) || echo ... rm changelog FAILED
-	@(cd $(DOCDIR) && rm changelog.Debian) || \
-		echo ... rm changelog.Debian FAILED
-	@rmdir $(DOCDIR) || echo ... rmdir $(DOCDIR) FAILED
 	@rm $(MANDIR)/man1/webnail.1.gz || echo ... rm webnail.1.gz  FAILED
 	@rm $(MANDIR)/man5/webnail.conf.5.gz || \
 		echo ... rm webnail.conf.5.gz  FAILED
