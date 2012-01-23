@@ -181,6 +181,7 @@ install: all
 	install -d $(APP_ICON_DIR)
 	install -d $(MIME_ICON_DIR)
 	install -d $(MIMEDIR)
+	install -d $(MIMEDIR)/packages
 	install -d $(APPDIR)
 	install -d $(BIN)
 	install -d $(MANDIR)
