@@ -70,13 +70,13 @@ TARGETICON = webnail.svg
 # (originals in Icons subdirectory)
 #
 SOURCE_DOC_ICON = webnaildocicon.svg
-TARGET_DOC_ICON = application-pers.wtz.webnail+xml.svg
+TARGET_DOC_ICON = application-prs.wtz.webnail+xml.svg
 
 SOURCE_LDOC_ICON = webnaillayouticon.svg
-TARGET_LDOC_ICON = application-pers.wtz.webnail.layout+xml.svg
+TARGET_LDOC_ICON = application-prs.wtz.webnail.layout+xml.svg
 
 SOURCE_TDOC_ICON = webnailtmplicon.svg
-TARGET_TDOC_ICON = application-pers.wtz.webnail.tpl+xml.svg
+TARGET_TDOC_ICON = application-prs.wtz.webnail.tpl+xml.svg
 
 JROOT_DOCDIR = $(JROOT)$(SYS_DOCDIR)
 JROOT_JARDIR = $(JROOT)/jar
