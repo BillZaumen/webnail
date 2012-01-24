@@ -195,7 +195,7 @@ public class Gui {
 			URLConnection c = url.openConnection();
 			if (c instanceof HttpURLConnection) {
 			    c.setRequestProperty("accept", 
-						 Thumbnail.ACCEPT_VALUE);
+						 Webnail.ACCEPT_VALUE);
 			    ((HttpURLConnection) c).setRequestMethod("GET");
 			    c.connect();
 			    if (((HttpURLConnection) c).getResponseCode() 
@@ -208,13 +208,13 @@ public class Gui {
 			}
 			String ct = c.getContentType();
 			if (ct != null) {
-			    if ((!ct.equals(Thumbnail.XML_MIME_TYPE)) &&
-				(!ct.equals(Thumbnail
+			    if ((!ct.equals(Webnail.XML_MIME_TYPE)) &&
+				(!ct.equals(Webnail
 					    .WEBNAIL_XML_MIME_TYPE)) &&
-				(!ct.equals(Thumbnail.ALT_XML_MIME_TYPE))) {
-				if (!(ct.equals(Thumbnail.GENERIC_MIME_TYPE)
+				(!ct.equals(Webnail.ALT_XML_MIME_TYPE))) {
+				if (!(ct.equals(Webnail.GENERIC_MIME_TYPE)
 				      ||
-				      ct.equals(Thumbnail.BOGUS_MIME_TYPE))
+				      ct.equals(Webnail.BOGUS_MIME_TYPE))
 				    || 0 == JOptionPane.showConfirmDialog
 				    (frame, 
 				     String.format(localeString("acceptInput"),
@@ -235,13 +235,13 @@ public class Gui {
 			    if (ct == null) {
 				ct = "application/octet-stream";
 			    }
-			    if ((!ct.equals(Thumbnail.XML_MIME_TYPE)) &&
-				(!ct.equals(Thumbnail
+			    if ((!ct.equals(Webnail.XML_MIME_TYPE)) &&
+				(!ct.equals(Webnail
 					    .WEBNAIL_XML_MIME_TYPE)) &&
-				(!ct.equals(Thumbnail.ALT_XML_MIME_TYPE))) {
-				if (!(ct.equals(Thumbnail.GENERIC_MIME_TYPE)
+				(!ct.equals(Webnail.ALT_XML_MIME_TYPE))) {
+				if (!(ct.equals(Webnail.GENERIC_MIME_TYPE)
 				      ||
-				      ct.equals(Thumbnail.BOGUS_MIME_TYPE))
+				      ct.equals(Webnail.BOGUS_MIME_TYPE))
 				    || 0 == JOptionPane.showConfirmDialog
 				    (frame, String.format
 				     (localeString("acceptInput"), ct),
@@ -298,7 +298,7 @@ public class Gui {
 	    customParms = p.getCustomParms();
 	    
 	    bgcolor = (bgColor == null)?
-		Thumbnail.DEFAULT_BGCOLOR : bgColor;
+		Webnail.DEFAULT_BGCOLOR : bgColor;
 	    imageTimeTF.setText((imageTime == null)? "": 
 				imageTime);
 	    minImageTimeTF.setText((minImageTime == null)? "":
@@ -585,13 +585,13 @@ public class Gui {
 			    URLConnection c = url.openConnection();
 			    String ct = c.getContentType();
 			    if (ct != null) {
-				if ((!ct.equals(Thumbnail.XML_MIME_TYPE)) &&
-				    (!ct.equals(Thumbnail
+				if ((!ct.equals(Webnail.XML_MIME_TYPE)) &&
+				    (!ct.equals(Webnail
 						.WEBNAIL_XML_MIME_TYPE)) &&
-				    (!ct.equals(Thumbnail.ALT_XML_MIME_TYPE))) {
-				    if (!(ct.equals(Thumbnail.GENERIC_MIME_TYPE)
+				    (!ct.equals(Webnail.ALT_XML_MIME_TYPE))) {
+				    if (!(ct.equals(Webnail.GENERIC_MIME_TYPE)
 					  ||
-					  ct.equals(Thumbnail.BOGUS_MIME_TYPE))
+					  ct.equals(Webnail.BOGUS_MIME_TYPE))
 					|| 0 == JOptionPane.showConfirmDialog
 					(frame, String.format
 					 (localeString("acceptInput"), ct),
@@ -613,13 +613,13 @@ public class Gui {
 				if (ct == null) {
 				    ct = "application/octet-stream";
 				}
-				if ((!ct.equals(Thumbnail.XML_MIME_TYPE)) &&
-				    (!ct.equals(Thumbnail
+				if ((!ct.equals(Webnail.XML_MIME_TYPE)) &&
+				    (!ct.equals(Webnail
 						.WEBNAIL_XML_MIME_TYPE)) &&
-				    (!ct.equals(Thumbnail.ALT_XML_MIME_TYPE))) {
-				    if (!(ct.equals(Thumbnail.GENERIC_MIME_TYPE)
+				    (!ct.equals(Webnail.ALT_XML_MIME_TYPE))) {
+				    if (!(ct.equals(Webnail.GENERIC_MIME_TYPE)
 					  ||
-					  ct.equals(Thumbnail.BOGUS_MIME_TYPE))
+					  ct.equals(Webnail.BOGUS_MIME_TYPE))
 					|| 0 == JOptionPane.showConfirmDialog
 					(frame, String.format
 					 (localeString("acceptInput"), ct),
@@ -666,7 +666,7 @@ public class Gui {
 			      layoutComboBox.setSelectedIndex
 			      (p.getLayoutIndex());
 			      bgcolor = (bgColor == null)?
-			      Thumbnail.DEFAULT_BGCOLOR : bgColor;
+			      Webnail.DEFAULT_BGCOLOR : bgColor;
 			      imageTimeTF.setText((imageTime == null)? "": 
 			      imageTime);
 			      minImageTimeTF.setText((minImageTime == null)? "":
@@ -1119,7 +1119,7 @@ public class Gui {
 				if (xofile.isDirectory()) {
 				    try {
 					// System.out.println("gen dir");
-					Thumbnail.generate(parser, 
+					Webnail.generate(parser, 
 							   xofile, 
 							   zos,
 							   pm);
@@ -1134,7 +1134,7 @@ public class Gui {
 					zos = new ZipOutputStream
 					    (new FileOutputStream
 					     (xofile));
-					Thumbnail.generate(parser, 
+					Webnail.generate(parser, 
 							   null, 
 							   zos,
 							   pm);
@@ -1148,7 +1148,7 @@ public class Gui {
 					zos = new JarOutputStream
 					    (new FileOutputStream
 					     (xofile));
-					Thumbnail.generate(parser, 
+					Webnail.generate(parser, 
 							   null, 
 							   zos,
 							   pm);
@@ -1189,7 +1189,7 @@ public class Gui {
     static JButton ofnb = new JButton(localeString("choose"));
 
 
-    static String bgcolor = Thumbnail.DEFAULT_BGCOLOR;
+    static String bgcolor = Webnail.DEFAULT_BGCOLOR;
     static JButton colorButton;
 
     static JLabel imageTimeLabel;
@@ -1476,8 +1476,8 @@ public class Gui {
 	}
     }
 
-
-    static private void configureGui() {
+    /* Called in Webnail's main program */
+    static void configureGui() {
 	SwingUtilities.invokeLater(new Runnable() {
 
 		private void configureFields() {
@@ -2216,8 +2216,8 @@ public class Gui {
 			    public void actionPerformed(ActionEvent e) {
 				int ind = comboBox.getSelectedIndex();
 				mtype = mtarray[ind];
-				//extension = Thumbnail.extmap.get(mtype);
-				//type = Thumbnail.fmtmap.get(mtype);
+				//extension = Webnail.extmap.get(mtype);
+				//type = Webnail.fmtmap.get(mtype);
 				extension =
 				    ImageMimeInfo.getExtensionForMT(mtype);
 				type =
@@ -2712,12 +2712,13 @@ public class Gui {
 	    });
     }
 
-
+    /*
     static public void main(String argv[]) {
 	if (argv.length > 0) {
-	    Thumbnail.main(argv);
+	    Webnail.main(argv);
 	} else {
 	    configureGui();
 	}
     }
+    */
 }

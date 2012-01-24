@@ -163,7 +163,7 @@ public class Parser {
 	if (minImageTime == -1) minImageTime = 0;
 	rmap.put("minImageTime", "" + minImageTime);
 	rmap.put("bgcolor", 
-		 ((bgcolor == null)? Thumbnail.DEFAULT_BGCOLOR: bgcolor));
+		 ((bgcolor == null)? Webnail.DEFAULT_BGCOLOR: bgcolor));
 
 	this.width = width;
 	this.height = height;
@@ -619,7 +619,7 @@ public class Parser {
 	    c.setRequestProperty("accept", ACCEPT_TEXT_VALUES);
 			    if (c instanceof HttpURLConnection) {
 				c.setRequestProperty("accept", 
-						     Thumbnail.ACCEPT_VALUE);
+						     Webnail.ACCEPT_VALUE);
 				((HttpURLConnection) c).setRequestMethod("GET");
 				c.connect();
 				if (((HttpURLConnection) c).getResponseCode() 
@@ -1293,7 +1293,7 @@ public class Parser {
 
     public void write(PrintStream out) {
 	out.println("<?xml version=\"1.0\" encoding=\"UTF-8\"?>"
-		    +"<?M.T " + Thumbnail.WEBNAIL_XML_MIME_TYPE
+		    +"<?M.T " + Webnail.WEBNAIL_XML_MIME_TYPE
 		    +"?>");
 	out.println("<!DOCTYPE webnail PUBLIC "
 		    + "\"" + PUBLICID + "\""
@@ -1634,7 +1634,7 @@ public class Parser {
 		}
 		String imageTimeString = attr.getValue("imageTime");
 		imageTime = parseTime(imageTimeString, locator,
-				      Thumbnail.DEFAULT_IMAGE_TIME);
+				      Webnail.DEFAULT_IMAGE_TIME);
 		if (imageTime == -1) {
 		    rmap.put("imageTime", "*");
 		} else if (imageTime == -2) {
@@ -1644,7 +1644,7 @@ public class Parser {
 		}
 		String minImageTimeString = attr.getValue("minImageTime");
 		minImageTime = parseTime(minImageTimeString, locator,
-					 Thumbnail.DEFAULT_MIN_IMAGE_TIME);
+					 Webnail.DEFAULT_MIN_IMAGE_TIME);
 		if (minImageTime == -1 || minImageTime == -2) {
 		    rmap.put("minImageTime", "*");
 		} else {
@@ -1654,7 +1654,7 @@ public class Parser {
 		if (bgcolorStr != null) {
 		    rmap.put("bgcolor", bgcolorStr);
 		} else {
-		    rmap.put("bgcolor", Thumbnail.DEFAULT_BGCOLOR);
+		    rmap.put("bgcolor", Webnail.DEFAULT_BGCOLOR);
 		}
 		String widthStr = attr.getValue("width");
 		if (widthStr == null) {
@@ -1786,7 +1786,7 @@ public class Parser {
 		String imageTimeString = attr.getValue("imageTime");
 		if (imageTimeString != null) {
 		    imageTime = parseTime(imageTimeString, locator,
-					  Thumbnail.DEFAULT_IMAGE_TIME);
+					  Webnail.DEFAULT_IMAGE_TIME);
 		    if (imageTime == -1) {
 			map.put("imageTime", "*");
 		    } else if (imageTime == -2) {
@@ -1798,7 +1798,7 @@ public class Parser {
 		String minImageTimeString = attr.getValue("minImageTime");
 		if (minImageTimeString != null) {
 		    minImageTime = parseTime(minImageTimeString, locator,
-					     Thumbnail.DEFAULT_MIN_IMAGE_TIME);
+					     Webnail.DEFAULT_MIN_IMAGE_TIME);
 		    if (minImageTime == -1 || minImageTime == -2) {
 			map.put("minImageTime", "*");
 		    } else {

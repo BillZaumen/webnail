@@ -340,18 +340,18 @@ public class LayoutPane extends JComponent {
 				    String ct = c.getContentType();
 				    if (ct != null) {
 					if ((!ct.equals
-					     (Thumbnail.XML_MIME_TYPE)) 
+					     (Webnail.XML_MIME_TYPE)) 
 					    &&(!ct.equals
-					       (Thumbnail
+					       (Webnail
 						.WEBNAIL_XML_MIME_TYPE))
 					    && (!ct.equals
-						(Thumbnail
+						(Webnail
 						 .ALT_XML_MIME_TYPE))) {
 					    if (!(ct.equals
-						  (Thumbnail.GENERIC_MIME_TYPE)
+						  (Webnail.GENERIC_MIME_TYPE)
 						  ||
 						  ct.equals
-						  (Thumbnail.BOGUS_MIME_TYPE))
+						  (Webnail.BOGUS_MIME_TYPE))
 						|| 0 == JOptionPane
 						.showConfirmDialog
 						(chooseAddButton, String.format
@@ -377,16 +377,16 @@ public class LayoutPane extends JComponent {
 					if (ct == null) {
 					    ct = "application/octet-stream";
 					}
-					if ((!ct.equals(Thumbnail.XML_MIME_TYPE)) &&
+					if ((!ct.equals(Webnail.XML_MIME_TYPE)) &&
 					    (!ct.equals
-					     (Thumbnail.WEBNAIL_XML_MIME_TYPE)) &&
+					     (Webnail.WEBNAIL_XML_MIME_TYPE)) &&
 					    (!ct.equals
-					     (Thumbnail.ALT_XML_MIME_TYPE))) {
+					     (Webnail.ALT_XML_MIME_TYPE))) {
 					    if (!(ct.equals
-						  (Thumbnail.GENERIC_MIME_TYPE)
+						  (Webnail.GENERIC_MIME_TYPE)
 						  ||
 						  ct.equals
-						  (Thumbnail.BOGUS_MIME_TYPE))
+						  (Webnail.BOGUS_MIME_TYPE))
 						|| 0 == JOptionPane
 						.showConfirmDialog
 						(chooseAddButton, String.format
@@ -426,13 +426,13 @@ public class LayoutPane extends JComponent {
 			    URLConnection c = url.openConnection();
 			    String ct = c.getContentType();
 			    if (ct != null) {
-				if ((!ct.equals(Thumbnail.XML_MIME_TYPE)) &&
-				    (!ct.equals(Thumbnail
+				if ((!ct.equals(Webnail.XML_MIME_TYPE)) &&
+				    (!ct.equals(Webnail
 						.WEBNAIL_XML_MIME_TYPE)) &&
-				    (!ct.equals(Thumbnail.ALT_XML_MIME_TYPE))) {
-				    if (!(ct.equals(Thumbnail.GENERIC_MIME_TYPE)
+				    (!ct.equals(Webnail.ALT_XML_MIME_TYPE))) {
+				    if (!(ct.equals(Webnail.GENERIC_MIME_TYPE)
 					  ||
-					  ct.equals(Thumbnail.BOGUS_MIME_TYPE))
+					  ct.equals(Webnail.BOGUS_MIME_TYPE))
 					|| 0 == JOptionPane.showConfirmDialog
 					(chooseAddButton, String.format
 					 (localeString("acceptInput"), ct),
@@ -454,13 +454,13 @@ public class LayoutPane extends JComponent {
 				if (ct == null) {
 				    ct = "application/octet-stream";
 				}
-				if ((!ct.equals(Thumbnail.XML_MIME_TYPE)) &&
-				    (!ct.equals(Thumbnail
+				if ((!ct.equals(Webnail.XML_MIME_TYPE)) &&
+				    (!ct.equals(Webnail
 						.WEBNAIL_XML_MIME_TYPE)) &&
-				    (!ct.equals(Thumbnail.ALT_XML_MIME_TYPE))) {
-				    if (!(ct.equals(Thumbnail.GENERIC_MIME_TYPE)
+				    (!ct.equals(Webnail.ALT_XML_MIME_TYPE))) {
+				    if (!(ct.equals(Webnail.GENERIC_MIME_TYPE)
 					  ||
-					  ct.equals(Thumbnail.BOGUS_MIME_TYPE))
+					  ct.equals(Webnail.BOGUS_MIME_TYPE))
 					|| 0 == JOptionPane.showConfirmDialog
 					(chooseAddButton, String.format
 					 (localeString("acceptInput"), ct),

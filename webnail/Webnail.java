@@ -23,20 +23,12 @@ import org.bzdev.util.CopyUtilities;
 import org.bzdev.net.WebEncoder;
 
 
-/**
- * Create a thumbnail image.
- * This class has a built-in main class so that it can be used as a
- * stand-alone program, in which case the arguments are the maximum 
- * thumbnail image width, followed by the maximum thumbnail image 
- * height, followed by any number of pairs of arguments consisting 
- * of an input file name followed by an output  file name. The
- * thumbnail image widths are in units of pixels.
- *
- * The class can also be used programmaticly via a static method.
+/*
+ * Webnail main program, constants, and 'generate' function.
  */
-public class Thumbnail {
+public class Webnail {
 
-    static private final String resourceBundleName = "webnail/Thumbnail";
+    static private final String resourceBundleName = "webnail/Webnail";
     static ResourceBundle bundle = 
 	ResourceBundle.getBundle(resourceBundleName);
     static String localeString(String name) {
@@ -1242,7 +1234,7 @@ public class Thumbnail {
     }
 
 
-    /**
+    /*
      * main program.
      * @param argv command-line arguments consisting of the maximum
      *        thumbnail image width in pixels, followed by the mazimum
@@ -1251,6 +1243,56 @@ public class Thumbnail {
      *        followed by an output file name.
      */
     public static void main(String[] argv) {
+
+	if (argv.length == 0 || argv[0].equals("--gui")) {
+	    Gui.configureGui();
+	    if (argv.length == 2) {
+		/*
+		 * We have a single argument - an xml file or
+		 * a wnl file (Webnail xml input file).  With
+		 * the Gui configured, we just read the file in
+		 * as if we had opened it.  The --gui argumentis provided
+		 * for supporting window systems (e.g., the Gnome
+		 * desktop files).
+		 */
+		final String name = argv[1];
+		SwingUtilities.invokeLater(new Runnable() {
+			public void run() {
+			    try {
+				URL iurl;
+				if (name.startsWith("http://") 
+				    || name.startsWith("https://")
+				    || name.startsWith("ftp://")) {
+				    iurl = new URL(name);
+				    Gui.load(iurl);
+				    Thread w = Gui.worker;
+				    if (w != null) {
+					try {
+					    w.join();
+					} catch (Exception we) {}
+				    }
+				    Gui.checkConsole();
+				} else if (name.startsWith("file:")) {
+				    iurl = new URL(name);
+				    File f = new File(iurl.toURI());
+				    Gui.load(f.getCanonicalPath(),
+					     new FileInputStream(f));
+				} else if (name.endsWith(".xml") 
+					   || name.endsWith(".wnl")) {
+				    Gui.load(name, new FileInputStream(name));
+				}
+			    } catch (Exception e) {
+				ErrorMessage.display(e);
+				Gui.checkConsole();
+			    }
+			}
+		    });
+	    }
+	    return;
+	}
+	/*
+	 * If we get here, we are running in command-line mode.
+	 */
 	File dir = null; 
 	File tdir = null; File mdir = null; File cdir = null;
 	File idir = null;

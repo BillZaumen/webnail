@@ -234,19 +234,3 @@ uninstall:
 	@rm $(JARDIRECTORY)/webnail-$(VERSION).jar \
 		|| echo ... rm webnail-$(VERSION).jar FAILED
 
-deb: all $(JROOT)/webnail_$(VERSION)-$(BUILD)_all.deb
-
-$(JROOT)/webnail_$(VERSION)-$(BUILD)_all.deb: control copyright conffiles \
-	changelog changelog.Debian $(ALL)
-	mkdir -p $(JROOT)/webnail
-	mkdir -p $(JROOT)/webnail/DEBIAN
-	$(MAKE) install DESTDIR=$(JROOT)/webnail
-	cp conffiles $(JROOT)/webnail/DEBIAN
-	cp postinst $(JROOT)/webnail/DEBIAN
-	chmod a+x $(JROOT)/webnail/DEBIAN/postinst
-	cp postrm $(JROOT)/webnail/DEBIAN
-	chmod a+x $(JROOT)/webnail/DEBIAN/postrm
-	sed s/VERSION/$(VERSION)/ control > $(JROOT)/webnail/DEBIAN/control
-	(cd $(JROOT) ;  fakeroot dpkg-deb --build webnail )
-	mv $(JROOT)/webnail.deb $(JROOT)/webnail_$(VERSION)-$(BUILD)_all.deb
-	rm -rf $(JROOT)/webnail

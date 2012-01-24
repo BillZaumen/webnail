@@ -24,11 +24,11 @@ public class EditImagesPane extends JComponent {
     }
 
     static String[] mtarray =
-	new String[ImageMimeInfo.getMimeTypes().size() /*Thumbnail.fmtmap.size()*/ + 1];
+	new String[ImageMimeInfo.getMimeTypes().size() + 1];
     static {
 	int ind = 0;
 	mtarray[ind++] = "Default";
-	for (String mt: ImageMimeInfo.getMimeTypes()/*Thumbnail.fmtmap.keySet()*/) {
+	for (String mt: ImageMimeInfo.getMimeTypes()) {
 	    mtarray[ind++] = mt;
 	}
     }
@@ -575,24 +575,6 @@ public class EditImagesPane extends JComponent {
 	mimeTypeComboBox = new JComboBox(cbmtarray);
 
 	mimeTypeComboBox.setSelectedItem(cbmtarray[0]);
-	/*
-	ActionListener cbal = new ActionListener() {
-		public void actionPerformed(ActionEvent e) {
-		    int ind = mimeTypeComboBox.getSelectedIndex();
-		    if (ind == 0) {
-			// mtype = null;
-			// extension = null;
-			// type = null;
-		    } else {
-			// mtype = mtarray[ind];
-			// extension = Thumbnail.extmap.get(mtype);
-			// type = Thumbnail.fmtmap.get(mtype);
-		    }
-		    //System.out.println(type +" " + extension);
-		}
-	    };
-	mimeTypeComboBox.addActionListener(cbal);
-	*/
 	mimeTypeComboBox.setToolTipText
 	    (localeString("mimeTypeComboBoxToolTip"));
 	rlist.setToolTipText(localeString("rlistToolTip"));

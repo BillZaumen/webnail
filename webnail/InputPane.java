@@ -360,8 +360,7 @@ public class InputPane extends JComponent {
 
 	inputChooser.addChoosableFileFilter(imageFilter);
 	for (Map.Entry<String,String[]> entry:
-		 ImageMimeInfo.getMimeToSuffixesEntrySet()
-		 /*Thumbnail.suffixmap.entrySet()*/) {
+		 ImageMimeInfo.getMimeToSuffixesEntrySet()) {
 	    String mt = entry.getKey();
 	    String[] suffixes = entry.getValue();
 	    inputChooser.addChoosableFileFilter

@@ -1,2 +1,2 @@
-Main-Class: webnail.Gui
+Main-Class: webnail.Webnail
 Class-Path: bzdevlib.jar
