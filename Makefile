@@ -125,7 +125,7 @@ FILES = $(JFILES) $(PROPERTIES) webnail.mf $(ICONS) \
 
 PROGRAM = $(JROOT_BIN)/webnail $(JROOT_JARDIR)/webnail-$(VERSION).jar 
 ALL = $(PROGRAM) webnail.desktop webnail.conf \
-	 $(MANS) 
+	 $(MANS) $(JROOT_BIN)/webnail
 
 # program: $(JROOT_BIN)/webnail $(JROOT_JARDIR)/webnail-$(VERSION).jar 
 
@@ -140,6 +140,11 @@ include MajorMinor.mk
 $(CLASSES):
 	(cd $(JROOT); mkdir classes)
 
+#
+# The action for this rule removes all the webnail-*.jar files
+# because the old ones would otherwise still be there and end up
+# being installed.
+#
 $(JROOT_JARDIR)/webnail-$(VERSION).jar: $(FILES)
 	mkdir -p $(CLASSES)
 	mkdir -p $(CLASSES)/webnail
@@ -151,10 +156,12 @@ $(JROOT_JARDIR)/webnail-$(VERSION).jar: $(FILES)
 		$(WEBFILES) $(TEMPLATES) $(CLASSES)/webnail
 	cp webnail-1.0.dtd webnail-layout-info-1.0.dtd $(CLASSES)
 	mkdir -p $(JROOT_JARDIR)
+	rm -f $(JROOT_JARDIR)/webnail-*.jar
 	jar cfm $(JROOT_JARDIR)/webnail-$(VERSION).jar webnail.mf \
 		-C $(CLASSES) . 
 
-$(JROOT_BIN)/webnail: webnail.sh
+$(JROOT_BIN)/webnail: webnail.sh MAJOR MINOR \
+		$(JROOT_JARDIR)/webnail-$(VERSION).jar
 	(cd $(JROOT); mkdir -p $(JROOT_BIN))
 	sed s/VERSION/$(VERSION)/g webnail.sh | \
 	sed s/JARDIRECTORY/$(JARDIR)/g > $(JROOT_BIN)/webnail

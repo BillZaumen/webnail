@@ -7,7 +7,6 @@ pkg_buildno:
 version:
 	@echo $(VERSION)
 
-
 release:
 	@cd $(JROOT) ;\
 	if git diff --quiet ;\
