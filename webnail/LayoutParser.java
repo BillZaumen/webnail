@@ -17,7 +17,7 @@ public class LayoutParser {
 
     static final String PUBLICID = "-//wtz//Webnail_Layout_Info 1.0//EN";
     static final String SYSTEMID = 
-	"http://cmdl.org/DTD/webnail-layout-info-1.0.dtd";
+	"http://bzdev.org/DTD/webnail-layout-info-1.0.dtd";
     static final String OUR_SYSTEMID = "resource:webnail-layout-info-1.0.dtd";
 
     // share same error messages as Parser.

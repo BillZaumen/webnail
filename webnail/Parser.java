@@ -20,7 +20,7 @@ import org.bzdev.net.WebEncoder;
 public class Parser {
 
     static final String PUBLICID = "-//wtz//Webnail 1.0//EN";
-    static final String SYSTEMID = "http://cmdl.org/DTD/webnail-1.0.dtd";
+    static final String SYSTEMID = "http://bzdev.org/DTD/webnail-1.0.dtd";
     static final String OUR_SYSTEMID = "resource:webnail-1.0.dtd";
 
     Component comp = null;
