@@ -557,7 +557,9 @@ public class InputPane extends JComponent {
 		} else /* if (mode == 2 || mode == 3) */ {
 		    String[] strings = 
 			((String) 
-			 t.getTransferData(plainTextStringDataFlavor))
+			 t.getTransferData((mode == 2)?
+					   plainTextStringDataFlavor:
+					   DataFlavor.stringFlavor))
 			.split("\\n+");
 		    if (smode == SelectionMode.SINGLE) {
 			if (strings.length > 1) {
