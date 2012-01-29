@@ -29,7 +29,7 @@ import org.bzdev.net.WebEncoder;
 public class Webnail {
 
     static private final String resourceBundleName = "webnail/Webnail";
-    static ResourceBundle bundle = 
+    static ResourceBundle bundle =
 	ResourceBundle.getBundle(resourceBundleName);
     static String localeString(String name) {
 	return bundle.getString(name);
@@ -40,11 +40,11 @@ public class Webnail {
     static String ALT_XML_MIME_TYPE = "text/xml";
     static String GENERIC_MIME_TYPE = "application/octet-stream";
 
-    static String ACCEPT_VALUE = WEBNAIL_XML_MIME_TYPE 
+    static String ACCEPT_VALUE = WEBNAIL_XML_MIME_TYPE
 	+ ", " + XML_MIME_TYPE
 	+ ", " + ALT_XML_MIME_TYPE
 	+ ", " + GENERIC_MIME_TYPE;
-	
+
 
 
     // IETF standards don't seem to include this and suggest
@@ -69,7 +69,7 @@ public class Webnail {
 
     static final String THUMB_STRUT_HEIGHT = "" + (THEIGHT + (2 * T_VPAD));
 
-    static final String T_IFRAME_WIDTH = "" 
+    static final String T_IFRAME_WIDTH = ""
 	+ (TWIDTH + 2 * MARGINW + MARGIN_HPAD);
 
     /*
@@ -93,7 +93,7 @@ public class Webnail {
 
     static final long DEFAULT_IMAGE_TIME = 10000;
     static final long DEFAULT_MIN_IMAGE_TIME = 4000;
-	
+
     static final String DEFAULT_BGCOLOR = "#c0c0c0";
 
     static ImageScaler scaler = new ImageScaler();
@@ -109,7 +109,7 @@ public class Webnail {
 	System.err.println(localeString("Usage5"));
     }
 
-    static void createWebXml(String title, File webxmlFile) 
+    static void createWebXml(String title, File webxmlFile)
 	throws IOException
     {
 	OutputStream os = new FileOutputStream(webxmlFile);
@@ -117,7 +117,7 @@ public class Webnail {
 	os.close();
     }
 
-    static void createWebXml(String title, OutputStream os) 
+    static void createWebXml(String title, OutputStream os)
 	throws IOException
     {
 	// System.out.println("createWebXml called");
@@ -144,7 +144,7 @@ public class Webnail {
 	}
 	wmap.put("repeatMimeTypes", emaps);
 	TemplateProcessor tp = new TemplateProcessor(wmap);
-	tp.processSystemResource("webnail/web.tpl", "UTF-8", os);
+	tp.processSystemResource("webnail/web.wnt", "UTF-8", os);
     }
 
     static private boolean noxml = false;
@@ -185,7 +185,7 @@ public class Webnail {
 	// System.out.println("warmode = " +warmode);
 	int index = 0;
 	boolean webmode = parser.getWebMode();
-	
+
 	LayoutParms lparms = parser.getLayoutParms();
 	// wait if we are loading over the network.
 	if (lparms != null) {
@@ -235,7 +235,7 @@ public class Webnail {
 	if (maxThumbWidth != 0 || maxThumbHeight != 0) {
 	    flat = false;
 	}
-	    
+
 	// boolean hasAllImages = parser.getHighResMode()
 	//    && multi /*(parser.getLayoutIndex() == 0)*/;
 	boolean hasAllImages = parser.getHighResMode() || single;
@@ -305,7 +305,7 @@ public class Webnail {
 		    } else if (tdir.list().length != 0) {
 			ErrorMessage.display(String.format
 					     (localeString("tdirError2"),
-					      dir.toString()), 
+					      dir.toString()),
 					     null);
 			if (pm == null) System.exit(1); else return;
 		    }
@@ -386,15 +386,15 @@ public class Webnail {
 		}
 	    }
 	}
-	
-	LinkedList<TemplateProcessor.KeyMap> flist = 
+
+	LinkedList<TemplateProcessor.KeyMap> flist =
 	    new LinkedList<TemplateProcessor.KeyMap>();
-	TemplateProcessor.KeyMap rmap = 
+	TemplateProcessor.KeyMap rmap =
 	    new TemplateProcessor.KeyMap();
 	if (webmode) {
-	    rmap.put("bgcolor", 
+	    rmap.put("bgcolor",
 		     ((bgcolor == null)? DEFAULT_BGCOLOR: bgcolor));
-	    rmap.put("hasAllImages", 
+	    rmap.put("hasAllImages",
 		     (hasAllImages? "true": "false"));
 	    rmap.put("imageTime", parser.getValue("imageTime"));
 	    rmap.put("minImageTime", parser.getValue("minImageTime"));
@@ -466,7 +466,7 @@ public class Webnail {
 	    }
 	    String hrefTarget = parser.getValue("hrefTarget", ind);
 	    if (hrefTarget == null) hrefTarget="_blank";
-	    if (!urlmode && 
+	    if (!urlmode &&
 		!(inputFile.isFile() && inputFile.canRead())) {
 		ErrorMessage.display(String.format(localeString("skipMsg"),
 						   inputFileStr),
@@ -484,7 +484,7 @@ public class Webnail {
 		boolean scaling = true;
 		boolean copying = false;
 		boolean checkCopying = false;
-		
+
 		if (maxThumbWidth == 0 && maxThumbHeight == 0) {
 		    scaling = false;
 		    copying = true;
@@ -493,7 +493,7 @@ public class Webnail {
 			 .getAbsoluteFile())) {
 			checkCopying = true;
 		    }
-		} 
+		}
 		if (lind == -1) {
 		    name = URLEncoder.encode(ifn, "UTF-8");
 		    if (!scaling && !webmode) {
@@ -505,7 +505,7 @@ public class Webnail {
 		    outputFile = new File(odir, fname);
 		} else {
 		    hrExt = (checkCopying)?
-			ifn.substring(lind+1, 
+			ifn.substring(lind+1,
 				      ifn.length()):
 			null;
 		    if ((hrExt != null) &&
@@ -518,10 +518,10 @@ public class Webnail {
 		    fname = (!scaling)? ifn:
 			ifn.substring(0, lind) + "."
 			+ extension;
-		    name = 
+		    name =
 			URLEncoder.encode(ifn.substring(0,lind),
 					  "UTF-8");
-		    outputFile = 
+		    outputFile =
 			new File(odir, fname);
 		}
 
@@ -552,15 +552,15 @@ public class Webnail {
 		    } else if (scaling) {
 			if (urlmode) {
 			    if (linkmode == false) {
-				scaler.scaleImage(maxThumbWidth, 
+				scaler.scaleImage(maxThumbWidth,
 						maxThumbHeight,
-						url, outputFile, 
+						url, outputFile,
 						type);
 			    }
 			} else {
-			    scaler.scaleImage(maxThumbWidth, 
+			    scaler.scaleImage(maxThumbWidth,
 					    maxThumbHeight,
-					    inputFileStr, outputFile, 
+					    inputFileStr, outputFile,
 					    type);
 			}
 		    }
@@ -578,7 +578,7 @@ public class Webnail {
 			    URLEncoder.encode
 			    ((String)rmap.get("highResDir"),
 			     "UTF-8")
-			    + "/" 
+			    + "/"
 			    + URLEncoder.encode(fname, "UTF-8"));
 		    map.put("fsImageURL",
 			    (urlmode && linkmode)? url.toString():
@@ -586,22 +586,22 @@ public class Webnail {
 			    URLEncoder.encode
 			    ((String)rmap.get("highResDir"),
 			     "UTF-8")
-			    + "/" 
+			    + "/"
 			    + URLEncoder.encode(fname, "UTF-8"));
 		    map.put("hrefTarget", hrefTarget);
-		    map.put("hrefURL", ((hrefURL == null)? 
+		    map.put("hrefURL", ((hrefURL == null)?
 					(multi/*normalLayout*/?
 					 map.get("highImageURL"):
-					 map.get("fsImageURL")): 
+					 map.get("fsImageURL")):
 					WebEncoder.quoteEncode(hrefURL)));
-		    map.put("imageFile", 
+		    map.put("imageFile",
 			    URLEncoder.encode(fname, "UTF-8"));
 		    map.put("name", name);
-		    map.put("mediumFile", name +"." 
+		    map.put("mediumFile", name +"."
 			    + URLEncoder.encode(extension, "UTF-8"));
 		    map.put("ext", extension);
 		    map.put("index", "" + flist.size());
-		    map.put("imageURL", name + "." 
+		    map.put("imageURL", name + "."
 			    + URLEncoder.encode(extension, "UTF-8"));
 		    map.put("imageHtmlURL", name + ".html");
 		    String otherProps = parser.getValue("otherProps", ind);
@@ -645,7 +645,7 @@ public class Webnail {
 			if (otherProps == null) {
 			    otherProps = ", duration: \"" + x + "\"";
 			} else {
-			    otherProps = otherProps + ", duration: \"" 
+			    otherProps = otherProps + ", duration: \""
 				+ x + "\"";
 			}
 		    }
@@ -659,7 +659,7 @@ public class Webnail {
 			if (otherProps == null) {
 			    otherProps = ", minImageTime: \"" + x + "\"";
 			} else {
-			    otherProps = otherProps + ", minImageTime: \"" 
+			    otherProps = otherProps + ", minImageTime: \""
 				+ x + "\"";
 			}
 		    }
@@ -694,84 +694,84 @@ public class Webnail {
 		    if (multi /*normalLayout*/) {
 			odir = tdir;
 			if (lind == -1) {
-			    outputFile = new File(odir, 
-						  ifn + "." 
+			    outputFile = new File(odir,
+						  ifn + "."
 						  + extension);
 			} else {
-			    outputFile = 
-				new File(odir, 
-					 ifn.substring(0, lind) 
+			    outputFile =
+				new File(odir,
+					 ifn.substring(0, lind)
 					 + "."
 					 + extension);
 			}
 			if (urlmode) {
 			    /*
 			    scaler.scaleImage(TWIDTH, THEIGHT,
-					    url, outputFile, 
+					    url, outputFile,
 					    type);
 			    */
-			    scaler.scaleImage(lparms.getTWidth(), 
+			    scaler.scaleImage(lparms.getTWidth(),
 					    lparms.getTHeight(),
-					    url, outputFile, 
+					    url, outputFile,
 					    type);
 			} else {
 			    /*
 			    scaler.scaleImage(TWIDTH, THEIGHT,
-					    inputFileStr, outputFile, 
+					    inputFileStr, outputFile,
 					    type);
 			    */
-			    scaler.scaleImage(lparms.getTWidth(), 
+			    scaler.scaleImage(lparms.getTWidth(),
 					    lparms.getTHeight(),
-					    inputFileStr, outputFile, 
+					    inputFileStr, outputFile,
 					    type);
 			}
 			odir = mdir;
 			File htmlOutputFile = null;
 			if (lind == -1) {
-			    outputFile = new File(odir, 
-						  ifn + "." 
+			    outputFile = new File(odir,
+						  ifn + "."
 						  + extension);
 			    htmlOutputFile =
 				new File(odir, ifn + ".html");
 			} else {
-			    outputFile = 
-				new File(odir, 
-					 ifn.substring(0, lind) 
+			    outputFile =
+				new File(odir,
+					 ifn.substring(0, lind)
 					 + "."
 					 + extension);
 			    htmlOutputFile =
 				new File(odir,
-					 ifn.substring(0, lind) 
+					 ifn.substring(0, lind)
 					 + ".html");
 			}
 			if (urlmode) {
 			    /*
 			    scaler.scaleImage(MWIDTH, MHEIGHT,
-					    url, outputFile, 
+					    url, outputFile,
 					    type);
 			    */
-			    scaler.scaleImage(lparms.getMWidth(), 
+			    scaler.scaleImage(lparms.getMWidth(),
 					    lparms.getMHeight(),
-					    url, outputFile, 
+					    url, outputFile,
 					    type);
 			} else {
 			    /*
 			    scaler.scaleImage(MWIDTH, MHEIGHT,
-					    inputFileStr, outputFile, 
+					    inputFileStr, outputFile,
 					    type);
 			    */
-			    scaler.scaleImage(lparms.getMWidth(), 
+			    scaler.scaleImage(lparms.getMWidth(),
 					    lparms.getMHeight(),
-					    inputFileStr, outputFile, 
+					    inputFileStr, outputFile,
 					    type);
 			}
 			map.put("width", "" + scaler.getLastImageWidth());
 			map.put("height", "" + scaler.getLastImageHeight());
-			
+
 			TemplateProcessor mp = new TemplateProcessor(rmap,
 						       map);
 			mp.processSystemResource
-			    ("webnail/mediumHTML.tpl", "UTF-8", htmlOutputFile);
+			    ("webnail/mediumHTML.wnt", "UTF-8", htmlOutputFile);
 		    }
 		}
 	    } else {
@@ -787,7 +787,7 @@ public class Webnail {
 		}
 		if (lind == -1) {
 		    fname = ifn +"." + extension;
-		    ofn = (webmode? "high/": "" /*"./"*/) 
+		    ofn = (webmode? "high/": "" /*"./"*/)
 			+ ifn +"." + extension;
 		    name = URLEncoder.encode(ifn, "UTF-8");
 		} else {
@@ -839,13 +839,13 @@ public class Webnail {
 		    TemplateProcessor.KeyMap map =
 			new TemplateProcessor.KeyMap();
 		    map.put("highImageURL",
-			    (urlmode && linkmode)? 
+			    (urlmode && linkmode)?
 			    url.toString():
 			    "../" +
 			    URLEncoder.encode
 			    ((String)rmap.get("highResDir"),
 			     "UTF-8")
-			    + "/" 
+			    + "/"
 			    + URLEncoder.encode
 			    (fname, "UTF-8"));
 		    map.put("fsImageURL",
@@ -855,16 +855,16 @@ public class Webnail {
 			    URLEncoder.encode
 			    ((String)rmap.get("highResDir"),
 			     "UTF-8")
-			    + "/" 
+			    + "/"
 			    + URLEncoder.encode(fname, "UTF-8"));
 		    map.put("hrefTarget", hrefTarget);
-		    map.put("hrefURL", ((hrefURL == null)? 
-					map.get("highImageURL"): 
+		    map.put("hrefURL", ((hrefURL == null)?
+					map.get("highImageURL"):
 					WebEncoder.quoteEncode(hrefURL)));
-		    map.put("imageFile", 
+		    map.put("imageFile",
 			    URLEncoder.encode(fname, "UTF-8"));
 		    map.put("name", name);
-		    map.put("mediumFile", 
+		    map.put("mediumFile",
 			    URLEncoder.encode(name +"." +
 					      extension,
 					      "UTF-8"));
@@ -872,9 +872,9 @@ public class Webnail {
 		    map.put("height", "" + scaler.getLastImageHeight());
 		    map.put("ext", extension);
 		    map.put("index", "" + flist.size());
-		    map.put("imageURL", name + "." 
+		    map.put("imageURL", name + "."
 			    + URLEncoder.encode(extension, "UTF-8"));
-		    map.put("imageHtmlURL", name +"." 
+		    map.put("imageHtmlURL", name +"."
 			    + "html");
 		    String otherProps = parser.getValue("otherProps", ind);
 		    String x = parser.getValue("title", ind);
@@ -912,7 +912,7 @@ public class Webnail {
 			if (otherProps == null) {
 			    otherProps = ", duration: \"" + x + "\"";
 			} else {
-			    otherProps = otherProps + ", duration: \"" 
+			    otherProps = otherProps + ", duration: \""
 				+ x + "\"";
 			}
 		    }
@@ -922,7 +922,7 @@ public class Webnail {
 			if (otherProps == null) {
 			    otherProps = ", minImageTime: \"" + x + "\"";
 			} else {
-			    otherProps = otherProps + ", minImageTime: \"" 
+			    otherProps = otherProps + ", minImageTime: \""
 				+ x + "\"";
 			}
 		    }
@@ -948,7 +948,7 @@ public class Webnail {
 			/*
 			System.out.println((ind+1) + "%" + modulus +" = "
 					   + ((ind + 1) % modulus)
-					   +", maxThumbWidth = " 
+					   +", maxThumbWidth = "
 					   + maxThumbWidth);
 			*/
 			if ((ind+1) < n && ((ind + 1) % modulus) == 0) {
@@ -958,11 +958,11 @@ public class Webnail {
 		    // System.out.println("adding map for " + inputFileStr);
 		    flist.add(map);
 		    if (lind == -1) {
-			ofn = "thumbnails/" 
+			ofn = "thumbnails/"
 			    + ifn +"." + extension;
 		    } else {
 			ofn = "thumbnails/"
-			    +ifn.substring(0, lind) 
+			    +ifn.substring(0, lind)
 			    + "." + extension;
 		    }
 
@@ -970,14 +970,14 @@ public class Webnail {
 			zos.setLevel(0);
 			zos.setMethod(ZipOutputStream.STORED);
 			ZipEntry ze = new ZipEntry(ofn);
-			ByteArrayOutputStream bos = 
+			ByteArrayOutputStream bos =
 			    new ByteArrayOutputStream(2<<16);
 			if (urlmode) {
 			    /*
 			    scaler.scaleImage(TWIDTH, THEIGHT,
 					    url, bos, type);
 			    */
-			    scaler.scaleImage(lparms.getTWidth(), 
+			    scaler.scaleImage(lparms.getTWidth(),
 					    lparms.getTHeight(),
 					    url, bos, type);
 			} else {
@@ -1006,9 +1006,9 @@ public class Webnail {
 			    ofnHTML = "medium/" + ifn + ".html";
 			} else {
 			    ofn = "medium/"
-				+ifn.substring(0, lind) 
+				+ifn.substring(0, lind)
 				+ "." + extension;
-			    ofnHTML = "medium/" 
+			    ofnHTML = "medium/"
 				+ ifn.substring(0, lind) + ".html";
 			}
 
@@ -1053,7 +1053,7 @@ public class Webnail {
 			ze = new ZipEntry(ofnHTML);
 			zos.putNextEntry(ze);
 			mp.processSystemResource
-			    ("webnail/mediumHTML.tpl", "UTF-8",
+			    ("webnail/mediumHTML.wnt", "UTF-8",
 			     zos);
 			zos.closeEntry();
 		    }
@@ -1065,8 +1065,8 @@ public class Webnail {
 	    if (flist.size() > 0) {
 		flist.getLast().remove("commaSeparator");
 	    }
-	    rmap.put("repeatRows", 
-		     flist.toArray(new 
+	    rmap.put("repeatRows",
+		     flist.toArray(new
 				   TemplateProcessor.KeyMap[flist
 						     .size()]));
 	    rmap.put("repeatImageArrayEntries",
@@ -1114,10 +1114,10 @@ public class Webnail {
 		      ("[2] repeatImageArrayEntries has a null entry");
 		      }
 		    */
-		    tp.processSystemResource("webnail/params.tpl", "UTF-8",
+		    tp.processSystemResource("webnail/params.wnt", "UTF-8",
 					     params);
 		    File tindex = new File(tdir, "index.html");
-		    tp.processSystemResource("webnail/tindexHTML.tpl", "UTF-8",
+		    tp.processSystemResource("webnail/tindexHTML.wnt", "UTF-8",
 					     tindex);
 		    File initial = new File(cdir, "initial.html");
 		    CopyUtilities.copyResourceToFile("webnail/initial.html",
@@ -1126,7 +1126,7 @@ public class Webnail {
 		    CopyUtilities.copyResourceToFile("webnail/medium.html",
 						     medium);
 		    File slideshow = new File(cdir, "slideshow.html");
-		    tp.processSystemResource("webnail/slideshowHTML.tpl",
+		    tp.processSystemResource("webnail/slideshowHTML.wnt",
 					     "UTF-8",
 					     slideshow);
 		}
@@ -1146,48 +1146,48 @@ public class Webnail {
 		tp.processURL(parser.getTemplateURL(), "UTF-8", zos);
 		zos.closeEntry();
 		if (multi /*parser.getLayoutIndex() == 0*/) {
-		    CopyUtilities.copyResourceToZipStream("webnail/strut.gif", 
+		    CopyUtilities.copyResourceToZipStream("webnail/strut.gif",
 							  "controls/strut.gif",
 							  zos, true);
 		    CopyUtilities.copyResourceToZipStream
-			("webnail/initImage.png", 
+			("webnail/initImage.png",
 			 "controls/initImage.png", zos, true);
-		    CopyUtilities.copyResourceToZipStream("webnail/fleft.gif", 
+		    CopyUtilities.copyResourceToZipStream("webnail/fleft.gif",
 							  "controls/fleft.gif",
 							  zos, true);
-		    CopyUtilities.copyResourceToZipStream("webnail/left.gif", 
+		    CopyUtilities.copyResourceToZipStream("webnail/left.gif",
 							  "controls/left.gif",
 							  zos, true);
 		    CopyUtilities.copyResourceToZipStream("webnail/expand.png",
 							  "controls/expand.png",
 							  zos, true);
-		    CopyUtilities.copyResourceToZipStream("webnail/right.gif", 
+		    CopyUtilities.copyResourceToZipStream("webnail/right.gif",
 							  "controls/right.gif",
 							  zos, true);
-		    CopyUtilities.copyResourceToZipStream("webnail/fright.gif", 
+		    CopyUtilities.copyResourceToZipStream("webnail/fright.gif",
 							  "controls/fright.gif",
 							  zos, true);
 		    CopyUtilities.copyResourceToZipStream
 			("webnail/slideshow1.js", "controls/slideshow1.js",
 			 zos, false);
 		    CopyUtilities.copyResourceToZipStream
-			("webnail/slideshow2.js", 
+			("webnail/slideshow2.js",
 			 "controls/slideshow2.js", zos, false);
 		    zos.setMethod(ZipOutputStream.DEFLATED);
 		    zos.setLevel(9);
 		    ze = new ZipEntry("thumbnails/index.html");
 		    zos.putNextEntry(ze);
-		    tp.processSystemResource("webnail/tindexHTML.tpl", "UTF-8",
+		    tp.processSystemResource("webnail/tindexHTML.wnt", "UTF-8",
 					     zos);
 		    zos.closeEntry();
 		    zos.setMethod(ZipOutputStream.DEFLATED);
 		    zos.setLevel(9);
 		    ze = new ZipEntry("controls/params.js");
 		    zos.putNextEntry(ze);
-		    tp.processSystemResource("webnail/params.tpl", "UTF-8",
+		    tp.processSystemResource("webnail/params.wnt", "UTF-8",
 					     zos);
 		    zos.closeEntry();
-		    
+
 		    CopyUtilities.copyResourceToZipStream
 			("webnail/initial.html", "controls/initial.html",
 			 zos, false);
@@ -1198,7 +1198,7 @@ public class Webnail {
 		    zos.setLevel(9);
 		    ze = new ZipEntry("controls/slideshow.html");
 		    zos.putNextEntry(ze);
-		    tp.processSystemResource("webnail/slideshowHTML.tpl", 
+		    tp.processSystemResource("webnail/slideshowHTML.wnt",
 					     "UTF-8",
 					     zos);
 		    zos.closeEntry();
@@ -1210,7 +1210,7 @@ public class Webnail {
 		    zos.putNextEntry(ze);
 		    createWebXml(title, zos);
 		    zos.closeEntry();
-		    CopyUtilities.copyResourceToZipStream("webnail/error.jsp", 
+		    CopyUtilities.copyResourceToZipStream("webnail/error.jsp",
 							  "controls/error.jsp",
 							  zos, false);
 		}
@@ -1260,7 +1260,7 @@ public class Webnail {
 			public void run() {
 			    try {
 				URL iurl;
-				if (name.startsWith("http://") 
+				if (name.startsWith("http://")
 				    || name.startsWith("https://")
 				    || name.startsWith("ftp://")) {
 				    iurl = new URL(name);
@@ -1277,7 +1277,7 @@ public class Webnail {
 				    File f = new File(iurl.toURI());
 				    Gui.load(f.getCanonicalPath(),
 					     new FileInputStream(f));
-				} else if (name.endsWith(".xml") 
+				} else if (name.endsWith(".xml")
 					   || name.endsWith(".wnl")) {
 				    Gui.load(name, new FileInputStream(name));
 				}
@@ -1293,7 +1293,7 @@ public class Webnail {
 	/*
 	 * If we get here, we are running in command-line mode.
 	 */
-	File dir = null; 
+	File dir = null;
 	File tdir = null; File mdir = null; File cdir = null;
 	File idir = null;
 	File wdir = null;
@@ -1324,7 +1324,7 @@ public class Webnail {
 	boolean hrefToOrig = false;
 
 	long imageTime = DEFAULT_IMAGE_TIME;
-	long minImageTime = DEFAULT_MIN_IMAGE_TIME; 
+	long minImageTime = DEFAULT_MIN_IMAGE_TIME;
 
 	String mtype = "image/jpeg";
 	type = ImageMimeInfo.getFormatNameFromMimeType(mtype);
@@ -1539,10 +1539,10 @@ public class Webnail {
 	if (user != null && password != null) {
 	    final String xuser = user;
 	    final char[] xpwd = password;
-	    user = null; password = null; 
+	    user = null; password = null;
 	    Authenticator.setDefault(new Authenticator() {
 		    protected PasswordAuthentication
-			getPasswordAuthentication() 
+			getPasswordAuthentication()
 		    {
 			return new PasswordAuthentication(xuser, xpwd);
 		    }
@@ -1573,12 +1573,12 @@ public class Webnail {
 			if (c instanceof HttpURLConnection) {
 			    c.setRequestProperty("accept", ACCEPT_VALUE);
 			    ((HttpURLConnection) c).setRequestMethod("GET");
-			    if (((HttpURLConnection) c).getResponseCode() 
+			    if (((HttpURLConnection) c).getResponseCode()
 				!= HttpURLConnection.HTTP_OK) {
 				throw new IOException(String.format
 						      (localeString
-						       ("couldNotConnect"), 
-						       xmlURL.toString())); 
+						       ("couldNotConnect"),
+						       xmlURL.toString()));
 			    }
 			}
 			String ct = c.getContentType();
@@ -1652,7 +1652,7 @@ public class Webnail {
 		System.exit(1);
 	    }
 	} else {
-	    if ((xmlFile == null && xmlURL == null) 
+	    if ((xmlFile == null && xmlURL == null)
 		&& argv.length - index < 2) {
 		usage();
 		System.exit(1);
@@ -1727,19 +1727,19 @@ public class Webnail {
 			    if (c instanceof HttpURLConnection) {
 				c.setRequestProperty("accept", ACCEPT_VALUE);
 				((HttpURLConnection) c).setRequestMethod("GET");
-				if (((HttpURLConnection) c).getResponseCode() 
+				if (((HttpURLConnection) c).getResponseCode()
 				    != HttpURLConnection.HTTP_OK) {
 				    throw new IOException(String.format
 							  (localeString
-							   ("couldNotConnect"), 
-							   xmlURL.toString())); 
+							   ("couldNotConnect"),
+							   xmlURL.toString()));
 				}
 			    }
 			    String ct = c.getContentType();
 			    if ((!ct.equals(XML_MIME_TYPE)) &&
 				(!ct.equals(WEBNAIL_XML_MIME_TYPE)) &&
 				(!ct.equals(ALT_XML_MIME_TYPE))) {
-				throw new 
+				throw new
 				    Exception(String.format
 					      (localeString("notWebnailFile"),
 					       xmlURL.toString(), ct));
@@ -1751,7 +1751,7 @@ public class Webnail {
 			    if ((!ct.equals(XML_MIME_TYPE)) &&
 				(!ct.equals(WEBNAIL_XML_MIME_TYPE)) &&
 				(!ct.equals(ALT_XML_MIME_TYPE))) {
-				throw new 
+				throw new
 				    Exception(String.format
 					      (localeString("notWebnailFile"),
 					       xmlURL.toString(), ct));

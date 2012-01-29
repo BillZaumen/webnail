@@ -14,6 +14,6 @@
 	 num_t_images="5"
 	 t_vcorrection="-30"
 	 name="HTML5 Layout"
-	 url="sresource:/webnail/indexHTML5.tpl">
+	 url="sresource:/webnail/indexHTML5.wnt">
   </multi>
 </layout>

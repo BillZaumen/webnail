@@ -326,7 +326,7 @@ public class LayoutPane extends JComponent {
 			}
 			FileNameExtensionFilter xmlFilter =
 			    new FileNameExtensionFilter("webnail layout xml", 
-							"xml", "wnll");
+							"xml", "wlo");
 			fc.addChoosableFileFilter(xmlFilter);
 			fc.setFileFilter(xmlFilter);
 			fc.setMultiSelectionEnabled(true);

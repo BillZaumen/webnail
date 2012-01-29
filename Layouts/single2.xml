@@ -6,6 +6,6 @@
 	  max_thumbheight="200"
 	  tiled="false"
 	  name="Header, (Images &amp; Trailer)"
-	  linkedURL="sresource:/webnail/singleHTML2link.tpl"
-	  noLinkURL="sresource:/webnail/singleHTML2.tpl"/>
+	  linkedURL="sresource:/webnail/singleHTML2link.wnt"
+	  noLinkURL="sresource:/webnail/singleHTML2.wnt"/>
 </layout>

@@ -16,7 +16,7 @@
 	</match>
       </match>
     </magic>
-    <glob pattern="*.wnll"/>  
-    <glob pattern="*.xml"/>  
+    <glob pattern="*.wlo"/>
+    <glob pattern="*.xml"/>
   </mime-type>
 </mime-info>

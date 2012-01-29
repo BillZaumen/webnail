@@ -73,10 +73,10 @@ SOURCE_DOC_ICON = webnaildocicon.svg
 TARGET_DOC_ICON = application-prs.wtz.webnail+xml.svg
 
 SOURCE_LDOC_ICON = webnaillayouticon.svg
-TARGET_LDOC_ICON = application-prs.wtz.webnail.layout+xml.svg
+TARGET_LDOC_ICON = application-prs.wtz.webnail-layout+xml.svg
 
 SOURCE_TDOC_ICON = webnailtmplicon.svg
-TARGET_TDOC_ICON = application-prs.wtz.webnail.tpl+xml.svg
+TARGET_TDOC_ICON = application-prs.wtz.webnail-template.svg
 
 JROOT_DOCDIR = $(JROOT)$(SYS_DOCDIR)
 JROOT_JARDIR = $(JROOT)/jar
@@ -106,14 +106,14 @@ LAYOUTFILES = Layouts/normalLayout.xml Layouts/html5Layout.xml \
 	Layouts/single1.xml Layouts/single2.xml Layouts/single3.xml \
 	Layouts/single4.xml Layouts/single5.xml
 
-TEMPLATES = Templates/indexHTML.tpl Templates/indexHTML5.tpl \
-	Templates/mediumHTML.tpl Templates/params.tpl  Templates/web.tpl \
-	Templates/slideshowHTML.tpl Templates/tindexHTML.tpl \
-	Templates/singleHTML1.tpl Templates/singleHTML2.tpl \
-	Templates/singleHTML3.tpl Templates/singleHTML4.tpl \
-	Templates/singleHTML5.tpl Templates/singleHTML1link.tpl \
-	Templates/singleHTML2link.tpl Templates/singleHTML3link.tpl \
-	Templates/singleHTML4link.tpl Templates/singleHTML5link.tpl
+TEMPLATES = Templates/indexHTML.wnt Templates/indexHTML5.wnt \
+	Templates/mediumHTML.wnt Templates/params.wnt  Templates/web.wnt \
+	Templates/slideshowHTML.wnt Templates/tindexHTML.wnt \
+	Templates/singleHTML1.wnt Templates/singleHTML2.wnt \
+	Templates/singleHTML3.wnt Templates/singleHTML4.wnt \
+	Templates/singleHTML5.wnt Templates/singleHTML1link.wnt \
+	Templates/singleHTML2link.wnt Templates/singleHTML3link.wnt \
+	Templates/singleHTML4link.wnt Templates/singleHTML5link.wnt
 
 
 JFILES = $(wildcard webnail/*.java)

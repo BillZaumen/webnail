@@ -532,17 +532,17 @@ public class Parser {
 	/*
 	switch (layoutIndex) {
 	case 0:
-	    return "indexHTML.tpl";
+	    return "indexHTML.wnt";
 	case 1:
-	    return "singleHTML1" + (hrefToOrig? "link": "") + ".tpl";
+	    return "singleHTML1" + (hrefToOrig? "link": "") + ".wnt";
 	case 2:
-	    return "singleHTML2" + (hrefToOrig? "link": "") + ".tpl";
+	    return "singleHTML2" + (hrefToOrig? "link": "") + ".wnt";
 	case 3:
-	    return "singleHTML3" + (hrefToOrig? "link": "") + ".tpl";
+	    return "singleHTML3" + (hrefToOrig? "link": "") + ".wnt";
 	case 4:
-	    return "singleHTML4" + (hrefToOrig? "link": "") + ".tpl";
+	    return "singleHTML4" + (hrefToOrig? "link": "") + ".wnt";
 	case 5:
-	    return "singleHTML5" + (hrefToOrig? "link": "") + ".tpl";
+	    return "singleHTML5" + (hrefToOrig? "link": "") + ".wnt";
 	default:
 	    throw new IllegalStateException("unknown layout index");
 	}

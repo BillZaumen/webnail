@@ -7,6 +7,6 @@
 	  tiled="true"
 	  tiledWidth="670"
 	  name="Header, Images, Trailer"
-	  linkedURL="sresource:/webnail/singleHTML1link.tpl"
-	  noLinkURL="sresource:/webnail/singleHTML1.tpl"/>
+	  linkedURL="sresource:/webnail/singleHTML1link.wnt"
+	  noLinkURL="sresource:/webnail/singleHTML1.wnt"/>
 </layout>
