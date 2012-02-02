@@ -16,6 +16,7 @@ import java.awt.datatransfer.*;
 
 import org.bzdev.swing.ErrorMessage;
 import org.bzdev.imageio.ImageMimeInfo;
+import org.bzdev.swing.ExtObjTransferHandler;
 
 public class InputPane extends JComponent {
     
@@ -25,6 +26,8 @@ public class InputPane extends JComponent {
     static String localeString(String name) {
 	return bundle.getString(name);
     }
+
+    private FilenameTransfer fnt;
 
     JRadioButton dndInputRB = new JRadioButton(localeString("dndInputRB"));
     JRadioButton fileInputRB = 
@@ -120,6 +123,7 @@ public class InputPane extends JComponent {
 		inputTextField1.setToolTipText
 		    (localeString("inputTextField1URLToolTip"));
 	    }
+	    fnt.setMultiEntryMode(false, true);
 	    break;
 	case MULTI:
 	    // inputFile = null;
@@ -146,6 +150,7 @@ public class InputPane extends JComponent {
 	    }
 	    inputChooser.setDialogTitle(localeString("inputFileNames"));
 	    inputChooseButton2.setEnabled(fileInput);
+	    fnt.setMultiEntryMode(true, false);
 	    break;
 	}
     }
@@ -156,6 +161,8 @@ public class InputPane extends JComponent {
 
     // File inputFile = null;
     // URL inputURL = null;
+
+    protected void clear(boolean all){}
 
     protected void setFile(File file) {}
     protected void setURL (URL url){}
@@ -214,12 +221,12 @@ public class InputPane extends JComponent {
 			}
 		    }
 		    */
-		    TransferHandler h = getTransferHandler();
+		    // TransferHandler h = getTransferHandler();
 		    TransferHandler.TransferSupport support = new
 			TransferHandler.TransferSupport(InputPane.this, t);
-		    if (h.canImport(support)) {
+		    if (fnt.canImport(support)) {
 			// System.out.println("trying to import");
-			h.importData(support);
+			fnt.importData(support);
 		    }
 		} catch (Exception ex) {
 		    ErrorMessage.display(ex);
@@ -461,179 +468,43 @@ public class InputPane extends JComponent {
 	inputChooser.setApproveButtonText(localeString("selectImage"));
 	inputChooser.setFileSelectionMode(JFileChooser.FILES_ONLY);
 	inputChooser.setDialogTitle(localeString("inputFileName"));
+	fnt = new FilenameTransfer(icurrentDir);
+	setTransferHandler(fnt);
 	setSelectionMode(smode);
-
-	setTransferHandler(new FilenameTransfer());
     }
 
-    // drag and drop from a Gnome Nautilus file-browser window provides
-    // the following flavor instead of DataFlavor.javaFileListFlavor, so
-    // we'll try to support both.
-
-    static DataFlavor uriListDataFlavor;
-    static {
-	try {
-	    uriListDataFlavor = 
-		new DataFlavor("text/uri-list; class=java.lang.String");
-	} catch (Exception e) {
-	    System.err.println
-		("cannot create MIME type " +
-		 "\"text/uri-list; class=java.lang.String\"");
-	    System.exit(1);
-	}
-    }
-    static DataFlavor plainTextStringDataFlavor;
-    static {
-	try {
-	    plainTextStringDataFlavor =
-		new DataFlavor("text/plain; class=java.lang.String");
-	} catch (Exception e) {
-	    System.err.println
-		("cannot create MIME type " +
-		 "\"text/uri-list; class=java.lang.String\"");
-	    System.exit(1);
-	}
-    }
+    class FilenameTransfer extends ExtObjTransferHandler {
 	
+	protected void clear(boolean all) {
+	    InputPane.this.clear(all);
+	}
 
-    public class FilenameTransfer extends TransferHandler {
-	public boolean importData(JComponent comp, Transferable t) {
-	    return importData(new TransferHandler.TransferSupport(comp, t));
+	protected void addFile(File f) {
+	    InputPane.this.addFile(f);
+	}
+
+	protected void addURL(URL url) {
+	    InputPane.this.addURL(url);
+	}
+
+	FilenameTransfer(File cdir) {
+	    super(cdir);
 	}
 
 	public boolean importData(TransferHandler.TransferSupport support) {
 	    Component comp = support.getComponent();
-	    Transferable t = support.getTransferable();
 	    if (!(comp instanceof InputPane) &&
 		!(comp.getParent() instanceof InputPane)) {
 		return false;
 	    }
-	    int mode = -1;
-	    if (t.isDataFlavorSupported(DataFlavor.javaFileListFlavor)) {
-		mode = 0;
-	    } else if (t.isDataFlavorSupported(uriListDataFlavor)) {
-		mode = 1;
-	    } else if (t.isDataFlavorSupported(plainTextStringDataFlavor)) {
-		mode = 2;
-	    } else if (t.isDataFlavorSupported(DataFlavor.stringFlavor)) {
-		mode = 3;
-	    } else {
-		return false;
-	    }
-	    // System.out.println("mode = " + mode);
-	    try {
-		if (mode == 0) {
-		    java.util.List flist = (java.util.List)
-			t.getTransferData(DataFlavor.javaFileListFlavor);
-		    if (smode == SelectionMode.SINGLE) {
-			if (flist.size() > 1) {
-			    return false;
-			} else if (flist.size() == 1) {
-			    setFile((File)flist.get(0));
-			} else {
-			    return false;
-			}
-		    } else {
-			for (Object obj: flist) {
-			    File f = (File)obj;
-			    addFile(f);
-			}
-		    }
-		} else if (mode == 1) {
-		    String[] strings = 
-			((String) 
-			 t.getTransferData(uriListDataFlavor)).split("\\s+");
-		    if (smode == SelectionMode.SINGLE) {
-			if (strings.length > 1) {
-			    return false;
-			} else if (strings.length == 1) {
-			    setURL(new URL(strings[0]));
-			}
-		    } else {
-			for (String s: strings) {
-			    addURL(new URL(s));
-			}
-		    }
-		} else /* if (mode == 2 || mode == 3) */ {
-		    String[] strings = 
-			((String) 
-			 t.getTransferData((mode == 2)?
-					   plainTextStringDataFlavor:
-					   DataFlavor.stringFlavor))
-			.split("\\n+");
-		    if (smode == SelectionMode.SINGLE) {
-			if (strings.length > 1) {
-			    return false;
-			} else if (strings.length == 0) {
-			    return false;
-			}
-		    }
-		    for (String s: strings) {
-			boolean isURL = false;
-			if (s.startsWith("file:") || s.startsWith("ftp:")
-			    || s.startsWith("http:")
-			    || s.startsWith("https:")) {
-			    isURL = true;
-			}
-			if (isURL) {
-			    if (smode == SelectionMode.SINGLE) {
-				setURL(new URL(s));
-			    } else {
-				addURL(new URL(s));
-			    }
-			} else {
-			    if (smode == SelectionMode.SINGLE) {
-				File f = new File(s);
-				if (f.isAbsolute()) {
-				    setFile(f);
-				} else {
-				    setFile(new File(icurrentDir, s));
-				}
-			    } else {
-				File f = new File(s);
-				if (f.isAbsolute()) {
-				    addFile(f);
-				} else {
-				    addFile(new File(icurrentDir, s));
-				}
-			    }
-			}
-		    }
-		}
-		return true;
-	    } catch (UnsupportedFlavorException ufe) {
-		ErrorMessage.display(ufe);
-		// ufe.printStackTrace();
-	    } catch (IOException ioe) {
-		ErrorMessage.display(ioe);
-		// ioe.printStackTrace();
-	    }
-	    return false;
+	    return super.importData(support);
 	}
-
 	public boolean canImport(TransferHandler.TransferSupport support) {
-	    DataFlavor[] transferFlavors = support.getDataFlavors();
 	    Component comp = support.getComponent();
-	    if ((comp instanceof InputPane) ||
-		(comp.getParent() instanceof InputPane)) {
+	    if ((comp instanceof InputPane || 
+		 comp.getParent() instanceof InputPane)) {
 		if (!dndInput) return false;
-		for (int i = 0; i < transferFlavors.length; i++) {
-		    /*
-		    System.out.println(i + " " + transferFlavors[i].toString());
-		    System.out.println("   ..." +
-				       transferFlavors[i].getPrimaryType()
-				       +" " +
-				       transferFlavors[i].getSubType());
-		    */
-		    if (transferFlavors[i].
-			equals(DataFlavor.javaFileListFlavor) ||
-			transferFlavors[i].equals(uriListDataFlavor) ||
-			transferFlavors[i].equals(plainTextStringDataFlavor) ||
-			transferFlavors[i].equals(DataFlavor.stringFlavor)) {
-			return true;
-		    } 
-		}
-		return false;
+		return super.canImport(support);
 	    }
 	    return false;
 	}

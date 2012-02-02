@@ -80,8 +80,8 @@ public class EditImagesPane extends JComponent {
 	}
 	inputPane.setSelectionMode(mode);
 	// imgListTransferHandler.setSelectionMode(mode);
-	imgListTransferHandler.setMultiSelectionMode
-	    (mode == InputPane.SelectionMode.MULTI);
+	extObjListTransferHandler.setMultiEntryMode
+	    ((mode == InputPane.SelectionMode.MULTI), true);
     }
 
     boolean limitedMode = false;
@@ -133,7 +133,7 @@ public class EditImagesPane extends JComponent {
 
     // ReorderableJList rlist;
     JList rlist;
-    org.bzdev.swing.ImgListTransferHandler imgListTransferHandler;
+    org.bzdev.swing.ExtObjListTransferHandler extObjListTransferHandler;
 
     JList getImageList() {return rlist;}
 
@@ -504,6 +504,16 @@ public class EditImagesPane extends JComponent {
 	rlist = new JList(model);
 
 	inputPane = new InputPane(rlist) {
+		protected void clear(boolean all) {
+		    if (all) {
+			model.clear();
+		    } else {
+			int len = model.getSize();
+			while ((--len) > 0) {
+			    model.remove(len);
+			}
+		    }
+		}
 		protected void addFile (File f) {
 		    try {
 			URL url = f.toURI().toURL();
@@ -517,6 +527,7 @@ public class EditImagesPane extends JComponent {
 		protected void addURL(URL url) {
 		    MapElement map = new ImageMapElement(url, model);
 		}
+
 		protected void setFile (File f) {
 		    model.clear();
 		    addFile(f);
@@ -529,12 +540,12 @@ public class EditImagesPane extends JComponent {
 	    };
 
 	/*
-	imgListTransferHandler = new 
-	    ImgListTransferHandler(this, inputPane, rlist);
+	extObjListTransferHandler = new 
+	    ExtObjListTransferHandler(this, inputPane, rlist);
 	*/
-	imgListTransferHandler = new 
-	    org.bzdev.swing.ImgListTransferHandler(rlist, 
-						   inputPane.icurrentDir) 
+	extObjListTransferHandler = new 
+	    org.bzdev.swing.ExtObjListTransferHandler(rlist, 
+						      inputPane.icurrentDir) 
 	    {
 		protected void insertByURL(URL url, 
 					   DefaultListModel model,
@@ -545,7 +556,7 @@ public class EditImagesPane extends JComponent {
 		}
 	    };
 
-	rlist.setTransferHandler(imgListTransferHandler);
+	rlist.setTransferHandler(extObjListTransferHandler);
 	rlist.setDragEnabled(true);
 	rlist.setDropMode(DropMode.INSERT);
 

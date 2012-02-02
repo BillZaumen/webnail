@@ -1562,6 +1562,16 @@ public class Gui {
 		    editLabel = new JLabel(localeString("editLabel")  +":");
 		    inputPane = 
 			new InputPane(editImagesPane.getImageList()) {
+			    protected void clear(boolean all) {
+				if (all) {
+				    imageListModel.clear();
+				} else {
+				    int len = imageListModel.getSize();
+				    while ((--len) > 0) {
+					imageListModel.remove(len);
+				    }
+				}
+			    }
 			    protected void addFile (File f) {
 				try {
 				    URL url = f.toURI().toURL();
@@ -1573,7 +1583,6 @@ public class Gui {
 				    // standard java methods are
 				    // used to create the URL.
 				}
-
 			    }
 			    protected void addURL(URL url) {
 				MapElement map = 

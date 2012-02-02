@@ -41,8 +41,6 @@ JARDIRECTORY = $(DESTDIR)$(SYS_JARDIRECTORY)
 #
 JARDIR=$(shell echo $(SYS_JARDIRECTORY) | sed  s/\\//\\\\\\\\\\//g)
 
-EXTLIBS=$(SYS_JARDIRECTORY)/bzdevlib.jar
-
 # Other target directories
 
 BIN = $(DESTDIR)$(SYS_BIN)
@@ -83,6 +81,11 @@ JROOT_JARDIR = $(JROOT)/jar
 JROOT_MANDIR = $(JROOT)/man
 JROOT_BIN = $(JROOT)/bin
 JROOT_CONFDIR = $(JROOT)/etc
+
+EXTDIR = $(SYS_JARDIRECTORY)
+
+EXTLIBS=$(EXTDIR)/bzdevlib.jar
+
 # Icon directory for applications
 #
 APP_ICON_DIR = $(DESTDIR)$(SYS_APP_ICON_DIR)
@@ -128,6 +131,13 @@ ALL = $(PROGRAM) webnail.desktop webnail.conf \
 	 $(MANS) $(JROOT_BIN)/webnail
 
 # program: $(JROOT_BIN)/webnail $(JROOT_JARDIR)/webnail-$(VERSION).jar 
+
+#
+# Before using, set up a symbolic link for bzdevlib.jar in the ./jar directory.
+# This is useful for testing that requires modifying files in bzdev-jlib.
+#
+testversion:
+	make program EXTDIR=$(JROOT_JARDIR)
 
 program: $(PROGRAM)
 
