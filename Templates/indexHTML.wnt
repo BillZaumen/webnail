@@ -25,9 +25,9 @@ $(header)<TABLE id="imagesTable">
 </TD>
 <TD>
   <TABLE width=545 id="imageTable">
-    <NOSCRIPT>
-      <TR>
-	<TD align="center">
+    <TR>
+      <TD align="center">
+        <NOSCRIPT>
 	  <TABLE>
 	    <TR>
 	      <TD style="color: red" id="noJavascriptMsg">
@@ -35,12 +35,12 @@ $(header)<TABLE id="imagesTable">
 	      </TD>
 	    </TR>
 	  </TABLE>
-	</TD>
-      </TR>
-    </NOSCRIPT>
-    <SCRIPT type="text/javascript">
-      createControls(); 
-    </Script>
+        </NOSCRIPT>
+    	<SCRIPT type="text/javascript">
+	  createControls();
+    	</Script>
+      </TD>
+    </TR>
     <TR>
       <TD>
 	<SCRIPT type="text/javascript">

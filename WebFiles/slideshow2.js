@@ -256,18 +256,21 @@ function getInnerHeight(win) {
     }
 }
 
+var appendError = function(str) {
+    throw new Error("slideshow2: " + str);
+}
+function log(str) {
+    setTimeout("appendError('" + str + "')", 1);
+}
+
 var readyToDisplaySSW = false;
 function updateSlideshowWindow() {
     if (hasAllImages && slideshowWindow != null && !slideshowWindow.closed
 	&& readyToDisplaySSW) {
+	var imgElement = slideshowWindow.img;
+	var spacerElement = slideshowWindow.spacer;
 
-	// var colElement = slideshowWindow.document.getElementById("col");
-	var imgElement = slideshowWindow.document.getElementById("img");
-	var bodyElement = slideshowWindow.document.getElementById("body");
-	var spacerElement = slideshowWindow.document.getElementById("spacer");
-
-	if (bodyElement == null || bodyElement == undefined ||
-	    imgElement == null || imgElement == undefined ||
+	if (imgElement == null || imgElement == undefined ||
 	    spacerElement == null || spacerElement == undefined) {
 	    updateSlideshowWindowID = setTimeout(updateSlideshowWindow, 100);
 	} else {
@@ -293,7 +296,7 @@ function updateSlideshowWindow() {
 
 	    spacerElement.width = iw;
 	    spacerElement.height = Math.floor((h - ih)/2);
-	    
+
 		// imgElement.src = "../high/" + array[index] + ".jpg"
 
 		/*
@@ -303,7 +306,10 @@ function updateSlideshowWindow() {
 	    imgElement.src = imageArray[index].highImageURL;
 	    imgElement.width = iw;
 	    imgElement.height = ih;
-	    updateDOM(slideshowWindow);
+	    if (slideshowWindow.document.getElementById("img")) {
+		// test due to Firefox  10.0 bug
+		updateDOM(slideshowWindow);
+	    }
 	}
     } else {
 	updateSlideshowWindowID = 0;
@@ -416,6 +422,8 @@ function closeSlideshowWindow() {
 }
 
 var ready = true;
+// ourwindow used to make sure we get the right window when doSlideshowReady
+// is called from within the window we create.
 var ourwindow = window;
 function doSlideshowReady() {
     if (ready == false) {
@@ -588,6 +596,12 @@ function displayWindow() {
     if (window.focus) {
 	slideshowWindow.focus();
     }
+    
+    if (slideshowWindow.loaded != null && slideshowWindow.loaded != undefined) {
+	// we might have set slideshowWindow.doSlideshowWindow too late
+	doSlideshowReady();
+    }
+
     // alert("height = " + slideshowWindow.innerHeight +" <= " +screen.height);
 
     // in case event handler code doesn't work.
@@ -661,8 +675,8 @@ function updateCache() {
 	if (slideshowWindow != null) {
 	    var sw = getInnerWidth(slideshowWindow) - wOffset;
 	    var sh = getInnerHeight(slideshowWindow) - hOffset;
-	    sw = Math.round((w * wPercent)/100);
-	    sh = Math.round((h * hPercent)/100);
+	    sw = Math.round((sw * wPercent)/100);
+	    sh = Math.round((sh * hPercent)/100);
 	    var xscale = sw / w;
 	    var yscale = sh / h;
 	    var scale = (xscale < yscale)? xscale: yscale;

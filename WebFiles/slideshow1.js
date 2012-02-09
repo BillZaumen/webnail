@@ -1,5 +1,4 @@
-var controlStrings1 = ['<TR>',
- '<TD align="center">',
+var controlStrings1 = [
  '<FORM action="javascript:void(0)">',
  '<TABLE width=500>',
  '<TR>',
@@ -20,7 +19,7 @@ var controlStrings1 = ['<TR>',
  '</TD>',
  '<TD align="center">',
  '<INPUT TYPE="image" SRC="controls/fright.gif" id="fright"',
- ' onclick="index = imageArray.length-1; if (index &lt 0) index = 0; updateLocations(\'.\');">',
+ ' onclick="index = imageArray.length-1; if (index &lt; 0) index = 0; updateLocations(\'.\');">',
  '</TD>',
  '<TD align="center">',
  '<INPUT TYPE="button" value="slideshow" id="slideshow"',
@@ -33,14 +32,13 @@ var controlStrings2 = ['<TD>',
  '</TD>',
  ];
 
-var controlStrings3 = ['<TD>',
+var controlStrings3 = [
+ '<TD>',
  '<INPUT TYPE="checkbox" id="loop" value="Loop" name="Loop"> Loop',
  '</TD>',
  '</TR>',
  '</TABLE>',
- '</FORM>',
- '</TD>',
- '</TR>'
+ '</FORM>'
  ];
 
 var configured = false;
