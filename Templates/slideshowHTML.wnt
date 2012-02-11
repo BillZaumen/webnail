@@ -19,14 +19,14 @@ function onunload_f() {
 function onresize_f() {
   window.updateSlideshowWindow();
 }
-
 window.onload = onload_f;
 window.onunload = onunload_f;
 window.onresize = onresize_f;
 </SCRIPT>
-
 </HEAD>
-<BODY STYLE="background-color: $(bgcolor)" id="body">
+<BODY STYLE="background-color: $(bgcolor)" id="body"
+      onload="onload_f()" onunload="onunload_f()" onresize="onresize_f()"
+      onkeyup="window.escapeHandler(event)">
   <div style="background-color: $(bgcolor); text-align: center; font-size: 1pt">
     <img src="strut.gif" width="100" height="1" id="spacer">
   </div>

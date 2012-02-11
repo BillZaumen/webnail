@@ -405,8 +405,8 @@ function updateLocations(cdir) {
 
 function escapeHandler(e) {
     if (slideshowWindow != null) {
-	var e = slideshowWindow.event || e;
-	var kc = e.charCode || e.keyCode;
+	var ee = e || slideshowWindow.event;
+	var kc = ee.keyCode || ee.which || ee.charCode;
 	if (kc == 27) {
 	    stopSlideshow();
 	}
@@ -577,11 +577,12 @@ function displayWindow() {
 
     slideshowWindow = window.open("controls/slideshow.html", "slideshow",
 				  parms);
-    slideshowWindow.onkeypress=escapeHandler;
+    slideshowWindow.escapeHandler = escapeHandler;
+    // slideshowWindow.onkeypress=escapeHandler;
     // W3C documentation claims this is the right way to set
     // onkeypress but experimentally with Firefox, the line above
     // works and this one doesn't
-    slideshowWindow.document.onkeypress=escapeHandler;
+    // slideshowWindow.document.onkeypress=escapeHandler;
 
     // to resize, we seem to have to use the HTML code, so we set
     // a property so the page in the new window can find the method.
