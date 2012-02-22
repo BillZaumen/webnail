@@ -22,6 +22,7 @@ var controlStrings1 = [
  ' onclick="index = imageArray.length-1; if (index &lt; 0) index = 0; updateLocations(\'.\');">',
  '</TD>',
  '<TD align="center">',
+ '<TABLE STYLE="border-style: solid; border-width: thin; border-color: gray"><TR><TD>',
  '<INPUT TYPE="button" value="slideshow" id="slideshow"',
  ' onclick="runSlideshow();">',
  '</TD>'
@@ -35,6 +36,7 @@ var controlStrings2 = ['<TD>',
 var controlStrings3 = [
  '<TD>',
  '<INPUT TYPE="checkbox" id="loop" value="Loop" name="Loop"> Loop',
+ '</TD></TR></TABLE>',
  '</TD>',
  '</TR>',
  '</TABLE>',

@@ -640,9 +640,13 @@ function imageComplete(image) {
     return true;
 }
 
+function assertErrorHandlingOK(evt, source, line) {
+    errorHandlingBroken = false;
+}
+
 function checkErrorHandling() {
     var img = new Image();
-    img.onerror="errorHandlingBroken = false";
+    img.onerror = assertErrorHandlingOK;
     img.src = "controls/NoFile.jpg";
 }
 checkErrorHandling();
@@ -651,7 +655,7 @@ var nextImage = null;
 var cacheID = 0;
 var caching = false;
 var cacheOffset = 1;
-function onCacheError(/*event*/) {
+function onCacheError(evt, source, line) {
     if (cacheID != 0) {
 	clearTimeout(cacheID);
 	cacheID = 0;
@@ -690,7 +694,7 @@ function updateCache() {
 
 	// this is relative to the toplevel directory for these
 	// images.
-	nextImage.onerror = "onCacheError()";
+	nextImage.onerror = onCacheError;
 	// nextImage.onload = "alert(\"loaded " +imageArray[ind].name +"\")";
 	/*
 	if (((typeof imageArray[ind].hrExt) != "undefined") &&
