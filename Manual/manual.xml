@@ -1,35 +1,57 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <toc>
-<node title="Help" uri="sresource:/manual.html">
-    <node title="Introduction" uri="sresource:/manual.html#intro" />
-    <node title="Using a GUI" uri="sresource:/manual.html#gui">
-      <node title="Webnail Window" uri="sresource:/manual.html#guiMain" />
-      <node title="The DOM Map Panel" uri="sresource:/manual.html#guiDOM"/>
-      <node title="The Image Editor" uri="sresource:/manual.html#guiEdit">
+<node title="Help" uri="sresource:/webnail/manual.html">
+    <node title="Introduction" uri="sresource:/webnail/manual.html#intro" />
+    <node title="Using a GUI" uri="sresource:/webnail/manual.html#gui">
+      <node title="Webnail Window"
+	    uri="sresource:/webnail/manual.html#guiMain" />
+      <node title="The DOM Map Panel"
+	    uri="sresource:/webnail/manual.html#guiDOM"/>
+      <node title="The Image Editor"
+	    uri="sresource:/webnail/manual.html#guiEdit">
 	<node title="Properties Editor" 
-	      uri="sresource:/manual.html#guiProperties" />
+	      uri="sresource:/webnail/manual.html#guiProperties" />
       </node>
-      <node title="Proxy Configuration" uri="sresource:/manual.html#proxies"/>
+      <node title="Layout Editor"
+	    uri="sresource:/webnail/manual.html#layoutEdit" />
+      <node title="Proxy Configuration"
+	    uri="sresource:/webnail/manual.html#proxies"/>
     </node>
-    <node title="Running from a terminal" uri="sresource:/manual.html#terminal">
-      <node title="Web Options" uri="sresource:/manual.html#weboptions"/>
+    <node title="Running from a terminal"
+	  uri="sresource:/webnail/manual.html#terminal">
+      <node title="Web Options"
+	    uri="sresource:/webnail/manual.html#weboptions"/>
     </node>
-    <node title="Reserved HTML IDs" uri="sresource:/manual.html#reservedIDs"/>
-    <node title="XML Syntax" uri="sresource:/manual.html#xml">
-      <node title="XML Elements" uri="sresource:/manual.html#dtdElements">
-	<node title="Images" uri="sresource:/manual.html#dtdImages"/>
-	<node title="DOM Map" uri="sresource:/manual.html#dtdDomMap"/>
-	<node title="Title" uri="sresource:/manual.html#dtdTitle"/>
-	<node title="Descr" uri="sresource:/manual.html#dtdDescr"/>
-	<node title="Head" uri="sresource:/manual.html#dtdHead"/>
-	<node title="Header" uri="sresource:/manual.html#dtdHeader"/>
-	<node title="Image" uri="sresource:/manual.html#dtdImage"/>
-	<node title="Filename" uri="sresource:/manual.html#dtdFilename"/>
-	<node title="URL" uri="sresource:/manual.html#dtdURL"/>
-	<node title="Property" uri="sresource:/manual.html#dtdProperty"/>
-	<node title="Trailer" uri="sresource:/manual.html#dtdTrailer"/>
-	<node title="After Script" uri="sresource:/manual.html#dtdAfterScript"/>
+    <node title="Reserved HTML IDs"
+	  uri="sresource:/webnail/manual.html#reservedIDs"/>
+    <node title="XML Syntax" uri="sresource:/webnail/manual.html#xml">
+      <node title="XML Elements"
+	    uri="sresource:/webnail/manual.html#dtdElements">
+	<node title="Images" uri="sresource:/webnail/manual.html#dtdImages"/>
+	<node title="DOM Map" uri="sresource:/webnail/manual.html#dtdDomMap"/>
+	<node title="Title" uri="sresource:/webnail/manual.html#dtdTitle"/>
+	<node title="Descr" uri="sresource:/webnail/manual.html#dtdDescr"/>
+	<node title="Head" uri="sresource:/webnail/manual.html#dtdHead"/>
+	<node title="Header" uri="sresource:/webnail/manual.html#dtdHeader"/>
+	<node title="Image" uri="sresource:/webnail/manual.html#dtdImage"/>
+	<node title="Filename"
+	      uri="sresource:/webnail/manual.html#dtdFilename"/>
+	<node title="URL" uri="sresource:/webnail/manual.html#dtdURL"/>
+	<node title="Property"
+	      uri="sresource:/webnail/manual.html#dtdProperty"/>
+	<node title="Trailer" uri="sresource:/webnail/manual.html#dtdTrailer"/>
+	<node title="After Script"
+	      uri="sresource:/webnail/manual.html#dtdAfterScript"/>
       </node>
+    </node>
+    <node title="Layout XML Syntax"
+	  uri="sresource:/webnail/manual.html#layoutXML">
+      <node title="Layout XML Elements"
+	    uri="sresource:/webnail/manual.html#layoutXMLElements">
+      </node>
+    </node>
+    <node title="Template Files"
+	  uri="sresource:/webnail/manual.html#templateFiles">
     </node>
 </node>
 </toc>

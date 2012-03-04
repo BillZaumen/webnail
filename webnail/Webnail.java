@@ -208,6 +208,7 @@ public class Webnail {
 	// boolean normalLayout = (parser.getLayoutIndex() == 0);
 	// boolean tiledImages = (parser.getLayoutIndex() == 1);
 	boolean tiledImages = lparms.isTiled();
+	int tiledWidth = lparms.getTiledWidth();
 	if (n == 0 && multi /*normalLayout*/) return;
 	if (single /*!normalLayout*/) {
 	    if (maxThumbWidth == 0) {
@@ -216,8 +217,8 @@ public class Webnail {
 	    if (maxThumbHeight == 0) {
 		maxThumbHeight = lparms.getMaxThumbHeight();
 	    }
-	    if (lparms.isTiled() && maxThumbWidth > lparms.getTiledWidth()) {
-		maxThumbWidth = lparms.getTiledWidth();
+	    if (lparms.isTiled() && maxThumbWidth > tiledWidth) {
+		maxThumbWidth = tiledWidth;
 	    }
 	}
 	String windowTitle = parser.getValue("windowTitle");
@@ -681,7 +682,7 @@ public class Webnail {
 		    }
 		    map.put("commaSeparator", ",");
 		    if (tiledImages) {
-			int modulus = 670 / maxThumbWidth;
+			int modulus = tiledWidth / maxThumbWidth;
 
 			System.out.println("modulus = " + modulus);
 
@@ -944,7 +945,7 @@ public class Webnail {
 		    }
 		    map.put("commaSeparator", ",");
 		    if (tiledImages) {
-			int modulus = 670 / maxThumbWidth;
+			int modulus = tiledWidth / maxThumbWidth;
 			/*
 			System.out.println((ind+1) + "%" + modulus +" = "
 					   + ((ind + 1) % modulus)
@@ -1251,7 +1252,7 @@ public class Webnail {
 		 * We have a single argument - an xml file or
 		 * a wnl file (Webnail xml input file).  With
 		 * the Gui configured, we just read the file in
-		 * as if we had opened it.  The --gui argumentis provided
+		 * as if we had opened it.  The --gui argument is provided
 		 * for supporting window systems (e.g., the Gnome
 		 * desktop files).
 		 */

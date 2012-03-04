@@ -6,7 +6,7 @@
 <body>
 <h1><a name="intro">Webnail</a></h1>
 <p><strong>Webnail</strong> is a program that scales images so
-that they fit within a box with a specified height and width, allowing images to be conveniently layed out in HTML tables. Both the height and width are scaled by the same amount.
+that they fit within a box with a specified height and width, allowing images to be conveniently laid out in HTML tables. Both the height and width are scaled by the same amount.
 </p>
 <p>
 <strong>Webnail</strong> can be run using a GUI or as a command-line
@@ -25,20 +25,27 @@ this is window-system dependent).
 Once <strong>webnail</strong is started, the following window will
 appear:
 <p>
-<A name="guiMain"><img src="sresource:/gui-main.png" width=600 height=359></A>
+<A name="guiMain"><img src="sresource:/webnail/gui-main.png"
+		       width=600 height=359></A>
 </p>
 <p>
-<p>The menu bar contains three items, a
+<p>The menu bar contains four items, a
 <em>File</em> menu with an options for <strong>webnail</strong> to
-load a previously saved configuration, save the current configuration,
-or quit; an <em>Edit</em> menu with options to edit 
-<A HREF="#proxies">the current proxy configuration</A>;
-A <em>Tools</em> menu with an <em>Open Console</em> menu item for
-showing error messages; and a <em>Help</em> menu that includes two
-menu items, one providing a manual and the other providing information
-about the program.  Typing Control-Q will make <strong>webnail</strong>
-exit.  Keyboard navigation is supported (the following apply to the
-default Java look and feel):
+load a previously saved configuration from a URL, open a previously
+saved configuration file, save the current configuration, save the
+current configuration under a new name, or quit; an <em>Edit</em> menu
+with options to edit
+<A HREF="#proxies">the current proxy configuration</A> and to add
+additional layouts to <strong>webnail</strong> (a layout controls the
+appearance of HTML files that <strong>webnail</strong> generate);
+a <em>Tools</em> menu with a checkbox for toggling whether stack
+traces will appear in the error console and an <em>Open Console</em>
+menu item for opening an error console showing error messages; and
+a <em>Help</em> menu that includes two menu items, one providing a
+manual and the other providing information about the program.  Typing
+Control-Q will make <strong>webnail</strong> exit.  Keyboard
+navigation is supported (the following apply to the default Java look
+and feel):
 <ul>
    <li>Hitting <em>tab</em> key will move the keyboard focus to the next
      control.
@@ -48,8 +55,10 @@ default Java look and feel):
      is equivalent to clicking on the button.
 </ul>
 <strong>Webnail</strong> starts execution with the keyboard focus
-set to the <em>Dir</em> radio button (the first radio button is selected
-by default as described below). 
+set to the <em>Dir</em> radio button (the first radio button, labeled
+<strong>Image</strong> is selected by default). The choice of the output
+file type effects which controls are enabled - some controls are only
+appropriate when generating HTML files.
 <p>
 There are a number of controls:
 </p>
@@ -59,7 +68,7 @@ There are a number of controls:
       buttons to select the type of the output file. The options are
       <UL>
 	<li> <strong>Image</strong>.  The output file is a single image (only
-	  one imput image may be selected), with a file extension recognized
+	  one input image may be selected), with a file extension recognized
 	  by the Java implementation (run "webnail -l" from a terminal window
 	  to see the allowed MIME types and extensions). This is the default
 	  when <strong>webnail</strong> starts up.
@@ -68,7 +77,7 @@ There are a number of controls:
 	<li> <strong>Zip</strong>. The output is a ZIP file that will contain
 	  a set of images files.
 	<li> <strong>Web Dir</strong>. The output is a directory containing HTML
-	  and iamge files.  A browser should open index.html in this directory.
+	  and image files.  A browser should open index.html in this directory.
 	<li> <strong>Web Zip</strong>. The output is a ZIP file containing the
 	  files that would have been produced for <strong>Web Dir</strong>. 
         <li> <strong>Web-Archive-Dir</strong>.  This creates all the directory
@@ -84,12 +93,12 @@ There are a number of controls:
       </UL>
   <DT><strong><A name="mimeType">Output Image Format or MIME
       Type</A></strong><DD> provides a selection of output-file
-      formats or MIME types nameing output-file formats. The choices
+      formats or MIME types naming output-file formats. The choices
       are dependent on what the Java implementation supports.
   <DT><strong>Output File or Directory Name</strong><DD>provides the
       file or directory name for output.  One can enter this in
       the <em>Output File or Directory</em> text field.  Alternative
-      the button adjacent to the text field named <em>Chooose</em> can
+      the button adjacent to the text field named <em>Choose</em> can
       be pushed, in which case a dialog box that helps the user
       navigate through the file system will appear.  If a file name is
       given, the corresponding file will contain the scaled image, so
@@ -107,8 +116,10 @@ There are a number of controls:
       the page, after the last script that the webnail program
       provides (for the default layout). These additional options are
       <UL>
+	<li><strong>HTML5 Layout</strong>A default layout that will
+	  generate an HTML 5 web page.
 	<li><strong>Header, Images, Trailer</strong>. The header appears
-	  at the start of the page, followed by the images, which are layed
+	  at the start of the page, followed by the images, which are laid
 	  out in a grid, followed by the trailer.
 	<li><strong>Header, (Images & Trailer)</strong>. The header appears
 	  at the start of the page.  The Images and the trailer are in two
@@ -126,13 +137,23 @@ There are a number of controls:
 	  with two parallel columns. The right column contains the images,
 	  one per line, and the left column contains the header followed
 	  by the trailer.
+	<li><strong>Custom</strong>. Use the previously specified custom
+          layout, choosing one if a previously specified one is not available.
+	  The layout is specified by giving its file name or URL.  For the
+	  format of the layout file, please see
+	  <A href="#layoutXMLElements">
+	    the section	defining the layout-file format
+	  </A>.
+	<li><strong>Set Custom Layout</strong>. Choose a custom layout.
+          This option is present only if <strong>Custom</strong> as previously
+	  selected. The layout is specified by giving its file name or URL.
       </UL>
   <DT><strong>FullScreen Slideshow</strong><DD>is a check box that,
       when selected, indicates that the web page created should allow
       the user to open a full screen window (actually, nearly full
       screen) showing the images in a slideshow at a high resolution.
   <DT><strong>Sync Mode</strong><DD>indicates that a slideshow should
-      try to stay in syncronization with the timing information
+      try to stay in synchronization with the timing information
       provided. If one image takes too long to load, the subsequent
       images will be displayed for less time until the timing is
       correct. Unless the
@@ -193,7 +214,7 @@ There are a number of controls:
       images. The default title can be entered in a text area or by
       providing a URL indicating a resource that will be loaded to
       obtain the title. In either case the title contains HTML
-      formated text.  This default can be overridden as
+      formatted text.  This default can be overridden as
       described <A HREF="#guiEdit">below.</A> When the Default Layout
       option described above is used, the title appears directly below
       the image on the web page that is generated.  Otherwise it the
@@ -203,7 +224,7 @@ There are a number of controls:
       description for the images. The default description can be
       entered in a text area or by providing a URL indicating a
       resource that will be loaded to obtain the description. In
-      either case the description contains HTML formated text.This
+      either case the description contains HTML formatted text.This
       default can be overridden as described 
       <A HREF="#guiEdit">below.</A> When the Default Layout option
       described above is used, the description appears directly below
@@ -214,25 +235,25 @@ There are a number of controls:
       head.  This can be used to add style sheets to the document.
       This text can be entered in a text area or by providing a URL
       indicating a resource that will be loaded to obtain the text. In
-      either case the text must be HTML formated.
+      either case the text must be HTML formatted.
   <DT><strong>Header</strong><DD>when clicked opens a dialog box for
       entering or editing HTML text that appears in the document. The
       position depends on the </strong>layout</strong> option chosen.
       This text can be entered in a text area or by providing a URL
       indicating a resource that will be loaded to obtain the text. In
-      either case the text must be HTML formated.
+      either case the text must be HTML formatted.
   <DT><strong>Trailer</strong><DD>when clicked opens a dialog box for
       entering or editing HTML text that appears in the document. The
       position depends on the </strong>layout</strong> option chosen.
       This text can be entered in a text area or by providing a URL
       indicating a resource that will be loaded to obtain the text. In
-      either case the text must be HTML formated.
+      either case the text must be HTML formatted.
   <DT><strong>Final HTML</strong><DD>when clicked opens a dialog box
       for entering or editing HTML text that appears in the
       document. The position is always at the end of the document.
       This text can be entered in a text area or by providing a URL
       indicating a resource that will be loaded to obtain the text. In
-      either case the text must be HTML formated.  When the default
+      either case the text must be HTML formatted.  When the default
       layout is used, the text will follow the <b>script</b> element
       that loads the scripts needed for navigation controls.  It can
       be used to load additional scripts (for performance reasons,
@@ -242,11 +263,11 @@ There are a number of controls:
 </blockquote>
 <P>
 The last 6 buttons, <strong>Title</strong>, <strong> Description</strong>,
-<strong>Head</strong>, <strong>Header</strong>, <strong>Trialer</strong>,
+<strong>Head</strong>, <strong>Header</strong>, <strong>Trailer</strong>,
 <strong>Final HTML</strong> open similar dialog boxes. The one for the
 <strong>Title</strong> button is a suitable example:
 <P>
-<img src="sresource:/gui-title.png" width=592 height=287>
+<img src="sresource:/webnail/gui-title.png" width=592 height=287>
 </P>
 <P>
 One may either enter text directly into a text area or use a URL to
@@ -295,23 +316,29 @@ The next set of controls are used to insert images into the application.
       frame, and is a simple progress bar.  It turns green when image
       files are being created and indicates the number of files that
       have been processed.  It indicates the status of the
-      last <em>Create Webnails</em> operation.
+      last <strong>Run</strong> operation.
 </DL>
 </blockquote>
 
 <H2><A name="guiDOM">The Document-Object-Model Map</A></H2>
 <P>
-The DOM map is used for the default layout, but not for any of the
-other layouts.  This map is indexed by keys which the property editor
-uses to look up DOM-map entries. For each key, there are three associated
-values: a comma-separated list of DOM IDs a DOM property associated with an
-element in the DOM, and a default value for that property.  When an image
-is selected, elements will be looked up by ID and the specified property
-will be changed to the default value, unless overridden for the specific
-image.  The following shows the window:
+The DOM (Document Object Model) map is used for the layouts that can
+provide slideshows, but not for layouts that merely show all the
+images on a single page.  This map is indexed by keys which the
+property editor uses to look up DOM-map entries. For each key, there
+are three associated values: a comma-separated list of DOM IDs a DOM
+property, function, or method associated with an element in the DOM, a
+default value or argument for that property, method, or function, a
+mode indicating if the entry defines a property, method, or function,
+and a condition mode that determines under what conditions the entry
+may be used to modify the document object model.  The DOM may be
+modified when an image is selected or changed, when a slideshow
+starts, and when a slideshow stops. The conditions under which the DOM
+may change are defined below.  The
+following shows the window:
 </P>
 <P>
-<IMG SRC="sresource:/gui-dom.png" width=600 height=338>
+<IMG SRC="sresource:/webnail/gui-dom.png" width=600 height=338>
 </p>
 <P>
 The controls in this window are the following:
@@ -319,23 +346,104 @@ The controls in this window are the following:
 <DL>
   <DT><strong>Add Key</strong><DD>when clicked opens a dialog box that
       allows a new key to be added.
-  <DT><strong>Remove Key</strong><DD>Removes the current key or keys
+  <DT><strong>Remove Key</strong><DD>removes the current key or keys
       that have been selected.
-  <DT><strong>Dom-Map Key List</strong><DD> is a list of the keys. To
+  <DT><strong>Dom-Map Key List</strong><DD>is a list of the keys. To
       edit the values associated with a key, select the key by
       clicking on it.
-  <DT><strong>HTML IDs</strong><DD> This is a comma-separated list of
+  <DT><strong>Mode</strong><DD>sets the mode for the entry to determine if
+      the entry represents an element's property, a method to call, a
+      function to call, or a boolean function serving as a test that will
+      generate an alert if the function returns false.
+  <DT><strong>Condition Mode</strong><DD>determines when a property will be
+      changed or a method or function called. The values are
+      <UL>
+	<li><strong>When an image changes</strong>.
+	<li><strong>When default overridden</strong>.
+	<li><strong>When default not overridden</strong>.
+	<li><strong>When a slideshow starts</strong>.
+	<li><strong>When a slideshow stops</strong>.
+	<li><strong>A slideshow-start test</strong>.
+	<li><strong>A slideshow-enabled test</strong>.
+      </UL>
+  <DT><strong>HTML IDs</strong><DD>provides a comma-separated list of
       the IDs indicating the elements in the DOM that may be modified
       for this entry.
-  <DT><strong>DOM Javascript Property</strong><DD>specifies the
-      javascript property to change.
-  <DT><strong>Default Value</strong><DD>provides the default value for
-  the property.
+  <DT><strong>DOM Javascript Property/Method/Function</strong><DD>specifies the
+      Javascript property to change or method or function to call, depending
+      on the value of <strong>Mode</strong>.
+  <DT><strong>Default Value/Argument</strong><DD>provides the default
+      value for the property. The label for the field varies depending
+      on whether it is the value of a property or an argument for a
+      function or method.
   <DT><strong>OK</strong><DD>accepts the current changes and closes the
       window.
-  <DT><strong>Cancel</strong><DD>Ignore all changes since the window
+  <DT><strong>Cancel</strong><DD>ignores all changes since the window
   was opened and closes the window.
 </DL>
+
+The following table contains entries that are defined as follows:
+</P>
+<UL>
+  <li><strong>no argument</strong>. This indicates that a function does
+    not have an argument when called.
+  <li><strong>either</strong>. This indicates that a function or
+    method could be called, or a property set, either with an
+    image-specific argument or property value (if defined for that
+    image) or with a default argument or property value.
+  <li><strong>entry</strong>.  This indicates that a function or
+    method could be called, or a property set, with an
+    image-specific argument or property value (if defined for that
+    image). If an image-specific value is not defined, no operation is
+    performed.
+  <li><strong>default</strong>. This indicates that a function or
+    method could be called, or a property set, with a
+    default argument or property value.  If overridden, no operation will
+    be performed.
+</UL>
+<P>
+The table indicates when or if a property value is updated or a method or
+function called.
+</P>
+
+<TABLE BORDER=1>
+  <TR><TH rowspan=2>condMode</TH><TH colspan=5  align="center">Mode</TH></TR>
+  <TR>
+    <TH>property</TH><TH>method0</TH><TH>method1</TH><TH>function</TH>
+    <TH>test</TH>
+  </TR>
+  <TR>
+    <TH>When an image changes</TH>
+    <TD>either</TD><TD>no argument</TD><TD>either</TD><TD>either</TD><TD></TD>
+  </TR>
+  <TR>
+    <TH>When default overridden</TH>
+    <TD>entry</TD><TD>no argument</TD><TD>entry</TD><TD>entry</TD><TD></TD>
+  </TR>
+  <TR>
+    <TH>When default not overridden</TH>
+    <TD>default</TD><TD>no argument</TD>
+    <TD>default</TD><TD>default</TD><TD></TD>
+  </TR>
+  <TR>
+    <TH>When a slideshow starts</TH>
+    <TD>either</TD><TD>no argument</TD><TD>either</TD><TD>either</TD><TD></TD>
+  </TR>
+  <TR>
+    <TH>When a slideshow stops</TH>
+    <TD>either</TD><TD>no argument</TD><TD>either</TD><TD>either</TD><TD></TD>
+  </TR>
+  <TR>
+    <TH>A slideshow-start test</TH>
+    <TD></TD><TD></TD><TD></TD><TD></TD><TD>no argument</TD>
+  </TR>
+  <TR>
+    <TH>A slideshow-enabled test</TH>
+    <TD></TD><TD></TD><TD></TD><TD></TD><TD>no argument</TD>
+  </TR>
+</TABLE>
+
+
 
 <H2><A name="guiEdit">The Image Editor</A></H2>
 
@@ -344,7 +452,7 @@ The Image Editor is displayed in a window shown below:
 </P>
 
 <P>
-<IMG SRC="sresource:/gui-edit.png" width=600 height=496>
+<IMG SRC="sresource:/webnail/gui-edit.png" width=600 height=496>
 </P>
 <P>
 The controls in this window are the following:
@@ -463,11 +571,12 @@ The controls in this window are the following:
 
 <H3><A name="guiProperties">The Properties Editor</A></H3>
 <P>
-The properties editor allows specific entries in the DOM Map to be
-associated with an image. The editor's window is shown below:
+The properties editor, which can be opened for the Image Editor
+window, allows specific entries in the DOM Map to be associated with
+an image. The editor's window is shown below:
 </P>
 <P>
-<IMG SRC="sresource:/gui-properties.png" width=600 height=253>
+<IMG SRC="sresource:/webnail/gui-properties.png" width=600 height=253>
 </P>
 <P>
 The editor has several controls:
@@ -487,10 +596,17 @@ The editor has several controls:
       entered or modified, overriding the default provided in the DOM
       map described
       <A HREF="#guiDOM">above.</A>
-  <DT><strong>OK</strong><DD>when clicked accepts the lastest changes.
+  <DT><strong>OK</strong><DD>when clicked accepts the latest changes.
   <DT><strong>Cancel</strong><DD>cancels all changes since this dialog
   box was opened.
 </DL>
+
+<h2><A name="layoutEdit">Layout Editor</A></h2>
+<P>
+The Layout Editor is contained in a window. It allows additional
+layouts (the standard ones are always available)
+to <strong>webnail</strong> on a per-user basis.
+</P>
 
 <h2><A name="proxies">Proxy Configuration</A></h2>
 <P>
@@ -499,7 +615,7 @@ be accessed via the <strong>Proxies</strong>menu item in the
 <strong>Edit</strong menu:
 </P>
 <br>
-<IMG SRC="sresource:/gui-proxy.png" width="600" height="442">
+<IMG SRC="sresource:/webnail/gui-proxy.png" width="600" height="442">
 <P>
 The controls are described below:
 </P>
@@ -558,9 +674,9 @@ The controls are described below:
   <DT><strong>SOCKS Proxy Port</strong><DD>is a text field that
       contains port that the SOCKS proxy is configured to use.
   <DT><strong>Save &amp; Accept Preferences</strong><DD>when clicked,
-      the current configuation is saved an used.
+      the current configuration is saved an used.
   <DT><strong>Accept Preferences</strong><DD>when clicked, the current
-      configutation is used but not saved permanently.
+      configuration is used but not saved permanently.
   <DT><strong>Cancel Preference Changes</strong><DD>when clicked,
       cancels the changes since the window became visible.
 </DL>
@@ -571,14 +687,15 @@ The controls are described below:
 the syntax is as follows:
 </p>
 <pre>
-<strong>webnail </strong>[<strong>-</strong>[<strong>uU</strong>] [<strong>-A </strong><em> USER PASSWORD</em>]] [<strong-t </strong><em>TYPE</em>] <em>WIDTH Height</em> [<em>IFILE OFILE</em>]...
-<strong>webnail </strong>[<strong>-</strong>[<strong>uU</strong>] [<strong>-A </strong><em> USER PASSWORD</em>]] [<strong>-t </strong><em>TYPE</em>] [<strong>-w </strong>[<strong>-i</strong>] [<em> WEB_OPTIONS</em>]]
+<strong>webnail </strong>[<strong>-</strong>[<strong>-U</strong>] [<strong>-A </strong><em> USER PASSWORD</em>]] [<strong-t </strong><em>TYPE</em>] <em>WIDTH Height</em> [<em>IFILE OFILE</em>]...
+<strong>webnail </strong>[<strong>-</strong>[<strong>-U</strong>] [<strong>-A </strong><em> USER PASSWORD</em>]] [<strong>-t </strong><em>TYPE</em>] [<strong>-w </strong>[<strong>-i</strong>] [<em> WEB_OPTIONS</em>]]
           [<strong>-d</strong> <em>DIR</em><strong>]</strong> <em>WIDTH Height IFILE</em>...
-<strong>webnail </strong>[<strong>-</strong>[<strong>uU</strong>] [<strong>-A </strong><em> USER PASSWORD</em>]] [<strong>-t </strong><em>TYPE</em>] [<strong>-w </strong>[<strong>-i</strong>] [<em> WEB_OPTIONS</em>]] 
+<strong>webnail </strong>[<strong>-</strong>[<strong>-U</strong>] [<strong>-A </strong><em> USER PASSWORD</em>]] [<strong>-t </strong><em>TYPE</em>] [<strong>-w </strong>[<strong>-i</strong>] [<em> WEB_OPTIONS</em>]]
           [<strong>-z</strong> <em>ZIPFILE</em>] <em>WIDTH Height IFILE</em>...
 <strong>webnail -f</strong> <em> XML_INPUT_FILE</em> <strong>-d</strong> <em>TARGET_DIRECTORY</em>
 <strong>webnail -f</strong> <em> XML_INPUT_FILE</em> <strong>-z</strong> <em>ZIPFILE</em>
 <strong> webnail -l</strong>
+<strong> webnail --gui [<em>XML_INPUT_FILE</em>|<em>XML_INPUT_URL</em>]
 </pre>
 <p>where
 </p>
@@ -590,6 +707,8 @@ the syntax is as follows:
   the scaled image.
   <DT><em>IFILE</em><DD>is an input file.
   <DT><em>OFILE</em><DD>is an output file.
+  <DT><em>XML_INPUT_FILE</em><DD>is an XML input file.
+  <DT><em>XML_INPUT_URL</em><DD> is the URL of an XML Input File.
   <DT><em>DIR</em><DD>is a directory.
   <DT><em>ZIPFILE</em><DD>is the name of a zip file. The file
       name should end in the extension ".zip".  If
@@ -638,10 +757,10 @@ The options are as follows:
     a preceding <strong>-u</strong> option, the only options allowed with 
     a <strong>-f</strong> option are the <strong>-z</strong> and 
     <strong>-d</strong> options.
-  <li><strong>-u</strong> indcates that the <em>FILENAME</em> arguments 
+  <li><strong>-u</strong> indicates that the <em>FILENAME</em> arguments
     are URLs instead of system-dependent file names. This allows images 
     to be fetched from a server, local file, etc.
-  <li><strong>-U</strong> indcates that the <em>FILENAME</em> arguments 
+  <li><strong>-U</strong> indicates that the <em>FILENAME</em> arguments
     are URLs instead of system-dependent file names. This allows images 
     to be fetched from a server, file, etc. In addition, for full-sized
     images, a link to the original image instead of a local copy will be used.
@@ -649,6 +768,12 @@ The options are as follows:
     that require that a user be authenticated. The following arguments
     <em>USERNAME</em> and <em>PASSWORD</em> provide the user name and
     password respectively.
+  <li><strong>--gui</strong> indicates that the GUI should start. A subsequent
+    optional argument is either a file name or URL providing an input
+    configuration in XML format. This option is provided to allow
+    <strong>webnail</strong> to fit into various desktop environments (e.g.,
+    the GNOME desktop, where a Desktop file can specify how to start a
+    program).
 </ul>
 <h2><a name="weboptions"> Web Options</a></h2>
 <p>
@@ -728,7 +853,7 @@ IDs for the default layout but not any of the other layout options:
   <DT><strong>imageTable</strong><DD>is the ID of the table containing images
       scaled to fit in a bounding box 500 pixels by 500 pixels.
   <DT><strong>titleDescrTable</strong><DD>is the ID of a table that contains
-      the title and the description, each on a seperate row.
+      the title and the description, each on a separate row.
   <DT><strong>title</strong><DD>is the ID of a <strong>SPAN</strong> element
       that contains the title for an image.
   <DT><strong>descr</strong><DD>is the ID of a <strong>SPAN</strong> element
@@ -744,7 +869,7 @@ the text "! important" after setting colors for the "body" ID and the
 "noJavascriptMsg" ID in order to override the explicit settings in the
 elements with these IDs.  Generally all three (background color,
 default text color, and the text color for the "no-script" warning)
-should be changed if any one is to be changed to ensure readibility by
+should be changed if any one is to be changed to ensure readability by
 the user (e.g., to avoid red text on a red background as an extreme
 example). If the foreground or background color should vary depending
 on what image is selected, that can be handled by setting up a DOM
@@ -770,17 +895,19 @@ using the command-line interface, but identical options to those that
 the GUI provides.  The file should start with the
 following two lines:
 <blockquote>
-<pre>
-&lt;?xml version="1.1" encoding="UTF-8"?&gt;
+<pre><small>
+&lt;?xml version="1.1" encoding="UTF-8"?&gt;&lt;?M.T application/prs.wtz.webnail+xml?&gt;
 &lt;!DOCTYPE images PUBLIC "-//wtz//Webnail 1.0//EN"
                            "http://bzdev.org/DTD/webnail-1.0.dtd"&gt;
-</pre>
+</small></pre>
 </blockquote>
 <P>
-The first line indicates the version of XML and the character set encoding.
-The second line specifies the DTD file giving the input syntax for the
-XML file.  URL's starting with "resource" are interpretted by the program
-as resources that can be obtained from the program's JAR file.
+The first line indicates the version of XML and the character set
+encoding, followed by a processing directive that indicates the file's
+MIME type.  The second line specifies the DTD file giving the input
+syntax for the XML file.  URL's starting with "resource" are
+interpreted by the program as resources that can be obtained from the
+program's JAR file.
 </P>
 
 <H2><A name="dtdElements">XML Elements</A></H2>
@@ -884,41 +1011,13 @@ as follows:
     image.  When false, the hrefURL attribute defaults to a scaled
     copy whose bounding box is the height and width attributes above.
   <li><strong><A name="layout">layout</A></strong>. This attribute
-    specifies a layout for the web page (index.html): the attribute
-    value are as follows (in all cases, the HTML text from the .B
-    finalHtml element will appear at the bottom of the page, just
-    before the end of the document):
-    <ul>
-      <li><strong>normal</strong>. This value indicates that the
-	images are placed in a table whose number of columns is chosen
-	based on the image size, with the header and trailer elements
-	providing HTML text above and belows the images respectively.
-      <li><strong>headerThenImagesThenTrailer</strong>. This value
-	indicates that the HTML text from the header element appears
-	first on the page, followed by two columns, the first showing
-	the images (one image per row) and the second the HTML text
-	provided by the trailer element.
-      <li><strong>headerThenImagesAndTrailer</strong>. This value
-	indicates that the HTML text from the header element appears
-	first on the page, followed by two columns, the first showing
-	the images (one image per row) and the second the HTML text
-	provided by the trailer element.
-      <li><strong>headerThenTrailerAndImages</strong>. This value
-	indicates that the HTML text from the header element appears
-	first on the page, followed by two columns, the first showing
-	the HTML text provided by the trailer element and the second
-	showing the images (one image per row).
-      <li><strong>imagesAndHeaderWithTrailer</strong>. This value
-	indicates that the web page should contain two colums, the
-	first containing the images (one image per row) and the second
-	containing the HTML text from the header element followed by
-	the HTML text from the trailer element.
-      <li><strong>headerWithTrailerAndImages</strong>. This value
-	indicates that the web page contains two coluns, the first
-	containing the HTML text from the header element followed by
-	the HTML text from the trailer element, and the second
-	containing the images (one image per row).
-    </ul>
+    specifies a layout for the web page (index.html). The attribute
+    value is a URL pointing to the file describing the layout. The
+    URLs for the layouts built into <strong>webnail</strong> use a
+    protocol named <strong>sresource</strong>, which indicates that
+    the layout is stored in a resource accessible from the
+    <strong>webnail</strong> program's class path (e.g., in the
+    <strong>webnail</strong> JAR file).
 </ul>
 
 <H3><A name="dtdDomMap">The DOM Map Element</A></H3>
@@ -935,34 +1034,139 @@ Model] documentation), and a default value for that property:
 &lt;!ELEMENT mapping  EMPTY&gt;
 &lt;!ATTLIST mapping
 	  key CDATA #REQUIRED
-	  id  CDATA #REQUIRED
-	  prop CDATA #REQUIRED
-	  defaultValue CDATA #REQUIRED&gt;
+	  mode (property|method0|method1|function|test) #IMPLIED
+	  ids  CDATA #IMPLIED
+	  prop CDATA #IMPLIED
+	  method CDATA #IMPLIED
+	  function CDATA #IMPLIED
+	  condMode (onImageChange|onOverridden|onNotOverridden
+	            |onSlideshowStart|onSlideshowEnd
+	            |asSlideshowTest|asSlideshowEnabledTest) #IMPLIED
+	  defaultValue CDATA #IMPLIED
+          defaultArgument CDATA #IMPLIED&gt;
 </pre>
 </blockquote>
 <P>
 The attributes are as follows:
 </P>
 <ul>
-  <li><strong>key</strong> provides a key naming the mapping. This
+  <li><strong>key</strong>. Provides a key naming the mapping. This
     will be used in the key attribute of an image's property element.
-    A key must have the same syntax as a javascript property name.
-  <li><strong>id</strong> specifies the id an HTML element.  The name
-    matches that of the HTML element's ID attribute.
-  <li><strong>prop</strong> specifies the Javascript property whose
+    A key must have the same syntax as a Javascript property name.
+  <li><strong>mode</strong>. Indicates whether the mapping is used to
+    modify an element's property, call an element's method with 0 or 1
+    arguments, call a function with a single argument, or call a test
+    function with no arguments which, if it returns false, will
+    generate an error.
+  <li><strong>ids</strong>. Specifies the IDs of HTML elements to which
+    this mapping applies.  The IDs matches that of the HTML elements'
+    ID attributes.
+  <li><strong>prop</strong>. Specifies the Javascript property whose
     value may be modified.
-  <li><strong>defaultValue</strong> provies the default value of the
+  <li><strong>method</strong>. The name of a method to invoke.
+  <li><strong>function</strong>. The name of a function to invoke.
+  <li><strong>condMode</strong>. The call mode. This determines under
+    Which circumstances a property will be changed or a method or
+    function will be called.  The values are:
+    <UL>
+      <li><strong>onImageChange</strong>. The event occurs when an image is
+	changed.
+      <li><strong>onOverridden</strong>. The event occurs when an image is
+	changed and a per-image  value exists.
+      <li><strong>onNotOverridden</strong>. The event occurs when an image is
+	changed and a per-image value does not exist.
+      <li><strong>onSlideshowStart</strong>. The event occurs when a slideshow
+	starts.
+      <li><strong>onSlideshowEnd</strong>. The event occurs when a slideshow
+	ends.
+      <li><strong>asSlideshowTest</strong>. A function is called as a test to
+	determine if a slideshow is permitted to  start (even if it will not
+	start instantaneously). The function will not have an argument.
+      <li><strong>asSlideshowEnabledTest</strong>. A function is
+	called as a test to see if a slideshow is enabled. The function will
+	not have an argument.
+    </UL>
+  <li><strong>defaultValue</strong>. Provides the default value of the
     Javascript property.
+  <li><strong>defaultArgument</strong>. Provides the default value of a
+    method or function argument.  It is expected to be a Javascript
+    object or primitive.
 </ul>
 <P>
+The following table contains entries that are defined as follows:
+</P>
+<UL>
+  <li><strong>no argument</strong>. This indicates that a function does
+    not have an argument when called.
+  <li><strong>either</strong>. This indicates that a function or
+    method could be called, or a property set, either with an
+    image-specific argument or property value (if defined for that
+    image) or with a default argument or property value.
+  <li><strong>entry</strong>.  This indicates that a function or
+    method could be called, or a property set, with an
+    image-specific argument or property value (if defined for that
+    image). If an image-specific value is not defined, no operation is
+    performed.
+  <li><strong>default</strong>. This indicates that a function or
+    method could be called, or a property set, with a
+    default argument or property value.  If overridden, no operation will
+    be performed.
+</UL>
+<P>
+The table indicates when or if a property value is updated or a method or
+function called.
+</P>
+
+<TABLE BORDER=1>
+  <TR><TH rowspan=2>condMode</TH><TH colspan=5  align="center">Mode</TH></TR>
+  <TR>
+    <TH>property</TH><TH>method0</TH><TH>method1</TH><TH>function</TH>
+    <TH>test</TH>
+  </TR>
+  <TR>
+    <TH>onImageChange</TH>
+    <TD>either</TD><TD>no argument</TD><TD>either</TD><TD>either</TD><TD></TD>
+  </TR>
+  <TR>
+    <TH>onOverridden</TH>
+    <TD>entry</TD><TD>no argument</TD><TD>entry</TD><TD>entry</TD><TD></TD>
+  </TR>
+  <TR>
+    <TH>onNotOverridden</TH>
+    <TD>default</TD><TD>no argument</TD>
+    <TD>default</TD><TD>default</TD><TD></TD>
+  </TR>
+  <TR>
+    <TH>onSlideshowStart</TH>
+    <TD>either</TD><TD>no argument</TD><TD>either</TD><TD>either</TD><TD></TD>
+  </TR>
+  <TR>
+    <TH>onSlideshowEnd</TH>
+    <TD>either</TD><TD>no argument</TD><TD>either</TD><TD>either</TD><TD></TD>
+  </TR>
+  <TR>
+    <TH>asSlideshowTest</TH>
+    <TD></TD><TD></TD><TD></TD><TD></TD><TD>no argument</TD>
+  </TR>
+  <TR>
+    <TH>asSlideshowEnabledTest</TH>
+    <TD></TD><TD></TD><TD></TD><TD></TD><TD>no argument</TD>
+  </TR>
+</TABLE>
+
+<P>
 For example, a mapping might be defined as
+</P>
 <blockquote>
 <pre><strong>
-&lt;mapping key="foo" id="div1", prop="style"  
-         defaultValue="background-color: white" /&gt;
+&lt;mapping key="foo" id="div1", prop="style"  mode="property"
+         condMode="onImageChange" defaultValue="background-color: white" /&gt;
 </strong></pre>
 </blockquote>
-</P>
+This mapping defines a default background color, white, for an element whose
+ID is <strong>div1</strong>.  This color will be used unless an image
+overrides it via an enclosed <strong>property</strong> element (provided that
+Javascript is enabled).
 
 <H3><A name="dtdTitle">The Title Element</A></H3>
 
@@ -1043,7 +1247,7 @@ with the URL referencing a resource that contains the content (as HTML
 without the need to specially encode "&amp;", "&lt;", "&gt;", or "&quot;").
 </P>
 
-<H3><A name="dtdHeader">The HeaderElement</A></H3>
+<H3><A name="dtdHeader">The Header Element</A></H3>
 
 <P>
 The <strong>header</strong> element is defined by the following declaration:
@@ -1133,7 +1337,7 @@ The <strong>filename</strong> element is defined as follows:
 </pre>
 </blockquote>
 <P>
-Its content is a file name. A fully qualified name is preferrable.
+Its content is a file name. A fully qualified name is preferable.
 The <strong>filename</strong> and <strong>url</strong> elements are
 mutually exclusive within an image.
 </P>
@@ -1226,5 +1430,430 @@ section (delimited by "&lt;![CDATA[" and "]]&gt;". If the
 with the URL referencing a resource that contains the content (as HTML
 without the need to specially encode "&amp;", "&lt;", "&gt;", or "&quot;").
 </P>
+<H1><A name="layoutXML">Layout XML Syntax</A></H1>
+<P>
+Webnail layout files provide parameter values specific to a given
+layout and URLs for various files or resources.  Each file should
+start with the following two lines:
+</P>
+<blockquote>
+<pre><small>
+&lt;?xml version="1.1" encoding="UTF-8"?&gt;&lt;?M.T application/prs.wtz.webnail-layout+xml?&gt;
+&lt;!DOCTYPE images PUBLIC "-//wtz//Webnail 1.0//EN"
+                           "http://bzdev.org/DTD/webnail-1.0.dtd"&gt;
+</small></pre>
+</blockquote>
+<P>
+The processing directive following the xml declaration indicates the
+MIME type of the file.  On some systems, this is used to look up an
+appropriate icon to display in a file browser.
+</P>
+<H2><A name="layoutXMLElements">Layout XML Elements</A></H2>
+<blockquote>
+<pre>
+&lt;!ELEMENT layout (multi | single)&gt;
+</pre>
+</blockquote>
+<P>
+The <strong>layout</strong> element is the top-level element for a
+webnail-layout file, and contains a single element: either a
+<strong>multi</strong> element or a </strong>single</strong> element.
+A <strong>multi</strong> element indicates the use of multiple HTML
+files, typically with an iframe of thumbnail images. A
+</strong>single</strong> element indicates that all the images will
+be laid out on a single page, suitable for printing or other uses.
+</P>
+<blockquote>
+<pre>
+&lt;!ELEMENT multi (name)*&gt;
+&lt;!ATTLIST multi
+	  twidth CDATA #REQUIRED
+	  theight CDATA #REQUIRED
+	  mwidth CDATA #REQUIRED
+	  mheight CDATA #REQUIRED
+	  marginw CDATA #REQUIRED
+	  marginh CDATA #REQUIRED
+	  margin_hpad CDATA #REQUIRED
+	  margin_vpad CDATA #REQUIRED
+	  t_vpad  CDATA #REQUIRED
+	  num_t_images CDATA #REQUIRED
+	  t_vcorrection CDATA #REQUIRED
+	  name CDATA #REQUIRED
+	  url CDATA #REQUIRED&gt;
+</pre>
+</blockquote>
+The <strong>multi</strong> element's attributes are defined as follows:
+<ul>
+  <li><strong>twidth</strong>. The width of each thumbnail image's
+    bounding box in pixels.
+  <li><strong>theight</strong>. The height of each thumbnail image's
+    bounding box in pixels.
+  <li><strong>mwidth</strong>. The width of each medium image's
+    bounding box in pixels.
+  <li><strong>mheight</strong>. The height of each medium image's
+    bounding box in pixels.
+  <li><strong>marginw</strong>. The margin padding on each horizontal
+    side of the frame containing thumbnails or the medium-sized image.
+    This is the marginwidth attribute for a thumbnail and medium-image
+    IFRAME.
+  <li><strong>marginh</strong>. The margin padding on each vertical
+    side of the frame containing thumbnails or the medium-sized
+    image. This is the marginheight attribute for a thumbnail and
+    medium-image IFRAME>.
+  <li><strong>margin_hpad</strong>. Additional horizontal padding for
+    thumbnails and the medium-sized image beyond the amount expected
+    from the <strong>marginw</strong> attribute (twice its value). This
+    additional separation prevents some browsers from placing a scroll pane
+    around an image and allows space for a border around selectable images.
+  <li><strong>margin_vpad</strong>. Additional vertical padding for
+    thumbnails and the medium-sized image beyond that expected from
+    the <strong>marginh</strong> attribute (twice its value).  This
+    additional separation prevents some browsers from placing a scroll pane
+    around an image and allows space for a border around selectable images.
+  <li><strong>t_vpad</strong>. The vertical separation from a thumbnail
+    image's bounding box to the midpoint between adjacent thumbnail images,
+    measured from the center of each image's bounding box.
+  <li><strong>num_t_images</strong>. The number of thumbnail images
+    visible in a scrollable frame.
+  <li><strong>t_vcorrection</strong>. Correction term in pixels for the
+    thumbnail-frame height. This value is added to the frame height that
+    would be computed from the other parameters.
+  <li><strong>name</strong>.  This is the default print name for the
+    layout as displayed in a combo box. Multiple
+    <strong>name</strong> elements can also be provided to
+    give locale-specific alternatives.
+  <li><strong>url</strong>. The URL of the top-level HTML page
+    generated.
+</ul>
+<P>
+These attributes are used to determine the values of the following
+template parameters:
+</P>
+<ul>
+  <li><strong><A name="marginw">marginw</A></strong>. The value is
+    identical to that provided by the <strong>marginw</strong>
+    attribute.
+  <li><strong><A name="marginh">marginh</A></strong>. The value is
+    identical to that provided by the <strong>marginh</strong>
+    attribute.
+  <li><strong><A name="tWidth">tWidth</A></strong>. The value is
+    computed from the
+    <strong>twidth</strong>, <strong>marginw</strong> and
+    <strong>margin_hpad</strong> attributes using the expression
+    <strong>twidth</strong> + 2 * <strong>marginw</strong> +
+    <strong>margin_hpad</strong>.
+  <li><strong><A name="tHeight">tHeight</A></strong>. The value is
+    computed from the
+    <strong>theight</strong>, <strong>t_vpad</strong>,
+    <strong>num_t_images</strong>, <strong>margin_vpad</strong>, and
+    <strong>t_vcorrection</strong> attribues using the expression
+    ((<strong>theight</strong> + (2 * <strong>t_vpad</strong>))
+    * <strong>num_t_images</strong>) + (2 * <strong>marginh</strong>)
+    + <strong>margin_vpad</strong> + <strong>t_vcorrection</strong>.
+  <li><strong><A name="iWidth">iWidth</A></strong>. The value is
+    computed from the
+    <strong>mwidth</strong>, <strong>marginw</strong>, and
+    <strong>margin_hpad</strong> attributes using the expression
+    <strong>mwidth</strong> + 2 * <strong>marginw</strong> +
+    <strong>margin_hpad</strong>.
+  <li><strong><A name="iHeight">iHeight</A></strong>. The value is
+    computed from the
+    <strong>mheight</strong>, <strong>marginh</strong>, and
+    <strong>margin_vpad</strong> attributes using the expression
+    <strong>mheight</strong> + 2 * <strong>marginh</strong> +
+    <strong>margin_vpad</strong>.
+  <li><strong><A name="tdWidth">tdWidth</A></strong>. The value is
+    computed from the
+    <strong>twidth</strong>, <strong>marginw</strong>,
+    <strong>margin_hpad</strong>, and <strong>mwidth</strong>
+    atributes using the expression
+    <strong>twidth</strong> + 4 * <strong>marginw</strong> +
+    <strong>margin_hpad</strong> + <strong>mwidth</strong>.
+</ul>
+<blockquote>
+<pre>
+&lt;!ELEMENT single (name)*&gt;
+&lt;!ATTLIST single
+	  max_thumbwidth CDATA #REQUIRED
+	  max_thumbheight CDATA #REQUIRED
+	  tiled (true | false) #IMPLIED
+	  tiledWidth CDATA #IMPLIED
+	  name CDATA #REQUIRED
+	  linkedURL CDATA #REQUIRED
+	  noLinkURL CDATA #REQUIRED&gt;
+</pre>
+</blockquote>
+The <strong>single</strong> element's attributes are defined as follows:
+<ul>
+  <li><strong>max_thumbwidth</strong>. The width of a thumbnail image in pixels.
+  <li><strong>max_thumbheight</strong>. The height of a thumbnail image in
+    pixels.  If the images are tiled, this value must not be larger than the
+    value of the attribute <strong>tildedWidth</strong> and will be reduced to
+    that width if necessary.
+  <li><strong>tiled</strong>. The value is <strong>true</strong> if the
+    images are tiled (arranged in a grid); <strong>false</strong> if the
+    images arranged vertically.
+  <li><strong>tiledWidth</strong>. The width of the bounding box surrounding
+    tiled images in units of pixels.  The default value is 670.
+  <li><strong>name</strong>. This is the default print name for the
+    layout as displayed in a combo box. Multiple <strong>name</strong>
+    elements can also be provided to give locale-specific  alternatives.
+  <li><strong>linkedURL</strong>. URL of the template for the HTML file to
+    generate when the HTML file contain links for each image to a
+    corresponding higher-resolution image.
+  <li><strong>noLinkURL</strong>. URL of the template for the HTML file to
+    generate when the HTML file does not contain links for each image to a
+    corresponding higher-resolution image.
+</ul>
+
+
+<blockquote>
+<pre>
+&lt;!ELEMENT name (#PCDATA)&gt;
+&lt;!ATTLIST name
+	  lang CDATA #REQUIRED&gt;
+</pre>
+</blockquote>
+
+<H1><A NAME="templateFiles">Template Files</A></H1>
+<P>
+The <strong>webnail</strong> program uses a template processor to
+create some of the HTML files and Javascript files
+that <strong>webnail</strong> generates. These files should start with
+the following sequence of characters (there is no terminating newline
+character or sequence of characters):
+</P>
+<blockquote>
+<pre>
+$(!M.T application/prs.wtz.webnail-template)
+</pre>
+</blockquote>
+<P>
+This sequence of characters is used by file managers to recognize the
+MIME type of a webnail-template file and display an appropriate icon
+for the file.  The sequence may be prefaced by a byte-order mark, the
+bytes 0xEF,0xBB,0xBF. The file should also end in the suffix ".wnt".
+All template files should be UTF-8 encoded.
+</P>
+<P>
+Template files use the following escapes and directives.
+</P>
+<UL>
+  <li> The character <strong>$</strong> is represented by <strong>$$</strong>.
+  <li> Directives start with <strong>$(</strong> and end with
+    <strong>)</strong>.
+  <li> A directive starting with <strong>!</strong> indicates a comment, which
+    will be removed.
+  <li> A directive containing letters, digits, and periods will be replaced
+       with a value, the same value for each use.
+  <li> A directive consisting of two subdirectives, separated by a colon
+    (<strong>:</strong>) with each subdirective consisting of letters, digits,
+    and periods, indicates iteration.  The first subdirective indicates
+    a replacement table to use and the second subdirective names a directive
+    that ends the iteration.  The text in between will be repeated N times,
+    with directives in the replacement table possibly changing from one
+    iteration to the next.
+</UL>
+<P>
+The following directives are recognized for toplevel HTML files:
+</P>
+<UL>
+  <li><strong>marginw</strong>. Defined <A href="#marginw">above</A>.
+  <li><strong>marginh</strong>. Defined <A href="#marginh">above</A>.
+  <li><strong>tWidth</strong>. Defined <A href="#tWidth">above</A>.
+  <li><strong>tHeight</strong>. Defined <A href="#tHeight">above</A>.
+  <li><strong>iWidth</strong>. Defined <A href="#iWidth">above</A>.
+  <li><strong>iHeight</strong>. Defined <A href="#iHeight">above</A>.
+  <li><strong>tdWidth</strong>. Defined <A href="#tdWidth">above</A>.
+  <li><strong>windowTitle</strong>. The TITLE element in the HTML head.
+  <li><strong>head</strong>. HTML elements to add just before the end of
+    the HEAD elment.
+  <li><strong>header</strong>. HTML elements to add after the start of
+    the BODY element.  The exact position is template dependent, but these
+    elements should appear before the trailer elements.
+  <li><strong>title</strong>. HTML elements to place as a title for a
+    medium-sized image.  There may be a default title and per-image titles
+    that can override the default.
+  <li><strong>description</strong>. HTML elements to place as a
+    description of a medium-sized image.  This will usually be below
+    the title.  There may be a default description and per-image
+    descriptions that can override the default.
+  <li><strong>trailer</strong>. The exact position is template dependent, but
+    these elements should appear after the header elements.
+  <li><strong>afterScript</strong>. The afterScript elements appear
+    after the final script element in the HTML file and immediately
+    before the end of the BODY element.  This can be used to add
+    additional scripts. Putting scripts at the end of an HTML file
+    when feasible improves performance: a browser runs scripts
+    sequentially and will not load an image or style sheet while a
+    script is running. As a result, putting scripts near the start of
+    an HTML file can increase the delay before images referenced in
+    the file are loaded.
+  <li><strong>repeatrows</strong>. Iterate over images.  The name reflects its
+    use in a template that generates Javascript, where a
+    <strong>repeatrows</strong> block is used to construct an array initializer.
+  <li><strong>hrefURL</strong>. The URL that will be visited when a medium-scale
+    image is clicked.  The value is changed during iteration.
+  <li><strong>hrefTarget</strong>. The target frame corresponding to the
+    <strong>hrefURL</strong>directive.  The value is changed during iteration.
+  <li><strong>fsImageURL</strong>. The URL of a full-scale image relative to
+    the top-level URL.
+  <li><strong>newTableRow</strong>. The HTML sequence needed to start a new
+    row in a table: <strong>&lt;/TR&gt;&lt;TR&gt;</strong> if a row should end
+    and an empty string otherwise.
+  <li><strong>endrows</strong>.  The conventional name for terminating
+    an iteration started with <strong>repeatrows</strong>, as used in the
+    following examples.
+</UL>
+
+The following directives are used to set Javascript variables.
+<UL>
+  <li><strong>hasAllImages</strong>. The value is <strong>true</strong> if
+    full-screen mode is supported; <strong>false</strong> otherwise.
+  <li><strong>imageTime</strong>. The default duration of an image
+    in milliseconds.
+  <li><strong>minImageTime</strong>. The default minimum duration of an image
+    in milliseconds when <strong>syncMode</strong> is <strong>true</strong>.
+  <li><strong>syncMode</strong>. When <strong>true</strong> if one image is
+    delayed, the duration of other images will be adjusted in an attempt to
+    make the starting time of subsequent images to be what one would have
+    expected.
+  <li><strong>waitOnError</strong>. When <strong>true</strong>, if there is
+    an error, the previous image will be displayed for the duration of the
+    missing image in addition to the previous image's own duration.
+  <li><strong>highResDir</strong>. The name of the subdirectory containing
+    the highest resolution images available.  Values are either
+    <strong>medium</strong> or <strong>high</strong>.
+  <li><strong>wOffset</strong>. Amount to subtract from a browser
+    window's inner width to obtain the width of the bounding box for
+    images that will be displayed.
+  <li><strong>hOffset</strong>. Amount to subtract from a browser
+    window's inner hieght to obtain the heigh of the bounding box for
+    images that will be displayed.
+  <li><strong>wPercent</strong>. After using <strong>wOffset</strong>, scale
+    the image's bounding box's width by this amount, given as a percentage.
+  <li><strong>hPercent</strong>. After using <strong>wOffset</strong>, scale
+    the image's bounding box's height by this amount, given as a percentage.
+</UL>
+
+The following directives are also available, used by a Javascript template
+during iteration over images in a <strong>repeatrows</strong> block.
+<UL>
+  <li><strong>highImageURL</strong>. The URL of high resolution images
+    relative to a subdirectory.
+  <li><strong>imageFile</strong>. The file name for an image - the last
+    component in a pathname.
+  <li><strong>name</strong>. The name of an image without the file extension.
+  <li><strong>mediumFile</strong>. The name of a file in the
+    <strong>medium</strong> diretory.
+  <li><strong>ext</strong>. The file extension.
+  <li><strong>index</strong>. The index number.
+  <li><strong>imageURL</strong>. The name of an image in the thumbnail
+    directory.
+  <li><strong>imageHtmlURL</strong>. The name of an image in the 'medium'
+    directory.
+  <li><strong>otherProps</strong>. Additional properties to define as part
+    of a Javascript initializer.
+  <li><strong>commaSeparator</strong>. Either the empty string or a comma
+    as needed for a Javascript initializer.
+  <li><strong>width</strong>. The medium resolution image width.
+  <li><strong>height</strong>. The medium resolution image height.
+</UL>
+
+The <strong>repeatDomEntries</strong> iteration directive (by convention
+terminated by <strong>endDomEntries</strong>) sets the following directives
+on a per-DOM-entry basis:
+<UL>
+  <li><strong>domKey</strong>. An identifier providing a key for a DOM entry.
+    The key should be a Javascript identifier and contain only ASCII
+    alphanumeric characters.
+  <li><strong>domIDs</strong>. A comma-separated list of ID attribute values
+    of HTML elements.
+  <li><strong>domIDsQuoted</strong>. A comma-separated list of quoted ID
+    attribute values of HTML elements.
+  <li><strong>domIDsInsert</strong>. The value of the
+    <strong>domIDsQuoted</strong> directive prefaced by
+    "<strong>, ids = [<strong>" and followed by "<strong>]</strong>"
+  <li><strong>domMode</strong>. The value is either
+    <strong>property</strong>, <strong>method0</strong>,
+    <strong>method1</strong>, <strong>function</strong>, or
+    <strong>test</strong>.
+  <li><strong>domModeCode</strong>. The value is either
+    0 when <strong>domMode</strong> is <strong>property</strong>,
+    1 when <strong>domMode</strong> is <strong>method0</strong>,
+    2 when <strong>domMode</strong> is <strong>method1</strong>,
+    3 when <strong>domMode</strong> is <strong>function</strong>, or
+    or 4 when <strong>domMode</strong> is   <strong>test</strong>.
+  <li><strong>domCondMode</strong>. The value is either
+    <strong>onImageChange</strong>,
+    <strong>onOverridden</strong>,
+    <strong>onNotOverridden</strong>,
+    <strong>onSlideshowStart</strong>,
+    <strong>onSlideshowEnd</strong>,
+    <strong>asSlideshowTest</strong>, or
+    <strong>asSlideshowEnabledTest</strong>.
+  <li><strong>domCondModeInsert</strong>. The value is the string
+    "<strong>, condMode: </strong>" followed by
+    0 when <strong>domCondMode</strong> is <strong>onImageChange</strong>,
+    1 when <strong>domCondMode</strong> is <strong>onOverridden</strong>,
+    2 when <strong>domCondMode</strong> is <strong>onNotOverridden</strong>,
+    3 when <strong>domCondMode</strong> is <strong>onSlideshowStart</strong>,
+    4 when <strong>domCondMode</strong> is <strong>onSlideshowEnd</strong>,
+    5 when <strong>domCondMode</strong> is <strong>asSlideshowTest</strong>, or
+    6 when <strong>domCondMode</strong> is
+    <strong>asSlideshowEnabledTest</strong>.
+  <li><strong>domProp</strong>. When <strong>domMode</strong> has the value,
+    <strong>property</strong>, the value is a string naming a DOM property;
+    otherwise the value is an empty string.
+  <li><strong>domDefaultValue</strong>. When <strong>domMode</strong> has
+    the value, <strong>property</strong>, the value is a string containing the
+    default value for the property; otherwise the value is an empty string.
+  <li><strong>domDefaultValueQuoted</strong>. When <strong>domMode</strong> has
+    the value, <strong>property</strong>, the value of
+    <strong>domDefaultValue</strong> encoded so it can appear inside a
+    Javascript string; an empty string otherwise.
+  <li><strong>domPropInsert</strong>. When <strong>domMode</strong> has
+    the value, <strong>property</strong>, the value is the value of
+    <strong>domProp</strong> prefaced by  '<strong>, prop: "</strong>' and
+    followed by 'strong>"</strong>'.
+  <li><strong>domDefaultValueInsert</strong>. When <strong>domMode</strong> has
+    the value, <strong>property</strong>, the value is the value of
+    <strong>domDefaultValueQuoted</strong> prefaced by
+    '<strong>, prop: "</strong>' and followed by '<strong>"</strong>'.
+  <li><strong>domMethod</strong>. When <strong>domMode</strong> is
+    <strong>method0</strong> or <strong>method1</strong>,
+    <strong>domMethod</strong> has a value that gives the name of a Javascript
+    method; otherwise its value is an empty string.
+  <li><strong>domMethodInsert</strong>. When <strong>domMode</strong> is
+    <strong>method0</strong> or <strong>method1</strong>,
+    <strong>domMethodInsert</strong> has the value
+    '<strong>, method: "</strong><I>domMethod</I><strong>"</strong>';
+    otherwise its value is an empty string.
+  <li><strong>domFunction</strong>.  When <strong>domMode</strong> has the
+    value <strong>function</strong> or <strong>test</strong>, the value of
+    <strong>domFunction</strong> is the name of a function of 1 or 0
+    arguments respectively.
+  <li><strong>domFunctionInsert</strong> .When <strong>domMode</strong> has the
+    value <strong>function</strong> or <strong>test</strong>,
+    <strong>domFunctionInsert</strong> has a value of
+    '<strong>, funct: "</strong><I>domFunction</I><strong>"</strong>'; otherwise
+    the value is an empty string.
+  <li><strong>domDefaultArgument</strong>. If <strong>domMode</strong> has the
+    value <strong>test</strong>, the value is an empty string; otherwise the
+    value is a default argument.
+  <li><strong>domDefaultArgumentInsert</strong>. If <strong>domMode</strong>
+    has the value <strong>test</strong>, the value is an empty string;
+    otherwise the value is
+    '<strong>, defaultArgument: "</strong><I>domDefaultArgument</I><strong>"</strong>'
+  <li><strong>commaSeparator</strong>.  The value is "<strong>,</strong>"
+    except for the last item in a <strong>repeatDomEntries</strong> iteration,
+    for which the value is an empty string.
+</UL>
+
+<P>
+Different layouts may use different template files.  The following gives
+some examples.
+</P>
+
 </body>
 </html>

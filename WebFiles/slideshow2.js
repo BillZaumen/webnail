@@ -42,12 +42,12 @@ function configure() {
     configured = true;
 }
 
-function updateDOMAux(win, minCallMode, maxCallMode) {
+function updateDOMAux(win, minCondMode, maxCondMode) {
     for (var key in domMap) {
 	var mode = domMap[key].mode;
-	var callMode = domMap[key].callMode;
-	// if (callMode > 2) continue;
-	if (callMode < minCallMode || callMode > maxCallMode) continue;
+	var condMode = domMap[key].condMode;
+	// if (condMode > 2) continue;
+	if (condMode < minCondMode || condMode > maxCondMode) continue;
 	var entry = imageArray[index][key];
 	var prop;
 	var method;
@@ -60,14 +60,14 @@ function updateDOMAux(win, minCallMode, maxCallMode) {
 		if (element != null) {
 		    if (((typeof entry) != "undefined") 
 			&& (entry != null)) {
-			if (callMode == 0 || callMode == 1 ||
-			    callMode == 3 || callMode == 4) {
+			if (condMode == 0 || condMode == 1 ||
+			    condMode == 3 || condMode == 4) {
 			    prop = domMap[key].prop;
 			    element[prop] = entry;
 			}
 		    } else {
-			if (callMode == 0 || callMode == 2 ||
-			    callMode == 3 || callMode == 4) {
+			if (condMode == 0 || condMode == 2 ||
+			    condMode == 3 || condMode == 4) {
 			    prop = domMap[key].prop;
 			    element[prop] = domMap[key].defaultValue;
 			}
@@ -82,14 +82,14 @@ function updateDOMAux(win, minCallMode, maxCallMode) {
 		if (element != null) {
 		    if (((typeof entry) != "undefined") 
 			&& (entry != null)) {
-			if (callMode == 0 || callMode == 1 ||
-			    callMode == 3 || callMode == 4) {
+			if (condMode == 0 || condMode == 1 ||
+			    condMode == 3 || condMode == 4) {
 			    method = domMap[key].method;
 			    element[method]();
 			}
 		    } else {
-			if (callMode == 0 || callMode == 2 ||
-			    callMode == 3 || callMode == 4) {
+			if (condMode == 0 || condMode == 2 ||
+			    condMode == 3 || condMode == 4) {
 			    method = domMap[key].method;
 			    element[method]();
 			}
@@ -104,14 +104,14 @@ function updateDOMAux(win, minCallMode, maxCallMode) {
 		if (element != null) {
 		    if (((typeof entry) != "undefined") 
 			&& (entry != null)) {
-			if (callMode == 0 || callMode == 1 ||
-			    callMode == 3 || callMode == 4) {
+			if (condMode == 0 || condMode == 1 ||
+			    condMode == 3 || condMode == 4) {
 			    method = domMap[key].method;
 			    element[method](entry);
 			}
 		    } else {
-			if (callMode == 0 || callMode == 2 ||
-			    callMode == 3 || callMode == 4) {
+			if (condMode == 0 || condMode == 2 ||
+			    condMode == 3 || condMode == 4) {
 			    method = domMap[key].method;
 			    element[method](domMap[key].defaultValue);
 			}
@@ -121,14 +121,14 @@ function updateDOMAux(win, minCallMode, maxCallMode) {
 	} else if (mode == 3) {
 	    if (element != null) {
 		if (((typeof entry) != "undefined") && (entry != null)) {
-		    if (callMode == 0 || callMode == 1 ||
-			callMode == 3 || callMode == 4) {
+		    if (condMode == 0 || condMode == 1 ||
+			condMode == 3 || condMode == 4) {
 			funct = win[domMap[key].funct];
 			funct(entry);
 		    }
 		} else {
-		    if (callMode == 0 || callMode == 2 ||
-			callMode == 3 || callMode == 4) {
+		    if (condMode == 0 || condMode == 2 ||
+			condMode == 3 || condMode == 4) {
 			funct = win[domMap[key].funct];
 			funct(domMap[key].defaultValue);
 		    }
@@ -445,8 +445,8 @@ function doSlideshowReady() {
 		if (typeof(entry) == "undefined") arg = null;
 	    }
 	    var mode = domMap[key].mode;
-	    var callMode = domMap[key].callMode;
-	    if (callMode != 3) continue;
+	    var condMode = domMap[key].condMode;
+	    if (condMode != 3) continue;
 	    if (mode != 4) continue;
 	    var funct = domMap[key].funct;
 	    funct(arg);
@@ -475,8 +475,8 @@ function doSlideshowStarting() {
 	    if (typeof(arg) == "undefined") arg = null;
 	}
 	var mode = domMap[key].mode;
-	var callMode = domMap[key].callMode;
-	if (callMode != 3) continue;
+	var condMode = domMap[key].condMode;
+	if (condMode != 3) continue;
 	if (mode != 4) continue;
 	var funct = domMap[key].funct;
 	funct(arg);
@@ -501,8 +501,8 @@ function doSlideshowEnding() {
 	    if (typeof(arg) == "undefined") arg = null;
 	}
 	var mode = domMap[key].mode;
-	var callMode = domMap[key].callMode;
-	if (callMode != 4) continue;
+	var condMode = domMap[key].condMode;
+	if (condMode != 4) continue;
 	if (mode != 4) continue;
 	var funct = domMap[key].funct;
 	funct(arg);
@@ -522,8 +522,8 @@ function testIfSlideshowCanBeEnabled() {
     // var global = (function(){return this;}).call(null);
     for (var key in domMap) {
 	var mode = domMap[key].mode;
-	var callMode = domMap[key].callMode;
-	if (callMode != 6) continue;
+	var condMode = domMap[key].condMode;
+	if (condMode != 6) continue;
 	if (mode != 4) continue;
 	// var funct = eval(domMap[key].funct);
 	var funct = window[domMap[key].funct];
@@ -539,8 +539,8 @@ function testIfSlideshowCanBeEnabled() {
 function testIfSlideshowCanStart() {
     for (var key in domMap) {
 	var mode = domMap[key].mode;
-	var callMode = domMap[key].callMode;
-	if (callMode != 5) continue;
+	var condMode = domMap[key].condMode;
+	if (condMode != 5) continue;
 	if (mode != 4) continue;
 	// var funct = domMap[key].funct;
 	var funct = window[domMap[key].funct];

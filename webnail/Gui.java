@@ -860,20 +860,26 @@ public class Gui {
                     helpPane.setToc(url, true, false);
                     helpPane.setSelectionWithAction(0);
                 } catch (IOException e) {
+		    ErrorMessage.display(e);
                     helpframe = null;
                     return;
                 }
                 catch (org.xml.sax.SAXException ee) {
+		    ErrorMessage.display(ee);
 		    helpframe.dispose();
                     helpframe = null;
                     return;
                 }
                 catch (javax.xml.parsers.ParserConfigurationException  eee) {
+		    ErrorMessage.display(eee);
 		    helpframe.dispose();
                     helpframe = null;
                     return;
                 }
             } else {
+		ErrorMessage.display(String.format
+				     (localeString("manLoadError"),
+				      url.toString()));
 		helpframe.dispose();
                 helpframe = null;
                 return;

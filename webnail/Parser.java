@@ -251,7 +251,7 @@ public class Parser {
 	"test"
     };
 
-    static String[] callModes = {
+    static String[] condModes = {
 	"onImageChange",
 	"onOverridden",
 	"onNotOverridden",
@@ -261,7 +261,7 @@ public class Parser {
 	"asSlideshowEnabledTest"
     };
     
-    static private HashMap<String,Integer> callModesInv = 
+    static private HashMap<String,Integer> condModesInv =
 	new HashMap<String,Integer>();
     static private HashMap<String,Integer> modesInv =
 	new HashMap<String,Integer>();
@@ -270,15 +270,15 @@ public class Parser {
 	for (int i = 0; i < modes.length; i++) {
 	    modesInv.put(modes[i], i);
 	}
-	for (int i = 0; i < callModes.length; i++) {
-	    callModesInv.put(callModes[i], i);
+	for (int i = 0; i < condModes.length; i++) {
+	    condModesInv.put(condModes[i], i);
 	}
     }
     static public String getModeIndex(String mode) {
 	return modesInv.get(mode).toString();
     }
-    static public String getCallModeIndex(String mode) {
-	return callModesInv.get(mode).toString();
+    static public String getCondModeIndex(String mode) {
+	return condModesInv.get(mode).toString();
     }
 
     // static public final  String defaultLayout = "normal";
@@ -843,9 +843,9 @@ public class Parser {
 	    newmap.put("domIDsInsert", ", ids: [" + idsq + "]");
 	}
 	newmap.put("domModeCode", getModeIndex(mode));
-	newmap.put("domCallModeInsert", 
-		   ", callMode: " 
-		   + getCallModeIndex((String)newmap.get("domCallMode")));
+	newmap.put("domCondModeInsert",
+		   ", condMode: "
+		   + getCondModeIndex((String)newmap.get("domCondMode")));
 	if (mode.equals("property")) {
 	    newmap.put("domPropInsert", 
 		       ", prop: \"" + (String)newmap.get("domProp") + "\"");
@@ -880,7 +880,7 @@ public class Parser {
 	domlist.add((TemplateProcessor.KeyMap)newmap);
     }
 
-    public void addMapping(String key, String mode, String callMode,
+    public void addMapping(String key, String mode, String condMode,
 			   String ids, String prop, String defaultValue) 
     {
 	domMap = new TemplateProcessor.KeyMap();
@@ -911,9 +911,9 @@ public class Parser {
 	domMap.put("domKey", key);
 	domMap.put("domMode", mode);
 	domMap.put("domModeCode", getModeIndex(mode));
-	domMap.put("domCallMode", callMode);
-	domMap.put("domCallModeInsert", 
-		   ", callMode: " + getCallModeIndex(callMode));
+	domMap.put("domCondMode", condMode);
+	domMap.put("domCondModeInsert",
+		   ", condMode: " + getCondModeIndex(condMode));
 
 	if (mode.equals("property")) {
 	    if (prop == null) prop = "";
@@ -929,8 +929,8 @@ public class Parser {
 	} else if (mode.equals("method0")) {
 	    domMap.put("domMethod", prop);
 	    domMap.put("domMethodInsert", ", method: \"" + prop + "\"");
-	    if (defaultValue == null) defaultValue="false";
 	    /*
+	    if (defaultValue == null) defaultValue="false";
 	    domMap.put("domCallAsDefault", defaultValue);
 	    domMap.put("domCallAsDefaultInsert", 
 		       ", callAsDefault: \"" + defaultValue  + "\"");
@@ -970,7 +970,7 @@ public class Parser {
 	for(TemplateProcessor.KeyMap map: domArray) {
 	    System.out.println((String)map.get("domKey")
 			       + " " + (String)map.get("domMode")
-			       + " " + (String)map.get("domCallMode")
+			       + " " + (String)map.get("domCondMode")
 			       +" " + map.hashCode());
 	}
 	*/
@@ -990,7 +990,7 @@ public class Parser {
 	for(TemplateProcessor.KeyMap map: list) {
 	    System.out.println((String)map.get("domKey")
 			       + " " + (String)map.get("domMode")
-			       + " " + (String)map.get("domCallMode")
+			       + " " + (String)map.get("domCondMode")
 			       +" " + map.hashCode());
 	}
 	return list;
@@ -1334,41 +1334,41 @@ public class Parser {
 		String dkey = xmlEncode((String)dmap.get("domKey"));
 		String dMode = (String)dmap.get("domMode");
 		String dID = xmlEncode((String)dmap.get("domIDs"));
-		String dCallMode = xmlEncode((String)dmap.get("domCallMode"));
+		String dCondMode = xmlEncode((String)dmap.get("domCondMode"));
 		String format;
 		if (dMode.equals("property")) {
 		    String dprop = xmlEncode((String)dmap.get("domProp"));
 		    String dv = xmlEncode((String)dmap.get("domDefaultValue"));
 		    format = "    <mapping key=\"%s\" mode=\"%s\" "
-			+ "ids=\"%s\" prop=\"%s\" callMode=\"%s\" "
+			+ "ids=\"%s\" prop=\"%s\" condMode=\"%s\" "
 			+ "defaultValue=\"%s\"/>\n";
-		    out.printf(format, dkey, dMode, dID, dprop, dCallMode, dv);
+		    out.printf(format, dkey, dMode, dID, dprop, dCondMode, dv);
 		} else if (dMode.equals("method0")) {
 		    String dmeth = xmlEncode((String)dmap.get("domMethod"));
 		    format = "    <mapping key=\"%s\" mode=\"%s\" "
-			+ "ids=\"%s\" method=\"%s\"  callMode=\"%s\"/>\n";
-		    out.printf(format, dkey, dMode, dID, dmeth, dCallMode);
+			+ "ids=\"%s\" method=\"%s\"  condMode=\"%s\"/>\n";
+		    out.printf(format, dkey, dMode, dID, dmeth, dCondMode);
 		} else if (dMode.equals("method1")) {
 		    String dmeth = xmlEncode((String)dmap.get("domMethod"));
 		    String dv = 
 			xmlEncode((String)dmap.get("domDefaultArgument"));
 		    format = "    <mapping key=\"%s\" mode=\"%s\" "
-			+ "ids=\"%s\" method=\"%s\"  callMode=\"%s\" " +
+			+ "ids=\"%s\" method=\"%s\"  condMode=\"%s\" " +
 			"defaultArgument=\"%s\"/>\n";
-		    out.printf(format, dkey, dMode, dID, dmeth, dCallMode, dv);
+		    out.printf(format, dkey, dMode, dID, dmeth, dCondMode, dv);
 		} else if (dMode.equals("function")) {
 		    String dfunc = xmlEncode((String)dmap.get("domFunction"));
 		    String dv = 
 			xmlEncode((String)dmap.get("domDefaultArgument"));
 		    format = "    <mapping key=\"%s\" mode=\"%s\" "
-			+ "function=\"%s\" callMode=\"%s\" " +
+			+ "function=\"%s\" condMode=\"%s\" " +
 			"defaultArgument=\"%s\"/>\n";
-		    out.printf(format, dkey, dMode, dfunc, dCallMode, dv);
+		    out.printf(format, dkey, dMode, dfunc, dCondMode, dv);
 		} else if (dMode.equals("test")) {
 		    String dfunc = xmlEncode((String)dmap.get("domFunction"));
 		    format = "    <mapping key=\"%s\" mode=\"%s\" "
-			+ "function=\"%s\" callMode=\"%s\"/>\n";
-		    out.printf(format, dkey, dMode, dfunc, dCallMode);
+			+ "function=\"%s\" condMode=\"%s\"/>\n";
+		    out.printf(format, dkey, dMode, dfunc, dCondMode);
 		}
 	    }
 	    out.printf("  </domMap>\n");
@@ -1709,8 +1709,8 @@ public class Parser {
 	    } else if (qName.equals("mapping")) {
 		String mode = attr.getValue("mode");
 		if (mode == null) mode = "property";
-		String callMode = attr.getValue("callMode");
-		if (callMode == null) callMode = "onImageChange";
+		String condMode = attr.getValue("condMode");
+		if (condMode == null) condMode = "onImageChange";
 		String key = attr.getValue("key");
 		String ids = null;
 		String prop = null;
@@ -1729,13 +1729,14 @@ public class Parser {
 		    ids = attr.getValue("ids");
 		    if (ids == null) ids="";
 		    prop = attr.getValue("method");
-		    defaultValue = attr.getValue("callAsDefault");
+		    // defaultValue = attr.getValue("callAsDefault");
+		    defaultValue = null;
 		    if (key == null || ids == null || 
 			prop == null) {
 			error(new SAXParseException(localeString("missingAttr"),
 						    locator));
 		    }
-		    if (defaultValue == null) defaultValue = "true";
+		    // if (defaultValue == null) defaultValue = "true";
 		} else if (mode.equals("method1")) {
 		    ids = attr.getValue("ids");
 		    if (ids == null) ids="";
@@ -1766,7 +1767,7 @@ public class Parser {
 		    defaultValue = null;
 			
 		}
-		addMapping(key, mode, callMode, ids, prop, defaultValue);
+		addMapping(key, mode, condMode, ids, prop, defaultValue);
 	    } else if (qName.equals("image")) {
 		map = new TemplateProcessor.KeyMap();
 		String mimeTypeStr = attr.getValue("mimeType");

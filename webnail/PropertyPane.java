@@ -76,17 +76,30 @@ public class PropertyPane extends JComponent {
     public void initModel(TemplateProcessor.KeyMap [] entries, 
 			  LinkedList<TemplateProcessor.KeyMap>domMapList) 
     {
+	HashMap<String,String> condModeMap = new HashMap<String,String>();
 	addComboBox.removeAllItems();
 	addComboBox.addItem(localeString("propertyAddComboBox"));
 	for (TemplateProcessor.KeyMap map: domMapList) {
-	    addComboBox.addItem(map.get("domKey"));
+	    String condMode = (String) map.get("domCondMode");
+	    if (!(condMode.startsWith("as") || condMode.startsWith("onSl"))) {
+		String key = (String) map.get("domKey");
+		addComboBox.addItem(key);
+		condModeMap.put(key, condMode);
+	    }
 	}
 
 	listModel.clear();
 	if (entries != null) {
 	    for (TemplateProcessor.KeyMap entry: entries) {
 		DomMapPane.OurMap element = new DomMapPane.OurMap(entry);
-		listModel.addElement(element);
+		String key = (String) element.get("domKey");
+		String condMode = (key == null)? null:
+		    (String)condModeMap.get(key);
+		if (condMode != null &&
+		    !(condMode.startsWith("as") ||
+		      condMode.startsWith("onSl"))) {
+		    listModel.addElement(element);
+		}
 	    }
 	}
     }

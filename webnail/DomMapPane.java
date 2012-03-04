@@ -33,9 +33,9 @@ public class DomMapPane extends JComponent {
 	    String value = (String)keymap.get("domMode");
 	    if (value != null) put("domMode", value);
 	    else keymap.put("domMap", "property");
-	    value = (String) keymap.get("domCallMode");
-	    if (value != null) put("domCallMode", value);
-	    else keymap.put("domCallMode", "onImageChange");
+	    value = (String) keymap.get("domCondMode");
+	    if (value != null) put("domCondMode", value);
+	    else keymap.put("domCondMode", "onImageChange");
 	    value = (String)keymap.get("domIDs");
 	    if (value != null) put("domIDs", value);
 	    value = (String)keymap.get("domFunction");
@@ -69,8 +69,8 @@ public class DomMapPane extends JComponent {
 	    */
 	    int ind = modeComboBox.getSelectedIndex();
 	    currentMap.put("domMode", modeValues[ind]);
-	    int cind = callModeComboBox.getSelectedIndex();
-	    currentMap.put("domCallMode", callModes[cind]);
+	    int cind = condModeComboBox.getSelectedIndex();
+	    currentMap.put("domCondMode", condModes[cind]);
 	    switch (oldindex) {
 	    case 0:
 		currentMap.put("domIDs", idsTextField.getText());
@@ -109,25 +109,25 @@ public class DomMapPane extends JComponent {
 	if (newMap != null) {
 	    modeLabel.setEnabled(true);
 	    modeComboBox.setEnabled(true);
-	    callModeLabel.setEnabled(true);
-	    callModeComboBox.setEnabled(true);
+	    condModeLabel.setEnabled(true);
+	    condModeComboBox.setEnabled(true);
 	    String mode = (String)currentMap.get("domMode");
 	    if (mode == null) {
 		mode = "property";
 		currentMap.put("domMode", mode);
 	    }
-	    String callMode = (String)currentMap.get("domCallMode");
-	    if (callMode == null) {
+	    String condMode = (String)currentMap.get("domCondMode");
+	    if (condMode == null) {
 		/*
 		System.out.println("call mode was null for key "
 				   + (String)currentMap.get("domKey")
 				   + " "
 				   + currentMap.hashCode());
 		*/
-		callMode = "onImageChange";
-		currentMap.put("domCallMode", callMode);
+		condMode = "onImageChange";
+		currentMap.put("domCondMode", condMode);
 	    }
-	    callModeComboBox.setSelectedIndex(getCallModeIndex(callMode));
+	    condModeComboBox.setSelectedIndex(getCondModeIndex(condMode));
 	    if (mode.equals("property")) {
 
 		oldindex = 0;
@@ -229,8 +229,8 @@ public class DomMapPane extends JComponent {
 	    oldindex = -1;
 	    modeLabel.setEnabled(false);
 	    modeComboBox.setEnabled(false);
-	    callModeLabel.setEnabled(false);
-	    callModeComboBox.setEnabled(false);
+	    condModeLabel.setEnabled(false);
+	    condModeComboBox.setEnabled(false);
 	    // callAsDefaultCheckBox.setEnabled(false);
 	    // callAsDefaultCheckBox.setSelected(false);
 	    idsLabel.setEnabled(false);
@@ -263,7 +263,7 @@ public class DomMapPane extends JComponent {
 		/*
 		System.out.println((String)element.get("domKey")
 				   + " " + (String)element.get("domMode")
-				   + " " + (String)element.get("domCallMode")
+				   + " " + (String)element.get("domCondMode")
 				   +" " + element.hashCode()
 				   +"  -- initModel");
 		*/
@@ -326,7 +326,7 @@ public class DomMapPane extends JComponent {
 	"test"
     };
 
-    static String[] callModes = {
+    static String[] condModes = {
 	"onImageChange",
 	"onOverridden",
 	"onNotOverridden",
@@ -336,22 +336,22 @@ public class DomMapPane extends JComponent {
 	"asSlideshowEnabledTest"
     };
 
-    static int getCallModeIndex(String callMode) {
-	for (int i = 0; i < callModes.length; i++) {
-	    if (callModes[i].equals(callMode)) return i;
+    static int getCondModeIndex(String condMode) {
+	for (int i = 0; i < condModes.length; i++) {
+	    if (condModes[i].equals(condMode)) return i;
 	}
 	return -1;
     }
 
-    static String[] localeCallModes = new String[callModes.length];
+    static String[] localeCondModes = new String[condModes.length];
     static {
-	for (int i = 0; i < callModes.length; i++) {
-	    localeCallModes[i] = localeString(callModes[i]);
+	for (int i = 0; i < condModes.length; i++) {
+	    localeCondModes[i] = localeString(condModes[i]);
 	}
     }
 
-    JLabel  callModeLabel = new JLabel(localeString("callModeLabel"));
-    JComboBox callModeComboBox = new JComboBox(localeCallModes);
+    JLabel  condModeLabel = new JLabel(localeString("condModeLabel"));
+    JComboBox condModeComboBox = new JComboBox(localeCondModes);
 
 
     void setVaryingToolTipsAndLabels(int modeIndex) {
@@ -491,8 +491,8 @@ public class DomMapPane extends JComponent {
 	modePanel.setLayout(mpfl);
 	modePanel.add(modeLabel);
 	modePanel.add(modeComboBox);
-	modePanel.add(callModeLabel);
-	modePanel.add(callModeComboBox);
+	modePanel.add(condModeLabel);
+	modePanel.add(condModeComboBox);
 	sbl.setConstraints(modePanel, c);
 	subPanel.add(modePanel);
 
@@ -523,8 +523,8 @@ public class DomMapPane extends JComponent {
 	add(subPanel, BorderLayout.CENTER);
 
 	addButton.setToolTipText(localeString("addButtonToolTip"));
-	callModeComboBox.setToolTipText
-	    (localeString("callModeComboBoxToolTip"));
+	condModeComboBox.setToolTipText
+	    (localeString("condModeComboBoxToolTip"));
 	removeButton.setToolTipText(localeString("removeButtonToolTip"));
 	idsTextField.setToolTipText(localeString("idsTextFieldToolTip"));
 	propTextField.setToolTipText(localeString("propTextFieldToolTip"));
@@ -608,8 +608,8 @@ public class DomMapPane extends JComponent {
 		}
 	    });
 	modeLabel.setEnabled(false);
-	callModeLabel.setEnabled(false);
-	callModeComboBox.setEnabled(false);
+	condModeLabel.setEnabled(false);
+	condModeComboBox.setEnabled(false);
 	// callAsDefaultCheckBox.setEnabled(false);
 	modeComboBox.setEnabled(false);
 	idsLabel.setEnabled(false);

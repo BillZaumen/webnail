@@ -27,14 +27,13 @@
 	  key CDATA #REQUIRED
 	  mode (property|method0|method1|function|test) #IMPLIED
 	  ids  CDATA #IMPLIED
-	  function CDATA #IMPLIED
 	  prop CDATA #IMPLIED
 	  method CDATA #IMPLIED
-	  defaultValue CDATA #IMPLIED
-	  callMode (onImageChange|onOverridden|onNotOverridden
+	  function CDATA #IMPLIED
+	  condMode (onImageChange|onOverridden|onNotOverridden
 	            |onSlideshowStart|onSlideshowEnd
 	            |asSlideshowTest|asSlideshowEnabledTest) #IMPLIED
-	  callAsDefault (true | false) #IMPLIED
+	  defaultValue CDATA #IMPLIED
 	  defaultArgument CDATA #IMPLIED>
 
 

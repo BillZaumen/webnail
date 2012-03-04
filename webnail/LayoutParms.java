@@ -46,7 +46,7 @@ public class LayoutParms {
 	margin_vpad = parms.margin_vpad;
 	t_vpad = parms.t_vpad;
 	num_t_images = parms.num_t_images;
-	t_vcorrection = parms. t_vcorrection;
+	t_vcorrection = parms.t_vcorrection;
 	url = parms.url;
 	max_thumbwidth = parms.max_thumbwidth;
 	max_thumbheight = parms.max_thumbheight;
@@ -135,7 +135,7 @@ public class LayoutParms {
     boolean tiled = false;
     public boolean isTiled() {return tiled;}
 
-    int tiledWidth = 0;
+    int tiledWidth = 670;	// default value.
     public int getTiledWidth() {return tiledWidth;}
     
     URL linkedURL = null;
