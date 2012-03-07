@@ -48,7 +48,7 @@ function updateDOMAux(win, minCondMode, maxCondMode) {
 	var condMode = domMap[key].condMode;
 	// if (condMode > 2) continue;
 	if (condMode < minCondMode || condMode > maxCondMode) continue;
-	var entry = imageArray[index][key];
+	var entry = imageArray[index].dom[key];
 	var prop;
 	var method;
 	var funct;

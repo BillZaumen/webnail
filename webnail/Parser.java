@@ -760,12 +760,36 @@ public class Parser {
 	try {
 	    String ns =(String)map.get("nProps");
 		int n = (ns == null)? 0: Integer.parseInt(ns);
-	    props = "";
+	    props = "dom: {";
 	    for (int i = 0; i < n; i++) {
-		props = props + "," + map.get("propKey" + i)
-		    +": \"" + propEncode((String)map.get("propValue" + i))
-		    +"\"";
+		String key = (String)map.get("propKey" + i);
+		TemplateProcessor.KeyMap dmap = null;
+		for (TemplateProcessor.KeyMap dm: domlist) {
+		    String k = (String)dm.get("domKey");
+		    if (k != null && key.equals(k)) {
+			dmap = dm;
+			break;
+		    }
+		}
+		String mode = (dmap == null)? null:
+		    (String) dmap.get("domMode");
+		if (mode != null && mode.equals("property")) {
+		    props = props + ((i == 0)?"": ",") + key
+			+": \""
+			+ WebEncoder.quoteEncode((String)
+						 map.get("propValue" + i))
+			+"\"";
+		} else if (mode != null &&
+			   (mode.equals("function")
+			    || mode.equals("method1"))) {
+		    // if mode is not "property", the value is a method or
+		    // function argument for those that take an argument.
+		    String arg = ((String)map.get("propValue" + i)).trim();
+		    if (arg.length() == 0) arg = "null";
+		    props = props + ((i == 0)? "": ",") + key + ": " + arg;
+		}
 	    }
+	    props = props + "}";
 	    map.put("otherProps", props);
 	    ilist.add(map);
 	} catch (Exception e) {
@@ -782,6 +806,7 @@ public class Parser {
     }
 
     String props = "";
+    /*
     public void addProperty(String key, String value) {
 	String propValue = value.trim();
 	props =  props + ", " + key + ": \"" +propEncode(propValue) + "\"";
@@ -789,10 +814,11 @@ public class Parser {
 	map.put("propValue" + propIndex, propValue);
 	propIndex++;
     }
+    */
 
     public void imageComplete() {
 	ilist.add(map);
-	map.put("otherProps", props);
+	// map.put("otherProps", props);
 	map.put("nProps", "" + propIndex);
 	map = null;
 	propIndex = 0;
@@ -1231,6 +1257,7 @@ public class Parser {
     
     // boolean usePasswordEncryption = false;
 
+    /*
     static String propEncode(String string) {
 	StringTokenizer tk = new StringTokenizer(string, "\"\n", true);
 	StringBuilder sb = new StringBuilder(64);
@@ -1238,12 +1265,14 @@ public class Parser {
 	while (tk.hasMoreTokens()) {
 	    String s = tk.nextToken();
 	    if (s.equals("\"")) sb.append("\\\"");
-	    if (s.equals("\n")) sb.append("\\n");
+	    else if (s.equals("\n")) sb.append("\\n");
+	    else if (s.equals("\f")) sb.append("\\f");
+	    else if (s.equals("\r")) sb.append("\\r");
 	    else sb.append(s);
 	}
 	return sb.toString();
     }
-
+    */
     static String formatTime(String tstring) {
 	return formatTime(Long.parseLong(tstring));
     }
@@ -1767,6 +1796,14 @@ public class Parser {
 		    defaultValue = null;
 			
 		}
+		if (key == null) {
+		    error (new SAXParseException(localeString("missingKey"),
+						 locator));
+		}
+		if (!key.matches("[\\p{L}_$][\\p{L}_$0-9]*")) {
+		    error (new SAXParseException(localeString("invalidKey"),
+						 locator));
+		}
 		addMapping(key, mode, condMode, ids, prop, defaultValue);
 	    } else if (qName.equals("image")) {
 		map = new TemplateProcessor.KeyMap();
@@ -1821,6 +1858,10 @@ public class Parser {
 		    error(new SAXParseException(localeString
 						("noPropertyKey"),
 						locator));
+		}
+		if (!imageKey.matches("[\\p{L}_$][\\p{L}_$0-9]*")) {
+		    error (new SAXParseException(localeString("invalidKey"),
+						 locator));
 		}
 	    } else if (qName.equals("title")) {
 		theURL = attr.getValue("url");
@@ -1950,10 +1991,37 @@ public class Parser {
 	    } else if (qName.equals("property")) {
 		if (processingImage) {
 		    String otherProps = (String)map.get("otherProps");
-		    if (otherProps == null) otherProps = "";
-		    String propValue = text.toString().trim();
-		    map.put("otherProps", otherProps + ", " + imageKey + ": \""
-			    +propEncode(propValue) + "\"");
+		    boolean firsttime = false;
+		    if (otherProps == null) {
+			otherProps = ", dom: {";
+			firsttime = true;
+		    }
+		    TemplateProcessor.KeyMap dmap = null;
+		    for (TemplateProcessor.KeyMap dm: domlist) {
+			String k = (String)dm.get("domKey");
+			if (k != null && imageKey.equals(k)) {
+			    dmap = dm;
+			    break;
+			}
+		    }
+		    String mode = (dmap == null)? null:
+			(String) dmap.get("domMode");
+		    String propValue = text.toString();
+		    if (mode != null && mode.equals("property")) {
+			map.put("otherProps",
+				otherProps
+				+ (firsttime? "": ", ") + imageKey + ": \""
+				+ WebEncoder.quoteEncode(propValue) + "\"");
+		    } else if (mode != null &&
+			   (mode.equals("function")
+			    || mode.equals("method1"))) {
+			propValue = propValue.trim();
+			if (propValue.length() == 0) propValue = "null";
+			map.put("otherProps",
+				otherProps
+				+ (firsttime? "": ",") + imageKey + ": "
+				+ propValue);
+		    }
 		    map.put("propKey" + propIndex, imageKey);
 		    map.put("propValue" + propIndex, propValue);
 		    propIndex++;
@@ -2039,6 +2107,12 @@ public class Parser {
 	    } else if (qName.equals("image")) {
 		processingImage = false;
 		ilist.add(map);
+		String otherProps = (String)map.get("otherProps");
+		if (otherProps == null) {
+		    map.put("otherProps", ", dom: {}");
+		} else {
+		    map.put("otherProps", otherProps + "}");
+		}
 		map.put("nProps", "" + propIndex);
 		map = null;
 		propIndex = 0;
