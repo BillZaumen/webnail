@@ -775,10 +775,15 @@ public class Parser {
 		String mode = (dmap == null)? null:
 		    (String) dmap.get("domMode");
 		if (mode != null && mode.equals("property")) {
-		    props = props + ((i == 0)?"": ", ") + key
-			+": \""
+		    // double level of quoting needed because of an eval
+		    // in javascript code.
+		    String val = "\""
 			+ WebEncoder.quoteEncode((String)
 						 map.get("propValue" + i))
+			+ "\"";
+		    props = props + ((i == 0)?"": ", ") + key
+			+": \""
+			+ WebEncoder.quoteEncode(val)
 			+"\"";
 		} else if (mode != null && mode.equals("attribute")) {
 		    props = props + ((i == 0)?"": ", ") + key
@@ -886,6 +891,8 @@ public class Parser {
 	    if (dv == null) dv="";
 	    dv = WebEncoder.quoteEncode(dv);
 	    newmap.put("domDefaultValueQuoted", dv);
+	    dv = "\"" + dv + "\"";
+	    dv = WebEncoder.quoteEncode(dv);
 	    newmap.put("domDefaultValueInsert", 
 		       ", defaultValue: \"" + dv + "\"");
 	} else if (mode.equals("attribute")) {
@@ -964,6 +971,8 @@ public class Parser {
 	    domMap.put("domDefaultValue", defaultValue);
 	    String dv = WebEncoder.quoteEncode(defaultValue);
 	    domMap.put("domDefaultValueQuoted", dv);
+	    dv = "\"" + dv + "\"";
+	    dv = WebEncoder.quoteEncode(dv);
 	    domMap.put("domPropInsert", 
 		       ", prop: \"" + prop + "\"");
 	    domMap.put("domDefaultValueInsert", 
@@ -2054,10 +2063,12 @@ public class Parser {
 			(String) dmap.get("domMode");
 		    String propValue = text.toString();
 		    if (mode != null && mode.equals("property")) {
+			String val = "\""
+			    + WebEncoder.quoteEncode(propValue) + "\"";
 			map.put("otherProps",
 				otherProps
 				+ (firsttime? "": ", ") + imageKey + ": \""
-				+ WebEncoder.quoteEncode(propValue) + "\"");
+				+ WebEncoder.quoteEncode(val) + "\"");
 		    } else if (mode != null && mode.equals("attribute")) {
 			map.put("otherProps",
 				otherProps

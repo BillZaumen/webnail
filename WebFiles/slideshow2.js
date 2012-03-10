@@ -63,13 +63,19 @@ function updateDOMAux(win, minCondMode, maxCondMode) {
 			if (condMode == 0 || condMode == 1 ||
 			    condMode == 3 || condMode == 4) {
 			    prop = domMap[key].prop;
-			    element[prop] = entry;
+			    //element[prop] = entry;
+			    var cmd = "element." + prop + " = "
+				+ entry;
+			    eval(cmd);
 			}
 		    } else {
 			if (condMode == 0 || condMode == 2 ||
 			    condMode == 3 || condMode == 4) {
 			    prop = domMap[key].prop;
-			    element[prop] = domMap[key].defaultValue;
+			    // element[prop] = domMap[key].defaultValue;
+			    var cmd = "element." + prop + " = "
+				+ domMap[key].defaultValue;
+			    eval(cmd);
 			}
 		    }
 		}

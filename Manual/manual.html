@@ -355,6 +355,12 @@ following shows the window:
 The controls in this window are the following:
 </P>
 <DL>
+  <DT><strong>DOM-Map Keys</strong><DD> is a list of keys. Keys in
+      this list can be selected.  Drag and drop is enabled, allowing
+      the order of the keys to be changed. Keys are processed in the
+      order in which they appear in this list, depending on the value
+      of the key's <strong>Condition Mode</strong> value as defined
+      below.
   <DT><strong>Add Key</strong><DD>when clicked opens a dialog box that
       allows a new key to be added.
   <DT><strong>Remove Key</strong><DD>removes the current key or keys
@@ -418,8 +424,8 @@ missing entry indicating that a combination is ignored:
     be performed.
 </UL>
 <P>
-The table indicates when or if a property value is updated or a method or
-function called.
+The table indicates when or if a property or attribute value is
+updated or a method or function called.
 </P>
 
 <TABLE BORDER=1>
@@ -458,8 +464,13 @@ function called.
     <TD></TD><TD></TD><TD></TD><TD></TD><TD></TD><TD>no argument</TD>
   </TR>
 </TABLE>
-
-
+<P>
+The order of the keys is significant.  The Javascript code first
+performs all the normal updates for the DOM such as changing image
+titles, and then processes the DOM Map, iterating through keys in the
+order specified by the DOM map.  If two keys end up changing the same
+DOM object, the order is significant.
+</P>
 
 <H2><A name="guiEdit">The Image Editor</A></H2>
 
