@@ -846,7 +846,7 @@ public class Gui {
             Container hpane = helpframe.getContentPane();
 	    HtmlWithTocPane helpPane = new HtmlWithTocPane();
 
-            helpframe.setSize(860, 600);
+            helpframe.setSize(920, 700);
             helpframe.addWindowListener(new WindowAdapter () {
                     public void windowClosing(WindowEvent e) {
                         helpframe.setVisible(false);

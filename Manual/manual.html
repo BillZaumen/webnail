@@ -29,6 +29,10 @@ appear:
 		       width=600 height=359></A>
 </p>
 <p>
+This window contains a menu bar and a number of controls.
+</p>
+<H3><a name="menuBar">The Webnail-Window Menu Bar</A>
+
 <p>The menu bar contains four items, a
 <em>File</em> menu with an options for <strong>webnail</strong> to
 load a previously saved configuration from a URL, open a previously
@@ -43,9 +47,14 @@ traces will appear in the error console and an <em>Open Console</em>
 menu item for opening an error console showing error messages; and
 a <em>Help</em> menu that includes two menu items, one providing a
 manual and the other providing information about the program.  Typing
-Control-Q will make <strong>webnail</strong> exit.  Keyboard
+Control-Q will make <strong>webnail</strong> exit.  
+</p>
+<H3 <A name="mainControls">Webnail-Window Controls</A>
+<p>
+Keyboard
 navigation is supported (the following apply to the default Java look
 and feel):
+</p>
 <ul>
    <li>Hitting <em>tab</em> key will move the keyboard focus to the next
      control.
@@ -54,11 +63,13 @@ and feel):
    <li>Hitting the <em>space</em> key when a button has the keyboard focus
      is equivalent to clicking on the button.
 </ul>
+<P>
 <strong>Webnail</strong> starts execution with the keyboard focus
 set to the <em>Dir</em> radio button (the first radio button, labeled
 <strong>Image</strong> is selected by default). The choice of the output
 file type effects which controls are enabled - some controls are only
 appropriate when generating HTML files.
+</P>
 <p>
 There are a number of controls:
 </p>
@@ -351,10 +362,11 @@ The controls in this window are the following:
   <DT><strong>Dom-Map Key List</strong><DD>is a list of the keys. To
       edit the values associated with a key, select the key by
       clicking on it.
-  <DT><strong>Mode</strong><DD>sets the mode for the entry to determine if
-      the entry represents an element's property, a method to call, a
-      function to call, or a boolean function serving as a test that will
-      generate an alert if the function returns false.
+  <DT><strong>Mode</strong><DD>sets the mode for the entry to
+      determine if the entry represents an element's DOM property, an
+      element's attribute, a method to call, a function to call, or a
+      boolean function serving as a test that will generate an alert
+      if the function returns false.
   <DT><strong>Condition Mode</strong><DD>determines when a property will be
       changed or a method or function called. The values are
       <UL>
@@ -411,39 +423,39 @@ function called.
 </P>
 
 <TABLE BORDER=1>
-  <TR><TH rowspan=2>condMode</TH><TH colspan=5  align="center">Mode</TH></TR>
+  <TR><TH rowspan=2>condMode</TH><TH colspan=6  align="center">Mode</TH></TR>
   <TR>
-    <TH>property</TH><TH>method0</TH><TH>method1</TH><TH>function</TH>
-    <TH>test</TH>
+    <TH>property</TH><TH>attribute</TH><TH>method0</TH><TH>method1</TH>
+    <TH>function</TH><TH>test</TH>
   </TR>
   <TR>
     <TH>When an image changes</TH>
-    <TD>either</TD><TD>no argument</TD><TD>either</TD><TD>either</TD><TD></TD>
+    <TD>either</TD><TD>either</TD><TD>no argument</TD><TD>either</TD><TD>either</TD><TD></TD>
   </TR>
   <TR>
     <TH>When default overridden</TH>
-    <TD>entry</TD><TD>no argument</TD><TD>entry</TD><TD>entry</TD><TD></TD>
+    <TD>entry</TD><TD>entry</TD><TD>no argument</TD><TD>entry</TD><TD>entry</TD><TD></TD>
   </TR>
   <TR>
     <TH>When default not overridden</TH>
-    <TD>default</TD><TD>no argument</TD>
+    <TD>default</TD><TD>default</TD><TD>no argument</TD>
     <TD>default</TD><TD>default</TD><TD></TD>
   </TR>
   <TR>
     <TH>When a slideshow starts</TH>
-    <TD>either</TD><TD>no argument</TD><TD>either</TD><TD>either</TD><TD></TD>
+    <TD>either</TD><TD>either</TD><TD>no argument</TD><TD>either</TD><TD>either</TD><TD></TD>
   </TR>
   <TR>
     <TH>When a slideshow stops</TH>
-    <TD>either</TD><TD>no argument</TD><TD>either</TD><TD>either</TD><TD></TD>
+    <TD>either</TD><TD>either</TD><TD>no argument</TD><TD>either</TD><TD>either</TD><TD></TD>
   </TR>
   <TR>
     <TH>A slideshow-start test</TH>
-    <TD></TD><TD></TD><TD></TD><TD></TD><TD>no argument</TD>
+    <TD></TD><TD></TD><TD></TD><TD></TD><TD></TD><TD>no argument</TD>
   </TR>
   <TR>
     <TH>A slideshow-enabled test</TH>
-    <TD></TD><TD></TD><TD></TD><TD></TD><TD>no argument</TD>
+    <TD></TD><TD></TD><TD></TD><TD></TD><TD></TD><TD>no argument</TD>
   </TR>
 </TABLE>
 
@@ -1038,9 +1050,10 @@ Model] documentation), and a default value for that property:
 &lt;!ELEMENT mapping  EMPTY&gt;
 &lt;!ATTLIST mapping
 	  key CDATA #REQUIRED
-	  mode (property|method0|method1|function|test) #IMPLIED
+	  mode (property|attribute|method0|method1|function|test) #IMPLIED
 	  ids  CDATA #IMPLIED
 	  prop CDATA #IMPLIED
+	  name CDATA #IMPLIED
 	  method CDATA #IMPLIED
 	  function CDATA #IMPLIED
 	  condMode (onImageChange|onOverridden|onNotOverridden
@@ -1066,6 +1079,8 @@ The attributes are as follows:
     this mapping applies.  The IDs matches that of the HTML elements'
     ID attributes.
   <li><strong>prop</strong>. Specifies the Javascript property whose
+    value may be modified.
+  <li><strong>name</strong>. Specifies the HTML attribute whose
     value may be modified.
   <li><strong>method</strong>. The name of a method to invoke.
   <li><strong>function</strong>. The name of a function to invoke.
@@ -1125,39 +1140,39 @@ ignored.
 </P>
 
 <TABLE BORDER=1>
-  <TR><TH rowspan=2>condMode</TH><TH colspan=5  align="center">Mode</TH></TR>
+  <TR><TH rowspan=2>condMode</TH><TH colspan=6  align="center">Mode</TH></TR>
   <TR>
-    <TH>property</TH><TH>method0</TH><TH>method1</TH><TH>function</TH>
+    <TH>property</TH><TH>attribute</TH><TH>method0</TH><TH>method1</TH><TH>function</TH>
     <TH>test</TH>
   </TR>
   <TR>
     <TH>onImageChange</TH>
-    <TD>either</TD><TD>no argument</TD><TD>either</TD><TD>either</TD><TD></TD>
+    <TD>either</TD><TD>either</TD><TD>no argument</TD><TD>either</TD><TD>either</TD><TD></TD>
   </TR>
   <TR>
     <TH>onOverridden</TH>
-    <TD>entry</TD><TD>no argument</TD><TD>entry</TD><TD>entry</TD><TD></TD>
+    <TD>entry</TD><TD>entry</TD><TD>no argument</TD><TD>entry</TD><TD>entry</TD><TD></TD>
   </TR>
   <TR>
     <TH>onNotOverridden</TH>
-    <TD>default</TD><TD>no argument</TD>
+    <TD>default</TD><TD>default</TD><TD>no argument</TD>
     <TD>default</TD><TD>default</TD><TD></TD>
   </TR>
   <TR>
     <TH>onSlideshowStart</TH>
-    <TD>either</TD><TD>no argument</TD><TD>either</TD><TD>either</TD><TD></TD>
+    <TD>either</TD><TD>either</TD><TD>no argument</TD><TD>either</TD><TD>either</TD><TD></TD>
   </TR>
   <TR>
     <TH>onSlideshowEnd</TH>
-    <TD>either</TD><TD>no argument</TD><TD>either</TD><TD>either</TD><TD></TD>
+    <TD>either</TD><TD>either</TD><TD>no argument</TD><TD>either</TD><TD>either</TD><TD></TD>
   </TR>
   <TR>
     <TH>asSlideshowTest</TH>
-    <TD></TD><TD></TD><TD></TD><TD></TD><TD>no argument</TD>
+    <TD></TD><TD></TD><TD></TD><TD></TD><TD></TD><TD>no argument</TD>
   </TR>
   <TR>
     <TH>asSlideshowEnabledTest</TH>
-    <TD></TD><TD></TD><TD></TD><TD></TD><TD>no argument</TD>
+    <TD></TD><TD></TD><TD></TD><TD></TD><TD></TD><TD>no argument</TD>
   </TR>
 </TABLE>
 

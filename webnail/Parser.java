@@ -245,6 +245,7 @@ public class Parser {
 
     static String[] modes = {
 	"property",
+	"attribute",
 	"method0",
 	"method1",
 	"function",
@@ -760,7 +761,7 @@ public class Parser {
 	try {
 	    String ns =(String)map.get("nProps");
 		int n = (ns == null)? 0: Integer.parseInt(ns);
-	    props = "dom: {";
+	    props = ", dom: {";
 	    for (int i = 0; i < n; i++) {
 		String key = (String)map.get("propKey" + i);
 		TemplateProcessor.KeyMap dmap = null;
@@ -774,7 +775,13 @@ public class Parser {
 		String mode = (dmap == null)? null:
 		    (String) dmap.get("domMode");
 		if (mode != null && mode.equals("property")) {
-		    props = props + ((i == 0)?"": ",") + key
+		    props = props + ((i == 0)?"": ", ") + key
+			+": \""
+			+ WebEncoder.quoteEncode((String)
+						 map.get("propValue" + i))
+			+"\"";
+		} else if (mode != null && mode.equals("attribute")) {
+		    props = props + ((i == 0)?"": ", ") + key
 			+": \""
 			+ WebEncoder.quoteEncode((String)
 						 map.get("propValue" + i))
@@ -847,8 +854,8 @@ public class Parser {
 	newmap.remove("domFunctionInsert");
 	newmap.remove("domDefaultValueInsert");
 	newmap.remove("domDefaultArgumentInsert");
-	if (mode.equals("property") || mode.equals("method0")
-	    || mode.equals("method1")) {
+	if (mode.equals("property") || mode.equals("attribute")
+	    || mode.equals("method0") || mode.equals("method1")) {
 	    String ids = (String) map.get("domIDs");
 	    String[] idarray = ids.trim().split(", *");
 	    StringBuilder sb = new StringBuilder(ids.length());
@@ -875,6 +882,15 @@ public class Parser {
 	if (mode.equals("property")) {
 	    newmap.put("domPropInsert", 
 		       ", prop: \"" + (String)newmap.get("domProp") + "\"");
+	    String dv = (String)map.get("domDefaultValue");
+	    if (dv == null) dv="";
+	    dv = WebEncoder.quoteEncode(dv);
+	    newmap.put("domDefaultValueQuoted", dv);
+	    newmap.put("domDefaultValueInsert", 
+		       ", defaultValue: \"" + dv + "\"");
+	} else if (mode.equals("attribute")) {
+	    newmap.put("domNameInsert", 
+		       ", name: \"" + (String)newmap.get("domName") + "\"");
 	    String dv = (String)map.get("domDefaultValue");
 	    if (dv == null) dv="";
 	    dv = WebEncoder.quoteEncode(dv);
@@ -910,8 +926,8 @@ public class Parser {
 			   String ids, String prop, String defaultValue) 
     {
 	domMap = new TemplateProcessor.KeyMap();
-	if (mode.equals("property") || mode.equals("method0")
-	    || mode.equals("method1")) {
+	if (mode.equals("property") || mode.equals("attribute")
+	    || mode.equals("method0") || mode.equals("method1")) {
 	    if (ids == null) ids = "";
 	    String[] idarray = ids.trim().split(", *");
 	    StringBuilder sb = new StringBuilder(ids.length());
@@ -950,6 +966,17 @@ public class Parser {
 	    domMap.put("domDefaultValueQuoted", dv);
 	    domMap.put("domPropInsert", 
 		       ", prop: \"" + prop + "\"");
+	    domMap.put("domDefaultValueInsert", 
+		       ", defaultValue: \"" + dv + "\"");
+	} else if (mode.equals("attribute")) {
+	    if (prop == null) prop = "";
+	    domMap.put("domName", prop);
+	    if (defaultValue == null) defaultValue="";
+	    domMap.put("domDefaultValue", defaultValue);
+	    String dv = WebEncoder.quoteEncode(defaultValue);
+	    domMap.put("domDefaultValueQuoted", dv);
+	    domMap.put("domNameInsert", 
+		       ", name: \"" + prop + "\"");
 	    domMap.put("domDefaultValueInsert", 
 		       ", defaultValue: \"" + dv + "\"");
 	} else if (mode.equals("method0")) {
@@ -1013,12 +1040,14 @@ public class Parser {
     public List<TemplateProcessor.KeyMap> getDomList() {
 	List<TemplateProcessor.KeyMap> list =
 	    Collections.unmodifiableList(domlist);
+	/*
 	for(TemplateProcessor.KeyMap map: list) {
 	    System.out.println((String)map.get("domKey")
 			       + " " + (String)map.get("domMode")
 			       + " " + (String)map.get("domCondMode")
 			       +" " + map.hashCode());
 	}
+	*/
 	return list;
     }
 
@@ -1370,6 +1399,13 @@ public class Parser {
 		    String dv = xmlEncode((String)dmap.get("domDefaultValue"));
 		    format = "    <mapping key=\"%s\" mode=\"%s\" "
 			+ "ids=\"%s\" prop=\"%s\" condMode=\"%s\" "
+			+ "defaultValue=\"%s\"/>\n";
+		    out.printf(format, dkey, dMode, dID, dprop, dCondMode, dv);
+		} else if (dMode.equals("attribute")) {
+		    String dprop = xmlEncode((String)dmap.get("domName"));
+		    String dv = xmlEncode((String)dmap.get("domDefaultValue"));
+		    format = "    <mapping key=\"%s\" mode=\"%s\" "
+			+ "ids=\"%s\" name=\"%s\" condMode=\"%s\" "
 			+ "defaultValue=\"%s\"/>\n";
 		    out.printf(format, dkey, dMode, dID, dprop, dCondMode, dv);
 		} else if (dMode.equals("method0")) {
@@ -1754,6 +1790,16 @@ public class Parser {
 			error(new SAXParseException(localeString("missingAttr"),
 						    locator));
 		    }
+		} else if (mode.equals("attribute")) {
+		    ids = attr.getValue("ids");
+		    if (ids == null) ids="";
+		    prop = attr.getValue("name");
+		    defaultValue = attr.getValue("defaultValue");
+		    if (key == null || ids == null || 
+			prop == null || defaultValue == null) {
+			error(new SAXParseException(localeString("missingAttr"),
+						    locator));
+		    }
 		} else if (mode.equals("method0")) {
 		    ids = attr.getValue("ids");
 		    if (ids == null) ids="";
@@ -2008,6 +2054,11 @@ public class Parser {
 			(String) dmap.get("domMode");
 		    String propValue = text.toString();
 		    if (mode != null && mode.equals("property")) {
+			map.put("otherProps",
+				otherProps
+				+ (firsttime? "": ", ") + imageKey + ": \""
+				+ WebEncoder.quoteEncode(propValue) + "\"");
+		    } else if (mode != null && mode.equals("attribute")) {
 			map.put("otherProps",
 				otherProps
 				+ (firsttime? "": ", ") + imageKey + ": \""

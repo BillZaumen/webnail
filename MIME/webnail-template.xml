@@ -2,7 +2,7 @@
 <mime-info xmlns='http://www.freedesktop.org/standards/shared-mime-info'>
   <mime-type type="application/prs.wtz.webnail-template">
     <comment>Webnail Input File</comment>
-    <sub-class-of type='application/xml; charset="utf-8"'/>
+    <sub-class-of type='text/plain; charset="utf-8"'/>
     <magic priority="80">
       <match type="string" offset="0"
 	     value="$(!M.T application/prs.wtz.webnail-template)"/>

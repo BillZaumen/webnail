@@ -84,6 +84,28 @@ function updateDOMAux(win, minCondMode, maxCondMode) {
 			&& (entry != null)) {
 			if (condMode == 0 || condMode == 1 ||
 			    condMode == 3 || condMode == 4) {
+			    prop = domMap[key].name;
+			    element.setAttribute(prop, entry);
+			}
+		    } else {
+			if (condMode == 0 || condMode == 2 ||
+			    condMode == 3 || condMode == 4) {
+			    prop = domMap[key].name;
+			    element.setAttribute(prop,domMap[key].defaultValue);
+ 			}
+		    }
+		}
+	    }
+	} else if (mode == 2) {
+	    var ids = domMap[key].ids;
+	    for (var ind in ids) {
+		var id = ids[ind];
+		element = win.document.getElementById(id);
+		if (element != null) {
+		    if (((typeof entry) != "undefined") 
+			&& (entry != null)) {
+			if (condMode == 0 || condMode == 1 ||
+			    condMode == 3 || condMode == 4) {
 			    method = domMap[key].method;
 			    element[method]();
 			}
@@ -96,7 +118,7 @@ function updateDOMAux(win, minCondMode, maxCondMode) {
 		    }
 		}
 	    }
-	} else if (mode == 2) {
+	} else if (mode == 3) {
 	    var ids = domMap[key].ids;
 	    for (var ind in ids) {
 		var id = ids[ind];
@@ -118,7 +140,7 @@ function updateDOMAux(win, minCondMode, maxCondMode) {
 		    }
 		}
 	    }
-	} else if (mode == 3) {
+	} else if (mode == 4) {
 	    if (element != null) {
 		if (((typeof entry) != "undefined") && (entry != null)) {
 		    if (condMode == 0 || condMode == 1 ||
@@ -465,23 +487,6 @@ function doSlideshowStarting() {
 	imageEntryReference.entry = null;
     }
     updateDOMAux(window, 3,3);
-    /*
-    for (var key in domMap) {
-	if (index >= 0) {
-	    arg = imageArray[index][key];
-	}
-	if (typeof (arg) == "undefined" || index < 0) {
-	    arg = domMap[key].defaultArgument;
-	    if (typeof(arg) == "undefined") arg = null;
-	}
-	var mode = domMap[key].mode;
-	var condMode = domMap[key].condMode;
-	if (condMode != 3) continue;
-	if (mode != 4) continue;
-	var funct = domMap[key].funct;
-	funct(arg);
-    }
-    */
     canCallDoSlideshowEnding = true;
 }
 
@@ -490,24 +495,6 @@ function doSlideshowEnding() {
     if (canCallDoSlideshowEnding == false) return;
     canCallDoSlideshowEnding = false;
     updateDOMAux(window,4,4);
-    /*
-    var arg;
-    for (var key in domMap) {
-	if (index >= 0) {
-	    arg = imageArray[index][key];
-	}
-	if (typeof (entry) == "undefined" || index < 0) {
-	    arg = domMap[key].defaultArgument;
-	    if (typeof(arg) == "undefined") arg = null;
-	}
-	var mode = domMap[key].mode;
-	var condMode = domMap[key].condMode;
-	if (condMode != 4) continue;
-	if (mode != 4) continue;
-	var funct = domMap[key].funct;
-	funct(arg);
-    }
-    */
     imageEntryReference.entry = null;
 }
 
@@ -524,7 +511,7 @@ function testIfSlideshowCanBeEnabled() {
 	var mode = domMap[key].mode;
 	var condMode = domMap[key].condMode;
 	if (condMode != 6) continue;
-	if (mode != 4) continue;
+	if (mode != 5) continue;
 	// var funct = eval(domMap[key].funct);
 	var funct = window[domMap[key].funct];
 	if (funct() == false) {
@@ -541,7 +528,7 @@ function testIfSlideshowCanStart() {
 	var mode = domMap[key].mode;
 	var condMode = domMap[key].condMode;
 	if (condMode != 5) continue;
-	if (mode != 4) continue;
+	if (mode != 5) continue;
 	// var funct = domMap[key].funct;
 	var funct = window[domMap[key].funct];
 	if (typeof funct == "string") funct = eval(funct);

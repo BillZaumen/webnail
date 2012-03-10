@@ -34,4 +34,4 @@ $(endImageArray)    ];
 
 var imageEntryReference = {entry: null};
 
-var domMap = {$(repeatDomEntries:endDomEntries)$(domKey): {mode: $(domModeCode) $(domIDsInsert)$(domPropInsert)$(domDefaultValueInsert)$(domCondModeInsert)$(domMethodInsert)$(domFunctionInsert)$(domDefaultArgumentInsert)}$(commaSeparator)$(endDomEntries)};
+var domMap = {$(repeatDomEntries:endDomEntries)$(domKey): {mode: $(domModeCode) $(domIDsInsert)$(domPropInsert)$(domNameInsert)$(domDefaultValueInsert)$(domCondModeInsert)$(domMethodInsert)$(domFunctionInsert)$(domDefaultArgumentInsert)}$(commaSeparator)$(endDomEntries)};

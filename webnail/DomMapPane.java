@@ -42,6 +42,8 @@ public class DomMapPane extends JComponent {
 	    if (value != null) put("domFunction", value);
 	    value = (String)keymap.get("domProp");
 	    if (value != null) put("domProp", value);
+	    value = (String)keymap.get("domName");
+	    if (value != null) put("domName", value);
 	    value = (String)keymap.get("domMethod");
 	    if (value != null) put("domMethod", value);
 	    value = (String)keymap.get("domDefaultValue");
@@ -80,24 +82,30 @@ public class DomMapPane extends JComponent {
 		break;
 	    case 1:
 		currentMap.put("domIDs", idsTextField.getText());
+		currentMap.put("domName", propTextField.getText());
+		currentMap.put("domDefaultValue", 
+			       defaultValueTextArea.getText());
+		break;
+	    case 2:
+		currentMap.put("domIDs", idsTextField.getText());
 		currentMap.put("domMethod", propTextField.getText());
 		/*
 		currentMap.put("domCallAsDefault", "" +
 			       callAsDefaultCheckBox.isSelected());
 		*/
 		break;
-	    case 2:
+	    case 3:
 		currentMap.put("domIDs", idsTextField.getText());
 		currentMap.put("domMethod", propTextField.getText());
 		currentMap.put("domDefaultArgument", 
 			       defaultValueTextArea.getText());
 		break;
-	    case 3:
+	    case 4:
 		currentMap.put("domFunction", propTextField.getText());
 		currentMap.put("domDefaultArgument", 
 			       defaultValueTextArea.getText());
 		break;
-	    case 4:
+	    case 5:
 		currentMap.put("domFunction", propTextField.getText());
 		break;
 	    }
@@ -148,8 +156,27 @@ public class DomMapPane extends JComponent {
 		// Need to do this last because the combo box's action
 		// listener can call setCurrentMap
 		modeComboBox.setSelectedIndex(0);
-	    } else if (mode.equals("method0")) {
+	    } else if (mode.equals("attribute")) {
 		oldindex = 1;
+		// callAsDefaultCheckBox.setSelected(false);
+		// callAsDefaultCheckBox.setEnabled(false);
+		idsLabel.setEnabled(true);
+		idsTextField.setEnabled(true);
+		defaultValueLabel.setEnabled(true);
+		propTextField.setEnabled(true);
+		propLabel.setEnabled(true);
+		defaultValueTextArea.setEnabled(true);
+		String text = (String)currentMap.get("domIDs");
+		idsTextField.setText((text==null)?"":text);
+		text = (String)currentMap.get("domName");
+		propTextField.setText((text==null)?"":text);
+		text = (String)currentMap.get("domDefaultValue");
+		defaultValueTextArea.setText((text==null)?"":text);
+		// Need to do this last because the combo box's action
+		// listener can call setCurrentMap
+		modeComboBox.setSelectedIndex(1);
+	    } else if (mode.equals("method0")) {
+		oldindex = 2;
 		// callAsDefaultCheckBox.setEnabled(true);
 		idsLabel.setEnabled(true);
 		idsTextField.setEnabled(true);
@@ -167,9 +194,9 @@ public class DomMapPane extends JComponent {
 		text = (String)currentMap.get("domMethod");
 		propTextField.setText((text==null)?"":text);
 		defaultValueTextArea.setText("");
-		modeComboBox.setSelectedIndex(1);
+		modeComboBox.setSelectedIndex(2);
 	    } else if (mode.equals("method1")) {
-		oldindex = 2;
+		oldindex = 3;
 		// callAsDefaultCheckBox.setSelected(false);
 		// callAsDefaultCheckBox.setEnabled(false);
 		idsLabel.setEnabled(true);
@@ -184,9 +211,9 @@ public class DomMapPane extends JComponent {
 		propTextField.setText((text==null)?"":text);
 		text = (String)currentMap.get("domDefaultArgument");
 		defaultValueTextArea.setText((text==null)?"":text);
-		modeComboBox.setSelectedIndex(2);
+		modeComboBox.setSelectedIndex(3);
 	    } else if (mode.equals("function")) {
-		oldindex = 3;
+		oldindex = 4;
 		// callAsDefaultCheckBox.setEnabled(false);
 		// callAsDefaultCheckBox.setSelected(false);
 		idsLabel.setEnabled(false);
@@ -200,9 +227,9 @@ public class DomMapPane extends JComponent {
 		propTextField.setText((text==null)?"":text);
 		text = (String)currentMap.get("domDefaultArgument");
 		defaultValueTextArea.setText((text==null)?"":text);
-		modeComboBox.setSelectedIndex(3);
+		modeComboBox.setSelectedIndex(4);
 	    } else if (mode.equals("test")) {
-		oldindex = 4;
+		oldindex = 5;
 		// callAsDefaultCheckBox.setEnabled(false);
 		// callAsDefaultCheckBox.setSelected(false);
 		idsLabel.setEnabled(false);
@@ -216,7 +243,7 @@ public class DomMapPane extends JComponent {
 		propTextField.setText((text==null)?"":text);
 		text = (String)currentMap.get("domDefaultArgument");
 		defaultValueTextArea.setText((text==null)?"":text);
-		modeComboBox.setSelectedIndex(4);
+		modeComboBox.setSelectedIndex(5);
 	    } else {
 		System.err.println("unknown mode"); System.exit(1);
 	    }
@@ -284,6 +311,10 @@ public class DomMapPane extends JComponent {
 	setCurrentMap(currentMap);
 	return (String)((OurMap)listModel.get(i)).get("domProp");
     }
+    public String getName(int i) {
+	setCurrentMap(currentMap);
+	return (String)((OurMap)listModel.get(i)).get("domName");
+    }
     public String getDefaultValue(int i) {
 	setCurrentMap(currentMap);
 	return (String)((OurMap)listModel.get(i)).get("domDefaultValue");
@@ -320,6 +351,7 @@ public class DomMapPane extends JComponent {
 
     String[] modeValues = {
 	"property",
+	"attribute",
 	"method0",
 	"method1",
 	"function",
@@ -372,7 +404,7 @@ public class DomMapPane extends JComponent {
 	    defaultValueTextArea.setEnabled(true);
 	    break;
 	case 1:
-	    // callAsDefaultCheckBox.setText(localeString("callAsDefault1"));
+	    // callAsDefaultCheckBox.setText(localeString("callAsDefault"));
 	    idsLabel.setText(localeString("IDsLabel"));
 	    propLabel.setText(localeString("PropLabel1"));
 	    defaultValueLabel.setText(localeString("defaultValueLabel1"));
@@ -380,29 +412,29 @@ public class DomMapPane extends JComponent {
 	    propTextField.setToolTipText(localeString("propTextFieldToolTip1"));
 	    defaultValueTextArea.setToolTipText
 		(localeString("defaultValueTextAreaToolTip1"));
+	    // callAsDefaultCheckBox.setEnabled(false);
+	    defaultValueLabel.setEnabled(true);
+	    propTextField.setEnabled(true);
+	    propLabel.setEnabled(true);
+	    defaultValueTextArea.setEnabled(true);
+	    break;
+	case 2:
+	    // callAsDefaultCheckBox.setText(localeString("callAsDefault1"));
+	    idsLabel.setText(localeString("IDsLabel"));
+	    propLabel.setText(localeString("PropLabel2"));
+	    defaultValueLabel.setText(localeString("defaultValueLabel2"));
+	    idsTextField.setToolTipText(localeString("idsTextFieldToolTip"));
+	    propTextField.setToolTipText(localeString("propTextFieldToolTip2"));
+	    defaultValueTextArea.setToolTipText
+		(localeString("defaultValueTextAreaToolTip2"));
 	    // callAsDefaultCheckBox.setEnabled(true);
 	    propTextField.setEnabled(true);
 	    propLabel.setEnabled(true);
 	    defaultValueLabel.setEnabled(false);
 	    defaultValueTextArea.setEnabled(false);
 	    break;
-	case 2:
-	    // callAsDefaultCheckBox.setText(localeString("callAsDefault1"));
-	    idsLabel.setText(localeString("IDsLabel"));
-	    propLabel.setText(localeString("PropLabel1"));
-	    defaultValueLabel.setText(localeString("defaultValueLabel2"));
-	    idsTextField.setToolTipText(localeString("idsTextFieldToolTip"));
-	    propTextField.setToolTipText(localeString("propTextFieldToolTip1"));
-	    defaultValueTextArea.setToolTipText
-		(localeString("defaultValueTextAreaToolTip2"));
-	    // callAsDefaultCheckBox.setEnabled(false);
-	    propTextField.setEnabled(true);
-	    propLabel.setEnabled(true);
-	    defaultValueLabel.setEnabled(true);
-	    defaultValueTextArea.setEnabled(true);
-	    break;
 	case 3:
-	    // callAsDefaultCheckBox.setText(localeString("callAsDefault2"));
+	    // callAsDefaultCheckBox.setText(localeString("callAsDefault1"));
 	    idsLabel.setText(localeString("IDsLabel"));
 	    propLabel.setText(localeString("PropLabel2"));
 	    defaultValueLabel.setText(localeString("defaultValueLabel3"));
@@ -417,13 +449,28 @@ public class DomMapPane extends JComponent {
 	    defaultValueTextArea.setEnabled(true);
 	    break;
 	case 4:
+	    // callAsDefaultCheckBox.setText(localeString("callAsDefault2"));
 	    idsLabel.setText(localeString("IDsLabel"));
-	    propLabel.setText(localeString("PropLabel2"));
+	    propLabel.setText(localeString("PropLabel3"));
+	    defaultValueLabel.setText(localeString("defaultValueLabel4"));
+	    idsTextField.setToolTipText(localeString("idsTextFieldToolTip"));
+	    propTextField.setToolTipText(localeString("propTextFieldToolTip3"));
+	    defaultValueTextArea.setToolTipText
+		(localeString("defaultValueTextAreaToolTip4"));
+	    // callAsDefaultCheckBox.setEnabled(false);
+	    propTextField.setEnabled(true);
+	    propLabel.setEnabled(true);
+	    defaultValueLabel.setEnabled(true);
+	    defaultValueTextArea.setEnabled(true);
+	    break;
+	case 5:
+	    idsLabel.setText(localeString("IDsLabel"));
+	    propLabel.setText(localeString("PropLabel3"));
 	    defaultValueLabel.setText(localeString("defaultValueLabel3"));
 	    idsTextField.setToolTipText(localeString("idsTextFieldToolTip"));
-	    propTextField.setToolTipText(localeString("propTextFieldToolTip2"));
+	    propTextField.setToolTipText(localeString("propTextFieldToolTip3"));
 	    defaultValueTextArea.setToolTipText
-		(localeString("defaultValueTextAreaToolTip3"));
+		(localeString("defaultValueTextAreaToolTip4"));
 	    propTextField.setEnabled(true);
 	    propLabel.setEnabled(true);
 	    defaultValueLabel.setEnabled(false);
@@ -434,6 +481,7 @@ public class DomMapPane extends JComponent {
 
     String[] modeVector = {
 	localeString("property"),
+	localeString("attribute"),
 	localeString("method0"),
 	localeString("method1"),
 	localeString("function"),

@@ -25,9 +25,10 @@
 <!ELEMENT mapping  EMPTY>
 <!ATTLIST mapping
 	  key CDATA #REQUIRED
-	  mode (property|method0|method1|function|test) #IMPLIED
+	  mode (property|attribute|method0|method1|function|test) #IMPLIED
 	  ids  CDATA #IMPLIED
 	  prop CDATA #IMPLIED
+	  name CDATA #IMPLIED
 	  method CDATA #IMPLIED
 	  function CDATA #IMPLIED
 	  condMode (onImageChange|onOverridden|onNotOverridden

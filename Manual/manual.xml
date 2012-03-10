@@ -4,7 +4,12 @@
     <node title="Introduction" uri="sresource:/webnail/manual.html#intro" />
     <node title="Using a GUI" uri="sresource:/webnail/manual.html#gui">
       <node title="Webnail Window"
-	    uri="sresource:/webnail/manual.html#guiMain" />
+	    uri="sresource:/webnail/manual.html#guiMain" >
+	<node title="Menu Bar"
+	      uri = "sresource:/webnail/manual.html#menubar"/>
+	<node title="Controls"
+	      uri="sresource:/webnail/manual.html#mainControls"/>
+      </node>
       <node title="The DOM Map Panel"
 	    uri="sresource:/webnail/manual.html#guiDOM"/>
       <node title="The Image Editor"
