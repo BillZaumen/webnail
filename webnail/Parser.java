@@ -798,6 +798,9 @@ public class Parser {
 		    // function argument for those that take an argument.
 		    String arg = ((String)map.get("propValue" + i)).trim();
 		    if (arg.length() == 0) arg = "null";
+		    if (mode.equals("method1")) {
+			arg = "\"" + WebEncoder.quoteEncode(arg) + "\"";
+		    }
 		    props = props + ((i == 0)? "": ",") + key + ": " + arg;
 		}
 	    }
@@ -912,6 +915,7 @@ public class Parser {
 		       ", method: \"" + (String)newmap.get("domMethod") + "\"");
 	    String dv = (String)map.get("domDefaultArgument");
 	    if (dv == null || dv.trim().equals("")) dv="null";
+	    dv = "\"" + WebEncoder.quoteEncode(dv) + "\"";
 	    newmap.put("domDefaultArgumentInsert", 
 		       ", defaultArgument: " + dv );
 	} else if (mode.equals("function")) {
@@ -1002,6 +1006,7 @@ public class Parser {
 	    domMap.put("domMethodInsert", ", method: \"" + prop + "\"");
 	    if (defaultValue == null) defaultValue = "null";
 	    domMap.put("domDefaultArgument", defaultValue);
+	    defaultValue = "\"" + WebEncoder.quoteEncode(defaultValue) + "\"";
 	    domMap.put("domDefaultArgumentInsert",
 		       ", defaultArgument: " + defaultValue);
 	} else if (mode.equals("function")) {

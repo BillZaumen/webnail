@@ -42,6 +42,13 @@ function configure() {
     configured = true;
 }
 
+function slideshow2_eval(slideshow2_element,
+			 slideshow2_method,
+			 slideshow2_arg) {
+    eval("slideshow2_element." + slideshow2_method 
+	 + "(" + slideshow2_arg + ")");
+}
+
 function updateDOMAux(win, minCondMode, maxCondMode) {
     for (var key in domMap) {
 	var mode = domMap[key].mode;
@@ -113,13 +120,15 @@ function updateDOMAux(win, minCondMode, maxCondMode) {
 			if (condMode == 0 || condMode == 1 ||
 			    condMode == 3 || condMode == 4) {
 			    method = domMap[key].method;
-			    element[method]();
+			    // element[method]();
+			    eval("element." + method + "()");
 			}
 		    } else {
 			if (condMode == 0 || condMode == 2 ||
 			    condMode == 3 || condMode == 4) {
 			    method = domMap[key].method;
-			    element[method]();
+			    // element[method]();
+			    eval("element." + method + "()");
 			}
 		    }
 		}
@@ -135,13 +144,15 @@ function updateDOMAux(win, minCondMode, maxCondMode) {
 			if (condMode == 0 || condMode == 1 ||
 			    condMode == 3 || condMode == 4) {
 			    method = domMap[key].method;
-			    element[method](entry);
+			    // element[method](entry);
+			    slideshow2_eval(element, method, entry);
 			}
 		    } else {
 			if (condMode == 0 || condMode == 2 ||
 			    condMode == 3 || condMode == 4) {
 			    method = domMap[key].method;
-			    element[method](domMap[key].defaultValue);
+			    //  element[method](domMap[key].defaultValue);
+			    slideshow2_eval(element, method, entry);
 			}
 		    }
 		}

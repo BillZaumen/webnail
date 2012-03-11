@@ -25,13 +25,13 @@ this is window-system dependent).
 Once <strong>webnail</strong is started, the following window will
 appear:
 <p>
-<A name="guiMain"><img src="sresource:/webnail/gui-main.png"
+<A name="guiMain"><img src="gui-main.png"
 		       width=600 height=359></A>
 </p>
 <p>
 This window contains a menu bar and a number of controls.
 </p>
-<H3><a name="menuBar">The Webnail-Window Menu Bar</A>
+<H3><a name="menuBar">The Webnail-Window Menu Bar</A></H3>
 
 <p>The menu bar contains four items, a
 <em>File</em> menu with an options for <strong>webnail</strong> to
@@ -49,7 +49,7 @@ a <em>Help</em> menu that includes two menu items, one providing a
 manual and the other providing information about the program.  Typing
 Control-Q will make <strong>webnail</strong> exit.  
 </p>
-<H3 <A name="mainControls">Webnail-Window Controls</A>
+<H3 <A name="mainControls">Webnail-Window Controls</A></H3>
 <p>
 Keyboard
 navigation is supported (the following apply to the default Java look
@@ -278,7 +278,7 @@ The last 6 buttons, <strong>Title</strong>, <strong> Description</strong>,
 <strong>Final HTML</strong> open similar dialog boxes. The one for the
 <strong>Title</strong> button is a suitable example:
 <P>
-<img src="sresource:/webnail/gui-title.png" width=592 height=287>
+<img src="gui-title.png" width=592 height=287>
 </P>
 <P>
 One may either enter text directly into a text area or use a URL to
@@ -349,7 +349,7 @@ may change are defined below.  The
 following shows the window:
 </P>
 <P>
-<IMG SRC="sresource:/webnail/gui-dom.png" width=600 height=338>
+<IMG SRC="gui-dom.png" width=600 height=338>
 </p>
 <P>
 The controls in this window are the following:
@@ -436,32 +436,37 @@ updated or a method or function called.
   </TR>
   <TR>
     <TH>When an image changes</TH>
-    <TD>either</TD><TD>either</TD><TD>no argument</TD><TD>either</TD><TD>either</TD><TD></TD>
+    <TD>either</TD><TD>either</TD><TD>no argument</TD><TD>either</TD><TD>either</TD><TD>&nbsp;</TD>
   </TR>
   <TR>
     <TH>When default overridden</TH>
-    <TD>entry</TD><TD>entry</TD><TD>no argument</TD><TD>entry</TD><TD>entry</TD><TD></TD>
+    <TD>entry</TD><TD>entry</TD><TD>no argument</TD><TD>entry</TD>
+    <TD>entry</TD><TD>&nbsp;</TD>
   </TR>
   <TR>
     <TH>When default not overridden</TH>
     <TD>default</TD><TD>default</TD><TD>no argument</TD>
-    <TD>default</TD><TD>default</TD><TD></TD>
+    <TD>default</TD><TD>default</TD><TD>&nbsp;</TD>
   </TR>
   <TR>
     <TH>When a slideshow starts</TH>
-    <TD>either</TD><TD>either</TD><TD>no argument</TD><TD>either</TD><TD>either</TD><TD></TD>
+    <TD>either</TD><TD>either</TD><TD>no argument</TD><TD>either</TD>
+    <TD>either</TD><TD>&nbsp;</TD>
   </TR>
   <TR>
     <TH>When a slideshow stops</TH>
-    <TD>either</TD><TD>either</TD><TD>no argument</TD><TD>either</TD><TD>either</TD><TD></TD>
+    <TD>either</TD><TD>either</TD><TD>no argument</TD><TD>either</TD>
+    <TD>either</TD><TD>&nbsp;</TD>
   </TR>
   <TR>
     <TH>A slideshow-start test</TH>
-    <TD></TD><TD></TD><TD></TD><TD></TD><TD></TD><TD>no argument</TD>
+    <TD>&nbsp;</TD><TD>&nbsp;</TD><TD>&nbsp;</TD><TD>&nbsp;</TD>
+    <TD>&nbsp;</TD><TD>no argument</TD>
   </TR>
   <TR>
     <TH>A slideshow-enabled test</TH>
-    <TD></TD><TD></TD><TD></TD><TD></TD><TD></TD><TD>no argument</TD>
+    <TD>&nbsp;</TD><TD>&nbsp;</TD><TD>&nbsp;</TD><TD>&nbsp;</TD>
+    <TD>&nbsp;</TD><TD>no argument</TD>
   </TR>
 </TABLE>
 <P>
@@ -479,7 +484,7 @@ The Image Editor is displayed in a window shown below:
 </P>
 
 <P>
-<IMG SRC="sresource:/webnail/gui-edit.png" width=600 height=496>
+<IMG SRC="gui-edit.png" width=600 height=496>
 </P>
 <P>
 The controls in this window are the following:
@@ -603,7 +608,7 @@ window, allows specific entries in the DOM Map to be associated with
 an image. The editor's window is shown below:
 </P>
 <P>
-<IMG SRC="sresource:/webnail/gui-properties.png" width=600 height=253>
+<IMG SRC="gui-properties.png" width=600 height=253>
 </P>
 <P>
 The editor has several controls:
@@ -642,7 +647,7 @@ be accessed via the <strong>Proxies</strong>menu item in the
 <strong>Edit</strong menu:
 </P>
 <br>
-<IMG SRC="sresource:/webnail/gui-proxy.png" width="600" height="442">
+<IMG SRC="gui-proxy.png" width="600" height="442">
 <P>
 The controls are described below:
 </P>
@@ -722,7 +727,7 @@ the syntax is as follows:
 <strong>webnail -f</strong> <em> XML_INPUT_FILE</em> <strong>-d</strong> <em>TARGET_DIRECTORY</em>
 <strong>webnail -f</strong> <em> XML_INPUT_FILE</em> <strong>-z</strong> <em>ZIPFILE</em>
 <strong> webnail -l</strong>
-<strong> webnail --gui [<em>XML_INPUT_FILE</em>|<em>XML_INPUT_URL</em>]
+<strong> webnail --gui</strong> [<em>XML_INPUT_FILE</em>|<em>XML_INPUT_URL</em>]
 </pre>
 <p>where
 </p>
@@ -1158,32 +1163,38 @@ ignored.
   </TR>
   <TR>
     <TH>onImageChange</TH>
-    <TD>either</TD><TD>either</TD><TD>no argument</TD><TD>either</TD><TD>either</TD><TD></TD>
+    <TD>either</TD><TD>either</TD><TD>no argument</TD><TD>either</TD>
+    <TD>either</TD><TD>&nbsp;</TD>
   </TR>
   <TR>
     <TH>onOverridden</TH>
-    <TD>entry</TD><TD>entry</TD><TD>no argument</TD><TD>entry</TD><TD>entry</TD><TD></TD>
+    <TD>entry</TD><TD>entry</TD><TD>no argument</TD><TD>entry</TD>
+    <TD>entry</TD><TD>&nbsp;</TD>
   </TR>
   <TR>
     <TH>onNotOverridden</TH>
     <TD>default</TD><TD>default</TD><TD>no argument</TD>
-    <TD>default</TD><TD>default</TD><TD></TD>
+    <TD>default</TD><TD>default</TD><TD>&nbsp;</TD>
   </TR>
   <TR>
     <TH>onSlideshowStart</TH>
-    <TD>either</TD><TD>either</TD><TD>no argument</TD><TD>either</TD><TD>either</TD><TD></TD>
+    <TD>either</TD><TD>either</TD><TD>no argument</TD><TD>either</TD>
+    <TD>either</TD><TD>&nbsp;</TD>
   </TR>
   <TR>
     <TH>onSlideshowEnd</TH>
-    <TD>either</TD><TD>either</TD><TD>no argument</TD><TD>either</TD><TD>either</TD><TD></TD>
+    <TD>either</TD><TD>either</TD><TD>no argument</TD><TD>either</TD>
+    <TD>either</TD><TD>&nbsp;</TD>
   </TR>
   <TR>
     <TH>asSlideshowTest</TH>
-    <TD></TD><TD></TD><TD></TD><TD></TD><TD></TD><TD>no argument</TD>
+    <TD>&nbsp;</TD><TD>&nbsp;</TD><TD>&nbsp;</TD><TD>&nbsp;</TD>
+    <TD>&nbsp;</TD><TD>no argument</TD>
   </TR>
   <TR>
     <TH>asSlideshowEnabledTest</TH>
-    <TD></TD><TD></TD><TD></TD><TD></TD><TD></TD><TD>no argument</TD>
+    <TD>&nbsp;</TD><TD>&nbsp;</TD><TD>&nbsp;</TD><TD>&nbsp;</TD>
+    <TD>&nbsp;</TD><TD>no argument</TD>
   </TR>
 </TABLE>
 
@@ -1806,7 +1817,7 @@ on a per-DOM-entry basis:
     attribute values of HTML elements.
   <li><strong>domIDsInsert</strong>. The value of the
     <strong>domIDsQuoted</strong> directive prefaced by
-    "<strong>, ids = [<strong>" and followed by "<strong>]</strong>"
+    "<strong>, ids = [</strong>" and followed by "<strong>]</strong>"
   <li><strong>domMode</strong>. The value is either
     <strong>property</strong>, <strong>method0</strong>,
     <strong>method1</strong>, <strong>function</strong>, or
