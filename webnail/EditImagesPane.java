@@ -259,13 +259,14 @@ public class EditImagesPane extends JComponent {
     private void loadElement(MapElement element) {
 	String text = (String)element.get("title");
 	String url = (String)element.get("titleURL");
-	// System.out.println("text = " +text);
 	boolean isInUse = (url != null);
-	titleTextArea.init(url, isInUse, ((text == null)? "":text));
+	// titleTextArea.init(url, isInUse, ((text == null)? "":text));
+	titleTextArea.init((isInUse? url: text), isInUse);
 	text = (String)element.get("descr");
 	url = (String) element.get("descrURL");
 	isInUse = (url != null);
-	descrTextArea.init(url, isInUse, ((text == null)? "":text));
+	// descrTextArea.init(url, isInUse, ((text == null)? "":text));
+	descrTextArea.init((isInUse? url: text), isInUse);
 	String linkMode = (String)element.get("linkMode");
 	if (linkMode == null) {
 	    linkComboBox.setSelectedIndex(0);

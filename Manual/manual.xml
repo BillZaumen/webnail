@@ -2,6 +2,14 @@
 <toc>
 <node title="Help" uri="sresource:/webnail/manual.html">
     <node title="Introduction" uri="sresource:/webnail/manual.html#intro" />
+    <node title="Basic Usage"  uri="sresource:/webnail/manual.html#basic" >
+      <node title="Scale a Single Image"
+	    uri="sresource:/webnail/manual.html#scaleOneImage" />
+      <node title="Scale Multiple Images"
+	    uri="sresource:/webnail/manual.html#scaleMultipleImages" />
+      <node title="Create a Web Page"
+	    uri="sresource:/webnail/manual.html#createWebpage" />
+    </node>
     <node title="Using a GUI" uri="sresource:/webnail/manual.html#gui">
       <node title="Webnail Window"
 	    uri="sresource:/webnail/manual.html#guiMain" >

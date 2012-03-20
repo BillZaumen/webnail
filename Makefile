@@ -98,9 +98,11 @@ HELPICONS = WebFiles/fleft.gif  WebFiles/fright.gif  \
 ICONS = $(SOURCEICON) $(HELPICONS) Icons/dndTarget.png Icons/blank.png \
 	WebFiles/expand.png
 
-HELPFILES = Manual/manual.xml Manual/manual.html \
+HELPFILES = Manual/manual.xml Manual/manual.html Manual/browser.png \
 	Manual/gui-main.png Manual/gui-edit.png Manual/gui-proxy.png \
-	Manual/gui-dom.png Manual/gui-properties.png Manual/gui-title.png
+	Manual/gui-dom.png Manual/gui-properties.png Manual/gui-title.png \
+	Manual/editFields.png Manual/editImages.png Manual/input.png \
+	Manual/maxhw.png Manual/output.png Manual/run.png
 WEBFILES = WebFiles/strut.gif WebFiles/initImage.png WebFiles/initial.html \
 	WebFiles/slideshow1.js WebFiles/slideshow2.js \
 	WebFiles/medium.html WebFiles/error.jsp
