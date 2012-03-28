@@ -2656,6 +2656,7 @@ public class Gui {
 					 .getChoosableFileFilters()) {
 				    chooser.removeChoosableFileFilter(f);
 				}
+				boolean multi = true;
 				if (oftrbFile.isSelected()) {
 				    chooser.setFileSelectionMode
 					(JFileChooser.FILES_ONLY);
@@ -2664,6 +2665,7 @@ public class Gui {
 					("Image Formats",
 					 ImageMimeInfo.getAllExt());
 				    chooser.addChoosableFileFilter(imageFilter);
+				    multi = false;
 				} else if (oftrbDir.isSelected()
 					   || oftrbWebDir.isSelected()
 					   || oftrbWarDir.isSelected()) {
@@ -2693,9 +2695,7 @@ public class Gui {
 					chooser.getCurrentDirectory();
 				    // inputChooser.setSelectedFile(null);
 				    File target = chooser.getSelectedFile();
-				    if (target.isDirectory()
-					|| target.getName().endsWith(".zip")
-					|| target.getName().endsWith(".war")) {
+				    if (multi) {
 					inputPane.setSelectionMode
 					    (InputPane.SelectionMode.MULTI);
 					editImagesPane.setSelectionMode
