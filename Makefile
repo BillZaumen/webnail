@@ -96,7 +96,12 @@ HELPICONS = WebFiles/fleft.gif  WebFiles/fright.gif  \
 	WebFiles/left.gif  WebFiles/redo.gif \
 	WebFiles/right.gif  WebFiles/rlredo.gif
 ICONS = $(SOURCEICON) $(HELPICONS) Icons/dndTarget.png Icons/blank.png \
-	WebFiles/expand.png
+	WebFiles/expand.png \
+	Icons/webnailicon16.png	Icons/webnailicon24.png \
+	Icons/webnailicon32.png	Icons/webnailicon48.png \
+	Icons/webnailicon64.png	Icons/webnailicon96.png \
+	Icons/webnailicon128.png Icons/webnailicon256.png \
+	Icons/webnailicon512.png
 
 HELPFILES = Manual/manual.xml Manual/manual.html Manual/browser.png \
 	Manual/gui-main.png Manual/gui-edit.png Manual/gui-proxy.png \

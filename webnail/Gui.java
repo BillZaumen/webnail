@@ -847,6 +847,7 @@ public class Gui {
 	    HtmlWithTocPane helpPane = new HtmlWithTocPane();
 
             helpframe.setSize(920, 700);
+	    helpframe.setIconImages(iconList);
             helpframe.addWindowListener(new WindowAdapter () {
                     public void windowClosing(WindowEvent e) {
                         helpframe.setVisible(false);
@@ -896,6 +897,7 @@ public class Gui {
     static private void showEditFrame() {
 	if (editFrame == null) {
 	    editFrame = new JFrame(localeString("editFrame"));
+	    editFrame.setIconImages(iconList);
 	    Container cpane = editFrame.getContentPane();
 	    editFrame.addWindowListener
 		(editImagesPane.getOnClosingWindowListener());
@@ -1298,6 +1300,7 @@ public class Gui {
     static private void showLayoutFrame() {
 	if (layoutFrame == null) {
 	    layoutFrame = new JFrame(localeString("layoutFrame"));
+	    layoutFrame.setIconImages(iconList);
 	    Container cpane = layoutFrame.getContentPane();
 	    layoutFrame.addWindowListener
 		(layoutPane.getOnClosingWindowListener());
@@ -1482,6 +1485,56 @@ public class Gui {
 	}
     }
 
+    static java.util.List<Image> iconList = new LinkedList<Image>();
+
+    public static java.util.List<Image> getIconList() {
+	return iconList;
+    }
+
+    static {
+	try {
+	    iconList.add((new 
+			  ImageIcon((ClassLoader.getSystemClassLoader()
+				     .getResource("webnail/webnailicon16.png")
+				     ))).getImage());
+	    iconList.add((new 
+			  ImageIcon((ClassLoader.getSystemClassLoader()
+				     .getResource("webnail/webnailicon24.png")
+				     ))).getImage());
+	    iconList.add((new 
+			  ImageIcon((ClassLoader.getSystemClassLoader()
+				     .getResource("webnail/webnailicon32.png")
+				     ))).getImage());
+	    iconList.add((new 
+			  ImageIcon((ClassLoader.getSystemClassLoader()
+				     .getResource("webnail/webnailicon48.png")
+				     ))).getImage());
+	    iconList.add((new 
+			  ImageIcon((ClassLoader.getSystemClassLoader()
+				     .getResource("webnail/webnailicon64.png")
+				     ))).getImage());
+	    iconList.add((new 
+			  ImageIcon((ClassLoader.getSystemClassLoader()
+				     .getResource("webnail/webnailicon96.png")
+				     ))).getImage());
+	    iconList.add((new 
+			  ImageIcon((ClassLoader.getSystemClassLoader()
+				     .getResource("webnail/webnailicon128.png")
+				     ))).getImage());
+	    iconList.add((new 
+			  ImageIcon((ClassLoader.getSystemClassLoader()
+				     .getResource("webnail/webnailicon256.png")
+				     ))).getImage());
+	    iconList.add((new 
+			  ImageIcon((ClassLoader.getSystemClassLoader()
+				     .getResource("webnail/webnailicon512.png")
+				     ))).getImage());
+	} catch (Exception e) {
+	    System.err.println("initialization failed - missing icon for iconList");
+	}
+    }
+
+
     /* Called in Webnail's main program */
     static void configureGui() {
 	SwingUtilities.invokeLater(new Runnable() {
@@ -1608,6 +1661,7 @@ public class Gui {
 		    console = new SimpleConsole();
 		    consoleFrame = 
 			new JFrame(localeString("consoleFrameTitle"));
+		    consoleFrame.setIconImages(iconList);
 		    Container cpane = consoleFrame.getContentPane();
 		    consoleFrame.setSize(800,600);
 		    consoleFrame.addWindowListener(new WindowAdapter() {
@@ -2141,6 +2195,9 @@ public class Gui {
 
 		public void run() {
 		    frame = new JFrame(localeString("title"));
+
+		    frame.setIconImages(iconList);
+
 		    // set up an authenticator for web sites, etc.
 		    Authenticator.setDefault
 			(AuthenticationPane.getAuthenticator(frame));
