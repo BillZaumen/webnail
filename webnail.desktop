@@ -3,8 +3,14 @@ Encoding=UTF-8
 Name=Webnail
 Comment=Create scaled images or web pages with thumbnail images
 Exec=webnail --gui %u
+TryExec=webnail
 MimeType=application/prs.wtz.webnail+xml;
 Terminal=false
 Type=Application
 Icon=/usr/share/icons/hicolor/scalable/apps/webnail.svg
 Categories=Application;Graphics;
+
+[Desktop Action New-Window]
+Name=New Window
+Exec=webnail
+Icon=/usr/share/icons/hicolor/scalable/apps/webnail.svg
