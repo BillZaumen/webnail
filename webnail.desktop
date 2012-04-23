@@ -10,7 +10,8 @@ Type=Application
 Icon=/usr/share/icons/hicolor/scalable/apps/webnail.svg
 Categories=Application;Graphics;
 
-[Desktop Action New-Window]
-Name=New Window
+[New Shortcut Group]
+Name=New Webnail Window
 Exec=webnail
-Icon=/usr/share/icons/hicolor/scalable/apps/webnail.svg
+TargetEnvironment=Unity
+
