@@ -10,6 +10,7 @@ Type=Application
 Icon=/usr/share/icons/hicolor/scalable/apps/webnail.svg
 Categories=Application;Graphics;
 X-Ayatana-Desktop-Shortcuts=New
+OnlyShowIn=GNOME;Unity;
 
 [New Shortcut Group]
 Name=New Webnail Window
