@@ -217,24 +217,18 @@ install: all
 	install -d $(MANDIR)/man5
 	install -d $(JARDIRECTORY)
 	install -m 0644 webnail.conf  $(CONFDIR)
-	install -m 0644 $(SOURCEICON) $(APP_ICON_DIR)/$(TARGETICON)
-	(cd MIME ; \
-	 install -m 0644 webnail.xml $(MIMEDIR)/packages/webnail.xml)
-	(cd MIME ; \
-	 install -m 0644 webnail-layout.xml \
-		$(MIMEDIR)/packages/webnail-layout.xml)
-	(cd MIME ; \
-	 install -m 0644 webnail-template.xml \
-		$(MIMEDIR)/packages/webnail-template.xml)
-	(cd Icons ; \
-	 install -m 0644 $(SOURCE_DOC_ICON) \
-		$(MIME_ICON_DIR)/$(TARGET_DOC_ICON))
-	(cd Icons ; \
-	 install -m 0644 $(SOURCE_LDOC_ICON) \
-		$(MIME_ICON_DIR)/$(TARGET_LDOC_ICON))
-	(cd Icons ; \
-	 install -m 0644 $(SOURCE_TDOC_ICON) \
-		$(MIME_ICON_DIR)/$(TARGET_TDOC_ICON))
+	install -m 0644 -T $(SOURCEICON) $(APP_ICON_DIR)/$(TARGETICON)
+	install -m 0644 -T MIME/webnail.xml $(MIMEDIR)/packages/webnail.xml
+	install -m 0644 -T MIME/webnail-layout.xml \
+		$(MIMEDIR)/packages/webnail-layout.xml
+	install -m 0644 -T MIME/webnail-template.xml \
+		$(MIMEDIR)/packages/webnail-template.xml
+	install -m 0644 -T Icons/$(SOURCE_DOC_ICON) \
+		$(MIME_ICON_DIR)/$(TARGET_DOC_ICON)
+	install -m 0644 -T Icons/$(SOURCE_LDOC_ICON) \
+		$(MIME_ICON_DIR)/$(TARGET_LDOC_ICON)
+	install -m 0644 -T Icons/$(SOURCE_TDOC_ICON) \
+		$(MIME_ICON_DIR)/$(TARGET_TDOC_ICON)
 	install -m 0644 $(JROOT_JARDIR)/webnail-$(VERSION).jar \
 		$(JARDIRECTORY)
 	install -m 0755 $(JROOT_BIN)/webnail $(BIN)
