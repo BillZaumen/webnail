@@ -84,7 +84,7 @@ JROOT_CONFDIR = $(JROOT)/etc
 
 EXTDIR = $(SYS_JARDIRECTORY)
 
-EXTLIBS=$(EXTDIR)/bzdevlib.jar
+EXTLIBS=$(EXTDIR)/libbzdev.jar
 
 # Icon directory for applications
 #
@@ -139,6 +139,8 @@ ALL = $(PROGRAM) webnail.desktop webnail.conf \
 
 # program: $(JROOT_BIN)/webnail $(JROOT_JARDIR)/webnail-$(VERSION).jar 
 
+program: $(PROGRAM)
+
 #
 # Before using, set up a symbolic link for bzdevlib.jar in the ./jar directory.
 # This is useful for testing that requires modifying files in bzdev-jlib.
@@ -146,7 +148,6 @@ ALL = $(PROGRAM) webnail.desktop webnail.conf \
 testversion:
 	make program EXTDIR=$(JROOT_JARDIR)
 
-program: $(PROGRAM)
 
 # all: program webnail.desktop webnail.conf $(MANS) $(DOCS)
 
@@ -175,7 +176,7 @@ $(JROOT_JARDIR)/webnail-$(VERSION).jar: $(FILES)
 	mkdir -p $(JROOT_JARDIR)
 	rm -f $(JROOT_JARDIR)/webnail-*.jar
 	jar cfm $(JROOT_JARDIR)/webnail-$(VERSION).jar webnail.mf \
-		-C $(CLASSES) . 
+		-C $(CLASSES) .
 
 $(JROOT_BIN)/webnail: webnail.sh MAJOR MINOR \
 		$(JROOT_JARDIR)/webnail-$(VERSION).jar
@@ -183,6 +184,9 @@ $(JROOT_BIN)/webnail: webnail.sh MAJOR MINOR \
 	sed s/VERSION/$(VERSION)/g webnail.sh | \
 	sed s/JARDIRECTORY/$(JARDIR)/g > $(JROOT_BIN)/webnail
 	chmod u+x $(JROOT_BIN)/webnail
+	if [ "$(DESTDIR)" = "" ] ; \
+	then ln -sf $(EXTDIR)/libbzdev.jar $(JROOT_JARDIR)/libbzdev.jar ; \
+	fi
 
 $(JROOT_MANDIR)/man1/webnail.1.gz: webnail.1
 	mkdir -p $(JROOT_MANDIR)/man1
