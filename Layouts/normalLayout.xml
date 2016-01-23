@@ -1,7 +1,7 @@
-<?xml version="1.0" encoding="UTF-8"?><?M.T application/prs.wtz.webnail-layout+xml?>
-<!DOCTYPE layout PUBLIC "-//wtz//Webnail_Layout_Info 1.0//EN"
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE layout PUBLIC "-//BZDev//Webnail_Layout_Info 1.0//EN"
 	  "http://bzdev.org/DTD/webnail-layout-info-1.0.dtd">
-<layout>
+<layout xmlns="http://bzdev.org/DTD/webnail-layout-info-1.0">
   <multi twidth="100"
 	 theight="100"
 	 mwidth="500"

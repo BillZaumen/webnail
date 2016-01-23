@@ -22,7 +22,7 @@ public class LayoutPane extends JComponent {
 
     boolean modified = false;
 
-    static private final String resourceBundleName = "webnail/LayoutPane";
+    static private final String resourceBundleName = "webnail.LayoutPane";
     static ResourceBundle bundle = 
 	ResourceBundle.getBundle(resourceBundleName);
     static String localeString(String name) {
@@ -93,8 +93,8 @@ public class LayoutPane extends JComponent {
     // change as appropriate
     File icurrentDir = new File(".");
 
-    DefaultListModel model = new DefaultListModel();
-    JList jlist;
+    DefaultListModel<Object> model = new DefaultListModel<>();
+    JList<Object> jlist;
     JScrollPane scrollPane;
     HashMap<String,LayoutParms> map = new LinkedHashMap<String,LayoutParms>();
 
@@ -251,7 +251,7 @@ public class LayoutPane extends JComponent {
     }
 
     public LayoutPane() {
-	jlist = new JList(model) {
+	jlist = new JList<Object>(model) {
 		public String getToolTipText(MouseEvent event) {
 		    int ind = locationToIndex(event.getPoint());
 		    if (ind != -1) {
@@ -332,18 +332,19 @@ public class LayoutPane extends JComponent {
 			fc.setMultiSelectionEnabled(true);
 			fc.setApproveButtonText(localeString("addFiles"));
 			int status = fc.showOpenDialog(chooseAddButton);
-			if (status == JFileChooser.APPROVE_OPTION ) {
+			if (status == JFileChooser.APPROVE_OPTION) {
 			    for (File ofile: fc.getSelectedFiles()) {
 				try {
 				    URL url = ofile.toURI().toURL();
 				    URLConnection c = url.openConnection();
 				    String ct = c.getContentType();
+				    boolean ok = true;
 				    if (ct != null) {
 					if ((!ct.equals
 					     (Webnail.XML_MIME_TYPE)) 
 					    &&(!ct.equals
 					       (Webnail
-						.WEBNAIL_XML_MIME_TYPE))
+						.WEBNAIL_LAYOUT_XML_MIME_TYPE))
 					    && (!ct.equals
 						(Webnail
 						 .ALT_XML_MIME_TYPE))) {
@@ -351,23 +352,29 @@ public class LayoutPane extends JComponent {
 						  (Webnail.GENERIC_MIME_TYPE)
 						  ||
 						  ct.equals
-						  (Webnail.BOGUS_MIME_TYPE))
-						|| 0 == JOptionPane
-						.showConfirmDialog
-						(chooseAddButton, String.format
-						 (localeString("acceptInput"),
-						  ct),
-						 localeString
-						 ("unrecognizedMIMETypeTitle"),
-						 JOptionPane.OK_CANCEL_OPTION,
-						 JOptionPane
-						 .QUESTION_MESSAGE)) {
+						  (Webnail.BOGUS_MIME_TYPE))) {
 						throw new
 						    Exception
 						    (String.format
 						     (localeString
 						      ("notWebnailFile"),
 						      url.toString(), ct));
+					    } else {
+						ok =
+						    (0 == JOptionPane
+						     .showConfirmDialog
+						     (chooseAddButton,
+						      String.format
+						      (localeString
+						       ("acceptInput"),
+						       ct),
+						      localeString
+						      ("unrecognized"
+						       +"MIMETypeTitle"),
+						      JOptionPane.
+						      OK_CANCEL_OPTION,
+						      JOptionPane
+						      .QUESTION_MESSAGE));
 					    }
 					}
 				    } else {
@@ -377,9 +384,12 @@ public class LayoutPane extends JComponent {
 					if (ct == null) {
 					    ct = "application/octet-stream";
 					}
-					if ((!ct.equals(Webnail.XML_MIME_TYPE)) &&
+					if ((!ct.equals(Webnail.XML_MIME_TYPE))
+					    &&
 					    (!ct.equals
-					     (Webnail.WEBNAIL_XML_MIME_TYPE)) &&
+					     (Webnail.
+					      WEBNAIL_LAYOUT_XML_MIME_TYPE))
+					    &&
 					    (!ct.equals
 					     (Webnail.ALT_XML_MIME_TYPE))) {
 					    if (!(ct.equals
@@ -387,26 +397,36 @@ public class LayoutPane extends JComponent {
 						  ||
 						  ct.equals
 						  (Webnail.BOGUS_MIME_TYPE))
-						|| 0 == JOptionPane
-						.showConfirmDialog
-						(chooseAddButton, String.format
-						 (localeString("acceptInput"), ct),
-						 localeString
-						 ("unrecognizedMIMETypeTitle"),
-						 JOptionPane.OK_CANCEL_OPTION,
-						 JOptionPane.QUESTION_MESSAGE)) {
+						) {
 						throw new Exception
 						    (String.format
 						     (localeString
 						      ("notWebnailFile"),
 						      url.toString(), ct));
+					    } else {
+						ok =
+						    (0 == JOptionPane
+						     .showConfirmDialog
+						     (chooseAddButton,
+						      String.format
+						      (localeString
+						       ("acceptInput"), ct),
+						      localeString
+						      ("unrecognized"
+						       +"MIMETypeTitle"),
+						      JOptionPane.
+						      OK_CANCEL_OPTION,
+						      JOptionPane.
+						      QUESTION_MESSAGE));
 					    }
 					}
 				    }
-				    LayoutParms parms = lp.parse(url);
-				    modified = true;
-				    model.addElement(url.toString());
-				    map.put(url.toString(), parms);
+				    if (ok) {
+					LayoutParms parms = lp.parse(url);
+					modified = true;
+					model.addElement(url.toString());
+					map.put(url.toString(), parms);
+				    }
 				} catch (Exception e2) {
 				    ErrorMessage.display(e2);
 				} finally {
@@ -417,7 +437,8 @@ public class LayoutPane extends JComponent {
 			} else if (status == JFileChooser.CANCEL_OPTION) {
 			    return;
 			} else {
-			    // error
+			    // error - should not happen.
+			    return;
 			}
 		    } else {
 			String urlstr = addURLTF.getText().trim();
@@ -425,6 +446,7 @@ public class LayoutPane extends JComponent {
 			    URL url = new URL(urlstr);
 			    URLConnection c = url.openConnection();
 			    String ct = c.getContentType();
+			    boolean ok = true;
 			    if (ct != null) {
 				if ((!ct.equals(Webnail.XML_MIME_TYPE)) &&
 				    (!ct.equals(Webnail
@@ -432,19 +454,21 @@ public class LayoutPane extends JComponent {
 				    (!ct.equals(Webnail.ALT_XML_MIME_TYPE))) {
 				    if (!(ct.equals(Webnail.GENERIC_MIME_TYPE)
 					  ||
-					  ct.equals(Webnail.BOGUS_MIME_TYPE))
-					|| 0 == JOptionPane.showConfirmDialog
-					(chooseAddButton, String.format
-					 (localeString("acceptInput"), ct),
-					 localeString
-					 ("unrecognizedMIMETypeTitle"),
-					 JOptionPane.OK_CANCEL_OPTION,
-					 JOptionPane.QUESTION_MESSAGE)) {
+					  ct.equals(Webnail.BOGUS_MIME_TYPE))) {
 					throw new 
 					    Exception(String.format
 						      (localeString
 						       ("notWebnailFile"),
 						       url.toString(), ct));
+				    } else {
+					ok =
+					    (0 == JOptionPane.showConfirmDialog
+					     (chooseAddButton, String.format
+					      (localeString("acceptInput"), ct),
+					      localeString
+					      ("unrecognizedMIMETypeTitle"),
+					      JOptionPane.OK_CANCEL_OPTION,
+					      JOptionPane.QUESTION_MESSAGE));
 				    }
 				}
 			    } else {
@@ -460,27 +484,31 @@ public class LayoutPane extends JComponent {
 				    (!ct.equals(Webnail.ALT_XML_MIME_TYPE))) {
 				    if (!(ct.equals(Webnail.GENERIC_MIME_TYPE)
 					  ||
-					  ct.equals(Webnail.BOGUS_MIME_TYPE))
-					|| 0 == JOptionPane.showConfirmDialog
-					(chooseAddButton, String.format
-					 (localeString("acceptInput"), ct),
-					 localeString
-					 ("unrecognizedMIMETypeTitle"),
-					 JOptionPane.OK_CANCEL_OPTION,
-					 JOptionPane.QUESTION_MESSAGE)) {
+					  ct.equals(Webnail.BOGUS_MIME_TYPE))) {
 					throw new Exception
 					    (String.format
 					     (localeString("notWebnailFile"),
 					      url.toString(), ct));
+				    } else {
+					ok =
+					    (0 == JOptionPane.showConfirmDialog
+					     (chooseAddButton, String.format
+					      (localeString("acceptInput"), ct),
+					      localeString
+					      ("unrecognizedMIMETypeTitle"),
+					      JOptionPane.OK_CANCEL_OPTION,
+					      JOptionPane.QUESTION_MESSAGE));
 				    }
 				}
 			    }
-			    modified = true;
-			    model.addElement(url.toString());
-			    LayoutParms parms = lp.parse(url);
-			    map.put(url.toString(), parms);
-			    // InputStream is = url.openStream();
-			    // load(null, is);
+			    if (ok) {
+				modified = true;
+				model.addElement(url.toString());
+				LayoutParms parms = lp.parse(url);
+				map.put(url.toString(), parms);
+				// InputStream is = url.openStream();
+				// load(null, is);
+			    }
 			} catch (Exception e1) {
 			    ErrorMessage.display(e1.getClass().toString()
 						 + ": " 
@@ -504,7 +532,8 @@ public class LayoutPane extends JComponent {
 		public void actionPerformed(ActionEvent e) {
 		    if (!jlist.isSelectionEmpty()) {
 			int[] indices = jlist.getSelectedIndices();
-			Object[] elements = jlist.getSelectedValues();
+			Object[] elements =
+			    jlist.getSelectedValuesList().toArray();
 			for (Object obj: elements) {
 			    cutElements.add(obj);
 			}

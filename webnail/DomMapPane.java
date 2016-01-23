@@ -14,7 +14,7 @@ import org.bzdev.swing.ReorderListTransferHandler;
 
 public class DomMapPane extends JComponent {
 
-    static private final String resourceBundleName = "webnail/DomMapPane";
+    static private final String resourceBundleName = "webnail.DomMapPane";
     static ResourceBundle bundle = 
 	ResourceBundle.getBundle(resourceBundleName);
     static String localeString(String name) {
@@ -274,8 +274,8 @@ public class DomMapPane extends JComponent {
 
     JPanel panel = new JPanel();
 
-    DefaultListModel listModel = new DefaultListModel();
-    JList keyList = new JList(listModel);
+    DefaultListModel<OurMap> listModel = new DefaultListModel<OurMap>();
+    JList<OurMap> keyList = new JList<OurMap>(listModel);
     JScrollPane scrollPane = new JScrollPane(keyList);
 
     public int listSize() {return listModel.size();}
@@ -383,7 +383,7 @@ public class DomMapPane extends JComponent {
     }
 
     JLabel  condModeLabel = new JLabel(localeString("condModeLabel"));
-    JComboBox condModeComboBox = new JComboBox(localeCondModes);
+    JComboBox<String> condModeComboBox = new JComboBox<>(localeCondModes);
 
 
     void setVaryingToolTipsAndLabels(int modeIndex) {
@@ -488,7 +488,7 @@ public class DomMapPane extends JComponent {
 	localeString("test")
 	
     };
-    JComboBox modeComboBox = new JComboBox(modeVector);
+    JComboBox<String> modeComboBox = new JComboBox<>(modeVector);
     JLabel idsLabel = new JLabel(localeString("IDsLabel"));
     JTextField idsTextField = new JTextField(32);
     JLabel propLabel = new JLabel(localeString("PropLabel"));
@@ -503,7 +503,7 @@ public class DomMapPane extends JComponent {
 
     public DomMapPane() {
 	super();
-	keyList.setPrototypeCellValue("01234567890123456789");
+	keyList.setPrototypeCellValue(new OurMap("01234567890123456789"));
 	keyList.setTransferHandler(th);
 	keyList.setDragEnabled(true);
 	keyList.setDropMode(DropMode.INSERT);

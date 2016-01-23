@@ -19,18 +19,23 @@ include VersionVars.mk
 
 CLASSES = $(JROOT)/classes
 
+APPS_DIR = apps
+MIMETYPES_DIR = mimetypes
+
 #
 # System directories (that contains JAR files, etc.)
 #
 SYS_BIN = /usr/bin
 SYS_MANDIR = /usr/share/man
 SYS_DOCDIR = /usr/share/doc/webnail
-SYS_CONFDIR = /etc
 SYS_MIMEDIR = /usr/share/mime
 SYS_APPDIR = /usr/share/applications
-SYS_APP_ICON_DIR = /usr/share/icons/hicolor/scalable/apps
-SYS_MIME_ICON_DIR = /usr/share/icons/hicolor/scalable/mimetypes
+SYS_ICON_DIR = /usr/share/icons/hicolor
+SYS_APP_ICON_DIR = $(SYS_ICON_DIR)/scalable/$(APPS_DIR)
+SYS_MIME_ICON_DIR =$(SYS_ICON_DIR)/scalable/$(MIMETYPES_DIR)
 SYS_JARDIRECTORY = /usr/share/java
+
+ICON_WIDTHS = 16 20 22 24 32 36 48 64 72 96 128 192 256
 
 # Target JARDIRECTORY - where 'make install' actually puts the jar
 # file (DESTDIR is not null when creating packages)
@@ -46,13 +51,13 @@ JARDIR=$(shell echo $(SYS_JARDIRECTORY) | sed  s/\\//\\\\\\\\\\//g)
 BIN = $(DESTDIR)$(SYS_BIN)
 MANDIR = $(DESTDIR)$(SYS_MANDIR)
 DOCDIR = $(DESTDIR)$(SYS_DOCDIR)
-CONFDIR = $(DESTDIR)$(SYS_CONFDIR)
 MIMEDIR = $(DESTDIR)$(SYS_MIMEDIR)
 APPDIR = $(DESTDIR)$(SYS_APPDIR)
 MIME_ICON_DIR = $(DESTDIR)$(SYS_MIME_ICON_DIR)
 # Icon directory for applications
 #
 APP_ICON_DIR = $(DESTDIR)$(SYS_APP_ICON_DIR)
+ICON_DIR = $(DESTDIR)$(SYS_ICON_DIR)
 
 # Full path name of for where webnail.desktop goes
 #
@@ -62,35 +67,35 @@ APP_ICON_DIR = $(DESTDIR)$(SYS_APP_ICON_DIR)
 #
 SOURCEICON = Icons/webnailicon.svg
 TARGETICON = webnail.svg
+TARGETICON_PNG = webnail.png
 
 
 # Installed names of icons to use for webnail document types
 # (originals in Icons subdirectory)
 #
-SOURCE_DOC_ICON = webnaildocicon.svg
-TARGET_DOC_ICON = application-prs.wtz.webnail+xml.svg
+SOURCE_DOC_ICON = Icons/webnaildocicon.svg
+TARGET_DOC_ICON = application-x.webnail+xml.svg
+TARGET_DOC_ICON_PNG = application-x.webnail+xml.png
 
-SOURCE_LDOC_ICON = webnaillayouticon.svg
-TARGET_LDOC_ICON = application-prs.wtz.webnail-layout+xml.svg
+SOURCE_LDOC_ICON = Icons/webnaillayouticon.svg
+TARGET_LDOC_ICON = application-x.webnail-layout+xml.svg
+TARGET_LDOC_ICON_PNG = application-x.webnail-layout+xml.png
 
-SOURCE_TDOC_ICON = webnailtmplicon.svg
-TARGET_TDOC_ICON = application-prs.wtz.webnail-template.svg
+SOURCE_TDOC_ICON = Icons/webnailtmplicon.svg
+TARGET_TDOC_ICON = application-x.webnail-template.svg
+TARGET_TDOC_ICON_PNG = application-x.webnail-template.png
 
 JROOT_DOCDIR = $(JROOT)$(SYS_DOCDIR)
 JROOT_JARDIR = $(JROOT)/jar
 JROOT_MANDIR = $(JROOT)/man
 JROOT_BIN = $(JROOT)/bin
-JROOT_CONFDIR = $(JROOT)/etc
 
 EXTDIR = $(SYS_JARDIRECTORY)
 
 EXTLIBS=$(EXTDIR)/libbzdev.jar
 
-# Icon directory for applications
-#
-APP_ICON_DIR = $(DESTDIR)$(SYS_APP_ICON_DIR)
 
-MANS = $(JROOT_MANDIR)/man1/webnail.1.gz $(JROOT_MANDIR)/man5/webnail.conf.5.gz
+MANS = $(JROOT_MANDIR)/man1/webnail.1.gz
 
 HELPICONS = WebFiles/fleft.gif  WebFiles/fright.gif  \
 	WebFiles/left.gif  WebFiles/redo.gif \
@@ -134,8 +139,7 @@ FILES = $(JFILES) $(PROPERTIES) webnail.mf $(ICONS) \
 	webnail-layout-info-1.0.dtd webnail/helpers.txt
 
 PROGRAM = $(JROOT_BIN)/webnail $(JROOT_JARDIR)/webnail-$(VERSION).jar 
-ALL = $(PROGRAM) webnail.desktop webnail.conf \
-	 $(MANS) $(JROOT_BIN)/webnail
+ALL = $(PROGRAM) webnail.desktop $(MANS) $(JROOT_BIN)/webnail
 
 # program: $(JROOT_BIN)/webnail $(JROOT_JARDIR)/webnail-$(VERSION).jar 
 
@@ -149,7 +153,7 @@ testversion:
 	make program EXTDIR=$(JROOT_JARDIR)
 
 
-# all: program webnail.desktop webnail.conf $(MANS) $(DOCS)
+# all: program webnail.desktop $(MANS) $(DOCS)
 
 all: $(ALL)
 
@@ -193,19 +197,13 @@ $(JROOT_MANDIR)/man1/webnail.1.gz: webnail.1
 	sed s/VERSION/$(VERSION)/g webnail.1 | \
 	gzip -9 > $(JROOT_MANDIR)/man1/webnail.1.gz
 
-$(JROOT_MANDIR)/man5/webnail.conf.5.gz: webnail.conf.5
-	mkdir -p $(JROOT_MANDIR)/man5
-	sed s/VERSION/$(VERSION)/g webnail.conf.5 | \
-	gzip -9 > $(JROOT_MANDIR)/man5/webnail.conf.5.gz
 
 clean:
 	rm $(CLASSES)/*.class $(JROOT_JARDIR)/webnail-$(VERSION).jar \
 	$(JROOT_MANDIR)/man1/webnail.1.gz \
-	$(JROOT_MANDIR)/man5/webnail.conf.5.gz \
 	$(JROOT_BIN)/webnail \
 
 install: all 
-	install -d $(CONFDIR)
 	install -d $(APP_ICON_DIR)
 	install -d $(MIME_ICON_DIR)
 	install -d $(MIMEDIR)
@@ -214,45 +212,80 @@ install: all
 	install -d $(BIN)
 	install -d $(MANDIR)
 	install -d $(MANDIR)/man1
-	install -d $(MANDIR)/man5
 	install -d $(JARDIRECTORY)
-	install -m 0644 webnail.conf  $(CONFDIR)
 	install -m 0644 -T $(SOURCEICON) $(APP_ICON_DIR)/$(TARGETICON)
+	for i in $(ICON_WIDTHS) ; do \
+		install -d $(ICON_DIR)/$${i}x$${i}/$(APPS_DIR) ; \
+		inkscape -w $$i -e tmp.png $(SOURCEICON) ; \
+		install -m 0644 -T tmp.png \
+			$(ICON_DIR)/$${i}x$${i}/$(APPS_DIR)/$(TARGETICON_PNG); \
+		rm tmp.png ; \
+	done
 	install -m 0644 -T MIME/webnail.xml $(MIMEDIR)/packages/webnail.xml
 	install -m 0644 -T MIME/webnail-layout.xml \
 		$(MIMEDIR)/packages/webnail-layout.xml
 	install -m 0644 -T MIME/webnail-template.xml \
 		$(MIMEDIR)/packages/webnail-template.xml
-	install -m 0644 -T Icons/$(SOURCE_DOC_ICON) \
+	install -m 0644 -T $(SOURCE_DOC_ICON) \
 		$(MIME_ICON_DIR)/$(TARGET_DOC_ICON)
-	install -m 0644 -T Icons/$(SOURCE_LDOC_ICON) \
+	for i in $(ICON_WIDTHS) ; do \
+	    install -d $(ICON_DIR)/$${i}x$${i}/$(MIMETYPES_DIR) ; \
+	done;
+	for i in $(ICON_WIDTHS) ; do \
+	    inkscape -w $$i -e tmp.png $(SOURCE_DOC_ICON) ; \
+	    install -m 0644 -T tmp.png \
+	    $(ICON_DIR)/$${i}x$${i}/$(MIMETYPES_DIR)/$(TARGET_DOC_ICON_PNG); \
+	    rm tmp.png ; \
+	done
+	install -m 0644 -T $(SOURCE_LDOC_ICON) \
 		$(MIME_ICON_DIR)/$(TARGET_LDOC_ICON)
-	install -m 0644 -T Icons/$(SOURCE_TDOC_ICON) \
+	for i in $(ICON_WIDTHS) ; do \
+	    inkscape -w $$i -e tmp.png $(SOURCE_LDOC_ICON) ; \
+	    install -m 0644 -T tmp.png \
+	    $(ICON_DIR)/$${i}x$${i}/$(MIMETYPES_DIR)/$(TARGET_LDOC_ICON_PNG); \
+	    rm tmp.png ; \
+	done
+	install -m 0644 -T $(SOURCE_TDOC_ICON) \
 		$(MIME_ICON_DIR)/$(TARGET_TDOC_ICON)
+	for i in $(ICON_WIDTHS) ; do \
+	    inkscape -w $$i -e tmp.png $(SOURCE_TDOC_ICON) ; \
+	    install -m 0644 -T tmp.png \
+	    $(ICON_DIR)/$${i}x$${i}/$(MIMETYPES_DIR)/$(TARGET_TDOC_ICON_PNG); \
+	    rm tmp.png ; \
+	done
 	install -m 0644 $(JROOT_JARDIR)/webnail-$(VERSION).jar \
 		$(JARDIRECTORY)
 	install -m 0755 $(JROOT_BIN)/webnail $(BIN)
 	install -m 0644 webnail.desktop $(APPDIR)
 	install -m 0644 $(JROOT_MANDIR)/man1/webnail.1.gz $(MANDIR)/man1
-	install -m 0644 $(JROOT_MANDIR)/man5/webnail.conf.5.gz $(MANDIR)/man5
 
 uninstall:
 	@rm $(MANDIR)/man1/webnail.1.gz || echo ... rm webnail.1.gz  FAILED
-	@rm $(MANDIR)/man5/webnail.conf.5.gz || \
-		echo ... rm webnail.conf.5.gz  FAILED
 	@rm $(APPDIR)/webnail.desktop || echo ... rm webnail.desktop FAILED
 	@rm $(BIN)/webnail   || echo ... rm $(BIN)/webnail FAILED
 	@rm $(APP_ICON_DIR)/$(TARGETICON)  || echo ... rm $(TARGETICON) FAILED
+	@for i in $(ICON_WIDTHS) ; do \
+	   rm $(ICON_DIR)/$${i}x$${i}/$(APPS_DIR)/$(TARGETICON_PNG) \
+		|| echo .. rm $(TARGETICON_PNG) from $${i}x$${i} FAILED; \
+	done
 	@rm $(MIME_ICON_DIR)/$(TARGET_DOC_ICON)  || \
 		echo ... rm $(TARGET_DOC_ICON) FAILED
 	@rm $(MIME_ICON_DIR)/$(TARGET_LDOC_ICON)  || \
 		echo ... rm $(TARGET_LDOC_ICON) FAILED
 	@rm $(MIME_ICON_DIR)/$(TARGET_TDOC_ICON)  || \
 		echo ... rm $(TARGET_TDOC_ICON) FAILED
-	(cd $(MIMEDIR)/packages ; \
-	 rm webnail-template.xml webnail-layout.xml  webnail.xml)
-	@rm $(CONFDIR)/webnail.conf || echo \
-		... rm $(CONFDIR)/webnail.conf FAILED
+	@for i in $(ICON_WIDTHS) ; do \
+	  rm $(ICON_DIR)/$${i}x$${i}/$(MIMETYPES_DIR)/$(TARGET_DOC_ICON_PNG) \
+		|| echo rm $(TARGET_DOC_ICON_PNG) from $${i}x$${i} FAILED; \
+	  rm $(ICON_DIR)/$${i}x$${i}/$(MIMETYPES_DIR)/$(TARGET_LDOC_ICON_PNG) \
+		|| echo rm $(TARGET_LDOC_ICON_PNG) from $${i}x$${i} FAILED; \
+	  rm $(ICON_DIR)/$${i}x$${i}/$(MIMETYPES_DIR)/$(TARGET_TDOC_ICON_PNG) \
+		|| echo rm $(TARGET_TDOC_ICON_PNG) from $${i}x$${i} FAILED; \
+	done
+	@(cd $(MIMEDIR)/packages ; \
+	 rm webnail-template.xml || rm .../webnail-template.xml FAILED ; \
+	 rm webnail-layout.xml || echo rm .../webnail-layout.xml FAILED ; \
+	 rm webnail.xml || echo rm .../webail.xml FAILED)
 	@rm $(JARDIRECTORY)/webnail-$(VERSION).jar \
 		|| echo ... rm webnail-$(VERSION).jar FAILED
 

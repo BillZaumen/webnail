@@ -11,7 +11,7 @@ import org.bzdev.util.TemplateProcessor.KeyMap;
 
 public class PropertyPane extends JComponent {
 
-    static private final String resourceBundleName = "webnail/PropertyPane";
+    static private final String resourceBundleName = "webnail.PropertyPane";
     static ResourceBundle bundle = 
 	ResourceBundle.getBundle(resourceBundleName);
     static String localeString(String name) {
@@ -19,13 +19,13 @@ public class PropertyPane extends JComponent {
     }
 
 
-    DefaultListModel listModel = new DefaultListModel();
-    JList keyList = new JList(listModel);
+    DefaultListModel<Object> listModel = new DefaultListModel<>();
+    JList<Object> keyList = new JList<>(listModel);
     JScrollPane scrollPane = new JScrollPane(keyList);
 
     JLabel addLabel = new JLabel(localeString("propertyAddLabel")+ ":");
 
-    JComboBox addComboBox = new JComboBox();
+    JComboBox<Object> addComboBox = new JComboBox<>();
     JButton removeButton = 
 	new JButton(localeString("propertyRemoveButton"));
     JLabel propertyValueLabel = 

@@ -20,7 +20,7 @@ import org.bzdev.swing.ExtObjTransferHandler;
 
 public class InputPane extends JComponent {
     
-    static private final String resourceBundleName = "webnail/InputPane";
+    static private final String resourceBundleName = "webnail.InputPane";
     static ResourceBundle bundle = 
 	ResourceBundle.getBundle(resourceBundleName);
     static String localeString(String name) {

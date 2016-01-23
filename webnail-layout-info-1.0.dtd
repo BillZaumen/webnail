@@ -1,6 +1,8 @@
 <?xml version="1.0" encoding="UTF-8"?>
 
 <!ELEMENT layout (multi | single)>
+<!ATTLIST layout
+	  xmlns CDATA #FIXED "http://bzdev.org/DTD/webnail-layout-info-1.0">
 
 <!ELEMENT multi (name)*>
 <!ATTLIST multi

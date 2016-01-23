@@ -21,7 +21,7 @@ public class ImageMapElement extends ImageIcon implements MapElement {
 
     public TemplateProcessor.KeyMap getKeyMap() {return map;}
 
-    static private final String resourceBundleName = "webnail/ImageMapElement";
+    static private final String resourceBundleName = "webnail.ImageMapElement";
     static ResourceBundle bundle = 
 	ResourceBundle.getBundle(resourceBundleName);
     static String localeString(String name) {
@@ -30,13 +30,14 @@ public class ImageMapElement extends ImageIcon implements MapElement {
 
 
 
-    public ImageMapElement(String url, DefaultListModel model)
+    public ImageMapElement(String url, DefaultListModel<Object> model)
 	throws MalformedURLException 
     {
 	this(new URL(url), model);
     }
 
-    public ImageMapElement(String url, DefaultListModel model, int index)
+    public ImageMapElement(String url, DefaultListModel<Object> model,
+			   int index)
 	throws MalformedURLException 
     {
 	this(new URL(url), model, index);
@@ -71,30 +72,31 @@ public class ImageMapElement extends ImageIcon implements MapElement {
     }
 
     public ImageMapElement(TemplateProcessor.KeyMap map, 
-			   DefaultListModel model) 
+			   DefaultListModel<Object> model)
 	throws MalformedURLException
     {
 	this(map, false, new URL((String)map.get("url")), model, -1);
     }
 
-    public ImageMapElement(TemplateProcessor.KeyMap map, DefaultListModel model,
+    public ImageMapElement(TemplateProcessor.KeyMap map,
+			   DefaultListModel<Object> model,
 			   int index) 
 	throws MalformedURLException
     {
 	this(map, false, new URL((String)map.get("url")), model, index);
     }
 
-    public ImageMapElement(URL url, DefaultListModel model) {
+    public ImageMapElement(URL url, DefaultListModel<Object> model) {
 	this(new TemplateProcessor.KeyMap(), true, url, model, -1);
     }
 
-    public ImageMapElement(URL url, DefaultListModel model, int index) {
+    public ImageMapElement(URL url, DefaultListModel<Object> model, int index) {
 	this(new TemplateProcessor.KeyMap(), true, url, model, index);
     }
 
 
 
-    void removeMe(final DefaultListModel model) {
+    void removeMe(final DefaultListModel<Object> model) {
 	// System.out.println("removing from list");
 	String fn = (String)get("xmlFilename");
 	String lineNoStr = (String)get("lineNo");
@@ -135,7 +137,8 @@ public class ImageMapElement extends ImageIcon implements MapElement {
     }
 
     private ImageMapElement(TemplateProcessor.KeyMap map, boolean addURL,
-			    final URL url, final DefaultListModel model,
+			    final URL url,
+			    final DefaultListModel<Object> model,
 			    int index) {
 	super(blankImage);
 	this.map = map;

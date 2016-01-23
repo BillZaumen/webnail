@@ -16,7 +16,7 @@ import org.bzdev.imageio.ImageMimeInfo;
 
 public class EditImagesPane extends JComponent {
 
-    static private final String resourceBundleName = "webnail/EditImagesPane";
+    static private final String resourceBundleName = "webnail.EditImagesPane";
     static ResourceBundle bundle = 
 	ResourceBundle.getBundle(resourceBundleName);
     static String localeString(String name) {
@@ -62,7 +62,7 @@ public class EditImagesPane extends JComponent {
     }
 
 
-    DefaultListModel model;
+    DefaultListModel<Object> model;
     LinkedList<TemplateProcessor.KeyMap> domMapList;
 
     JPanel panel = new JPanel();
@@ -220,14 +220,14 @@ public class EditImagesPane extends JComponent {
 	localeString("linkComboBox1"), // no link
 	localeString("linkComboBox2"),  // use link
     };
-    JComboBox linkComboBox = new JComboBox(linkOptions);
+    JComboBox<String> linkComboBox = new JComboBox<>(linkOptions);
     JLabel mimeTypeLabel = 
 	new JLabel(localeString("outputImageMIMEtype") + ":");
-    JComboBox mimeTypeComboBox;
+    JComboBox<String> mimeTypeComboBox;
 
     JLabel hrefTargetLabel = new JLabel(localeString("hrefTargetLabel") + ":");
     Object[] targetStrings = {"_blank", "_top"};
-    JComboBox hrefTargetComboBox = new JComboBox(targetStrings);
+    JComboBox<Object> hrefTargetComboBox = new JComboBox<>(targetStrings);
     JLabel hrefLabel = new JLabel(localeString("hrefLabel") + ":");
     JTextField hrefTextField = new JTextField(50);
 
@@ -497,12 +497,12 @@ public class EditImagesPane extends JComponent {
     }
 
 
-    public EditImagesPane(DefaultListModel theModel, 
+    public EditImagesPane(DefaultListModel<Object> theModel,
 			  LinkedList<TemplateProcessor.KeyMap> dml) {
 	model = theModel;
 	domMapList = dml;
 	//rlist = new ReorderableJList(model);
-	rlist = new JList(model);
+	rlist = new JList<Object>(model);
 
 	inputPane = new InputPane(rlist) {
 		protected void clear(boolean all) {
@@ -548,12 +548,14 @@ public class EditImagesPane extends JComponent {
 	    org.bzdev.swing.ExtObjListTransferHandler(rlist, 
 						      inputPane.icurrentDir) 
 	    {
+		@SuppressWarnings("unchecked")
 		protected void insertByURL(URL url, 
 					   DefaultListModel model,
 					   int index)
 		    throws Exception
 		{
-		    new ImageMapElement(url, model, index);
+		    DefaultListModel ourmodel = (DefaultListModel<Object>)model;
+		    new ImageMapElement(url, ourmodel, index);
 		}
 	    };
 
@@ -584,7 +586,7 @@ public class EditImagesPane extends JComponent {
 	rlist.setVisibleRowCount(5);
 
 	
-	mimeTypeComboBox = new JComboBox(cbmtarray);
+	mimeTypeComboBox = new JComboBox<String>(cbmtarray);
 
 	mimeTypeComboBox.setSelectedItem(cbmtarray[0]);
 	mimeTypeComboBox.setToolTipText
@@ -618,7 +620,8 @@ public class EditImagesPane extends JComponent {
 		public void actionPerformed(ActionEvent e) {
 		    if (!rlist.isSelectionEmpty()) {
 			int[] indices = rlist.getSelectedIndices();
-			Object[] elements = rlist.getSelectedValues();
+			Object[] elements =
+			    rlist.getSelectedValuesList().toArray();
 			for (Object obj: elements) {
 			    cutElements.add(obj);
 			}
@@ -819,7 +822,7 @@ public class EditImagesPane extends JComponent {
 
     static public void main(String argv[]) {
 	try {
-	    DefaultListModel model = new DefaultListModel();
+	    DefaultListModel<Object> model = new DefaultListModel<>();
 	    new ImageMapElement("file:///home/wtz/Misc/thumb/fleft.gif", model);
 	    new ImageMapElement("file:///home/wtz/Misc/thumb/left.gif", model);
 	    new ImageMapElement ("file:///home/wtz/Misc/thumb/redo.gif", model);

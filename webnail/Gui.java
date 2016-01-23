@@ -43,7 +43,7 @@ public class Gui {
     // Extends ImageIcon so we'll have an image to display in
     // a JList.
 
-    static private final String resourceBundleName = "webnail/Gui";
+    static private final String resourceBundleName = "webnail.Gui";
     static ResourceBundle bundle = 
 	ResourceBundle.getBundle(resourceBundleName);
     static String localeString(String name) {
@@ -71,11 +71,11 @@ public class Gui {
     static private JFrame consoleFrame = null;
     static private SimpleConsole console;
 
-    static DefaultListModel imageListModel = new DefaultListModel();
+    static DefaultListModel<Object> imageListModel = new DefaultListModel<>();
     static LinkedList<TemplateProcessor.KeyMap>domMapList = 
 	new LinkedList<TemplateProcessor.KeyMap>();
 
-    static EditImagesPane editImagesPane = 
+    static EditImagesPane editImagesPane =
 	new EditImagesPane(imageListModel, domMapList);
 
     static void setOfntfToolTipText() {
@@ -207,6 +207,7 @@ public class Gui {
 			    }
 			}
 			String ct = c.getContentType();
+			boolean ok = true;
 			if (ct != null) {
 			    if ((!ct.equals(Webnail.XML_MIME_TYPE)) &&
 				(!ct.equals(Webnail
@@ -214,18 +215,22 @@ public class Gui {
 				(!ct.equals(Webnail.ALT_XML_MIME_TYPE))) {
 				if (!(ct.equals(Webnail.GENERIC_MIME_TYPE)
 				      ||
-				      ct.equals(Webnail.BOGUS_MIME_TYPE))
-				    || 0 == JOptionPane.showConfirmDialog
-				    (frame, 
-				     String.format(localeString("acceptInput"),
-						   ct),
-				     localeString("unrecognizedMIMETypeTitle"),
-				     JOptionPane.OK_CANCEL_OPTION,
-				     JOptionPane.QUESTION_MESSAGE)) {
+				      ct.equals(Webnail.BOGUS_MIME_TYPE))) {
 				    throw new Exception
 					(String.format
 					 (localeString("notWebnailFile"),
 					  url.toString(), ct));
+				} else {
+				    ok =
+					(0 == JOptionPane.showConfirmDialog
+					 (frame,
+					  String.format(localeString
+							("acceptInput"),
+							ct),
+					  localeString
+					  ("unrecognizedMIMETypeTitle"),
+					  JOptionPane.OK_CANCEL_OPTION,
+					  JOptionPane.QUESTION_MESSAGE));
 				}
 			    }
 			} else {
@@ -241,22 +246,27 @@ public class Gui {
 				(!ct.equals(Webnail.ALT_XML_MIME_TYPE))) {
 				if (!(ct.equals(Webnail.GENERIC_MIME_TYPE)
 				      ||
-				      ct.equals(Webnail.BOGUS_MIME_TYPE))
-				    || 0 == JOptionPane.showConfirmDialog
-				    (frame, String.format
-				     (localeString("acceptInput"), ct),
-				     localeString("unrecognizedMIMETypeTitle"),
-				     JOptionPane.OK_CANCEL_OPTION,
-				     JOptionPane.QUESTION_MESSAGE)) {
+				      ct.equals(Webnail.BOGUS_MIME_TYPE))) {
 				    throw new Exception
 					(String.format
 					 (localeString("notWebnailFile"),
 					  url.toString(), ct));
+				} else {
+				    ok =
+					(0 == JOptionPane.showConfirmDialog
+					 (frame, String.format
+					  (localeString("acceptInput"), ct),
+					  localeString
+					  ("unrecognizedMIMETypeTitle"),
+					  JOptionPane.OK_CANCEL_OPTION,
+					  JOptionPane.QUESTION_MESSAGE));
 				}
 			    }
 			}
-			InputStream is = url.openStream();
-			load(null, is);
+			if (ok) {
+			    InputStream is = url.openStream();
+			    load(null, is);
+			}
 		    } catch(Exception e) {
 			ErrorMessage.display(e);
 		    }
@@ -317,12 +327,14 @@ public class Gui {
 	    int width = p.getWidth();
 
 	    if (height == 0) {
-		mtnhtf.setValue(0, "");
+		mtnhtf.setText("");
+		// mtnhtf.setValue(0, "");
 	    } else {
 		mtnhtf.setValue(height);
 	    }
 	    if (width == 0) {
-		mtnwtf.setValue(0, "");
+		// mtnwtf.setValue(0, "");
+		mtnwtf.setText("");
 	    } else {
 		mtnwtf.setValue(width);
 	    }
@@ -584,6 +596,7 @@ public class Gui {
 			    URL url = ofile.toURI().toURL();
 			    URLConnection c = url.openConnection();
 			    String ct = c.getContentType();
+			    boolean ok = true;
 			    if (ct != null) {
 				if ((!ct.equals(Webnail.XML_MIME_TYPE)) &&
 				    (!ct.equals(Webnail
@@ -591,19 +604,21 @@ public class Gui {
 				    (!ct.equals(Webnail.ALT_XML_MIME_TYPE))) {
 				    if (!(ct.equals(Webnail.GENERIC_MIME_TYPE)
 					  ||
-					  ct.equals(Webnail.BOGUS_MIME_TYPE))
-					|| 0 == JOptionPane.showConfirmDialog
-					(frame, String.format
-					 (localeString("acceptInput"), ct),
-					 localeString
-					 ("unrecognizedMIMETypeTitle"),
-					 JOptionPane.OK_CANCEL_OPTION,
-					 JOptionPane.QUESTION_MESSAGE)) {
+					  ct.equals(Webnail.BOGUS_MIME_TYPE))) {
 					throw new
 					    Exception(String.format
 						      (localeString
 						       ("notWebnailFile"),
 						       url.toString(), ct));
+				    } else {
+					ok =
+					    (0 == JOptionPane.showConfirmDialog
+					     (frame, String.format
+					      (localeString("acceptInput"), ct),
+					      localeString
+					      ("unrecognizedMIMETypeTitle"),
+					      JOptionPane.OK_CANCEL_OPTION,
+					      JOptionPane.QUESTION_MESSAGE));
 				    }
 				}
 			    } else {
@@ -619,18 +634,20 @@ public class Gui {
 				    (!ct.equals(Webnail.ALT_XML_MIME_TYPE))) {
 				    if (!(ct.equals(Webnail.GENERIC_MIME_TYPE)
 					  ||
-					  ct.equals(Webnail.BOGUS_MIME_TYPE))
-					|| 0 == JOptionPane.showConfirmDialog
-					(frame, String.format
-					 (localeString("acceptInput"), ct),
-					 localeString
-					 ("unrecognizedMIMETypeTitle"),
-					 JOptionPane.OK_CANCEL_OPTION,
-					 JOptionPane.QUESTION_MESSAGE)) {
+					  ct.equals(Webnail.BOGUS_MIME_TYPE))) {
 					throw new Exception
 					    (String.format
 					     (localeString("notWebnailFile"),
 					      url.toString(), ct));
+				    } else {
+					ok =
+					    (0 == JOptionPane.showConfirmDialog
+					     (frame, String.format
+					      (localeString("acceptInput"), ct),
+					      localeString
+					      ("unrecognizedMIMETypeTitle"),
+					      JOptionPane.OK_CANCEL_OPTION,
+					      JOptionPane.QUESTION_MESSAGE));
 				    }
 				}
 			    }
@@ -1246,9 +1263,9 @@ public class Gui {
 	localeString("setCustomLayout")
     };
 	
-    static DefaultComboBoxModel lcbmodel = 
-	new DefaultComboBoxModel(layoutChoices);
-    static JComboBox layoutComboBox = new JComboBox(lcbmodel);
+    static DefaultComboBoxModel<Object> lcbmodel =
+	new DefaultComboBoxModel<>(layoutChoices);
+    static JComboBox<Object> layoutComboBox = new JComboBox<>(lcbmodel);
     static boolean layoutComboBoxBeingModified = false;
 
     static LayoutPane layoutPane = new LayoutPane() {
@@ -2277,7 +2294,8 @@ public class Gui {
 		    }
 		    JLabel cbLabel = 
 			new JLabel(localeString("outputImageMIMEtype"));
-		    final JComboBox comboBox = new JComboBox(cbmtarray);
+		    final JComboBox<String> comboBox =
+			new JComboBox<>(cbmtarray);
 		    for (int i = 0; i < mtarray.length; i++) {
 			if (mtarray[i].equals("image/jpeg")) {
 			    comboBox.setSelectedItem(cbmtarray[i]);

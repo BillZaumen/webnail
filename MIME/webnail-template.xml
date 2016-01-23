@@ -1,15 +1,15 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <mime-info xmlns='http://www.freedesktop.org/standards/shared-mime-info'>
-  <mime-type type="application/prs.wtz.webnail-template">
-    <comment>Webnail Input File</comment>
+  <mime-type type="application/x.webnail-template">
+    <comment>Webnail Template File</comment>
     <sub-class-of type='text/plain; charset="utf-8"'/>
     <magic priority="80">
       <match type="string" offset="0"
-	     value="$(!M.T application/prs.wtz.webnail-template)"/>
+	     value="$(!M.T application/x.webnail-template)"/>
       <!-- match when a byte order mark is present -->
       <match type="big32" value="0xefbbbf3c" offset="0">
 	<match type="string" offset="3" 
-	       value="$(!M.T application/prs.wtz.webnail-template)"/>
+	       value="$(!M.T application/x.webnail-template)"/>
       </match>
     </magic>
     <glob pattern="*.wnt"/>

@@ -1,4 +1,4 @@
-var hasAllImages = $(hasAllImages);
+$(!M.T application/x.webnail-template)var hasAllImages = $(hasAllImages);
 var imageTime = $(imageTime);
 var minImageTime = $(minImageTime);
 var syncMode = $(syncMode);

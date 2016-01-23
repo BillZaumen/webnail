@@ -28,7 +28,7 @@ import org.bzdev.net.WebEncoder;
  */
 public class Webnail {
 
-    static private final String resourceBundleName = "webnail/Webnail";
+    static private final String resourceBundleName = "webnail.Webnail";
     static ResourceBundle bundle =
 	ResourceBundle.getBundle(resourceBundleName);
     static String localeString(String name) {
@@ -36,6 +36,8 @@ public class Webnail {
     }
 
     static String WEBNAIL_XML_MIME_TYPE = "application/prs.wtz.webnail+xml";
+    static String WEBNAIL_LAYOUT_XML_MIME_TYPE =
+	"application/pers.wtz.webnail-layout+xml";
     static String XML_MIME_TYPE = "application/xml";
     static String ALT_XML_MIME_TYPE = "text/xml";
     static String GENERIC_MIME_TYPE = "application/octet-stream";

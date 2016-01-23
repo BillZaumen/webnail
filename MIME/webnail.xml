@@ -4,19 +4,19 @@
     <comment>Webnail Input File</comment>
     <sub-class-of type='application/xml; charset="utf-8"'/>
     <magic priority="80">
-      <match type="string" offset="0" value="&lt;?xml ">
-	<match type="string" offset="16:96"
-	       value="&lt;?M.T application/prs.wtz.webnail+xml?&gt;"/>
-      </match>
+      <match type="string" offset="5:256"
+	     value='&lt;!DOCTYPE layout PUBLIC "-//BZDev//Webnail '
+	     />
       <!-- match when a byte order mark is present -->
       <match type="big32" value="0xefbbbf3c" offset="0">
-	<match type="string" offset="3" value="&lt;?xml ">
-	  <match type="string" offset="19:99"
-		 value="&lt;?M.T application/prs.wtz.webnail+xml?&gt;"/>
-	</match>
+	<match type="string" offset="8:256"
+	     value='&lt;!DOCTYPE layout PUBLIC "-//BZDev//Webnail '
+	     />
       </match>
     </magic>
     <glob pattern="*.wnl"/>  
     <glob pattern="*.xml"/>  
+    <root-XML namespaceURI="http://bzdev.org/DTD/webnail-1.0.dtd"
+              localName="webnail"/>
   </mime-type>
 </mime-info>

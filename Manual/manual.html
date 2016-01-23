@@ -841,6 +841,7 @@ layouts (the standard ones are always available)
 to Webnail on a per-user basis.
 </P>
 
+
 <h2><A name="proxies">Proxy Configuration</A></h2>
 <P>
 If proxies are needed to access servers, the following window can
@@ -1135,15 +1136,14 @@ the GUI provides.  The file should start with the
 following two lines:
 <blockquote>
 <pre><small>
-&lt;?xml version="1.1" encoding="UTF-8"?&gt;&lt;?M.T application/prs.wtz.webnail+xml?&gt;
-&lt;!DOCTYPE images PUBLIC "-//wtz//Webnail 1.0//EN"
+&lt;?xml version="1.1" encoding="UTF-8"?&gt
+&lt;!DOCTYPE webnail PUBLIC "-//wtz//Webnail 1.0//EN"
                            "http://bzdev.org/DTD/webnail-1.0.dtd"&gt;
 </small></pre>
 </blockquote>
 <P>
 The first line indicates the version of XML and the character set
-encoding, followed by a processing directive that indicates the file's
-MIME type.  The second line specifies the DTD file giving the input
+encoding.  The second line specifies the DTD file giving the input
 syntax for the XML file.  URL's starting with "resource" are
 interpreted by the program as resources that can be obtained from the
 program's JAR file.
@@ -1158,13 +1158,14 @@ file format.
 
 <H3><A name="dtdImages">The Images Element</A></H3>
 
-The top level element is named images, and it is defined as follows:
+The top level element is named webnail, and it is defined as follows:
 </P>
 <blockquote>
 <pre>
-&lt;!ELEMENT images (domMap?, title?, descr?, (user, password)?,
+&lt;!ELEMENT webnail (domMap?, title?, descr?, (user, password)?,
 	  head?, header?, image*, trailer?, finalHtml?)&gt;
 &lt;!ATTLIST images
+          xmlns CDATA #FIXED "http://bzdev.org/DTD/webnail-1.0"
 	  windowTitle CDATA #IMPLIED
 	  mimeType  CDATA #IMPLIED
 	  webMode (true|false) #IMPLIED
@@ -1685,29 +1686,30 @@ start with the following two lines:
 </P>
 <blockquote>
 <pre><small>
-&lt;?xml version="1.1" encoding="UTF-8"?&gt;&lt;?M.T application/prs.wtz.webnail-layout+xml?&gt;
-&lt;!DOCTYPE images PUBLIC "-//wtz//Webnail 1.0//EN"
-                           "http://bzdev.org/DTD/webnail-1.0.dtd"&gt;
+&lt;?xml version="1.1" encoding="UTF-8"?&gt
+&lt;!DOCTYPE images PUBLIC "-//BZDev//Webnail_Layout_Info 1.0//EN"
+                           "http://bzdev.org/DTD/webnail-layout-1.0.dtd"&gt;
 </small></pre>
 </blockquote>
-<P>
-The processing directive following the xml declaration indicates the
-MIME type of the file.  On some systems, this is used to look up an
-appropriate icon to display in a file browser.
-</P>
 <H2><A name="layoutXMLElements">Layout XML Elements</A></H2>
+
+The top-level element in a Webnail layout file is an element named
+"layout", and must specify a default XML namespace. The DTD for
+this element is
 <blockquote>
 <pre>
 &lt;!ELEMENT layout (multi | single)&gt;
+&lt;!ATTLIST layout
+	  xmlns CDATA #FIXED "http://bzdev.org/DTD/webnail-layout-info-1.0"&gt;
 </pre>
 </blockquote>
 <P>
-The layout element is the top-level element for a webnail-layout file,
-and contains a single element: either a multi element or a single
-element.  A multi element indicates the use of multiple HTML files,
-typically with an iframe of thumbnail images. A
-single element indicates that all the images will
-be laid out on a single page, suitable for printing or other uses.
+The layout element is contains a single element: either
+a <CODE>multi</CODE> element or a <CODE>single</CODE> element.
+A <CODE>multi</CODE> element indicates the use of multiple HTML files,
+typically with an iframe of thumbnail images. A <CODE>single</CODE> element
+indicates that all the images will be laid out on a single page,
+suitable for printing or other uses.
 </P>
 <blockquote>
 <pre>

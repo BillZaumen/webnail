@@ -15,13 +15,15 @@ import org.bzdev.swing.ErrorMessage;
 
 public class LayoutParser {
 
-    static final String PUBLICID = "-//wtz//Webnail_Layout_Info 1.0//EN";
+    static final String PUBLICID = "-//BZDev//Webnail_Layout_Info 1.0//EN";
     static final String SYSTEMID = 
 	"http://bzdev.org/DTD/webnail-layout-info-1.0.dtd";
+    static final String NAMESPACE =
+	"http://bzdev.org/DTD/webnail-layout-info-1.0";
     static final String OUR_SYSTEMID = "resource:webnail-layout-info-1.0.dtd";
 
     // share same error messages as Parser.
-    static private final String resourceBundleName = "webnail/Parser";
+    static private final String resourceBundleName = "webnail.Parser";
 
     static ResourceBundle bundle = 
 	ResourceBundle.getBundle(resourceBundleName);
@@ -163,11 +165,14 @@ public class LayoutParser {
                                  String qName, Attributes attr)
             throws SAXException 
         {
-	    if (!mimeTypePISeen) {
-		throw new SAXException(String.format("missingMIMEType",
-						     xmlFilename));
-	    }
 	    if (qName.equals("layout")) {
+		String ns = attr.getValue("xmlns");
+		if (ns == null ||
+		    !ns.equals(NAMESPACE)) {
+		    throw new SAXException(String.format(localeString
+							 ("namespaceError"),
+							 NAMESPACE));
+		}
 		matchlen = 0;
 		text.setLength(0);
 		record = false;

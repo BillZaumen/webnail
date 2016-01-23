@@ -3,6 +3,7 @@
 <!ELEMENT webnail (domMap?, title?, descr?, head?, header?, 
 	  image*, trailer?, finalHtml?)>
 <!ATTLIST webnail
+	  xmlns CDATA #FIXED "http://bzdev.org/DTD/webnail-1.0"
 	  windowTitle CDATA #IMPLIED
 	  mimeType  CDATA #IMPLIED
 	  webMode (true|false) #IMPLIED

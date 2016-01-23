@@ -12,13 +12,14 @@ public class NamedMapElement implements MapElement {
 
     public TemplateProcessor.KeyMap getKeyMap() {return map;}
 
-    public NamedMapElement(String url, DefaultListModel model)
+    public NamedMapElement(String url, DefaultListModel<Object> model)
 	throws MalformedURLException 
     {
 	this(new URL(url), model);
     }
 
-    public NamedMapElement(final URL url, final DefaultListModel model) {
+    public NamedMapElement(final URL url,
+			   final DefaultListModel<Object> model) {
 	map.put("url", url.toString());
 	model.addElement(this);
 

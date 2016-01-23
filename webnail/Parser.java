@@ -19,8 +19,9 @@ import org.bzdev.net.WebEncoder;
 
 public class Parser {
 
-    static final String PUBLICID = "-//wtz//Webnail 1.0//EN";
+    static final String PUBLICID = "-//BZDev//Webnail 1.0//EN";
     static final String SYSTEMID = "http://bzdev.org/DTD/webnail-1.0.dtd";
+    static final String NAMESPACE = "http://bzdev.org/DTD/webnail-1.0";
     static final String OUR_SYSTEMID = "resource:webnail-1.0.dtd";
 
     Component comp = null;
@@ -29,7 +30,7 @@ public class Parser {
     }
 
 
-    static private final String resourceBundleName = "webnail/Parser";
+    static private final String resourceBundleName = "webnail.Parser";
     static ResourceBundle bundle = 
 	ResourceBundle.getBundle(resourceBundleName);
     static String localeString(String name) {
@@ -1364,14 +1365,13 @@ public class Parser {
 
 
     public void write(PrintStream out) {
-	out.println("<?xml version=\"1.0\" encoding=\"UTF-8\"?>"
-		    +"<?M.T " + Webnail.WEBNAIL_XML_MIME_TYPE
-		    +"?>");
+	out.println("<?xml version=\"1.0\" encoding=\"UTF-8\"?>");
 	out.println("<!DOCTYPE webnail PUBLIC "
 		    + "\"" + PUBLICID + "\""
 		    + " "
 		    + "\"" + SYSTEMID + "\">");
-	out.printf("<webnail webMode=\"%b\" linkMode=\"%b\"\n", 
+	out.printf("<webnail xmlns=\"%s\"\n"
+		   + "         webMode=\"%b\" linkMode=\"%b\"\n",
 		   getWebMode(), getLinkMode());
 	out.printf("        mimeType=\"%s\" windowTitle=\"%s\"\n", 
 		   xmlEncode(getMimeType()), 
@@ -1649,12 +1649,22 @@ public class Parser {
                                  String qName, Attributes attr)
             throws SAXException 
         {
+	    /*
 	    if (!mimeTypePISeen) {
-		throw new SAXException(String.format("missingMIMEType",
+		throw new SAXException(String.format(localeString
+						     ("missingMIMEType"),
 						     xmlFilename));
 	    }
+	    */
 
 	    if (qName.equals("webnail")) {
+		String ns = attr.getValue("xmlns");
+		if (ns == null ||
+		    !ns.equals(NAMESPACE)) {
+		    throw new SAXException(String.format(localeString
+							 ("namespaceError"),
+							 NAMESPACE));
+		}
 		String windowTitleStr = attr.getValue("windowTitle");
 		rmap.put("windowTitle",
 			 ((windowTitleStr == null)?

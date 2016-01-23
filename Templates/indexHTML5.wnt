@@ -1,4 +1,4 @@
-$(!M.T application/prs.wtz.webnail-template)<!DOCTYPE HTML>
+$(!M.T application/x.webnail-template)<!DOCTYPE HTML>
 <HTML>
 <HEAD>
 <META http-equiv="Content-Type" content="text/html; charset=UTF-8">
