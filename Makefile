@@ -222,10 +222,6 @@ install: all
 		rm tmp.png ; \
 	done
 	install -m 0644 -T MIME/webnail.xml $(MIMEDIR)/packages/webnail.xml
-	install -m 0644 -T MIME/webnail-layout.xml \
-		$(MIMEDIR)/packages/webnail-layout.xml
-	install -m 0644 -T MIME/webnail-template.xml \
-		$(MIMEDIR)/packages/webnail-template.xml
 	install -m 0644 -T $(SOURCE_DOC_ICON) \
 		$(MIME_ICON_DIR)/$(TARGET_DOC_ICON)
 	for i in $(ICON_WIDTHS) ; do \
@@ -283,8 +279,6 @@ uninstall:
 		|| echo rm $(TARGET_TDOC_ICON_PNG) from $${i}x$${i} FAILED; \
 	done
 	@(cd $(MIMEDIR)/packages ; \
-	 rm webnail-template.xml || rm .../webnail-template.xml FAILED ; \
-	 rm webnail-layout.xml || echo rm .../webnail-layout.xml FAILED ; \
 	 rm webnail.xml || echo rm .../webail.xml FAILED)
 	@rm $(JARDIRECTORY)/webnail-$(VERSION).jar \
 		|| echo ... rm webnail-$(VERSION).jar FAILED

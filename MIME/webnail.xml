@@ -1,7 +1,8 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <mime-info xmlns='http://www.freedesktop.org/standards/shared-mime-info'>
-  <mime-type type="application/prs.wtz.webnail+xml">
-    <comment>Webnail Input File</comment>
+
+  <mime-type type="application/x.webnail+xml">
+    <comment>Webnail input/saved-state file</comment>
     <sub-class-of type='application/xml; charset="utf-8"'/>
     <magic priority="80">
       <match type="string" offset="5:256"
@@ -18,5 +19,40 @@
     <glob pattern="*.xml"/>  
     <root-XML namespaceURI="http://bzdev.org/DTD/webnail-1.0.dtd"
               localName="webnail"/>
+  </mime-type>
+
+  <mime-type type="application/x.webnail-layout+xml">
+    <comment>Webnail layout file</comment>
+    <sub-class-of type='application/xml'/>
+    <magic priority="80">
+	<match type="string" offset="5:256"
+	     value='&lt;!DOCTYPE layout PUBLIC "-//BZDev//Webnail_Layout_Info '
+	     />
+      <!-- match when a byte order mark is present -->
+      <match type="big32" value="0xefbbbf3c" offset="0">
+	<match type="string" offset="8:256"
+	     value='&lt;!DOCTYPE layout PUBLIC "-//BZDev//Webnail_Layout_Info '
+	     />
+      </match>
+    </magic>
+    <glob pattern="*.wlo"/>
+    <glob pattern="*.xml"/>
+    <root-XML namespaceURI="http://bzdev.org/DTD/webnail-layout-info-1.0.dtd"
+              localName="layout"/>
+  </mime-type>
+
+  <mime-type type="application/x.webnail-template">
+    <comment>Webnail template file</comment>
+    <sub-class-of type='text/plain; charset="utf-8"'/>
+    <magic priority="80">
+      <match type="string" offset="0"
+	     value="$(!M.T application/x.webnail-template)"/>
+      <!-- match when a byte order mark is present -->
+      <match type="big32" value="0xefbbbf3c" offset="0">
+	<match type="string" offset="3"
+	       value="$(!M.T application/x.webnail-template)"/>
+      </match>
+    </magic>
+    <glob pattern="*.wnt"/>
   </mime-type>
 </mime-info>
