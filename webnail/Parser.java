@@ -20,9 +20,9 @@ import org.bzdev.net.WebEncoder;
 public class Parser {
 
     static final String PUBLICID = "-//BZDev//Webnail 1.0//EN";
-    static final String SYSTEMID = "http://bzdev.org/DTD/webnail-1.0.dtd";
+    static final String SYSTEMID = "sresource:webnail-1.0.dtd";
     static final String NAMESPACE = "http://bzdev.org/DTD/webnail-1.0";
-    static final String OUR_SYSTEMID = "resource:webnail-1.0.dtd";
+    static final String OUR_SYSTEMID = "sresource:webnail-1.0.dtd";
 
     Component comp = null;
     public void setComponent(Component c) {
@@ -1372,6 +1372,7 @@ public class Parser {
 		    + "\"" + SYSTEMID + "\">");
 	out.printf("<webnail xmlns=\"%s\"\n"
 		   + "         webMode=\"%b\" linkMode=\"%b\"\n",
+		   "http://bzdev.org/DTD/webnail-1.0",
 		   getWebMode(), getLinkMode());
 	out.printf("        mimeType=\"%s\" windowTitle=\"%s\"\n", 
 		   xmlEncode(getMimeType()), 
@@ -1625,6 +1626,7 @@ public class Parser {
         }
 
 	boolean mimeTypePISeen = false;
+	boolean publicIDSeen = false;
 
 	boolean processingXML = false;
 	boolean processingImage = false;
@@ -1635,6 +1637,7 @@ public class Parser {
 
 	public void startDocument() {
 	    errorSeen = false;
+	    publicIDSeen = false;
 	    text.setLength(0);
 	    mimeTypePISeen = false;
 	    processingXML = false;
@@ -1649,13 +1652,9 @@ public class Parser {
                                  String qName, Attributes attr)
             throws SAXException 
         {
-	    /*
-	    if (!mimeTypePISeen) {
-		throw new SAXException(String.format(localeString
-						     ("missingMIMEType"),
-						     xmlFilename));
+	    if (!publicIDSeen) {
+		throw new SAXException(localeString("missingDOCTYPE"));
 	    }
-	    */
 
 	    if (qName.equals("webnail")) {
 		String ns = attr.getValue("xmlns");
@@ -2272,13 +2271,16 @@ public class Parser {
 	    if (publicID != null) {
 		if (publicID.equals(PUBLICID)) {
 		    systemID = OUR_SYSTEMID;
+		    publicIDSeen = true;
 		} else {
 		    throw new SAXException
-			(MessageFormat.format(localeString("illegalPublicID"),
-					      publicID));
+			(String.format(localeString("illegalPublicID"),
+				       publicID));
 		}
+	    } else {
+		throw new SAXException(localeString("missingPublicID"));
 	    }
-            if (systemID.matches("resource:.*")) {
+            if (systemID.matches("sresource:.*")) {
                 // our DTD is built into the applications JAR file.
                 String resource = systemID.substring(9);
                 try {

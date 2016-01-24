@@ -16,11 +16,10 @@ import org.bzdev.swing.ErrorMessage;
 public class LayoutParser {
 
     static final String PUBLICID = "-//BZDev//Webnail_Layout_Info 1.0//EN";
-    static final String SYSTEMID = 
-	"http://bzdev.org/DTD/webnail-layout-info-1.0.dtd";
+    static final String SYSTEMID = "sresource:webnail-layout-info-1.0.dtd";
     static final String NAMESPACE =
 	"http://bzdev.org/DTD/webnail-layout-info-1.0";
-    static final String OUR_SYSTEMID = "resource:webnail-layout-info-1.0.dtd";
+    static final String OUR_SYSTEMID = "sresource:webnail-layout-info-1.0.dtd";
 
     // share same error messages as Parser.
     static private final String resourceBundleName = "webnail.Parser";
@@ -93,6 +92,7 @@ public class LayoutParser {
 	parms = new LayoutParms();
 	parms.layoutURL = url;
 	handler.errorSeen = false;
+	handler.publicIDSeen = false;
 	handler.locator = null;
         parser.parse(is, handler);
         if (handler.errorSeen) {
@@ -139,6 +139,7 @@ public class LayoutParser {
     class OurDefaultHandler extends DefaultHandler {
 	boolean errorSeen = false;
         Locator locator = null;
+	boolean publicIDSeen = false;
 
 	StringBuilder text = new StringBuilder();
 	int matchlen = 0;
@@ -165,6 +166,10 @@ public class LayoutParser {
                                  String qName, Attributes attr)
             throws SAXException 
         {
+	    if (!publicIDSeen) {
+		throw new SAXException(localeString("missingDOCTYPE"));
+	    }
+
 	    if (qName.equals("layout")) {
 		String ns = attr.getValue("xmlns");
 		if (ns == null ||
@@ -271,20 +276,6 @@ public class LayoutParser {
 	    }
 	}
 
-	public void processingInstruction(String target,
-					  String data) 
-	    throws SAXException
-	{
-	    if (target.equals("M.T")) {
-		if (data.equals("application/prs.wtz.webnail-layout+xml")) {
-		    mimeTypePISeen = true;
-		    return;
-		} else {
-		    throw new SAXException("wrongMIMEType");
-		}
-	    }
-	}
-
         public void characters(char [] ch, int start, int length)
             throws SAXException 
         {
@@ -346,11 +337,14 @@ public class LayoutParser {
 	    if (publicID != null) {
 		if (publicID.equals(PUBLICID)) {
 		    systemID = OUR_SYSTEMID;
+		    publicIDSeen = true;
 		} else {
 		    throw new SAXException
-			(MessageFormat.format(localeString("illegalPublicID"),
-					      publicID));
+			(String.format(localeString("illegalPublicID"),
+				       publicID));
 		}
+	    } else {
+		throw new SAXException(localeString("missingPublicID"));
 	    }
             if (systemID.matches("resource:.*")) {
                 // our DTD is built into the applications JAR file.

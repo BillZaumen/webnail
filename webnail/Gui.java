@@ -455,8 +455,8 @@ public class Gui {
 			fc.removeChoosableFileFilter(f);
 		    }
 		    FileNameExtensionFilter xmlFilter =
-			new FileNameExtensionFilter("webnail xml", 
-						    "xml", "wnl");
+			new FileNameExtensionFilter("webnail format",
+						    "wnl", "xml");
 		    fc.addChoosableFileFilter(xmlFilter);
 		    fc.setFileFilter(xmlFilter);
 		    int status = fc.showSaveDialog(frame);
@@ -464,6 +464,16 @@ public class Gui {
 			try {
 			    savedFileName = 
 				fc.getSelectedFile().getCanonicalPath();
+			    int ind = savedFileName.lastIndexOf('.');
+			    if (ind == -1) {
+				savedFileName = savedFileName + ".wnl";
+			    } else {
+				String suffix = savedFileName.substring(ind);
+				if (suffix.contains(System.getProperty
+						    ("file.separator"))) {
+				    savedFileName = savedFileName + ".wnl";
+				}
+			    }
 			    processFiles(imageListModel, savedFileName,
 					 domMapList);
 			    Thread w = worker;
