@@ -1142,21 +1142,23 @@ following two lines:
 </small></pre>
 </blockquote>
 <P>
-The first line indicates the version of XML and the character set
-encoding.  The second line specifies the DTD file giving the input
-syntax for the XML file.  URL's starting with "resource" are
-interpreted by the program as resources that can be obtained from the
-program's JAR file.
+Whitespace in the DOCTYPE element must consist of a single space,
+not two or more successive spaces or tabs: while the XML parser will
+not accept multiple spaces, the rules used to determine the file's
+MIME type are more strict.  Within this file, URL's starting with
+"resource" are interpreted by the program as resources that can be
+obtained from the program's JAR file.
 </P>
 
 <H2><A name="dtdElements">XML Elements</A></H2>
 
 <P>
 The following describe the XML elements for Webnail's
-file format.
+file format - the format used to save the state of a webnail session
+or to configure a webnail session.
 </P>
 
-<H3><A name="dtdImages">The Images Element</A></H3>
+<H3><A name="dtdImages">The webnail element</A></H3>
 
 The top level element is named webnail, and it is defined as follows:
 </P>
@@ -1681,7 +1683,7 @@ without the need to specially encode "&amp;", "&lt;", "&gt;", or "&quot;").
 <H1><A name="layoutXML">Layout XML Syntax</A></H1>
 <P>
 Webnail layout files provide parameter values specific to a given
-layout and URLs for various files or resources.  Each file should
+layout and URLs for various files or resources.  Each file must
 start with the following two lines:
 </P>
 <blockquote>
@@ -1691,6 +1693,11 @@ start with the following two lines:
                            "http://bzdev.org/DTD/webnail-layout-1.0.dtd"&gt;
 </small></pre>
 </blockquote>
+Whitespace in the DOCTYPE elemement must consist of a single space, not
+two or more successive spaces or tabs: while the XML parser will not
+accept multiple spaces, the rules used to determine the file's MIME
+type are more strict.
+
 <H2><A name="layoutXMLElements">Layout XML Elements</A></H2>
 
 The top-level element in a Webnail layout file is an element named
@@ -1860,7 +1867,7 @@ character or sequence of characters):
 </P>
 <blockquote>
 <pre>
-$(!M.T application/prs.wtz.webnail-template)
+$(!M.T application/x.webnail-template)
 </pre>
 </blockquote>
 <P>
