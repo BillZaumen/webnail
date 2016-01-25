@@ -307,6 +307,16 @@ public class Gui {
 	    layoutParms = p.getLayoutParms();
 	    customParms = p.getCustomParms();
 	    
+	    if (mtarray != null) {
+		mtcomboBox.setSelectedIndex(mtcomboBoxDefaultIndex);
+		for (int i = 0; i < mtarray.length; i++) {
+		    if (mtarray[i].equals(mtype)) {
+			mtcomboBox.setSelectedIndex(i);
+			break;
+		    }
+		}
+	    }
+
 	    bgcolor = (bgColor == null)?
 		Webnail.DEFAULT_BGCOLOR : bgColor;
 	    imageTimeTF.setText((imageTime == null)? "": 
@@ -1273,6 +1283,10 @@ public class Gui {
 	localeString("setCustomLayout")
     };
 	
+    static String[] mtarray = null;
+    static JComboBox<String> mtcomboBox = null;
+    static int mtcomboBoxDefaultIndex;
+
     static DefaultComboBoxModel<Object> lcbmodel =
 	new DefaultComboBoxModel<>(layoutChoices);
     static JComboBox<Object> layoutComboBox = new JComboBox<>(lcbmodel);
@@ -2295,26 +2309,32 @@ public class Gui {
 		    npfl.setHgap(10);
 		    mtPanel.setLayout(npfl);
 		    mtPanel.setBackground(COLOR1);
-		    final String[] mtarray = 
+		    /*final String[]*/ mtarray = 
 			ImageMimeInfo.getMimeTypes().toArray
 			(new String[ImageMimeInfo.getMimeTypes().size()]);
 		    String[] cbmtarray = mtarray.clone();
 		    for (int i = 0; i < mtarray.length; i++) {
 			cbmtarray[i] = localeMTString(mtarray[i]);
+			if (mtarray[i].equals("image/jpeg")) {
+			    mtcomboBoxDefaultIndex = i;
+			}
 		    }
 		    JLabel cbLabel = 
 			new JLabel(localeString("outputImageMIMEtype"));
-		    final JComboBox<String> comboBox =
+		    /*final JComboBox<String>*/ mtcomboBox =
 			new JComboBox<>(cbmtarray);
+		    mtcomboBox.setSelectedIndex(mtcomboBoxDefaultIndex);
+		    /*
 		    for (int i = 0; i < mtarray.length; i++) {
 			if (mtarray[i].equals("image/jpeg")) {
-			    comboBox.setSelectedItem(cbmtarray[i]);
+			    mtcomboBox.setSelectedItem(cbmtarray[i]);
 			}
 		    }
+		    */
 
 		    ActionListener cbal = new ActionListener() {
 			    public void actionPerformed(ActionEvent e) {
-				int ind = comboBox.getSelectedIndex();
+				int ind = mtcomboBox.getSelectedIndex();
 				mtype = mtarray[ind];
 				//extension = Webnail.extmap.get(mtype);
 				//type = Webnail.fmtmap.get(mtype);
@@ -2326,7 +2346,7 @@ public class Gui {
 				//System.out.println(type +" " + extension);
 			    }
 			};
-		    comboBox.addActionListener(cbal);
+		    mtcomboBox.addActionListener(cbal);
 		    layoutComboBox.addActionListener(new ActionListener() {
 			    public void actionPerformed(ActionEvent e) {
 				if (layoutComboBoxBeingModified) return;
@@ -2362,9 +2382,9 @@ public class Gui {
 			    }
 			});
 		    mtPanel.add(cbLabel);
-		    mtPanel.add(comboBox);
-		    comboBox.setToolTipText(localeString("MTcomboBoxToolTip"));
-
+		    mtPanel.add(mtcomboBox);
+		    mtcomboBox.setToolTipText(localeString
+					      ("MTcomboBoxToolTip"));
 
 		    gridbag1.setConstraints(mtPanel,c);
 		    outPanel.add(mtPanel);

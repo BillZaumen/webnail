@@ -346,9 +346,9 @@ public class LayoutParser {
 	    } else {
 		throw new SAXException(localeString("missingPublicID"));
 	    }
-            if (systemID.matches("resource:.*")) {
+            if (systemID.matches("sresource:.*")) {
                 // our DTD is built into the applications JAR file.
-                String resource = systemID.substring(9);
+                String resource = systemID.substring(10);
                 try {
                     if (resource.endsWith(".dtd")) {
                         InputStream stream =

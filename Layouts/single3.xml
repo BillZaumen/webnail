@@ -1,6 +1,6 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <!DOCTYPE layout PUBLIC "-//BZDev//Webnail_Layout_Info 1.0//EN"
-	  "resource:webnail-layout-info-1.0.dtd">
+	  "sresource:webnail-layout-info-1.0.dtd">
 <layout xmlns="http://bzdev.org/DTD/webnail-layout-info-1.0">
   <single max_thumbwidth="200"
 	  max_thumbheight="200"

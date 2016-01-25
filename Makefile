@@ -95,7 +95,8 @@ EXTDIR = $(SYS_JARDIRECTORY)
 EXTLIBS=$(EXTDIR)/libbzdev.jar
 
 
-MANS = $(JROOT_MANDIR)/man1/webnail.1.gz
+MANS = $(JROOT_MANDIR)/man1/webnail.1.gz \
+	$(JROOT_MANDIR)/man5/webnail.5.gz
 
 HELPICONS = WebFiles/fleft.gif  WebFiles/fright.gif  \
 	WebFiles/left.gif  WebFiles/redo.gif \
@@ -197,11 +198,22 @@ $(JROOT_MANDIR)/man1/webnail.1.gz: webnail.1
 	sed s/VERSION/$(VERSION)/g webnail.1 | \
 	gzip -9 > $(JROOT_MANDIR)/man1/webnail.1.gz
 
+$(JROOT_MANDIR)/man5/webnail.5.gz: webnail.1
+	mkdir -p $(JROOT_MANDIR)/man5
+	sed s/VERSION/$(VERSION)/g webnail.5 | \
+	gzip -9 > $(JROOT_MANDIR)/man5/webnail.5.gz
+
 
 clean:
-	rm $(CLASSES)/*.class $(JROOT_JARDIR)/webnail-$(VERSION).jar \
+	rm -f $(CLASSES)/webnail/* $(JROOT_JARDIR)/webnail-$(VERSION).jar \
 	$(JROOT_MANDIR)/man1/webnail.1.gz \
+	$(JROOT_MANDIR)/man5/webnail.5.gz \
 	$(JROOT_BIN)/webnail \
+	$(CLASSES)/*.dtd
+	[ -d $(CLASSES)/webnail ] && rmdir $(CLASSES)/webnail || true
+	[ -d man/man1 ] && rmdir man/man1 || true
+	[ -d man/man5 ] && rmdir man/man5 || true
+	[ -d man ] && rmdir man || true
 
 install: all 
 	install -d $(APP_ICON_DIR)
@@ -212,6 +224,7 @@ install: all
 	install -d $(BIN)
 	install -d $(MANDIR)
 	install -d $(MANDIR)/man1
+	install -d $(MANDIR)/man5
 	install -d $(JARDIRECTORY)
 	install -m 0644 -T $(SOURCEICON) $(APP_ICON_DIR)/$(TARGETICON)
 	for i in $(ICON_WIDTHS) ; do \
@@ -254,6 +267,7 @@ install: all
 	install -m 0755 $(JROOT_BIN)/webnail $(BIN)
 	install -m 0644 webnail.desktop $(APPDIR)
 	install -m 0644 $(JROOT_MANDIR)/man1/webnail.1.gz $(MANDIR)/man1
+	install -m 0644 $(JROOT_MANDIR)/man5/webnail.5.gz $(MANDIR)/man5
 
 uninstall:
 	@rm $(MANDIR)/man1/webnail.1.gz || echo ... rm webnail.1.gz  FAILED
