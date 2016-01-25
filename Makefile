@@ -144,7 +144,7 @@ ALL = $(PROGRAM) webnail.desktop $(MANS) $(JROOT_BIN)/webnail
 
 # program: $(JROOT_BIN)/webnail $(JROOT_JARDIR)/webnail-$(VERSION).jar 
 
-program: $(PROGRAM)
+program: clean $(PROGRAM)
 
 #
 # Before using, set up a symbolic link for bzdevlib.jar in the ./jar directory.
@@ -198,7 +198,7 @@ $(JROOT_MANDIR)/man1/webnail.1.gz: webnail.1
 	sed s/VERSION/$(VERSION)/g webnail.1 | \
 	gzip -9 > $(JROOT_MANDIR)/man1/webnail.1.gz
 
-$(JROOT_MANDIR)/man5/webnail.5.gz: webnail.1
+$(JROOT_MANDIR)/man5/webnail.5.gz: webnail.5
 	mkdir -p $(JROOT_MANDIR)/man5
 	sed s/VERSION/$(VERSION)/g webnail.5 | \
 	gzip -9 > $(JROOT_MANDIR)/man5/webnail.5.gz
@@ -206,8 +206,8 @@ $(JROOT_MANDIR)/man5/webnail.5.gz: webnail.1
 
 clean:
 	rm -f $(CLASSES)/webnail/* $(JROOT_JARDIR)/webnail-$(VERSION).jar \
-	$(JROOT_MANDIR)/man1/webnail.1.gz \
-	$(JROOT_MANDIR)/man5/webnail.5.gz \
+	$(JROOT_MANDIR)/man1/* \
+	$(JROOT_MANDIR)/man5/* \
 	$(JROOT_BIN)/webnail \
 	$(CLASSES)/*.dtd
 	[ -d $(CLASSES)/webnail ] && rmdir $(CLASSES)/webnail || true

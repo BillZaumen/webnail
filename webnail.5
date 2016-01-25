@@ -1,0 +1,622 @@
+.TH WEBNAIL "5" "Jan 2016" "webnail VERSION" "File Formats and Conversions"
+.SH NAME
+webmail \- webnail file formats
+.SH DESCRIPTION
+The program
+.B webnail
+allows its state to be saved in XML files that use the file extensions
+.B xml
+or
+.BR wnl .
+This file will be described below.
+.PP
+For configuring the
+.B webnail
+program, several additional files may be needed. The
+first is a 'layout' file with an extension of
+.BR xml .
+This file starts with the following lines:
+.PP
+.B
+<?xml version="1.1" encoding="UTF-8"?>
+.br
+.B
+<!DOCTYPE images PUBLIC "-//BZDev//Webnail_Layout_Info 1.0//EN" 
+.br
+.B
+                        "sresource:webnail-1.0.dtd">
+.PP
+All spaces after
+.B !DOCTYPE
+must be single spaces, not tabs, with this restriction applying
+up to the second double quote.
+.PP
+The second is a template file, with an extension of
+.BR wnt .
+It starts with the sequence of characters
+.B
+$(!M.T application/x.webnail-template)
+.R
+which indicates that file's MIME type.  These files are passed to
+the template processor provided by the BZDev class library, and
+that template processor treats directives starting with an
+exclamation point as a comment.
+.PP
+Both the layout and template files are described in the
+Webnail manual, accessible from the Webnail program via the
+"help" menu.  The remainder of this manual page will describe
+the Webnail input-file format.
+.SH XML INPUT FILE FORMAT
+.PP
+An XML input file provides more options than are possible using the
+command-line interface.  The file must start with the following two lines:
+.PP
+.B
+<?xml version="1.1" encoding="UTF-8"?>
+.br
+.B
+<!DOCTYPE images PUBLIC "-//BZDev//Webnail 1.0//EN" 
+.br
+.B
+                        "sresource:webnail-1.0.dtd">
+.PP
+The first line indicates the version of XML and the character set encoding.
+The second line specifies the DTD file giving the input syntax for the
+XML file.  URL's starting with "sresource" are interpreted by the program
+as resources that can be obtained from the program's JAR file. In addition,
+the first element,
+.BR webnail ,
+must contain an
+.B xmlns
+attribute with a specific value:
+.B http://bzdev.org/DTD/webnail-1.0
+.PP
+The top level element is named 
+.BR webnail ,
+and it is defined as follows:
+.PP
+.B
+<!ELEMENT webnail (domMap?, title?, descr?, (user, password)?,
+.br
+.B
+	  head?, header?, image*, trailer?, finalHtml?)>
+.br
+.B
+<!ATTLIST webnail
+.br
+.B
+	  xmlns CDATA #FIXED "http://bzdev.org/DTD/webnail-1.0"
+.br
+.B
+	  windowTitle CDATA #IMPLIED
+.br
+.B
+	  mimeType  CDATA #IMPLIED
+.br
+.B
+	  webMode (true|false) #IMPLIED
+.br
+.B
+	  linkMode (true|false) #IMPLIED
+.br
+.B
+	  flatMode (true|false) #IMPLIED
+.br
+.B
+	  highResMode (true|false) #IMPLIED
+.br
+.B
+	  webArchiveMode (true|false) #IMPLIED
+.br
+.B
+	  syncMode (true|false) #IMPLIED
+.br
+.B
+	  waitOnError (true|false) #IMPLIED
+.br
+.B
+	  imageTime CDATA #IMPLIED
+.br
+.B
+	  minImageTime CDATA #IMPLIED
+.br
+.B
+	  bgcolor  CDATA #IMPLIED
+.br
+.B
+	  height  CDATA #IMPLIED
+.br
+.B
+	  width   CDATA #IMPLIED
+.br
+.B
+	  hrefToOrig (true|false) #IMPLIED
+.br
+.B
+	  layout (normal
+.br
+.B
+	          | headerThenImagesThenTrailer
+.br
+.B
+	          | headerThenImagesAndTrailer
+.br
+.B
+	          | headerThenTrailerAndImages
+.br
+.B
+	          | imagesAndHeaderWithTrailer
+.br
+.B
+                  | headerWithTrailerAndImages) #IMPLIED>
+.R
+.PP
+The child elements are described below.  The attributes are defined
+as follows:
+.TP
+.B windowTitle
+This attribute specifies the title that will appear in the browser's menu bar.
+.TP
+.B mimeType
+This attribute specifies the MIME type of scaled image files.  The
+default value is "image/jpeg".
+.TP
+.B webMode
+This attribute should be set to true if the output directory or zip
+file should be set up for use with a web site.  The default value is false.
+.TP
+.B linkMode
+When the value is true, for full resolution images and when the image
+is specified using a URL, a link to the original image rather than
+copy of the image is used it. The default value is false.
+.TP
+.B flatMode
+High resolution images are not put in a sub-directory when webMode is
+true.  If the images are not scaled and its MIME type matches the MIME
+type specified by the mimeType attribute (or its default value), and the
+original image is in the target directory, then the image will not be copied.
+The default value is false.
+.TP
+.B highResMode
+has a default value of true.  When it is false, high resolution images are
+not included and the full-screen option for a slideshow will not appear.
+.TP
+.B webArchiveMode
+When set to true (the default is false), the output will be a web-archive
+file, or a directory with the same structure.  There will be a
+WEB-INFO/web.xml entry that specifies how a web server should be configured.
+.TP
+.B syncMode
+This attribute has a default value of false.  When it is true, if an
+image (e.g., one obtained from a web server) arrives late, the
+duration over the image and subsequent ones are shown will be adjusted
+to compensate for the delay.
+.TP
+.B waitOnError
+This attribute has a default value of false.  When true, if images
+were skipped because errors were detected while attempting to download
+them, the skipped images' imageTime (the duration for which an image
+should be displayed) will be added to the imageTime of the currently
+displayed image.
+.TP
+.B imageTime
+This attribute specifies the duration for which an image should be
+displayed in seconds (three digits pass a decimal point are allowed to
+specify time in milliseconds).  To specify times in minutes and
+seconds, separate minutes and seconds with a colon. To specify the
+duration in hours, minutes and seconds, separate hours and minutes,
+and minutes and seconds, with a colon.  Thus, 1:0:20.5, 60:20.5, and
+80.5 all represent the same value.  The default value is 10 seconds.
+.TP
+.B minImageTime
+This attribute specifies the minimum duration for which an image should be
+shown when syncMode is true.  The default value is 4 seconds.
+.TP
+.B bgcolor
+This attribute specifies the background color used in full-screen
+mode.  See the CSS specification for the syntax.  The default value is
+"gray".
+.TP
+.B height
+This attribute specifies the height of a bounding box for
+full-resolution images in pixels.
+.TP
+.B width
+This attribute specifies the width of a bounding box for
+full-resolution images in pixels.
+.TP
+.B hrefToOrig
+This attribute has a value of true or false.  When true, a default
+value for the hrefURL attribute of each image element is provided, the
+URL of the original unscaled image.  When false, the hrefURL attribute
+defaults to a scaled copy whose bounding box is the height and width
+attributes above.
+.TP
+.BR layout
+This attribute specifies a layout for the web page (index.html): the
+attribute value are as follows (in all cases, the HTML text from the
+.B finalHtml
+element will appear at the bottom of the page, just before the end of the
+document):
+.br
+.B normal
+indicates the images will be displayed in a scrollbar with a larger view
+in an adjacent frame, and provides navigation buttons and the ability to
+show the images in a slideshow, with HTML text provided by the header and
+trailer elements above and below the images respectively.
+.br
+.B headerThenImagesThenTrailer 
+indicates that the images are placed in a
+table whose number of columns is chosen based on the image size, with the
+header and trailer elements providing HTML text above and belows the images
+respectively.
+.br
+.B headerThenImagesAndTrailer
+indicates that the HTML text from the header element
+appears first on the page, followed by two columns, the first showing
+the images (one image per row) and the second the HTML text provided
+by the trailer element.
+.br
+.B headerThenTrailerAndImages
+indicates that the HTML text from the header element
+appears first on the page, followed by two columns, the first showing
+the HTML text provided by the trailer element and the second showing
+the images (one image per row).
+.br
+.B imagesAndHeaderWithTrailer
+indicates that the web page should contain two columns, the first containing the images
+(one image per row) and the second containing the HTML text from the
+header element followed by the HTML text from the trailer
+element. 
+.br
+.B headerWithTrailerAndImages
+indicates that the web page contains two columns, the first containing
+the HTML text from the header element followed by the HTML text from
+the trailer element, and the second containing the images (one image
+per row).
+.PP
+The domMap element provides a list of mappings, providing a key
+that will be used in an image's 
+.B property 
+element, the ID of an HTML element, the name of a property of
+the HTML element (the property names are defined in the Javascript DOM
+documentation), and a default value for that property.
+.PP
+.B
+<!ELEMENT domMap (mapping)*>
+.br
+.B
+<!ELEMENT mapping  EMPTY>
+.br
+.B
+<!ATTLIST mapping
+.br
+.B
+	  key CDATA #REQUIRED
+.br
+.B
+	  id  CDATA #REQUIRED
+.br
+.B
+	  prop CDATA #REQUIRED
+.br
+.B
+	  defaultValue CDATA #REQUIRED>
+.R
+.PP
+The attributes are as follows:
+.TP
+.B key
+This attribute specifies a key naming the mapping. This will be used
+in the key attribute of an image's property element.
+.TP
+.B id
+This attribute specifies the id of an element.  The name matches that
+of an HTML element's ID attribute.
+.TP
+.B prop
+This attribute specifies the Javascript property whose value may be
+modified.
+.TP
+.B defaultValue
+This attribute specifies the default value of the Javascript property.
+.PP
+For example, a mapping might be defined as
+.PP
+.B
+<mapping key="foo" id="div1", prop="style" 
+.br
+.B
+ defaultValue="background-color: white" />
+.PP
+The 
+.B title 
+element is defined as follows:
+.PP
+.B
+<!ELEMENT title (#PCDATA)*>
+.br
+.B
+<!ATTLIST title
+.br
+.B
+	  url CDATA #IMPLIED>
+.R
+.PP
+The element's content specifies a title. When it appears as a child of
+the
+.B images
+element, it specifies the default title to display below an
+image. When it appears in an
+.B image
+element, it specifies the title for a specific image.  The value is
+spliced into an HTML document. The entities "&lt;", "&gt;", "&amp;",
+or "&quot" should be used instead of the corresponding characters, or
+the value should appear in a CDATA section (delimited by "<![CDATA["
+and "]]>".  Alternatively, a 
+.B url
+attribute can be used.  This attribute provides a URL that points to a
+resource containing the element's content.  The element's content will be
+ignored when a
+.B url
+attribute is provided.
+.PP
+The
+.B descr
+element is defined as follows:
+.PP
+.B
+<!ELEMENT descr (#PCDATA)*>
+.br
+.B
+<!ATTLIST descr
+.br
+.B
+	  url CDATA #IMPLIED>
+.R
+.PP
+The
+.B descr
+element specifies a description, which is displayed directly below the
+title.  When it appears as a child of the
+.B images
+element, it specifies the default description. When it appears as a
+child of an
+.B image
+element, it provides the description for that specific image. The
+value is spliced into an HTML document. The entities "&lt;", "&gt;",
+"&amp;", or "&quot" should be used instead of the corresponding
+characters, or the value should appear in a CDATA section (delimited
+by "<![CDATA[" and "]]>"). Alternatively, a 
+.B url
+attribute can be used.  This attribute provides a URL that points to a
+resource containing the element's content.  The element's content will be
+ignored when a
+.B url
+attribute is provided.
+.PP
+The elements
+.PP
+.B
+<!ELEMENT user (#PCDATA)*>
+.PP
+and
+.PP
+.B
+<!ELEMENT password (#PCDATA)*>
+.PP
+provide a user name and password when authentication is required. When
+these elements appear as a child of an
+.B images
+element, they provide the default user name and password for any HTTP
+request requiring authentication.  When they appear as a child of an
+.B image
+element, they provide the user name and password for a specific URL.
+.PP
+The
+.B head
+element is defined by
+.PP
+.B
+<!ELEMENT head (#PCDATA)*>
+.br
+.B
+<!ATTLIST head
+.br
+.B
+	  url CDATA #IMPLIED>
+.R
+.PP
+and its content will appear in the HEAD section of an HTML document.
+The entities "&lt;", "&gt;", "&amp;", or "&quot" should be used
+instead of the corresponding characters, or the value should appear in
+a CDATA section (delimited by "<![CDATA[" and "]]>".  This allows
+various HTML elements to be added to the document head. Alternatively, a 
+.B url
+attribute can be used.  This attribute provides a URL that points to a
+resource containing the element's content.  The element's content will be
+ignored when a
+.B url
+attribute is provided.
+.PP
+The
+.B header
+element is defined by
+.B
+<!ELEMENT header (#PCDATA)*>
+.br
+.B
+<!ATTLIST header
+.br
+.B
+	  url CDATA #IMPLIED>
+.R
+.PP
+and its content will appear at the start of the
+.B body
+element in an HTML document. The entities "&lt;", "&gt;", "&amp;", or
+"&quot" should be used instead of the corresponding characters, or the
+value should appear in a CDATA section (delimited by "<![CDATA[" and
+"]]>". Alternatively, a 
+.B url
+attribute can be used.  This attribute provides a URL that points to a
+resource containing the element's content.  The element's content will be
+ignored when a
+.B url
+attribute is provided.
+.PP
+The
+.B image
+element is defined by
+.PP
+.B
+<!ELEMENT image ((filename | url), title?, descr?, (user, password)?,
+.br
+.B
+	  property*)>
+.br
+.B
+<!ATTLIST image
+.br
+.B
+	  mimeType  CDATA #IMPLIED
+.br
+.B
+	  linkMode (true|false) #IMPLIED
+.br
+.B
+	  hrefURL  CDATA #IMPLIED
+.br
+.B
+	  hrefTarget (_blank|_top) #IMPLIED
+.br
+.B
+	  imageTime CDATA #IMPLIED
+.br
+.B
+	  minImageTime CDATA #IMPLIED>
+.R
+.PP
+The children define a file name or URL for an image, and optionally a
+title, description, user name and password, and a list of properties.
+The attributes,
+.BR mimeType ,
+.BR linkMode ,
+.BR imageTime ,
+and
+.B minImageTime
+have the same meaning as the attributes with the same name do for the
+.B images
+element, but apply to a specific image.  The attribute
+.B hrefURL
+(if present) gives the URL to load when the image (not the thumbnail) is
+clicked on the web page. The attribute
+.B hrefTarget
+indicates the corresponding target for the link, either
+.B _blank
+or
+.BR _top .
+.PP
+The child elements
+.B title
+and
+.B descr
+were defined above.  The child elements
+.B filename
+or its alternative
+.B url
+indicate where to find an image.  The element definitions for these are
+.PP
+.B
+<!ELEMENT filename  (#PCDATA)*>
+.br
+.B
+<!ELEMENT url  (#PCDATA)*>
+.PP
+Both contain character data as their contents. The character data
+provides a file name or URL respectively. Alternatively, a 
+.B url
+attribute can be used.  This attribute provides a URL that points to a
+resource containing the element's content.  The element's content will be
+ignored when a
+.B url
+attribute is provided.
+
+.PP
+The element
+.B property
+provides a property value for a key defined for a
+.B mapping
+element defied above.  The 
+.B property 
+element is defined by
+.PP
+.B
+<!ELEMENT property (#PCDATA)*>
+.br
+.B
+<!ATTLIST property
+.br
+.B
+	  key CDATA #REQUIRED>
+.PP
+The single attribute
+.B key
+is a reference to the ID, property name, and default value for a
+Javascript object that is part of the HTML page's DOM. The
+.B property
+element's content is the value of the property to use for the current
+image.  The entities "&lt;", "&gt;", "&amp;", or "&quot" should be
+used instead of the corresponding characters, or the value should
+appear in a CDATA section (delimited by "<![CDATA[" and "]]>".
+.PP
+Finally the
+.B trailer
+and
+.B finalHtml
+elements allow additional HTML to be added.  These are defined by
+.PP
+.B
+<!ELEMENT trailer (#PCDATA)*>
+.br
+.B
+<!ATTLIST trailer
+.br
+.B
+	  url CDATA #IMPLIED>
+.R
+.br
+.B
+<!ELEMENT finalHtml  (#PCDATA)*>
+.br
+.B
+<!ATTLIST finalHtml
+.br
+.B
+	  url CDATA #IMPLIED>
+.R
+.PP
+The contents of both give the HTML to insert into an HTML document.
+The entities "&lt;", "&gt;", "&amp;", or "&quot" should be used
+instead of the corresponding characters, or the value should appear in
+a CDATA section (delimited by "<![CDATA[" and "]]>".  Alternatively, a 
+.B url
+attribute can be used.  This attribute provides a URL that points to a
+resource containing the element's content.  The element's content will be
+ignored when a
+.B url
+attribute is provided. The content of
+the
+.B trailer
+element will appear before the final
+.B script
+element, that appears in the HTML document by default and which loads
+the file
+.PP
+.BR controls/slideshow2.js ,
+.PP
+ and the content of the
+.B finalHtml
+element will follow that script.
+.SH SEE ALSO
+.BR webnail (1)
