@@ -56,6 +56,10 @@ webnail \- create a webnail image
 .B webnail
 .B -l
 .br
+.B webnail
+.B --gui
+.I XML_INPUT_FILE
+.br
 .SH DESCRIPTION
 .PP
 Webnail is a program that scales an image to create a thumbnail of the
@@ -79,6 +83,15 @@ The path name or file name of the thumbnail file to be created.
 Any number of pairs of input and output files can be passed, up to
 system imposed limits on the length of a command line.
 .SH OPTIONS
+.TP
+.B --gui
+The following argument,
+.IR FILE_NAME ,
+is an XML file with the default extension (xml) or the extension wnl.
+This file represents the saved state of a webnail session and
+has a MIME type of application/x.webnail+xml.  The window system
+will normally be configured to recognize this type of file and
+open the file by using this command-line flag.
 .TP
 .B -i
 The target directory or zip file will contain a WEB-INF subdirectory
