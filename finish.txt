@@ -1,0 +1,37 @@
+To integrate Webnail with a computer's window system, one will have to
+set configure the window system to use Webnail's icons and to
+recognize file extensions and MIME types.
+
+In the webnail "doc" directory there will be two files: icons.zip and
+mime.zip:
+
+   * icons.zip contains PNG and SVG files for icons.  The path names
+   start either with NxN, where N is the number of pixels along the
+   edge of an icon, or with the word scalable.  Each of these is
+   followed by a path-name component that is either apps or mimetypes.
+   For the apps case, the last component to the pathname is either
+   webnail.png or webnail.svg.  For the mimetypes case, the names
+   of the PNG and SVG files, excluding the extensions, match the
+   MIME type with the '/' in the MIMETYPE replaced with a '-'.
+   Thus the MIME type application/x.webnail+xml would match the
+   image files application-x.webnail+xml.png or
+   applications-x.webnail+xml.svg.
+
+   * mime.zip contains a single file: MIME/webnail.xml, which provides
+   a file using the freedesktop.org format described in
+   <http://standards.freedesktop.org/shared-mime-info-spec/shared-mime-info-spec-0.18.html#idm140001680036896>.
+   This file format specifies what patterns in a file and what file
+   extensions suggest a particular MIME type.
+   
+   * desktop.txt contains the contents of the file normally named
+   webnail.desktop (which is used by GNOME and KDE), as a guide for
+   how to configure the windows system.
+   
+
+The behavior one wants is to (a) show the appropriate icon for a file
+in a file manager window, (b) to allow the webnail application to be
+easily started from a GUI, and (c) double clicking a file whose
+mime type is application-x.webnail+xml (the preferred extension is "wnl")
+should start the webnail application by running
+       webnail --gui FILENAME
+where FILENAME is the name of the wnl file.
