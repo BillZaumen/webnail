@@ -1,5 +1,5 @@
 @echo off
-if not -%1-==-- (
+if -%1-==-- (
     javaw -jar WEBNAIL_DIR/webnail.jar
 ) else (
     if %1==--gui  (
