@@ -35,9 +35,9 @@ public class Webnail {
 	return bundle.getString(name);
     }
 
-    static String WEBNAIL_XML_MIME_TYPE = "application/prs.wtz.webnail+xml";
+    static String WEBNAIL_XML_MIME_TYPE = "application/x.webnail+xml";
     static String WEBNAIL_LAYOUT_XML_MIME_TYPE =
-	"application/pers.wtz.webnail-layout+xml";
+	"application/x.webnail-layout+xml";
     static String XML_MIME_TYPE = "application/xml";
     static String ALT_XML_MIME_TYPE = "text/xml";
     static String GENERIC_MIME_TYPE = "application/octet-stream";

@@ -42,7 +42,7 @@ public class LayoutParser {
     LayoutParms parms = null;
 
     private static String HTTP_ACCEPT_VALUE =
-	"application/prs.wtz.webnail-layout+xml"
+	"application/x.webnail-layout+xml"
 	+", " + "application/xml"
 	+", " + "text/xml"
 	+", " + "application/octet-stream";

@@ -2200,7 +2200,7 @@ public class Parser {
 	    throws SAXException
 	{
 	    if (target.equals("M.T")) {
-		if (data.equals("application/prs.wtz.webnail+xml")) {
+		if (data.equals("application/x.webnail+xml")) {
 		    mimeTypePISeen = true;
 		    return;
 	    } else {

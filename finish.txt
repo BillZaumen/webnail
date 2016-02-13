@@ -60,9 +60,9 @@ following:
     icons/hicolor/scalable/mimetypes/application-x.webnail+xml.svg
     icons/hicolor/scalable/mimetypes/application-x.webnail-layout+xml.svg
     icons/hicolor/scalable/mimetypes/application-x.webnail-templates+xml.svg
-    icons/hicolor/NxN/mimetypes/application-x.webnail+xml.svg
-    icons/hicolor/NxN/mimetypes/application-x.webnail-layout+xml.svg
-    icons/hicolor/NxN/mimetypes/application-x.webnail-templates+xml.svg
+    icons/hicolor/NxN/mimetypes/application-x.webnail+xml.png
+    icons/hicolor/NxN/mimetypes/application-x.webnail-layout+xml.png
+    icons/hicolor/NxN/mimetypes/application-x.webnail-templates+xml.png
 
 where N = 16, 20, 22, 24, 32, 36, 48, 64, 72, 96, 128, 192, and
 256. The "scalable" directories represent icons with SVG (Scalable
