@@ -185,19 +185,19 @@ public class Parser {
 	    setTitle(text.toString());
 	    text.setLength(0);
 	} catch (MalformedURLException urle) {
-	    ErrorMessage.display(String.format
-				 (localeString("malformedURL2"),
-				  titleURL.toString()),
+	    ErrorMessage.display(comp,
 				 localeString("titleErrorTitle"),
-				 comp);
+				 String.format
+				 (localeString("malformedURL2"),
+				  titleURL.toString()));
 	    // System.err.println(urle.getMessage());
 	} catch (IOException eio) {
-	    ErrorMessage.display(MessageFormat.format
+	    ErrorMessage.display(comp,
+				 localeString("titleErrorTitle"),
+				 MessageFormat.format
 				 (localeString("ioErrorURL"),
 				  eio.getMessage(),
-				  titleURL.toString()),
-				 localeString("titleErrorTitle"),
-				 comp);
+				  titleURL.toString()));
 	    // System.err.println(eio.getMessage());
 	}
     }
@@ -212,19 +212,19 @@ public class Parser {
 	    setDescr(text.toString());
 	    text.setLength(0);
 	} catch (MalformedURLException urle) {
-	    ErrorMessage.display(String.format
-				 (localeString("malformedURL2"),
-				  descrURL.toString()),
+	    ErrorMessage.display(comp,
 				 localeString("descrErrorTitle"),
-				 comp);
+				 String.format
+				 (localeString("malformedURL2"),
+				  descrURL.toString()));
 	    // System.err.println(urle.getMessage());
 	} catch (IOException eio) {
-	    ErrorMessage.display(MessageFormat.format
+	    ErrorMessage.display(comp,
+				 localeString("descrErrorTitle"),
+				 MessageFormat.format
 				 (localeString("ioErrorURL"),
 				  eio.getMessage(),
-				  descrURL.toString()),
-				 localeString("descrErrorTitle"),
-				 comp);
+				  descrURL.toString()));
 	    // System.err.println(eio.getMessage());
 	}
     }
@@ -657,19 +657,19 @@ public class Parser {
 	    setHead(text.toString());
 	    text.setLength(0);
 	} catch (MalformedURLException urle) {
-	    ErrorMessage.display(String.format
-				 (localeString("malformedURL2"),
-				  headURL.toString()),
+	    ErrorMessage.display(comp,
 				 localeString("headErrorTitle"),
-				 comp);
+				 String.format
+				 (localeString("malformedURL2"),
+				  headURL.toString()));
 	    // System.err.println(urle.getMessage());
 	} catch (IOException eio) {
-	    ErrorMessage.display(MessageFormat.format
+	    ErrorMessage.display(comp,
+				 localeString("headErrorTitle"),
+				 MessageFormat.format
 				 (localeString("ioErrorURL"),
 				  eio.getMessage(),
-				  headURL.toString()),
-				 localeString("headErrorTitle"),
-				 comp);
+				  headURL.toString()));
 	    // System.err.println(eio.getMessage());
 	}
     }
@@ -684,19 +684,19 @@ public class Parser {
 	    setHeader(text.toString());
 	    text.setLength(0);
 	} catch (MalformedURLException urle) {
-	    ErrorMessage.display(String.format
-				 (localeString("malformedURL2"),
-				  headerURL.toString()),
+	    ErrorMessage.display(comp,
 				 localeString("headerErrorTitle"),
-				 comp);
+				 String.format
+				 (localeString("malformedURL2"),
+				  headerURL.toString()));
 	    // System.err.println(urle.getMessage());
 	} catch (IOException eio) {
-	    ErrorMessage.display(MessageFormat.format
+	    ErrorMessage.display(comp,
+				 localeString("headerErrorTitle"),
+				 MessageFormat.format
 				 (localeString("ioErrorURL"),
 				  eio.getMessage(),
-				  headerURL.toString()),
-				 localeString("headerErrorTitle"),
-				 comp);
+				  headerURL.toString()));
 	    // System.err.println(eio.getMessage());
 	}
     }
@@ -711,19 +711,19 @@ public class Parser {
 	    setTrailer(text.toString());
 	    text.setLength(0);
 	} catch (MalformedURLException urle) {
-	    ErrorMessage.display(String.format
-				 (localeString("malformedURL2"),
-				  trailerURL.toString()),
+	    ErrorMessage.display(comp,
 				 localeString("trailerErrorTitle"),
-				 comp);
+				 String.format
+				 (localeString("malformedURL2"),
+				  trailerURL.toString()));
 	    // System.err.println(urle.getMessage());
 	} catch (IOException eio) {
-	    ErrorMessage.display(MessageFormat.format
+	    ErrorMessage.display(comp,
+				 localeString("trailerErrorTitle"),
+				 MessageFormat.format
 				 (localeString("ioErrorURL"),
 				  eio.getMessage(),
-				  trailerURL.toString()),
-				 localeString("trailerErrorTitle"),
-				 comp);
+				  trailerURL.toString()));
 	    // System.err.println(eio.getMessage());
 	}
     }
@@ -738,19 +738,19 @@ public class Parser {
 	    setAfterScript(text.toString());
 	    text.setLength(0);
 	} catch (MalformedURLException urle) {
-	    ErrorMessage.display(String.format
-				 (localeString("malformedURL2"),
-				  finalHtmlURL.toString()),
+	    ErrorMessage.display(comp,
 				 localeString("finalHTMLErrorTitle"),
-				 comp);
+				 String.format
+				 (localeString("malformedURL2"),
+				  finalHtmlURL.toString()));
 	    // System.err.println(urle.getMessage());
 	} catch (IOException eio) {
-	    ErrorMessage.display(MessageFormat.format
+	    ErrorMessage.display(comp,
+				 localeString("finalHTMLErrorTitle"),
+				 MessageFormat.format
 				 (localeString("ioErrorURL"),
 				  eio.getMessage(),
-				  finalHtmlURL.toString()),
-				 localeString("finalHTMLErrorTitle"),
-				 comp);
+				  finalHtmlURL.toString()));
 	    // System.err.println(eio.getMessage());
 	}
     }
