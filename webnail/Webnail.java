@@ -564,8 +564,12 @@ public class Webnail {
 		if (lind == -1) {
 		    name = URLEncoder.encode(ifn, "UTF-8");
 		    if (!scaling && !webmode) {
-			fname = ifn;
-			if (checkCopying) copying = false;
+			if (checkCopying) {
+			    fname = ifn;
+			    copying = false;
+			} else {
+			    fname = ifn + "." + extension;
+			}
 		    } else {
 			fname = ifn + "." + extension;
 		    }
@@ -591,7 +595,6 @@ public class Webnail {
 		    outputFile =
 			new File(odir, fname);
 		}
-
 		if (hrExt != null) {
 		    if (hrExt.equals(extension)) {
 			hrExt = null;
