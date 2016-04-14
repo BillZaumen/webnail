@@ -491,9 +491,73 @@ public class Webnail {
 		if (maxThumbWidth == 0 && maxThumbHeight == 0) {
 		    scaling = false;
 		    copying = true;
-		    if (!urlmode && odir.getAbsoluteFile().equals
-			(inputFile.getParentFile()
-			 .getAbsoluteFile())) {
+		    if (urlmode) {
+			if (inputURL.startsWith("file:")) {
+			    File f;
+			    try {
+				f = new File(url.toURI());
+			    } catch (URISyntaxException urie) {
+				String s = inputURL.substring(5);
+				while (s.startsWith("//")) {
+				    s = s.substring(1);
+				}
+				f = new File(s);
+			    }
+			    if (odir.getAbsoluteFile().equals
+				(f.getParentFile().getAbsoluteFile())) {
+				checkCopying = true;
+			    }
+			    String nm = f.getName();
+			    int le = nm.lastIndexOf('.');
+			    String suffix = (le == -1)? "": nm.substring(le+1);
+			    String mt1 = ImageMimeInfo.getMIMETypeForSuffix
+				(extension);
+			    String mt2 = ImageMimeInfo.getMIMETypeForSuffix
+				(suffix);
+			    if (mt1 != null && mt2 != null) {
+				if (!mt1.equals(mt2)) {
+				    scaling = true;
+				    copying = false;
+				    checkCopying = false;
+				}
+			    }
+			} else {
+			    try {
+				URLConnection urlc = url.openConnection();
+				urlc.setConnectTimeout(30000);
+				String umtype = urlc.getContentType();
+				if (umtype == null) {
+				    InputStream is = urlc.getInputStream();
+				    umtype = URLConnection
+					.guessContentTypeFromStream(is);
+				    is.close();
+				    if (umtype == null) {
+					String nm = url.getPath();
+					umtype = URLConnection
+					    .guessContentTypeFromName(nm);
+				    }
+				}
+				if (umtype != null) {
+				    String mt1 =
+					ImageMimeInfo.getMIMETypeForSuffix
+					(extension);
+				    if (mt1 != null) {
+					if (!mt1.equals(umtype)) {
+					    scaling = true;
+					    copying = false;
+					    checkCopying = false;
+					}
+				    }
+				}
+			    } catch (Exception eurlc) {
+				// if we can't do these tests, we'll
+				// just use the initial assumptions as to
+				// the right values for scaling and copying.
+			    }
+			}
+		    } else if (odir.getAbsoluteFile().equals
+			       (inputFile.getParentFile()
+				.getAbsoluteFile())) {
 			checkCopying = true;
 		    }
 		}
@@ -513,7 +577,7 @@ public class Webnail {
 			null;
 		    if ((hrExt != null) &&
 			ImageMimeInfo.getMIMETypeForSuffix(hrExt)
-			.equals(ImageMimeInfo.getMIMETypeForSuffix(extension))) {
+			.equals(ImageMimeInfo.getMIMETypeForSuffix(extension))){
 			if (checkCopying) copying = false;
 		    } else {
 			hrExt = null;
@@ -641,7 +705,7 @@ public class Webnail {
 		    x = parser.getValue("imageTime", ind);
 		    if (x != null) {
 			long lx = parser.getImageTime(ind);
-			System.out.println(x + "->" + lx);
+			// System.out.println(x + "->" + lx);
 			if (lx > -1) {
 			    x = "" + lx;
 			}
@@ -686,7 +750,7 @@ public class Webnail {
 		    if (tiledImages) {
 			int modulus = tiledWidth / maxThumbWidth;
 
-			System.out.println("modulus = " + modulus);
+			// System.out.println("modulus = " + modulus);
 
 			if ((ind+1) < n && ((ind + 1) % modulus) == 0) {
 			    map.put("newTableRow", "</tr><tr>");

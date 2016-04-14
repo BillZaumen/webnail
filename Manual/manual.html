@@ -94,11 +94,13 @@ the following sections.  A few controls are common to all of these:
     <li>Pick an output file. Either enter the file name in the text
       field or push the adjacent Choose button to bring up a dialog box.
     <li>Provide a maximum image width and maximum image height, both in 
-      units of pixels.
+      units of pixels. A value of 0 (or a blank) indicates that the
+      width or height is the actual width or height of the image.
     <li>Provide the input file by dragging and dropping an image file
-      onto the red "target" icon, or selecting an alternate input type
-      (file input or URL input) and then providing the file or URL
-      name.
+      onto the red "target" icon, dragging and dropping a string
+      providing a URL into the red "target" icon, or selecting an
+      alternate input type (file input or URL input) and then
+      providing the file or URL name.  
     <li>Push the Run button.
   </OL>
 </P>
@@ -118,14 +120,16 @@ the following sections.  A few controls are common to all of these:
   respectively.
 </P>
 <OL>
-  <li>Pick and output file or directory. Either enter the directory or
+  <li>Pick an output file or directory. Either enter the directory or
     zip-file name in the text field or push the adjacent Choose button
     to bring up a dialog box. For a zip file, the file name must end
     in the extension ".zip".
   <li>Provide a maximum image width and maximum image height, both in 
-    units of pixels.
+    units of pixels. A value of 0 (or a blank) indicates that the
+    width or height is the actual width or height of the image.
   <li>Provide the input images, either by dragging the files from a
-    file-browser window into the red target icon, or using the File
+    file-browser window into the red target icon, dragging list
+    * of strings into the read target icon, or using the File
     Input or URL Input options. You can provide images in multiple
     steps if needed (e.g., to get files from different directories).
   <li>Optionally push the EditImages button to bring up an image
@@ -162,7 +166,8 @@ the following sections.  A few controls are common to all of these:
     the file name must end in the extension ".zip". For a WAR file,
     the file name must end in the extension ".war".
   <li>Provide a maximum image width and maximum image height, both in 
-      units of pixels.
+      units of pixels. A value of 0 (or a blank) indicates that the
+      width or height is the actual width or height of the image.
   <li>Optionally provide a window title and image title by pushing the
     corresponding button on the "Edit" line. A dialog box will appear.
     The image title should be formatted as HTML and will be used as default
@@ -171,9 +176,10 @@ the following sections.  A few controls are common to all of these:
     as a slideshow. The time should be a decimal number in units of
     seconds. Other formats are descibed below.
   <li>Provide the input images, either by dragging the files from a
-    file-browser window into the red target icon, or using the File
-    Input or URL Input options. You can provide images in multiple
-    steps if needed (e.g., to get files from different directories).
+    file-browser window into the red target icon, dragging URLs (shown
+    as plain text) into the red target icon, or using the File Input
+    or URL Input options. You can provide images in multiple steps if
+    needed (e.g., to get files from different directories).
   <li>Optionally push the EditImages button to bring up an image
     editor.  The image editor will allow you to reorder images and add
     or delete images.  The images will be displayed in thumbnail form.
