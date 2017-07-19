@@ -2062,7 +2062,8 @@ public class Gui {
 			    } else if (!mt.equals(mtype)) {
 				// wrong suffix
 				String mtsuffix =
-				    ImageMimeInfo.getExtensionForMT(mtype);
+				    ImageMimeInfo.getExtensionForMimeType
+				    (mtype);
 				if (!focusComponentOK(c)) {
 				    JOptionPane.showMessageDialog
 					(frame,
@@ -2339,9 +2340,10 @@ public class Gui {
 				//extension = Webnail.extmap.get(mtype);
 				//type = Webnail.fmtmap.get(mtype);
 				extension =
-				    ImageMimeInfo.getExtensionForMT(mtype);
+				    ImageMimeInfo.getExtensionForMimeType
+				    (mtype);
 				type =
-				    ImageMimeInfo.getFormatNameFromMimeType
+				    ImageMimeInfo.getFormatNameForMimeType
 				    (mtype);
 				//System.out.println(type +" " + extension);
 			    }

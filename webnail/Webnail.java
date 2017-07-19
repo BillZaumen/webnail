@@ -252,8 +252,8 @@ public class Webnail {
 	String bgcolor = parser.getValue("bgcolor");
 	bgcolor = WebEncoder.htmlEncode(bgcolor);
 	String mtype = parser.getMimeType();
-	String type = ImageMimeInfo.getFormatNameFromMimeType(mtype);
-	String extension = ImageMimeInfo.getExtensionForMT(mtype);
+	String type = ImageMimeInfo.getFormatNameForMimeType(mtype);
+	String extension = ImageMimeInfo.getExtensionForMimeType(mtype);
 	mtype = WebEncoder.htmlEncode(mtype);
 	boolean hrefToOrig = parser.getHrefToOrig();
 
@@ -1397,8 +1397,8 @@ public class Webnail {
 	long minImageTime = DEFAULT_MIN_IMAGE_TIME;
 
 	String mtype = "image/jpeg";
-	type = ImageMimeInfo.getFormatNameFromMimeType(mtype);
-	extension = ImageMimeInfo.getExtensionForMT(mtype);
+	type = ImageMimeInfo.getFormatNameForMimeType(mtype);
+	extension = ImageMimeInfo.getExtensionForMimeType(mtype);
 	while (index < argv.length) {
 	    if (argv[index].startsWith("-")) {
 		if (argv[index].equals("-l")) {
@@ -1444,9 +1444,9 @@ public class Webnail {
 		    }
 		    mtype = argv[index];
 		    String ext =
-			ImageMimeInfo.getExtensionForMT(argv[index]);
+			ImageMimeInfo.getExtensionForMimeType(argv[index]);
 		    String fmt =
-			ImageMimeInfo.getFormatNameFromMimeType(argv[index]);
+			ImageMimeInfo.getFormatNameForMimeType(argv[index]);
 		    if (ext == null || fmt == null) {
 			System.err.println(localeString("arg-t-invalid"));
 			System.exit(1);
