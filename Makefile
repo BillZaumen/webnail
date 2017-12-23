@@ -196,12 +196,12 @@ $(JROOT_BIN)/webnail: webnail.sh MAJOR MINOR \
 $(JROOT_MANDIR)/man1/webnail.1.gz: webnail.1
 	mkdir -p $(JROOT_MANDIR)/man1
 	sed s/VERSION/$(VERSION)/g webnail.1 | \
-	gzip -9 > $(JROOT_MANDIR)/man1/webnail.1.gz
+	gzip -n -9 > $(JROOT_MANDIR)/man1/webnail.1.gz
 
 $(JROOT_MANDIR)/man5/webnail.5.gz: webnail.5
 	mkdir -p $(JROOT_MANDIR)/man5
 	sed s/VERSION/$(VERSION)/g webnail.5 | \
-	gzip -9 > $(JROOT_MANDIR)/man5/webnail.5.gz
+	gzip -n -9 > $(JROOT_MANDIR)/man5/webnail.5.gz
 
 
 clean:
