@@ -1,2 +1,3 @@
 #!/bin/sh
-java -jar JARDIRECTORY/webnail-VERSION.jar "$@"
+java -p BZDEV_DIR --add-modules org.bzdev.desktop \
+     -classpath JARDIRECTORY/webnail-VERSION.jar webnail/Webnail "$@"

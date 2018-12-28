@@ -454,8 +454,11 @@ public class Gui {
                     System.exit(0);
                 }
             });
+	/*
 	quit.setAccelerator(KeyStroke.getKeyStroke(KeyEvent.VK_Q,
-						   InputEvent.CTRL_MASK));
+						   InputEvent.CTRL_DOWN_MASK));
+	*/
+	quit.setAccelerator(KeyStroke.getKeyStroke("control Q"));
 
 	final AbstractAction saveAsActionListener =  new AbstractAction() {
 		public void actionPerformed(ActionEvent e) {
@@ -795,8 +798,11 @@ public class Gui {
 	    });
 
 	
+	/*
 	save.setAccelerator(KeyStroke.getKeyStroke(KeyEvent.VK_S,
-						   InputEvent.CTRL_MASK));
+						   InputEvent.CTRL_DOWN_MASK));
+	*/
+	save.setAccelerator(KeyStroke.getKeyStroke("control S"));
 	
 
 	about.addActionListener(new AbstractAction() {

@@ -1,3 +1,5 @@
 #!/bin/sh
 version=`cd .. ; make version`
-java -jar ../jar/webnail-$version.jar "$@"
+java -p /usr/share/bzdev --add-modules org.bzdev.desktop \
+     -classpath ../jar/webnail-$version.jar webnail/Webnail "$@"
+

@@ -34,6 +34,7 @@ SYS_ICON_DIR = /usr/share/icons/hicolor
 SYS_APP_ICON_DIR = $(SYS_ICON_DIR)/scalable/$(APPS_DIR)
 SYS_MIME_ICON_DIR =$(SYS_ICON_DIR)/scalable/$(MIMETYPES_DIR)
 SYS_JARDIRECTORY = /usr/share/java
+SYS_BZDEV_DIR = /usr/share/bzdev
 
 ICON_WIDTHS = 16 20 22 24 32 36 48 64 72 96 128 192 256
 
@@ -41,10 +42,13 @@ ICON_WIDTHS = 16 20 22 24 32 36 48 64 72 96 128 192 256
 # file (DESTDIR is not null when creating packages)
 #
 JARDIRECTORY = $(DESTDIR)$(SYS_JARDIRECTORY)
+BZDEV_DIR = $(DESTDIR)$(SYS_BZDEV_DIR)
 #
 # JARDIRECTORY modified so that it can appear in a sed command
 #
 JARDIR=$(shell echo $(SYS_JARDIRECTORY) | sed  s/\\//\\\\\\\\\\//g)
+
+BZDIR =$(shell echo $(SYS_BZDEV_DIR) | sed  s/\\//\\\\\\\\\\//g)
 
 # Other target directories
 
@@ -187,6 +191,7 @@ $(JROOT_BIN)/webnail: webnail.sh MAJOR MINOR \
 		$(JROOT_JARDIR)/webnail-$(VERSION).jar
 	(cd $(JROOT); mkdir -p $(JROOT_BIN))
 	sed s/VERSION/$(VERSION)/g webnail.sh | \
+	sed s/BZDEV_DIR/$(BZDIR)/g | \
 	sed s/JARDIRECTORY/$(JARDIR)/g > $(JROOT_BIN)/webnail
 	chmod u+x $(JROOT_BIN)/webnail
 	if [ "$(DESTDIR)" = "" ] ; \
