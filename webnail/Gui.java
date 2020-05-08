@@ -268,7 +268,7 @@ public class Gui {
 			    load(null, is);
 			}
 		    } catch(Exception e) {
-			ErrorMessage.display(e);
+			SwingErrorMessage.display(e);
 		    }
 		    worker = null;
 		}
@@ -390,14 +390,14 @@ public class Gui {
 		new ImageMapElement(map, imageListModel);
 	    }
 	} catch (ParserConfigurationException epc) {
-	    ErrorMessage.display(epc);
+	    SwingErrorMessage.display(epc);
 	} catch (SAXException es) {
-	    ErrorMessage.
+	    SwingErrorMessage.
 		display(es /*, 
 					 localeString("parseErrorTitle"),
 					 frame*/);
 	} catch (IOException eio) {
-	    ErrorMessage.
+	    SwingErrorMessage.
 		display(eio /*,
 					  localeString("parseErrorTitle"),
 					  frame*/);
@@ -497,7 +497,7 @@ public class Gui {
 			    }
 			    checkConsole();
 			} catch (IOException eio) {
-			    ErrorMessage.display(eio);
+			    SwingErrorMessage.display(eio);
 			}
 			return;
 		    } else if (status == JFileChooser.CANCEL_OPTION) {
@@ -510,7 +510,7 @@ public class Gui {
 
 	stackTraceButtonMenuItem.addActionListener(new AbstractAction() {
 		public void actionPerformed(ActionEvent e) {
-		    ErrorMessage.setStackTrace
+		    SwingErrorMessage.setStackTrace
 			(stackTraceButtonMenuItem.isSelected());
 		}
 	    });
@@ -534,7 +534,7 @@ public class Gui {
 			    }
 			    checkConsole();
 			} catch (IOException eio) {
-			    ErrorMessage.display(eio);
+			    SwingErrorMessage.display(eio);
 			}
 		    }
 		    return;
@@ -592,7 +592,7 @@ public class Gui {
 				 JOptionPane.ERROR_MESSAGE);
 			    retry = true;
 			} /* catch (Exception e1) {
-			    ErrorMessage.display(e1);
+			    SwingErrorMessage.display(e1);
 			    }*/
 		    } while (retry);
 		    return;
@@ -778,11 +778,11 @@ public class Gui {
 			      }
 			      } catch (ParserConfigurationException epc) {
 			      } catch (SAXException es) {
-			      ErrorMessage.
+			      SwingErrorMessage.
 			      display(es.getMessage());
 			    */
 			} catch (Exception e2) {
-			    ErrorMessage.display(e2);
+			    SwingErrorMessage.display(e2);
 			} finally {
 			    if (console.hasNewTextToDisplay()) {
 				showConsole();
@@ -904,24 +904,24 @@ public class Gui {
                     helpPane.setToc(url, true, false);
                     helpPane.setSelectionWithAction(0);
                 } catch (IOException e) {
-		    ErrorMessage.display(e);
+		    SwingErrorMessage.display(e);
                     helpframe = null;
                     return;
                 }
                 catch (org.xml.sax.SAXException ee) {
-		    ErrorMessage.display(ee);
+		    SwingErrorMessage.display(ee);
 		    helpframe.dispose();
                     helpframe = null;
                     return;
                 }
                 catch (javax.xml.parsers.ParserConfigurationException  eee) {
-		    ErrorMessage.display(eee);
+		    SwingErrorMessage.display(eee);
 		    helpframe.dispose();
                     helpframe = null;
                     return;
                 }
             } else {
-		ErrorMessage.display(String.format
+		SwingErrorMessage.display(String.format
 				     (localeString("manLoadError"),
 				      url.toString()));
 		helpframe.dispose();
@@ -1018,7 +1018,7 @@ public class Gui {
 					imageListModel.get(0)).
 				       get("url"));
 		    } catch(MalformedURLException mue) {
-			ErrorMessage.display("Malformed URL");
+			SwingErrorMessage.display("Malformed URL");
 		    }
 		    final URL url = xurl;
 				    
@@ -1032,7 +1032,7 @@ public class Gui {
 						      type);
 				    pm.incrProgressCount();
 				} catch (Exception e) {
-				    ErrorMessage.display(e);
+				    SwingErrorMessage.display(e);
 				}
 				worker = null;
 				pm.stopProgress();
@@ -1130,7 +1130,7 @@ public class Gui {
 		    p.imagesComplete();
 		} catch (ParserConfigurationException pce) {
 		} catch (SAXException se) {
-		    ErrorMessage.display(se);
+		    SwingErrorMessage.display(se);
 		}
 		final Parser parser = p;
 		final File xofile = ofile;
@@ -1159,9 +1159,9 @@ public class Gui {
 				IOException("could not rename");
 			}
 		    } catch(FileNotFoundException enf) {
-			ErrorMessage.display("file not found");
+			SwingErrorMessage.display("file not found");
 		    } catch (IOException eio) {
-			ErrorMessage.display("IO Exception");
+			SwingErrorMessage.display("IO Exception");
 		    }
 		} else {
 		    (worker = new Thread (new Runnable() {
@@ -1175,7 +1175,7 @@ public class Gui {
 							   zos,
 							   pm);
 				    } catch (Exception e) {
-					ErrorMessage.display(e);
+					SwingErrorMessage.display(e);
 					// e.printStackTrace();
 				    }
 				} else if (savedFileName != null) {
@@ -1190,7 +1190,7 @@ public class Gui {
 							   zos,
 							   pm);
 				    } catch (Exception e) {
-					ErrorMessage.display(e);
+					SwingErrorMessage.display(e);
 					// e.printStackTrace();
 				    }
 				} else if (xofile.getName()
@@ -1204,7 +1204,7 @@ public class Gui {
 							   zos,
 							   pm);
 				    } catch (Exception e) {
-					ErrorMessage.display(e);
+					SwingErrorMessage.display(e);
 					// e.printStackTrace();
 				    }
 				}
@@ -1735,7 +1735,7 @@ public class Gui {
 						}
 					    });
 				} catch (Exception e) {
-				    // ErrorMessage.display(e.getMessage());
+				    // SwingErrorMessage.display(e.getMessage());
 				}
 			    }
 			    public void incrProgressCount() {
@@ -1749,7 +1749,7 @@ public class Gui {
 						}
 					    });
 				} catch (Exception e) {
-				    // ErrorMessage.display(e.getMessage());
+				    // SwingErrorMessage.display(e.getMessage());
 				}
 			    }
 
@@ -1769,7 +1769,7 @@ public class Gui {
 						});
 				    }
 				} catch (Exception e) {
-				    // ErrorMessage.display(e.getMessage());
+				    // SwingErrorMessage.display(e.getMessage());
 				}
 			    }
 
@@ -2253,8 +2253,8 @@ public class Gui {
 		    configureFields();
 		    configurePanes();
 		    configureButtons();
-		    ErrorMessage.setComponent(frame);
-		    ErrorMessage.setAppendable(console);
+		    SwingErrorMessage.setComponent(frame);
+		    SwingErrorMessage.setAppendable(console);
 
 		    Container pane = frame.getContentPane();
 		    GridBagLayout gridbag = new GridBagLayout();
@@ -2662,7 +2662,7 @@ public class Gui {
 				    return;
 				}
 				if (!handleOutputFileTextFieldAux(path, null)) {
-				    ErrorMessage.display
+				    SwingErrorMessage.display
 					("bad output file name");
 				    return;
 				}

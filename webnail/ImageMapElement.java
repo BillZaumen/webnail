@@ -9,7 +9,7 @@ import java.net.MalformedURLException;
 import java.util.*;
 import org.bzdev.util.TemplateProcessor;
 import org.bzdev.util.TemplateProcessor.KeyMap;
-import org.bzdev.swing.ErrorMessage;
+import org.bzdev.swing.SwingErrorMessage;
 
 public class ImageMapElement extends ImageIcon implements MapElement {
     static public final URL blankURL = 
@@ -115,7 +115,7 @@ public class ImageMapElement extends ImageIcon implements MapElement {
 	    String msg = String.format
 		(InputPane.localeString("couldNotLoadImage"), urlstr);
 		
-	    ErrorMessage.display(fn, lineNo, msg);
+	    SwingErrorMessage.display(fn, lineNo, msg);
 	    /*
 	    if (fn == null) {
 		System.err.println("line " + lineNo + ": " + msg);
@@ -129,7 +129,7 @@ public class ImageMapElement extends ImageIcon implements MapElement {
 		public void run() {
 		    if(!model.removeElement(ImageMapElement.this)){
 			// System.err.println("list remove failed");
-			ErrorMessage.display("ImageMapElement: "
+			SwingErrorMessage.display("ImageMapElement: "
 					     + "list remove failed");
 		    }
 		}
@@ -192,7 +192,7 @@ public class ImageMapElement extends ImageIcon implements MapElement {
 				    errCount++;
 				}
 				removeMe(model);
-				ErrorMessage.display
+				SwingErrorMessage.display
 				    (String.format(localeString("loadImageErr"),
 						   url.toString()));
 				return;
@@ -215,7 +215,7 @@ public class ImageMapElement extends ImageIcon implements MapElement {
 				errCount++;
 			    }
 			    removeMe(model);
-			    ErrorMessage.display
+			    SwingErrorMessage.display
 				(String.format(localeString("loadImageErr"),
 					       url.toString()));
 			    return;

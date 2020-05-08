@@ -10,7 +10,7 @@ import java.text.MessageFormat;
 import java.text.DecimalFormat;
 import java.nio.*;
 import java.nio.charset.Charset;
-import org.bzdev.swing.ErrorMessage;
+import org.bzdev.swing.SwingErrorMessage;
 
 
 public class LayoutParser {
@@ -108,7 +108,7 @@ public class LayoutParser {
 
 
     void displayMessage(String msg, String title) {
-	ErrorMessage.display(msg/*, title*/);
+	SwingErrorMessage.display(msg/*, title*/);
         // simplify for now
         // System.err.println(msg);
     }
@@ -132,7 +132,7 @@ public class LayoutParser {
 
     void displayMessage(Locator locator, 
 			String msg, String title) {
-	ErrorMessage.display(xmlFilename, locator.getLineNumber(), msg);
+	SwingErrorMessage.display(xmlFilename, locator.getLineNumber(), msg);
     }
 
 

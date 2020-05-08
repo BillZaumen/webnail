@@ -1,5 +1,10 @@
 #!/bin/sh
 version=`cd .. ; make version`
-java -p /usr/share/bzdev --add-modules org.bzdev.desktop \
-     -classpath ../jar/webnail-$version.jar webnail/Webnail "$@"
+path=/usr/share/bzdev/libbzdev-base.jar
+path=$path:/usr/share/bzdev/libbzdev-math.jar
+path=$path:/usr/share/bzdev/libbzdev-obnaming.jar
+path=$path:/usr/share/bzdev/libbzdev-graphics.jar
+path=$path:/usr/share/bzdev/libbzdev-desktop.jar
 
+java -p $path --add-modules org.bzdev.desktop \
+     -classpath ../jar/webnail-$version.jar webnail/Webnail "$@"

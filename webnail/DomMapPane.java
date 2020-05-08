@@ -9,7 +9,7 @@ import java.awt.dnd.*;
 import java.awt.datatransfer.*;
 import org.bzdev.util.TemplateProcessor;
 import org.bzdev.util.TemplateProcessor.KeyMap;
-import org.bzdev.swing.ErrorMessage;
+import org.bzdev.swing.SwingErrorMessage;
 import org.bzdev.swing.ReorderListTransferHandler;
 
 public class DomMapPane extends JComponent {

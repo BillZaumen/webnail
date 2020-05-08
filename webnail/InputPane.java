@@ -14,7 +14,7 @@ import javax.swing.filechooser.*;
 import java.awt.dnd.*;
 import java.awt.datatransfer.*;
 
-import org.bzdev.swing.ErrorMessage;
+import org.bzdev.swing.SwingErrorMessage;
 import org.bzdev.imageio.ImageMimeInfo;
 import org.bzdev.swing.ExtObjTransferHandler;
 
@@ -229,7 +229,7 @@ public class InputPane extends JComponent {
 			fnt.importData(support);
 		    }
 		} catch (Exception ex) {
-		    ErrorMessage.display(ex);
+		    SwingErrorMessage.display(ex);
 		}
 	    }
 
@@ -273,7 +273,7 @@ public class InputPane extends JComponent {
 				(localeString("scalingComplete"));
 			    scalingStatus.setEnabled(false);
 			    if (ImageMapElement.getErrCount() > 0)
-				ErrorMessage.displayConsoleIfNeeded();
+				SwingErrorMessage.displayConsoleIfNeeded();
 			} else {
 			    list.setEnabled(false);
 			    scalingStatus.setEnabled(true);
@@ -348,7 +348,7 @@ public class InputPane extends JComponent {
 				break;
 			    }
 			} catch(MalformedURLException em) {
-			    ErrorMessage.display(em);
+			    SwingErrorMessage.display(em);
 			}
 		    }
  		    addButton.setEnabled(false);

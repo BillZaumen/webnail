@@ -53,7 +53,7 @@ public class LayoutPane extends JComponent {
 		    // String value = parms.getName();
 		    map.put(urlString, parms);
 		} catch (Exception e) {
-		    ErrorMessage.display(e);
+		    SwingErrorMessage.display(e);
 		}
 	    } else {
 		final LayoutParms parms = (name == null)?
@@ -79,7 +79,7 @@ public class LayoutPane extends JComponent {
 					});
 				}
 			    } catch (Exception e) {
-				ErrorMessage.display(e);
+				SwingErrorMessage.display(e);
 			    } finally {
 				synchronized(syncObject) {processCount--;}
 			    }
@@ -132,13 +132,13 @@ public class LayoutPane extends JComponent {
 			URL u = new URL(url);
 			processURL(u, name);
 		    } catch (Exception e) {
-			ErrorMessage.display(e);
+			SwingErrorMessage.display(e);
 		    }
 		    model.addElement(url);
 		}
 	    }
 	} catch (BackingStoreException e) {
-	    ErrorMessage.display(e);
+	    SwingErrorMessage.display(e);
 	}
     }
 
@@ -428,11 +428,11 @@ public class LayoutPane extends JComponent {
 					map.put(url.toString(), parms);
 				    }
 				} catch (Exception e2) {
-				    ErrorMessage.display(e2);
+				    SwingErrorMessage.display(e2);
 				} finally {
 				}
 			    }
-			    ErrorMessage.displayConsoleIfNeeded();
+			    SwingErrorMessage.displayConsoleIfNeeded();
 			    return;
 			} else if (status == JFileChooser.CANCEL_OPTION) {
 			    return;
@@ -510,11 +510,11 @@ public class LayoutPane extends JComponent {
 				// load(null, is);
 			    }
 			} catch (Exception e1) {
-			    ErrorMessage.display(e1.getClass().toString()
+			    SwingErrorMessage.display(e1.getClass().toString()
 						 + ": " 
 						 + e1.getMessage());
 			} finally {
-			    ErrorMessage.displayConsoleIfNeeded();
+			    SwingErrorMessage.displayConsoleIfNeeded();
 			    /*
 			    if (console.hasNewTextToDisplay()) {
 				showConsole();
