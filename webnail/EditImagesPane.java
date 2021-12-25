@@ -539,7 +539,7 @@ public class EditImagesPane extends JComponent {
 		    addURL(url);
 		}
 	    };
-
+	Gui.setComponentBackground(inputPane, Gui.COLOR1);
 	/*
 	extObjListTransferHandler = new 
 	    ExtObjListTransferHandler(this, inputPane, rlist);

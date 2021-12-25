@@ -12,6 +12,7 @@ import javax.swing.*;
 import java.io.*;
 import java.io.IOException;
 import javax.swing.filechooser.*;
+import javax.swing.plaf.ColorUIResource;
 import java.util.zip.*;
 import java.util.jar.*;
 import java.net.*;
@@ -39,6 +40,33 @@ public class Gui {
 
     static final Color COLOR1 = new Color(220, 220, 255);
     static final Color COLOR2 = new Color(220, 220, 220);
+
+    // static final Color COLOR1DM = new Color(50, 70, 80);
+    // static final Color COLOR2DM = new Color(35, 35, 35);
+    static final Color COLOR1DM = null;
+    static final Color COLOR2DM = null;
+
+    static void setComponentBackground(JComponent c, Color color1) {
+	// only called below with COLOR1 or COLOR2
+	final boolean isColor1 = (color1 == COLOR1);
+	if (DarkmodeMonitor.getDarkmode()) {
+	    Color pc = (Color)UIManager.get("Panel.background");
+	    pc = isColor1? pc.darker(): pc.darker().darker();
+	    c.setBackground(pc);
+	} else {
+	    c.setBackground(isColor1? COLOR1: COLOR2);
+	}
+	DarkmodeMonitor.addPropertyChangeListener(evnt -> {
+		if (DarkmodeMonitor.getDarkmode()) {
+		    Color pc = (Color)UIManager.get("Panel.background");
+		    pc = isColor1? pc.darker(): pc.darker().darker();
+		    c.setBackground(pc);
+		} else {
+		    c.setBackground(isColor1? COLOR1: COLOR2);
+		}
+	    });
+    }
+
 
     // Extends ImageIcon so we'll have an image to display in
     // a JList.
@@ -75,8 +103,9 @@ public class Gui {
     static LinkedList<TemplateProcessor.KeyMap>domMapList = 
 	new LinkedList<TemplateProcessor.KeyMap>();
 
-    static EditImagesPane editImagesPane =
-	new EditImagesPane(imageListModel, domMapList);
+    // static EditImagesPane editImagesPane =
+    //    new EditImagesPane(imageListModel, domMapList);
+    static EditImagesPane editImagesPane = null;
 
     static void setOfntfToolTipText() {
 	if (oftrbFile.isSelected()) {
@@ -1217,8 +1246,10 @@ public class Gui {
 	}
     }
 
-    static JLabel mtnwl = new JLabel(localeString("maxImageWidth") + ":");
-    static JLabel mtnhl = new JLabel(localeString("maxImageHeight") + ":");
+    // static JLabel mtnwl = new JLabel(localeString("maxImageWidth") + ":");
+    // static JLabel mtnhl = new JLabel(localeString("maxImageHeight") + ":");
+    static JLabel mtnwl = null;
+    static JLabel mtnhl = null;
 
     static WholeNumbTextField mtnhtf;
     static WholeNumbTextField mtnwtf;
@@ -1237,8 +1268,8 @@ public class Gui {
     // JTextField ifntf = new JTextField(40);
     static JTextField ofntf;
     static String old = null; // old value in ofntf field
-    static JButton ofnb = new JButton(localeString("choose"));
-
+    // static JButton ofnb = new JButton(localeString("choose"));
+    static JButton ofnb = null;
 
     static String bgcolor = Webnail.DEFAULT_BGCOLOR;
     static JButton colorButton;
@@ -1584,9 +1615,41 @@ public class Gui {
 
     /* Called in Webnail's main program */
     static void configureGui() {
+	SwingErrorMessage.setStackTrace(true);
+	DarkmodeMonitor.setSystemPLAF();
+	DarkmodeMonitor.init();
+	UIManager.put("ProgressBar.background",
+		      new ColorUIResource(Color.GRAY.darker().darker()));
+	UIManager.put("ProgressBar.foreground",
+		      new ColorUIResource(Color.GRAY));
+	UIManager.put("ProgressBar.selectionForeground",
+		      new ColorUIResource(Color.GRAY));
+	UIManager.put("ProgressBar.selectionBackground",
+		      new ColorUIResource(Color.GRAY));
+	UIManager.put("ProgressBar.shadow",
+		      new ColorUIResource(Color.GRAY));
+	UIManager.put("ProgressBar.border",
+		      BorderFactory.createLineBorder(Color.GRAY.darker(), 2));
+	DarkmodeMonitor.addPropertyChangeListener(evt -> {
+		UIManager.put("ProgressBar.background",
+			      new ColorUIResource(Color.GRAY
+						  .darker().darker()));
+		UIManager.put("ProgressBar.foreground",
+			      new ColorUIResource(Color.GRAY.darker()));
+		UIManager.put("ProgressBar.selectionForeground",
+			      new ColorUIResource(Color.GRAY));
+		UIManager.put("ProgressBar.selectionBackground",
+			      new ColorUIResource(Color.GRAY));
+		UIManager.put("ProgressBar.shadow",
+			      new ColorUIResource(Color.GRAY));
+		UIManager.put("ProgressBar.border",
+			      BorderFactory.createLineBorder(Color.GRAY
+							     .darker(), 2));
+	    });
 	SwingUtilities.invokeLater(new Runnable() {
-
 		private void configureFields() {
+		    mtnwl = new JLabel(localeString("maxImageWidth") + ":");
+		    mtnhl = new JLabel(localeString("maxImageHeight") + ":");
 		    mtnhtf = new WholeNumbTextField(5) {
 			    protected boolean acceptText(String text) {
 				if (text.equals("")) return true;
@@ -1662,9 +1725,12 @@ public class Gui {
 			    }
 			};
 		    */
+		    ofnb = new JButton(localeString("choose"));
 		}
 
 		private void configurePanes() {
+		    editImagesPane = new EditImagesPane(imageListModel,
+							domMapList);
 		    editLabel = new JLabel(localeString("editLabel")  +":");
 		    inputPane = 
 			new InputPane(editImagesPane.getImageList()) {
@@ -1719,6 +1785,7 @@ public class Gui {
 		    cpane.setLayout(new BorderLayout());
 		    cpane.add(console, "Center");
 		    pbar = new JProgressBar();
+		    pbar.setUI(new javax.swing.plaf.basic.BasicProgressBarUI());
 		    pm = new ProgMonitor() {
 			    int count = 0;
 			    Color pbarFG = pbar.getForeground();
@@ -1746,6 +1813,8 @@ public class Gui {
 						int thecount = count;
 						public void run() {
 						    pbar.setValue(thecount);
+						    // try this.
+						    pbar.repaint();
 						}
 					    });
 				} catch (Exception e) {
@@ -2269,26 +2338,26 @@ public class Gui {
 		    JPanel outPanel = new JPanel();
 		    GridBagLayout gridbag1 = new GridBagLayout();
 		    outPanel.setLayout(gridbag1);
-		    outPanel.setBackground(COLOR1);
+		    setComponentBackground(outPanel, COLOR1);
 
 		    JPanel outTypePanel1 = new JPanel();
 		    FlowLayout outtfl1 = new FlowLayout(FlowLayout.LEADING);
-		    outTypePanel1.setBackground(COLOR1);
+		    setComponentBackground(outTypePanel1, COLOR1);
 		    outTypePanel1.setLayout(outtfl1);
 		    oftbg.add(oftrbFile);
-		    oftrbFile.setBackground(COLOR1);
+		    setComponentBackground(oftrbFile, COLOR1);
 		    oftbg.add(oftrbDir);
-		    oftrbDir.setBackground(COLOR1);
+		    setComponentBackground(oftrbDir, COLOR1);
 		    oftbg.add(oftrbZip);
-		    oftrbZip.setBackground(COLOR1);
+		    setComponentBackground(oftrbZip, COLOR1);
 		    oftbg.add(oftrbWebDir);
-		    oftrbWebDir.setBackground(COLOR1);
+		    setComponentBackground(oftrbWebDir, COLOR1);
 		    oftbg.add(oftrbWebZip);
-		    oftrbWebZip.setBackground(COLOR1);
+		    setComponentBackground(oftrbWebZip, COLOR1);
 		    oftbg.add(oftrbWarDir);
-		    oftrbWarDir.setBackground(COLOR1);
+		    setComponentBackground(oftrbWarDir, COLOR1);
 		    oftbg.add(oftrbWar);
-		    oftrbWar.setBackground(COLOR1);
+		    setComponentBackground(oftrbWar, COLOR1);
 		    outTypePanel1.add(new JLabel(localeString("outType") +":"));
 		    outTypePanel1.add(oftrbFile);
 		    outTypePanel1.add(oftrbDir);
@@ -2315,7 +2384,7 @@ public class Gui {
 		    FlowLayout npfl = new FlowLayout(FlowLayout.LEADING);
 		    npfl.setHgap(10);
 		    mtPanel.setLayout(npfl);
-		    mtPanel.setBackground(COLOR1);
+		    setComponentBackground(mtPanel, COLOR1);
 		    /*final String[]*/ mtarray = 
 			ImageMimeInfo.getMimeTypes().toArray
 			(new String[ImageMimeInfo.getMimeTypes().size()]);
@@ -2406,7 +2475,7 @@ public class Gui {
 		    FlowLayout outfl = new FlowLayout(FlowLayout.LEADING);
 		    outfl.setHgap(10);
 		    outPanel1.setLayout(outfl);
-		    outPanel1.setBackground(COLOR1);
+		    setComponentBackground(outPanel1, COLOR1);
 		    outPanel1.add(ofntf);
 		    outPanel1.add(ofnb);
 		    ofnb.setToolTipText(localeString("ofnbToolTip"));
@@ -2470,12 +2539,12 @@ public class Gui {
 		    JPanel webOptPanel = new JPanel();
 		    GridBagLayout gridbag2 = new GridBagLayout();
 		    webOptPanel.setLayout(gridbag2);
-		    webOptPanel.setBackground(COLOR2);
+		    setComponentBackground(webOptPanel, COLOR2);
 
 		    JPanel webPanel1 = new JPanel();
 		    FlowLayout webfl1 = new FlowLayout(FlowLayout.LEADING);
 		    webPanel1.setLayout(webfl1);
-		    webPanel1.setBackground(COLOR2);
+		    setComponentBackground(webPanel1, COLOR2);
 		    webPanel1.add(colorButton);
 		    colorButton.setToolTipText
 			(localeString("colorButtonToolTip"));
@@ -2495,26 +2564,26 @@ public class Gui {
 		    JPanel webPanel2 = new JPanel();
 		    FlowLayout webfl2 = new FlowLayout(FlowLayout.LEADING);
 		    webPanel2.setLayout(webfl2);
-		    webPanel2.setBackground(COLOR2);
+		    setComponentBackground(webPanel2, COLOR2);
 		    webPanel2.add(hrCheckBox);
 		    hrCheckBox.setSelected(true);
-		    hrCheckBox.setBackground(COLOR2);
+		    setComponentBackground(hrCheckBox, COLOR2);
 		    hrCheckBox.setToolTipText
 			(localeString("hrCheckBoxToolTip"));
 		    webPanel2.add(syncCheckBox);
-		    syncCheckBox.setBackground(COLOR2);
+		    setComponentBackground(syncCheckBox, COLOR2);
 		    syncCheckBox.setToolTipText
 			(localeString("syncCheckBoxToolTip"));
 		    webPanel2.add(waitOnErrCheckBox);
-		    waitOnErrCheckBox.setBackground(COLOR2);
+		    setComponentBackground(waitOnErrCheckBox, COLOR2);
 		    waitOnErrCheckBox.setToolTipText
 			(localeString("waitOnErrCheckBoxToolTip"));
 		    webPanel2.add(linkCheckBox);
-		    linkCheckBox.setBackground(COLOR2);
+		    setComponentBackground(linkCheckBox, COLOR2);
 		    webPanel2.add(flatCheckBox);
-		    flatCheckBox.setBackground(COLOR2);
+		    setComponentBackground(flatCheckBox, COLOR2);
 		    webPanel2.add(hrefToOrigCheckBox);
-		    hrefToOrigCheckBox.setBackground(COLOR2);
+		    setComponentBackground(hrefToOrigCheckBox, COLOR2);
 		    gridbag2.setConstraints(webPanel2, c);
 		    webOptPanel.add(webPanel2);
 
@@ -2622,7 +2691,7 @@ public class Gui {
 		    gridbag.setConstraints(spacer3, c);
 		    pane.add(spacer3);
 
-		    inputPane.setBackground(COLOR1);
+		    setComponentBackground(inputPane, COLOR1);
 		    gridbag.setConstraints(inputPane, c);
 		    pane.add(inputPane);
 
