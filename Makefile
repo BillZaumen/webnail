@@ -248,7 +248,7 @@ install: all
 	install -m 0644 -T $(SOURCEICON) $(APP_ICON_DIR)/$(TARGETICON)
 	for i in $(ICON_WIDTHS) ; do \
 		install -d $(ICON_DIR)/$${i}x$${i}/$(APPS_DIR) ; \
-		inkscape -w $$i -e tmp.png $(SOURCEICON) ; \
+		inkscape -w $$i --export-filename=tmp.png $(SOURCEICON) ; \
 		install -m 0644 -T tmp.png \
 			$(ICON_DIR)/$${i}x$${i}/$(APPS_DIR)/$(TARGETICON_PNG); \
 		rm tmp.png ; \
@@ -257,7 +257,7 @@ install: all
 		ii=`expr 2 '*' $$i` ; \
 		install -d $(ICON_DIR)/$${i}x$${i}@2x/$(APPS_DIR) ; \
 		dir=$(ICON_DIR)/$${i}x$${i}@2x/$(APPS_DIR) ; \
-		inkscape -w $$i -e tmp.png $(SOURCEICON) ; \
+		inkscape -w $$i --export-filename=tmp.png $(SOURCEICON) ; \
 		install -m 0644 -T tmp.png $$dir/$(TARGETICON_PNG); \
 		rm tmp.png ; \
 	done
@@ -270,12 +270,12 @@ install: all
 		$(MIME_ICON_DIR)/$(TARGET_TDOC_ICON)
 	for i in $(ICON_WIDTHS) ; do \
 	    install -d $(ICON_DIR)/$${i}x$${i}/$(MIMETYPES_DIR) ; \
-	    inkscape -w $$i -e tmp.png $(SOURCE_DOC_ICON) ; \
+	    inkscape -w $$i --export-filename=tmp.png $(SOURCE_DOC_ICON) ; \
 	    dir=$(ICON_DIR)/$${i}x$${i}/$(MIMETYPES_DIR) ; \
 	    install -m 0644 -T tmp.png $$dir/$(TARGET_DOC_ICON_PNG); \
-	    inkscape -w $$i -e tmp.png $(SOURCE_LDOC_ICON) ; \
+	    inkscape -w $$i --export-filename=tmp.png $(SOURCE_LDOC_ICON) ; \
 	    install -m 0644 -T tmp.png $$dir/$(TARGET_LDOC_ICON_PNG); \
-	    inkscape -w $$i -e tmp.png $(SOURCE_TDOC_ICON) ; \
+	    inkscape -w $$i --export-filename=tmp.png $(SOURCE_TDOC_ICON) ; \
 	    install -m 0644 -T tmp.png $$dir/$(TARGET_TDOC_ICON_PNG); \
 	    rm tmp.png ; \
 	done
@@ -283,11 +283,11 @@ install: all
 	    install -d $(ICON_DIR)/$${i}x$${i}@2x/$(MIMETYPES_DIR) ; \
 	    ii=`expr 2 '*' $$i` ; \
 	    dir=$(ICON_DIR)/$${i}x$${i}@2x/$(MIMETYPES_DIR) ; \
-	    inkscape -w $$ii -e tmp.png $(SOURCE_DOC_ICON) ; \
+	    inkscape -w $$ii --export-filename=tmp.png $(SOURCE_DOC_ICON) ; \
 	    install -m 0644 -T tmp.png $$dir/$(TARGET_DOC_ICON_PNG); \
-	    inkscape -w $$ii -e tmp.png $(SOURCE_LDOC_ICON) ; \
+	    inkscape -w $$ii --export-filename=tmp.png $(SOURCE_LDOC_ICON) ; \
 	    install -m 0644 -T tmp.png $$dir/$(TARGET_LDOC_ICON_PNG); \
-	    inkscape -w $$ii -e tmp.png $(SOURCE_TDOC_ICON) ; \
+	    inkscape -w $$ii --export-filename=tmp.png $(SOURCE_TDOC_ICON) ; \
 	    install -m 0644 -T tmp.png $$dir/$(TARGET_TDOC_ICON_PNG); \
 	    rm tmp.png ; \
 	done
@@ -341,7 +341,7 @@ install-pop:
 	install -m 0644 -T $(SOURCEICON) $(APP_POPICON_DIR)/$(TARGETICON)
 	for i in $(POPICON_WIDTHS) ; do \
 		install -d $(POPICON_DIR)/$${i}x$${i}/$(APPS_DIR) ; \
-		inkscape -w $$i -e tmp.png $(SOURCEICON) ; \
+		inkscape -w $$i --export-filename=tmp.png $(SOURCEICON) ; \
 		install -m 0644 -T tmp.png \
 			$(POPICON_DIR)/$${i}x$${i}/$(APPS_DIR)/$(TARGETICON_PNG); \
 		rm tmp.png ; \
@@ -350,7 +350,7 @@ install-pop:
 		ii=`expr 2 '*' $$i` ; \
 		install -d $(POPICON_DIR)/$${i}x$${i}@2x/$(APPS_DIR) ; \
 		dir=$(POPICON_DIR)/$${i}x$${i}@2x/$(APPS_DIR) ; \
-		inkscape -w $$i -e tmp.png $(SOURCEICON) ; \
+		inkscape -w $$i --export-filename=tmp.png $(SOURCEICON) ; \
 		install -m 0644 -T tmp.png $$dir/$(TARGETICON_PNG); \
 		rm tmp.png ; \
 	done
@@ -362,12 +362,12 @@ install-pop:
 		$(MIME_POPICON_DIR)/$(TARGET_TDOC_ICON)
 	for i in $(POPICON_WIDTHS) ; do \
 	    install -d $(POPICON_DIR)/$${i}x$${i}/$(MIMETYPES_DIR) ; \
-	    inkscape -w $$i -e tmp.png $(SOURCE_DOC_ICON) ; \
+	    inkscape -w $$i --export-filename=tmp.png $(SOURCE_DOC_ICON) ; \
 	    dir=$(POPICON_DIR)/$${i}x$${i}/$(MIMETYPES_DIR) ; \
 	    install -m 0644 -T tmp.png $$dir/$(TARGET_DOC_ICON_PNG); \
-	    inkscape -w $$i -e tmp.png $(SOURCE_LDOC_ICON) ; \
+	    inkscape -w $$i --export-filename=tmp.png $(SOURCE_LDOC_ICON) ; \
 	    install -m 0644 -T tmp.png $$dir/$(TARGET_LDOC_ICON_PNG); \
-	    inkscape -w $$i -e tmp.png $(SOURCE_TDOC_ICON) ; \
+	    inkscape -w $$i --export-filename=tmp.png $(SOURCE_TDOC_ICON) ; \
 	    install -m 0644 -T tmp.png $$dir/$(TARGET_TDOC_ICON_PNG); \
 	    rm tmp.png ; \
 	done
@@ -375,11 +375,11 @@ install-pop:
 	    install -d $(POPICON_DIR)/$${i}x$${i}@2x/$(MIMETYPES_DIR) ; \
 	    ii=`expr 2 '*' $$i` ; \
 	    dir=$(POPICON_DIR)/$${i}x$${i}@2x/$(MIMETYPES_DIR) ; \
-	    inkscape -w $$ii -e tmp.png $(SOURCE_DOC_ICON) ; \
+	    inkscape -w $$ii --export-filename=tmp.png $(SOURCE_DOC_ICON) ; \
 	    install -m 0644 -T tmp.png $$dir/$(TARGET_DOC_ICON_PNG); \
-	    inkscape -w $$ii -e tmp.png $(SOURCE_LDOC_ICON) ; \
+	    inkscape -w $$ii --export-filename=tmp.png $(SOURCE_LDOC_ICON) ; \
 	    install -m 0644 -T tmp.png $$dir/$(TARGET_LDOC_ICON_PNG); \
-	    inkscape -w $$ii -e tmp.png $(SOURCE_TDOC_ICON) ; \
+	    inkscape -w $$ii --export-filename=tmp.png $(SOURCE_TDOC_ICON) ; \
 	    install -m 0644 -T tmp.png $$dir/$(TARGET_TDOC_ICON_PNG); \
 	    rm tmp.png ; \
 	done
