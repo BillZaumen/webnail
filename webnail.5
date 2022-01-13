@@ -76,7 +76,7 @@ The top level element is named
 and it is defined as follows:
 .PP
 .B
-<!ELEMENT webnail (domMap?, title?, descr?, (user, password)?,
+<!ELEMENT webnail (title?, descr?, (user, password)?,
 .br
 .B
 	  head?, header?, image*, trailer?, finalHtml?)>
@@ -274,60 +274,6 @@ indicates that the web page contains two columns, the first containing
 the HTML text from the header element followed by the HTML text from
 the trailer element, and the second containing the images (one image
 per row).
-.PP
-The domMap element provides a list of mappings, providing a key
-that will be used in an image's 
-.B property 
-element, the ID of an HTML element, the name of a property of
-the HTML element (the property names are defined in the Javascript DOM
-documentation), and a default value for that property.
-.PP
-.B
-<!ELEMENT domMap (mapping)*>
-.br
-.B
-<!ELEMENT mapping  EMPTY>
-.br
-.B
-<!ATTLIST mapping
-.br
-.B
-	  key CDATA #REQUIRED
-.br
-.B
-	  id  CDATA #REQUIRED
-.br
-.B
-	  prop CDATA #REQUIRED
-.br
-.B
-	  defaultValue CDATA #REQUIRED>
-.R
-.PP
-The attributes are as follows:
-.TP
-.B key
-This attribute specifies a key naming the mapping. This will be used
-in the key attribute of an image's property element.
-.TP
-.B id
-This attribute specifies the id of an element.  The name matches that
-of an HTML element's ID attribute.
-.TP
-.B prop
-This attribute specifies the Javascript property whose value may be
-modified.
-.TP
-.B defaultValue
-This attribute specifies the default value of the Javascript property.
-.PP
-For example, a mapping might be defined as
-.PP
-.B
-<mapping key="foo" id="div1", prop="style" 
-.br
-.B
- defaultValue="background-color: white" />
 .PP
 The 
 .B title 
@@ -541,34 +487,6 @@ resource containing the element's content.  The element's content will be
 ignored when a
 .B url
 attribute is provided.
-
-.PP
-The element
-.B property
-provides a property value for a key defined for a
-.B mapping
-element defied above.  The 
-.B property 
-element is defined by
-.PP
-.B
-<!ELEMENT property (#PCDATA)*>
-.br
-.B
-<!ATTLIST property
-.br
-.B
-	  key CDATA #REQUIRED>
-.PP
-The single attribute
-.B key
-is a reference to the ID, property name, and default value for a
-Javascript object that is part of the HTML page's DOM. The
-.B property
-element's content is the value of the property to use for the current
-image.  The entities "&lt;", "&gt;", "&amp;", or "&quot" should be
-used instead of the corresponding characters, or the value should
-appear in a CDATA section (delimited by "<![CDATA[" and "]]>".
 .PP
 Finally the
 .B trailer

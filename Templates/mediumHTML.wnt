@@ -17,7 +17,7 @@ $(!M.T application/x.webnail-template)<!DOCTYPE HTML PUBLIC "-//W3C//DTD HTML 4.
 <TR
 ><TD><IMG src="../controls/strut.gif" width=0 height=$(mHeight)></TD>
 <TD ALIGN="center">
-<a href="$(hrefURL)" target="$(hrefTarget)" id="href">
+<a href="$(hrefURL)" target="$(hrefTarget)" id="href"$(+imgTitle:endTitle) title="$(imgTitle)"$(endTitle)>
 <img src="$(mediumFile)" id="img">
 </a>
 </TD>

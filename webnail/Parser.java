@@ -1044,6 +1044,7 @@ public class Parser {
 	*/
     }
 
+    /*
     public TemplateProcessor.KeyMap[] getDomArray() {
 	if (domArray != null) {
 	    return domArray;
@@ -1051,20 +1052,12 @@ public class Parser {
 	    return new TemplateProcessor.KeyMap[0];
 	}
     }
-
     public List<TemplateProcessor.KeyMap> getDomList() {
 	List<TemplateProcessor.KeyMap> list =
 	    Collections.unmodifiableList(domlist);
-	/*
-	for(TemplateProcessor.KeyMap map: list) {
-	    System.out.println((String)map.get("domKey")
-			       + " " + (String)map.get("domMode")
-			       + " " + (String)map.get("domCondMode")
-			       +" " + map.hashCode());
-	}
-	*/
 	return list;
     }
+    */
 
     public String getValue(String key) {
 	Object value = rmap.get(key);
@@ -1792,6 +1785,7 @@ public class Parser {
 		}
 		*/  
 		processingXML = true;
+		/*
 	    } else if (qName.equals("domMap")) {
 		startDomMappings();
 	    } else if (qName.equals("mapping")) {
@@ -1874,6 +1868,7 @@ public class Parser {
 						 locator));
 		}
 		addMapping(key, mode, condMode, ids, prop, defaultValue);
+		*/
 	    } else if (qName.equals("image")) {
 		map = new TemplateProcessor.KeyMap();
 		String mimeTypeStr = attr.getValue("mimeType");
@@ -1972,8 +1967,10 @@ public class Parser {
         {
 	    if (qName.equals("webnail")) {
 		processingXML = false;
+		/*
 	    } else if (qName.equals("domMap")) {
 		endDomMappings();
+		*/
 	    } else if (qName.equals("title")) {
 		if (theURL != null) {
 		    try {
@@ -2057,6 +2054,7 @@ public class Parser {
 		}
 		text.setLength(0);
 		*/
+		/*
 	    } else if (qName.equals("property")) {
 		if (processingImage) {
 		    String otherProps = (String)map.get("otherProps");
@@ -2104,6 +2102,7 @@ public class Parser {
 		}
 		imageKey = null;
 		text.setLength(0);
+		*/
 	    } else if (qName.equals("head")) {
 		if (theURL != null) {
 		    try {

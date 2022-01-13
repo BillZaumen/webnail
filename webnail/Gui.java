@@ -41,9 +41,7 @@ public class Gui {
     static final Color COLOR1 = new Color(220, 220, 255);
     static final Color COLOR2 = new Color(220, 220, 220);
 
-    // static final Color COLOR1DM = new Color(50, 70, 80);
-    // static final Color COLOR2DM = new Color(35, 35, 35);
-    static final Color COLOR1DM = null;
+    static final Color COLOR1DM = new Color(40,35,40);
     static final Color COLOR2DM = null;
 
     static void setComponentBackground(JComponent c, Color color1) {
@@ -51,7 +49,7 @@ public class Gui {
 	final boolean isColor1 = (color1 == COLOR1);
 	if (DarkmodeMonitor.getDarkmode()) {
 	    Color pc = (Color)UIManager.get("Panel.background");
-	    pc = isColor1? pc.darker(): pc.darker().darker();
+	    pc = isColor1? COLOR1DM: pc.darker().darker();
 	    c.setBackground(pc);
 	} else {
 	    c.setBackground(isColor1? COLOR1: COLOR2);
@@ -154,7 +152,7 @@ public class Gui {
 	    minImageTimeLabel.setEnabled(true);
 	    minImageTimeTF.setEnabled(true);
 	    editLabel.setEnabled(true);
-	    domMapButton.setEnabled(true);
+	    // domMapButton.setEnabled(true);
 	    titleButton.setEnabled(true);
 	    descrButton.setEnabled(true);
 	    headButton.setEnabled(true);
@@ -181,7 +179,7 @@ public class Gui {
 	    minImageTimeTF.setEnabled(false);
 	    colorButton.setEnabled(false);
 	    editLabel.setEnabled(false);
-	    domMapButton.setEnabled(false);
+	    // domMapButton.setEnabled(false);
 	    titleButton.setEnabled(false);
 	    descrButton.setEnabled(false);
 	    headButton.setEnabled(false);
@@ -200,7 +198,7 @@ public class Gui {
 	    syncCheckBox.setEnabled(false);
 	    waitOnErrCheckBox.setEnabled(false);
 	    descrButton.setEnabled(false);
-	    domMapButton.setEnabled(false);
+	    // domMapButton.setEnabled(false);
 	    imageTimeLabel.setEnabled(false);
 	    imageTimeTF.setEnabled(false);
 	    minImageTimeLabel.setEnabled(false);
@@ -378,8 +376,8 @@ public class Gui {
 		mtnwtf.setValue(width);
 	    }
 
-	    domMapList.clear();
-	    domMapList.addAll(p.getDomList());
+	    // domMapList.clear();
+	    // domMapList.addAll(p.getDomList());
 	    titleURL = p.getValue("titleURL");
 	    titleURLInUse = (titleURL != null);
 	    title = p.getValue("title");
@@ -516,8 +514,7 @@ public class Gui {
 				    savedFileName = savedFileName + ".wnl";
 				}
 			    }
-			    processFiles(imageListModel, savedFileName,
-					 domMapList);
+			    processFiles(imageListModel, savedFileName);
 			    Thread w = worker;
 			    if (w != null) {
 				try {
@@ -553,8 +550,7 @@ public class Gui {
 			try {
 			    String savedFileName = 
 				fileToSave.getCanonicalPath();
-			    processFiles(imageListModel, savedFileName,
-					 domMapList);
+			    processFiles(imageListModel, savedFileName);
 			    Thread w = worker;
 			    if (w != null) {
 				try {
@@ -996,13 +992,9 @@ public class Gui {
 
     static Thread worker = null;
 
-    static  void 
-	processFiles(/*LinkedList<TemplateProcessor.KeyMap> mapList */
-		     DefaultListModel imageListModel, 
-		     final String savedFileName,
-		     LinkedList<TemplateProcessor.KeyMap>domMapList)
+    static void processFiles(DefaultListModel imageListModel,
+			     final String savedFileName)
     {
-	// System.out.println("calling processFiles");
 	console.addSeparatorIfNeeded();
 	final int mtw = mtnwtf.getValue();
 	final int mth = mtnhtf.getValue();
@@ -1146,11 +1138,13 @@ public class Gui {
 		    } else {
 			p.setAfterScript(finalHtml);
 		    }
+		    /*
 		    p.startDomMappings();
 		    for (TemplateProcessor.KeyMap map: domMapList) {
 			p.addMapping(map);
 		    }
 		    p.endDomMappings();
+		    */
 		    for (Object obj: imageListModel.toArray()) {
 			MapElement entry = (MapElement) obj;
 			// System.out.println(entry.get("url"));
@@ -1329,50 +1323,7 @@ public class Gui {
     static JComboBox<Object> layoutComboBox = new JComboBox<>(lcbmodel);
     static boolean layoutComboBoxBeingModified = false;
 
-    static LayoutPane layoutPane = new LayoutPane() {
-	    protected void onClosing(Map<String,LayoutParms> map) {
-		layoutComboBoxBeingModified = true;
-		Object prev = layoutComboBox.getSelectedItem();
-		int lind = layoutComboBox.getSelectedIndex();
-		int m = lcbmodel.getSize();
-		boolean useCustom = false;
-		if (m > 0 && lind > 0 && lind > m-3) {
-		    useCustom = true;
-		}
-
-		Parser.setLayouts(map);
-
-		lcbmodel.removeAllElements();
-		int n = Parser.getNumberOfLayouts();
-		for (int i = 0; i < n; i++) {
-		    lcbmodel.addElement(Parser.getLayoutParms(i));
-		}
-		/*
-		for (Object value: map.values()) {
-		    lcbmodel.addElement(value);
-		}
-		*/
-		lcbmodel.addElement(Gui.localeString("custom"));
-		lcbmodel.addElement(Gui.localeString("setCustomLayout"));
-		int mm = lcbmodel.getSize();
-		
-		if (useCustom) layoutComboBox.setSelectedIndex(mm - 2);
-		else if (lind < m-2 && prev == layoutComboBox.getItemAt(lind)) {
-		    layoutComboBox.setSelectedIndex(lind);
-		} else {
-		    layoutComboBox.setSelectedIndex(0);
-		}
-		layoutComboBoxBeingModified = false;
-		/*
-		for (Map.Entry<String,LayoutParms> entry: 
-			 map.entrySet()) {
-		    System.out.println(entry.getKey() +" - "
-				       +entry.getValue());
-		}
-		*/
-	    }
-	};
-
+    static LayoutPane layoutPane = null;
     static JFrame layoutFrame = null;
 
     static private void showLayoutFrame() {
@@ -1404,7 +1355,7 @@ public class Gui {
 
     static JLabel editLabel;
 
-    static JButton domMapButton = null;
+    // static JButton domMapButton = null;
 
     static String titleURL = null;
     static boolean titleURLInUse = false;
@@ -1729,8 +1680,50 @@ public class Gui {
 		}
 
 		private void configurePanes() {
-		    editImagesPane = new EditImagesPane(imageListModel,
-							domMapList);
+		    layoutPane = new LayoutPane() {
+			    protected void onClosing
+				(Map<String,LayoutParms> map) {
+				layoutComboBoxBeingModified = true;
+				Object prev = layoutComboBox.getSelectedItem();
+				int lind = layoutComboBox.getSelectedIndex();
+				int m = lcbmodel.getSize();
+				boolean useCustom = false;
+				if (m > 0 && lind > 0 && lind > m-3) {
+				    useCustom = true;
+				}
+
+				Parser.setLayouts(map);
+
+				lcbmodel.removeAllElements();
+				int n = Parser.getNumberOfLayouts();
+				for (int i = 0; i < n; i++) {
+				    lcbmodel.addElement(Parser
+							.getLayoutParms(i));
+				}
+				/*
+				  for (Object value: map.values()) {
+				  lcbmodel.addElement(value);
+				  }
+				*/
+				lcbmodel.addElement(Gui.localeString("custom"));
+				lcbmodel
+				    .addElement(Gui.localeString
+						("setCustomLayout"));
+				int mm = lcbmodel.getSize();
+
+				if (useCustom)
+				    layoutComboBox.setSelectedIndex(mm - 2);
+				else if (lind < m-2
+					 && prev == layoutComboBox
+					 .getItemAt(lind)) {
+				    layoutComboBox.setSelectedIndex(lind);
+				} else {
+				    layoutComboBox.setSelectedIndex(0);
+				}
+				layoutComboBoxBeingModified = false;
+			    }
+			};
+		    editImagesPane = new EditImagesPane(imageListModel);
 		    editLabel = new JLabel(localeString("editLabel")  +":");
 		    inputPane = 
 			new InputPane(editImagesPane.getImageList()) {
@@ -1895,6 +1888,7 @@ public class Gui {
 		    cancelButton = new JButton(localeString("cancel"));
 		    cancelButton.setEnabled(false);
 
+		    /*
 		    domMapButton = 
 			new DomMapButton (localeString("domMapButton"), 
 					  frame,
@@ -1914,6 +1908,7 @@ public class Gui {
 				domMapList.addAll(0, list);
 			    }
 			};
+		    */
 		    titleButton = new 
 			URLTextAreaButton(localeString("titleButton"), 10, 50,
 					  frame,
@@ -2498,9 +2493,8 @@ public class Gui {
 		    webPanel3.add(mtnwtf);
 		    webPanel3.add(mtnhl);
 		    webPanel3.add(mtnhtf);
-		    webPanel3.add(domMapButton);
-		    domMapButton.setToolTipText
-			(localeString("domMapButtonToolTip"));
+		    // webPanel3.add(domMapButton);
+		    // domMapButton.setToolTipText(localeString("domMapButtonToolTip"));
 		    gridbag.setConstraints(webPanel3, c);
 		    pane.add(webPanel3);
 
@@ -2739,8 +2733,7 @@ public class Gui {
 				/*
 				  System.out.println("runButton Action Listener");
 				*/
-				processFiles(imageListModel, (String)null,
-					     domMapList);
+				processFiles(imageListModel, (String)null);
 				final Thread w = worker;
 				if (w != null) {
 				    runButton.setEnabled(false);

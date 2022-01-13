@@ -24,7 +24,7 @@ var controlStrings1 = [
  '<TD align="center">',
  '<TABLE STYLE="border-style: solid; border-width: thin; border-color: gray"><TR><TD>',
  '<INPUT TYPE="button" value="slideshow" id="slideshow"',
- ' onclick="runSlideshow();">',
+ ' onclick="controlSlideshow();">',
  '</TD>'
  ];
 var controlStrings2 = ['<TD>',
@@ -49,6 +49,7 @@ var configured = false;
 // Javascript is turned on - they won't work if Javascript is off.
 // One control, indicating if a (nearly) fullscreen window is wanted,
 // appears only when hasAllImages is set to true.
+
 function createControls() {
     var i;
     for (i = 0; i < controlStrings1.length; i++) {
@@ -62,9 +63,11 @@ function createControls() {
     for (i = 0; i < controlStrings3.length; i++) {
 	document.write(controlStrings3[i]);
     }
+    /*
     if (configured == true) {
 	window["tryToEnableSlideshow"]();
     }
+    */
 }
 
 var iframeStrings = 

@@ -274,8 +274,7 @@ public class Webnail {
 		    if (!idir.isDirectory()) {
 			ErrorMessage.display(String.format
 					     (localeString("idirError1"),
-					      dir.toString()),
-					     (Throwable)null);
+					      dir.toString()));
 			if (pm == null) System.exit(1); else return;
 		    } else if (!flat && idir.list().length != 0) {
 			ErrorMessage.display(String.format
@@ -283,15 +282,13 @@ public class Webnail {
 					       localeString("idirError2"):
 					       localeString
 					       ("mdirError2")),
-					      dir.toString()),
-					     (Throwable)null);
+					      dir.toString()));
 			if (pm == null) System.exit(1); else return;
 		    }
 		} else if (!idir.mkdir()) {
 		    ErrorMessage.display(String.format
 					 (localeString("idirError3"),
-					  dir.toString()),
-					 (Throwable)null);
+					  dir.toString()));
 		    if (pm == null) System.exit(1); else return;
 		}
 	    }
@@ -303,21 +300,18 @@ public class Webnail {
 		    if (!tdir.isDirectory()) {
 			ErrorMessage.display(String.format
 					     (localeString("tdirError1"),
-					      dir.toString()),
-					     (Throwable)null);
+					      dir.toString()));
 			if (pm == null) System.exit(1); else return;
 		    } else if (tdir.list().length != 0) {
 			ErrorMessage.display(String.format
 					     (localeString("tdirError2"),
-					      dir.toString()),
-					     (Throwable)null);
+					      dir.toString()));
 			if (pm == null) System.exit(1); else return;
 		    }
 		} else if (!tdir.mkdir()) {
 		    ErrorMessage.display(String.format
 					 (localeString("tdirError3"),
-					  dir.toString()),
-					 (Throwable)null);
+					  dir.toString()));
 		    if (pm == null) System.exit(1); else return;
 		}
 	    }
@@ -325,21 +319,18 @@ public class Webnail {
 		if (!mdir.isDirectory()) {
 		    ErrorMessage.display(String.format
 					 (localeString("mdirError1"),
-					  dir.toString()),
-					 (Throwable)null);
+					  dir.toString()));
 		    if (pm == null) System.exit(1); else return;
 		} else if (mdir.list().length != 0) {
 		    ErrorMessage.display(String.format
 					 (localeString("mdirError2"),
-					  dir.toString()),
-					 (Throwable)null);
+					  dir.toString()));
 		    if (pm == null) System.exit(1); else return;
 		}
 	    } else if (!mdir.mkdir()) {
 		ErrorMessage.display(String.format
 				     (localeString("mdirError3"),
-				      dir.toString()),
-				     (Throwable)null);
+				      dir.toString()));
 		if (pm == null) System.exit(1); else return;
 	    }
 	    if (multi /*parser.getLayoutIndex() == 0*/) {
@@ -347,21 +338,18 @@ public class Webnail {
 		    if (!cdir.isDirectory()) {
 			ErrorMessage.display(String.format
 					     (localeString("cdirError1"),
-					      dir.toString()),
-					     (Throwable)null);
+					      dir.toString()));
 			if (pm == null) System.exit(1); else return;
 		    } else if (cdir.list().length != 0) {
 			ErrorMessage.display(String.format
 					     (localeString("cdirError2"),
-					      dir.toString()),
-					     (Throwable)null);
+					      dir.toString()));
 			System.exit(1);
 		    }
 		} else if (!cdir.mkdir()) {
 		    ErrorMessage.display(String.format
 					 (localeString("cdirError3"),
-					  dir.toString()),
-					 (Throwable)null);
+					  dir.toString()));
 		    if (pm == null) System.exit(1); else return;
 		}
 	    }
@@ -371,21 +359,18 @@ public class Webnail {
 		    if (!wdir.isDirectory()) {
 			ErrorMessage.display(String.format
 					     (localeString("wdirError1"),
-					      dir.toString()),
-					     (Throwable)null);
+					      dir.toString()));
 			if (pm == null) System.exit(1); else return;
 		    } else if (wdir.list().length != 0) {
 			ErrorMessage.display(String.format
 					     (localeString("wdirError2"),
-					      dir.toString()),
-					     (Throwable)null);
+					      dir.toString()));
 			if (pm == null) System.exit(1); else return;
 		    }
 		} else if (!wdir.mkdir()) {
 		    ErrorMessage.display(String.format
 					 (localeString("wdirError3"),
-					  dir.toString()),
-					 (Throwable)null);
+					  dir.toString()));
 		    if (pm == null) System.exit(1); else return;
 		}
 	    }
@@ -473,8 +458,7 @@ public class Webnail {
 	    if (!urlmode &&
 		!(inputFile.isFile() && inputFile.canRead())) {
 		ErrorMessage.display(String.format(localeString("skipMsg"),
-						   inputFileStr),
-				     (Throwable)null);
+						   inputFileStr));
 		continue;
 	    }
 	    String ifn = inputFile.getName();
@@ -684,6 +668,8 @@ public class Webnail {
 			*/
 			if (single/*!normalLayout*/) {
 			    map.put("title", WebEncoder.htmlEncode(x));
+			} else {
+			    map.put("imgTitle", WebEncoder.htmlEncode(x));
 			}
 			x = WebEncoder.quoteEncode(x);
 			if (otherProps == null) {
@@ -956,6 +942,8 @@ public class Webnail {
 			*/
 			if (single /*!normalLayout*/) {
 			    map.put("title", WebEncoder.htmlEncode(x));
+			} else {
+			    map.put("imgTitle", WebEncoder.htmlEncode(x));
 			}
 			x = WebEncoder.quoteEncode(x);
 			if (otherProps == null) {
@@ -1143,7 +1131,7 @@ public class Webnail {
 	    rmap.put("repeatImageArrayEntries",
 		     rmap.get("repeatRows"));
 
-	    rmap.put("repeatDomEntries", parser.getDomArray());
+	    // rmap.put("repeatDomEntries", parser.getDomArray());
 
 	    TemplateProcessor tp = new TemplateProcessor(rmap);
 
@@ -1358,6 +1346,9 @@ public class Webnail {
 			    }
 			}
 		    });
+	    } else if (argv.length > 3) {
+		System.err.println(localeString("tooManyArgsAfterGUI"));
+		System.exit(1);
 	    }
 	    return;
 	}
@@ -1638,6 +1629,7 @@ public class Webnail {
 		// if there is no output file or directory, just
 		// parse the input and report errors.
 		try {
+		    org.bzdev.protocols.Handlers.enable();
 		    Parser parser = new Parser();
 		    if (xmlURL != null) {
 			URLConnection c = xmlURL.openConnection();
@@ -1766,6 +1758,7 @@ public class Webnail {
 			}
 		    }
 		} else {
+		    org.bzdev.protocols.Handlers.enable();
 		    Parser parser = new Parser();
 		    if (xmlFile == null && xmlURL == null) {
 			parser.setAttributes(mtype, hasAllImages,

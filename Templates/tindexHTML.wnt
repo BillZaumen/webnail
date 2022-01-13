@@ -6,17 +6,46 @@ $(!M.T application/x.webnail-template)<!DOCTYPE HTML PUBLIC "-//W3C//DTD HTML 4.
 <META http-equiv="Content-Style-Type" content="text/css">
 <META http-equiv="Content-Script-Type" content="text/javascript">
 <TITLE>$(windowTitle)</TITLE>
-</HEAD
+</HEAD>
 <BODY style="background-color: lightgray">
+<SCRIPT>
+  var position = 0;
+  function updatePosition(current) {
+      if (current == 0) {
+	  var strut = document.getElementById("Strut" + current);
+	  if (strut != null) {
+	      strut.scrollIntoView(true);
+	      position = current;
+	  }
+      }
+      if (current == position) {
+	  current = current-1;
+	  if (current >= 0) {
+	      var strut = document.getElementById("Strut" + current);
+	      if (strut != null) {
+		  strut.scrollIntoView(true);
+		  position = current;
+	      }
+	  }
+      } else if ((current - 4) >= position) {
+	  current = current + 1;
+	  var strut = document.getElementById("Strut" + current);
+	  if (strut != null) {
+	      strut.scrollIntoView(false);
+	      position = current - 4;
+	  } else {
+	      current = current - 1;
+	      strut = document.getElementById("Strut" + current);
+	      strut.scrollIntoView(false);
+	      position = current - 4;
+	  }
+      }
+  }
+</SCRIPT>
 <TABLE rules="none" border="0" style="padding: 0px">
 $(repeatRows:endRows)<TR>
   <TD style="padding: 0px"><IMG SRC="../controls/strut.gif" width=1 height=$(thumbStrutHeight) ID="Strut$(index)"></TD>
-<SCRIPT type="text/javascript">
-    document.write('<TD ALIGN="center" style="padding: 0px"><A NAME="$(index)" HREF="javascript:void(0)" TARGET="images"><IMG SRC="$(imageURL)" onclick="parent.updateWindow($(index))"></A></TD>');
-</SCRIPT>
-<NOSCRIPT>
-  <TD ALIGN="center" style="padding: 0px"><A NAME="$(index)" HREF="../medium/$(imageHtmlURL)" TARGET="images"><IMG SRC="$(imageURL)" onclick="parent.updateWindow($(index))"></A></TD>
-</NOSCRIPT>
+  <TD ALIGN="center" style="padding: 0px"><A NAME="$(index)" HREF="../medium/$(imageHtmlURL)" TARGET="images"><IMG SRC="$(imageURL)" onclick="updatePosition($(index))"></A></TD>
 </TR>
 $(endRows)
 </TABLE>

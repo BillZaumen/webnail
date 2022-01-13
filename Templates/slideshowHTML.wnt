@@ -6,27 +6,8 @@ $(!M.T application/x.webnail-template)<!DOCTYPE HTML PUBLIC "-//W3C//DTD HTML 4.
 <META http-equiv="Content-Style-Type" content="text/css">
 <META http-equiv="Content-Script-Type" content="text/javascript">
 <TITLE>Slideshow - $(windowTitle)</TITLE>
-<SCRIPT>
-function onload_f() {
-  window.loaded = true;
-  window.spacer = document.getElementById("spacer")
-  window.img = document.getElementById("img")
-  window.doSlideshowReady();
-}
-function onunload_f() {
-  window.stopSlideshow();
-}
-function onresize_f() {
-  window.updateSlideshowWindow();
-}
-window.onload = onload_f;
-window.onunload = onunload_f;
-window.onresize = onresize_f;
-</SCRIPT>
 </HEAD>
-<BODY STYLE="background-color: $(bgcolor)" id="body"
-      onload="onload_f()" onunload="onunload_f()" onresize="onresize_f()"
-      onkeyup="window.escapeHandler(event)">
+<BODY STYLE="background-color: $(bgcolor)" id="body">
   <div style="background-color: $(bgcolor); text-align: center; font-size: 1pt">
     <img src="strut.gif" width="100" height="1" id="spacer">
   </div>

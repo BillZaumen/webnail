@@ -63,7 +63,7 @@ public class EditImagesPane extends JComponent {
 
 
     DefaultListModel<Object> model;
-    LinkedList<TemplateProcessor.KeyMap> domMapList;
+    // LinkedList<TemplateProcessor.KeyMap> domMapList;
 
     JPanel panel = new JPanel();
     JPanel subpanel = new JPanel();
@@ -92,17 +92,17 @@ public class EditImagesPane extends JComponent {
     }
     private void setLimited() {
 	if (limitedMode) {
-	    descrLabel.setEnabled(false);
-	    descrTextArea.setEnabled(false);
-	    propertyButton.setEnabled(false);
+	    // descrLabel.setEnabled(false);
+	    // descrTextArea.setEnabled(false);
+	    // propertyButton.setEnabled(false);
 	    imageTimeLabel.setEnabled(false);
 	    imageTimeTF.setEnabled(false);
 	    minImageTimeLabel.setEnabled(false);
 	    minImageTimeTF.setEnabled(false);
 	} else {
-	    descrLabel.setEnabled(true);
-	    descrTextArea.setEnabled(true);
-	    propertyButton.setEnabled(true);
+	    // descrLabel.setEnabled(true);
+	    // descrTextArea.setEnabled(true);
+	    // propertyButton.setEnabled(true);
 	    imageTimeLabel.setEnabled(true);
 	    imageTimeTF.setEnabled(true);
 	    minImageTimeLabel.setEnabled(true);
@@ -159,14 +159,17 @@ public class EditImagesPane extends JComponent {
 	JScrollPane(titleTextArea,
 		    JScrollPane.VERTICAL_SCROLLBAR_AS_NEEDED,
 		    JScrollPane.HORIZONTAL_SCROLLBAR_AS_NEEDED);
-    JLabel descrLabel = new JLabel(localeString("descrLabel") + ":");
+    // JLabel descrLabel = new JLabel(localeString("descrLabel") + ":");
 
+    /*
     URLTextAreaPane descrTextArea = 
 	new URLTextAreaPane(4, 50, Gui.localeString("descrErrorTitle"));
     JScrollPane descrScrollPane = new
 	JScrollPane(descrTextArea,
 		    JScrollPane.VERTICAL_SCROLLBAR_AS_NEEDED,
 		    JScrollPane.HORIZONTAL_SCROLLBAR_AS_NEEDED);
+    */
+    /*
     PropertyButton propertyButton = 
 	new PropertyButton(localeString("propertyButton"), this,
 			   localeString("editProperties")) {
@@ -215,6 +218,7 @@ public class EditImagesPane extends JComponent {
 		return domMapList;
 	    }
 	};
+    */
     String[] linkOptions = {
 	localeString("linkComboBox0"), // default
 	localeString("linkComboBox1"), // no link
@@ -265,8 +269,7 @@ public class EditImagesPane extends JComponent {
 	text = (String)element.get("descr");
 	url = (String) element.get("descrURL");
 	isInUse = (url != null);
-	// descrTextArea.init(url, isInUse, ((text == null)? "":text));
-	descrTextArea.init((isInUse? url: text), isInUse);
+	// descrTextArea.init((isInUse? url: text), isInUse);
 	String linkMode = (String)element.get("linkMode");
 	if (linkMode == null) {
 	    linkComboBox.setSelectedIndex(0);
@@ -313,6 +316,7 @@ public class EditImagesPane extends JComponent {
 	    // System.out.println("set title to \"" + text + "\"");
 	    element.put("title", text);
 	}
+	/*
 	text = descrTextArea.getText();
 	url = null;
 	if (descrTextArea.urlInUse()) {
@@ -330,6 +334,7 @@ public class EditImagesPane extends JComponent {
 	} else {
 	    element.put("descr", text);
 	}
+	*/
 	int ind = linkComboBox.getSelectedIndex();
 	if (ind == 0) {
 	    element.remove("linkMode");
@@ -380,9 +385,9 @@ public class EditImagesPane extends JComponent {
 		titleLabel.setEnabled(false);
 		titleTextArea.init(null, false, "");
 		titleTextArea.setEnabled(false);
-		descrLabel.setEnabled(false);
-		descrTextArea.init(null, false, "");
-		descrTextArea.setEnabled(false);
+		//  descrLabel.setEnabled(false);
+		// descrTextArea.init(null, false, "");
+		// descrTextArea.setEnabled(false);
 		linkComboBox.setSelectedItem(linkOptions[0]);
 		linkComboBox.setEnabled(false);
 		mimeTypeLabel.setEnabled(false);
@@ -403,7 +408,7 @@ public class EditImagesPane extends JComponent {
 		urlLabel.setEnabled(false);
 		currentURL.setEnabled(false);
 		currentURL.setText("");
-		propertyButton.setEnabled(false);
+		// propertyButton.setEnabled(false);
     }
     
     void setControls() {
@@ -499,8 +504,13 @@ public class EditImagesPane extends JComponent {
 
     public EditImagesPane(DefaultListModel<Object> theModel,
 			  LinkedList<TemplateProcessor.KeyMap> dml) {
+	// We no longer use a DOM map.
+	this(theModel);
+    }
+
+    public EditImagesPane(DefaultListModel<Object> theModel) {
 	model = theModel;
-	domMapList = dml;
+	// domMapList = dml;
 	//rlist = new ReorderableJList(model);
 	rlist = new JList<Object>(model);
 
@@ -751,9 +761,10 @@ public class EditImagesPane extends JComponent {
 	JPanel controlPanel3 = new JPanel();
 	controlPanel3.setLayout(new FlowLayout(FlowLayout.LEADING));
 	controlPanel3.add(linkComboBox);
+	controlPanel3.add(new JLabel("        "));
 	controlPanel3.add(mimeTypeLabel);
 	controlPanel3.add(mimeTypeComboBox);
-	controlPanel3.add(propertyButton);
+	// controlPanel3.add(propertyButton);
 
 	gridbag.setConstraints(controlPanel3, c);
 	subpanel.add(controlPanel3);
@@ -788,6 +799,7 @@ public class EditImagesPane extends JComponent {
 	tdpanel.add(titleLabel);
 	tdgridbag.setConstraints(titleScrollPane, cccc);
 	tdpanel.add(titleScrollPane);
+	/*
 	JLabel lab1 = new JLabel(" ");
 	tdgridbag.setConstraints(lab1, c);
 	tdpanel.add(lab1);
@@ -795,6 +807,7 @@ public class EditImagesPane extends JComponent {
 	tdpanel.add(descrLabel);
 	tdgridbag.setConstraints(descrScrollPane, cccc);
 	tdpanel.add(descrScrollPane);
+	*/
 	JLabel lab2 = new JLabel(" ");
 	tdgridbag.setConstraints(lab2, c);
 	tdpanel.add(lab2);
@@ -803,14 +816,14 @@ public class EditImagesPane extends JComponent {
 	gridbag.setConstraints(doneButton, c);
 	subpanel.add(doneButton);
 
-	descrTextArea.setToolTipText(localeString("descrTextAreaToolTip"));
+	// descrTextArea.setToolTipText(localeString("descrTextAreaToolTip"));
 	titleTextArea.setToolTipText(localeString("titleTextAreaToolTip"));
 	imageTimeTF.setToolTipText(localeString("imageTimeTFToolTip"));
 	minImageTimeTF.setToolTipText(localeString("minImageTimeTFToolTip"));
 	hrefTargetComboBox.setToolTipText
 	    (localeString("hrefTargetComboBoxToolTip"));
 	hrefTextField.setToolTipText(localeString("hrefTextFieldToolTip"));
-	propertyButton.setToolTipText(localeString("propertyButtonToolTip"));
+	// propertyButton.setToolTipText(localeString("propertyButtonToolTip"));
 	linkComboBox.setToolTipText(localeString("linkComboBoxToolTip"));
 	panel.setLayout(new BorderLayout());
 	panel.add(scrollPane, "West");
@@ -830,7 +843,7 @@ public class EditImagesPane extends JComponent {
 	    new ImageMapElement("file:///home/wtz/Misc/thumb/fright.gif",model);
 	    // System.out.println("model.size() = " + model.size());
 
-	    EditImagesPane pane = new EditImagesPane(model, null);
+	    EditImagesPane pane = new EditImagesPane(model);
 	    pane.setSelectionMode(InputPane.SelectionMode.MULTI);
 	    final JFrame frame = new JFrame("EditImagesPane Test");
 	    Container fpane = frame.getContentPane();

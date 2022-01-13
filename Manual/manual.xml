@@ -41,7 +41,6 @@
       <node title="XML Elements"
 	    uri="sresource:/webnail/manual.html#dtdElements">
 	<node title="Images" uri="sresource:/webnail/manual.html#dtdImages"/>
-	<node title="DOM Map" uri="sresource:/webnail/manual.html#dtdDomMap"/>
 	<node title="Title" uri="sresource:/webnail/manual.html#dtdTitle"/>
 	<node title="Descr" uri="sresource:/webnail/manual.html#dtdDescr"/>
 	<node title="Head" uri="sresource:/webnail/manual.html#dtdHead"/>
@@ -50,8 +49,6 @@
 	<node title="Filename"
 	      uri="sresource:/webnail/manual.html#dtdFilename"/>
 	<node title="URL" uri="sresource:/webnail/manual.html#dtdURL"/>
-	<node title="Property"
-	      uri="sresource:/webnail/manual.html#dtdProperty"/>
 	<node title="Trailer" uri="sresource:/webnail/manual.html#dtdTrailer"/>
 	<node title="After Script"
 	      uri="sresource:/webnail/manual.html#dtdAfterScript"/>

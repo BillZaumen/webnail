@@ -4,20 +4,6 @@
 <title>Webnail Manual</title>
 </head>
 <body>
-<!--
-  <UL>
-    <li>Test0 plain text
-    <li><em>Test1 EM</em> Test1 in plain text
-    <li><strong>Test2 Strong</strong> Test2 in plain text
-    <li><DFN>Test3 DFN</DFN> Test3 in plain text
-    <li><CODE>Test4 CODE</CODE> Test4 in plain text
-    <li><SAMP>Test5 SAMP</SAMP> Test5 in plain text
-    <li><KDB>Test6 KBD</KBD> Test6 in plain text
-    <li><VAR>Test7 VAR</VAR> Test7 in plain text
-    <li><CITE>Test8 CITE</CITE> Test8 in plain text
-  </UL>
--->
-
 <h1><a name="intro">Introduction</a></h1>
 <p>
 Webnail is a program that can create web pages and scale images so
@@ -419,10 +405,6 @@ There are a number of controls:
       hyperlink URL fora specific image is given (see <var>Edit
       Images</var>), a medium-sized image, when clicked, should
       load the original image (which should be specified by a URL).
-  <DT><strong>DOM map</strong><DD>when clicked opens a panel for
-      editing the DOM (Document Object Model) map to be edited. The
-      panel and how it functions is
-      described <A HREF="#guiDOM">below</A>.
   <DT><strong><A name="title">Title</A></strong><DD>when clicked opens
       a dialog box that allows you to enter a default title for the
       images. The default title can be entered in a text area or by
@@ -534,154 +516,6 @@ The next set of controls are used to insert images into the application.
 </DL>
 </blockquote>
 
-<H2><A name="guiDOM">The Document-Object-Model Map</A></H2>
-<P>
-The DOM (Document Object Model) map is used for the layouts that can
-provide slideshows, but not for layouts that merely show all the
-images on a single page.  This map is indexed by keys which the
-property editor uses to look up DOM-map entries. For each key, there
-are three associated values: a comma-separated list of DOM IDs a DOM
-property, function, or method associated with an element in the DOM, a
-default value or argument for that property, method, or function, a
-mode indicating if the entry defines a property, method, or function,
-and a condition mode that determines under what conditions the entry
-may be used to modify the document object model.  The DOM may be
-modified when an image is selected or changed, when a slideshow
-starts, and when a slideshow stops. The conditions under which the DOM
-may change are defined below.  The
-following shows the window:
-</P>
-<P>
-<IMG SRC="gui-dom.png" width=600 height=338>
-</p>
-<P>
-The controls in this window are the following:
-</P>
-<BLOCKQUOTE>
-<DL>
-  <DT><strong>DOM-Map Keys</strong><DD> is a list of keys. Keys in
-      this list can be selected.  Drag and drop is enabled, allowing
-      the order of the keys to be changed. Keys are processed in the
-      order in which they appear in this list, depending on the value
-      of the key's <var>Condition Mode</var> value as defined
-      below.
-  <DT><strong>Add Key</strong><DD>when clicked opens a dialog box that
-      allows a new key to be added.
-  <DT><strong>Remove Key</strong><DD>removes the current key or keys
-      that have been selected.
-  <DT><strong>Dom-Map Key List</strong><DD>is a list of the keys. To
-      edit the values associated with a key, select the key by
-      clicking on it.
-  <DT><strong>Mode</strong><DD>sets the mode for the entry to
-      determine if the entry represents an element's DOM property, an
-      element's attribute, a method to call, a function to call, or a
-      boolean function serving as a test that will generate an alert
-      if the function returns false.
-  <DT><strong>Condition Mode</strong><DD>determines when a property will be
-      changed or a method or function called. The values are
-      <UL>
-	<li><var>When an image changes</var>.
-	<li><var>When default overridden</var>.
-	<li><var>When default not overridden</var>.
-	<li><var>When a slideshow starts</var>.
-	<li><var>When a slideshow stops</var>.
-	<li><var>A slideshow-start test</var>.
-	<li><var>A slideshow-enabled test</var>.
-      </UL>
-  <DT><strong>HTML IDs</strong><DD>provides a comma-separated list of
-      the IDs indicating the elements in the DOM that may be modified
-      for this entry.
-  <DT><strong>DOM Javascript Property/Method/Function</strong><DD>specifies the
-      Javascript property to change or method or function to call, depending
-      on the value of <var>Mode</var>.
-  <DT><strong>Default Value/Argument</strong><DD>provides the default
-      value for the property. The label for the field varies depending
-      on whether it is the value of a property or an argument for a
-      function or method.  For a property, the argument consists of
-      text and special characters should not be quoted; otherwise the
-      argument is javascript code, typically a constant.  If not a
-      constant, the code will be evaluated during loading.
-  <DT><strong>OK</strong><DD>accepts the current changes and closes the
-      window.
-  <DT><strong>Cancel</strong><DD>ignores all changes since the window
-  was opened and closes the window.
-</DL>
-</BLOCKQUOTE>
-<P>
-The following table contains entries that are defined as follows with a
-missing entry indicating that a combination is ignored:
-</P>
-<UL>
-  <li><var>no argument</var>. This indicates that a function does
-    not have an argument when called.
-  <li><var>either</var>. This indicates that a function or
-    method could be called, or a property set, either with an
-    image-specific argument or property value (if defined for that
-    image) or with a default argument or property value.
-  <li><var>entry</var>.  This indicates that a function or
-    method could be called, or a property set, with an
-    image-specific argument or property value (if defined for that
-    image). If an image-specific value is not defined, no operation is
-    performed.
-  <li><var>default</var>. This indicates that a function or
-    method could be called, or a property set, with a
-    default argument or property value.  If overridden, no operation will
-    be performed.
-</UL>
-<P>
-The table indicates when or if a property or attribute value is
-updated or a method or function called.
-</P>
-
-<TABLE BORDER=1>
-  <TR><TH rowspan=2>condMode<</TH><TH colspan=6  align="center">Mode</TH></TR>
-  <TR>
-    <TH><CODE>property</CODE></TH><TH><CODE>attribute</CODE></TH><TH><CODE>method0</CODE></TH><TH><CODE>method1</CODE></TH>
-    <TH><CODE>function</CODE></TH><TH><CODE>test</CODE></TH>
-  </TR>
-  <TR>
-    <TH><CODE>When an image changes</CODE></TH>
-    <TD>either</TD><TD>either</TD><TD>no argument</TD><TD>either</TD><TD>either</TD><TD>&nbsp;</TD>
-  </TR>
-  <TR>
-    <TH><CODE>When default overridden</CODE></TH>
-    <TD>entry</TD><TD>entry</TD><TD>no argument</TD><TD>entry</TD>
-    <TD>entry</TD><TD>&nbsp;</TD>
-  </TR>
-  <TR>
-    <TH><CODE>When default not overridden</CODE></TH>
-    <TD>default</TD><TD>default</TD><TD>no argument</TD>
-    <TD>default</TD><TD>default</TD><TD>&nbsp;</TD>
-  </TR>
-  <TR>
-    <TH><CODE>When a slideshow starts</CODE></TH>
-    <TD>either</TD><TD>either</TD><TD>no argument</TD><TD>either</TD>
-    <TD>either</TD><TD>&nbsp;</TD>
-  </TR>
-  <TR>
-    <TH><CODE>When a slideshow stops</CODE></TH>
-    <TD>either</TD><TD>either</TD><TD>no argument</TD><TD>either</TD>
-    <TD>either</TD><TD>&nbsp;</TD>
-  </TR>
-  <TR>
-    <TH><CODE>A slideshow-start test</CODE></TH>
-    <TD>&nbsp;</TD><TD>&nbsp;</TD><TD>&nbsp;</TD><TD>&nbsp;</TD>
-    <TD>&nbsp;</TD><TD>no argument</TD>
-  </TR>
-  <TR>
-    <TH><CODE>A slideshow-enabled test</CODE></TH>
-    <TD>&nbsp;</TD><TD>&nbsp;</TD><TD>&nbsp;</TD><TD>&nbsp;</TD>
-    <TD>&nbsp;</TD><TD>no argument</TD>
-  </TR>
-</TABLE>
-<P>
-The order of the keys is significant.  The Javascript code first
-performs all the normal updates for the DOM such as changing image
-titles, and then processes the DOM Map, iterating through keys in the
-order specified by the DOM map.  If two keys end up changing the same
-DOM object, the order is significant.
-</P>
-
 <H2><A name="guiEdit">The Image Editor</A></H2>
 
 <P>
@@ -786,67 +620,25 @@ The controls in this window are the following:
       <var><A HREF="#hrefToOrig">HREF Link to Original Image</A></var>
       checkbox is selected.
   <DT><strong>Title</strong><DD>allows you to enter a title for the
-      currently selected image. The <var>load using new
-      URL</var> button loads the title text from a server or file
+      currently selected image. The <var>load using new URL</var>
+      button loads the title text from a server or file
       after specifying a URL.  When the Default Layout option
       described above is used, the title appears directly below the
       image on the web page that is generated.  Otherwise it the title
       appears only if the mouse is stationary over the image. If left
       empty, the default title provided in the initial window is used
       as described <A HREF="#title">above.</A>
-  <DT><strong>Description</strong><DD>allows you to enter a title for
-      the currently selected image. The <var>load using new
-      URL</var> button loads the title text from a server or file
-      after specifying a URL.  When the Default Layout option
-      described above is used, the description appears directly below
-      the title on the web page that is generated. For the other
-      layout options, the description is ignored. If left empty, the
-      default description provided in the initial window is used as
-      described <A HREF="#descr">above.</A>
   <DT><strong>Done Editing</strong><DD>when clicked saves the latest
       changes and closes the Image Editor window.
-</DL>
-</BLOCKQUOTE>
-<H3><A name="guiProperties">The Properties Editor</A></H3>
-<P>
-The properties editor, which can be opened for the Image Editor
-window, allows specific entries in the DOM Map to be associated with
-an image. The editor's window is shown below:
-</P>
-<P>
-<IMG SRC="gui-properties.png" width=600 height=253>
-</P>
-<P>
-The editor has several controls:
-</P>
-<BLOCKQUOTE>
-<DL>
-  <DT><strong>DOM-Map Keys</strong><DD>is a selectable list of keys
-  for entries in the
-      <A HREF="#guiDOM">DOM map</A>. Selecting an individual key allows
-      that key's property's value to be edited.  If multiple keys are
-      selected, there is no value to edit but the keys may be removed.
-  <DT><strong>Add Key</strong><DD>provides a list of keys in the
-  current DOM map.
-  <DT><strong>Remove Key</strong><DD>allows the selected keys in the
-      DOM-map key list to be deleted.
-  <DT><strong>Property Value</strong><DD>is a text area in which the
-      currently selected key's value for the current image can be
-      entered or modified, overriding the default provided in the DOM
-      map described
-      <A HREF="#guiDOM">above.</A>
-  <DT><strong>OK</strong><DD>when clicked accepts the latest changes.
-  <DT><strong>Cancel</strong><DD>cancels all changes since this dialog
-  box was opened.
 </DL>
 </BLOCKQUOTE>
 <h2><A name="layoutEdit">Layout Editor</A></h2>
 <P>
 The Layout Editor is contained in a window. It allows additional
 layouts (the standard ones are always available)
-to Webnail on a per-user basis.
+to Webnail on a per-user basis.  Each layout is represented by a URL,
+and the URLs are kept in Java preferences.
 </P>
-
 
 <h2><A name="proxies">Proxy Configuration</A></h2>
 <P>
@@ -1267,167 +1059,6 @@ as follows:
     Webnail's class path (e.g., in the
     Webnail JAR file).
 </ul>
-
-<H3><A name="dtdDomMap">The DOM Map Element</A></H3>
-<P>The domMap element provides a list of mappings, providing a key
-that will be used in an image's property element, the
-ID of an HTML element, the name of a property of the HTML element (the
-property names are defined in the Javascript DOM [Document Object
-Model] documentation), and a default value for that property:
-</P>
-<blockquote>
-<pre>
-&lt;!ELEMENT domMap (mapping)*&gt;
-
-&lt;!ELEMENT mapping  EMPTY&gt;
-&lt;!ATTLIST mapping
-	  key CDATA #REQUIRED
-	  mode (property|attribute|method0|method1|function|test) #IMPLIED
-	  ids  CDATA #IMPLIED
-	  prop CDATA #IMPLIED
-	  name CDATA #IMPLIED
-	  method CDATA #IMPLIED
-	  function CDATA #IMPLIED
-	  condMode (onImageChange|onOverridden|onNotOverridden
-	            |onSlideshowStart|onSlideshowEnd
-	            |asSlideshowTest|asSlideshowEnabledTest) #IMPLIED
-	  defaultValue CDATA #IMPLIED
-          defaultArgument CDATA #IMPLIED&gt;
-</pre>
-</blockquote>
-<P>
-The attributes are as follows:
-</P>
-<ul>
-  <li><var>key</var>. Provides a key naming the mapping. This
-    will be used in the key attribute of an image's property element.
-    A key must have the same syntax as a Javascript property name.
-  <li><var>mode</var>. Indicates whether the mapping is used to
-    modify an element's property, call an element's method with 0 or 1
-    arguments, call a function with a single argument, or call a test
-    function with no arguments which, if it returns false, will
-    generate an error.
-  <li><var>ids</var>. Specifies the IDs of HTML elements to which
-    this mapping applies.  The IDs matches that of the HTML elements'
-    ID attributes.
-  <li><var>prop</var>. Specifies the Javascript property whose
-    value may be modified.
-  <li><var>name</var>. Specifies the HTML attribute whose
-    value may be modified.
-  <li><var>method</var>. The name of a method to invoke.
-  <li><var>function</var>. The name of a function to invoke.
-  <li><var>condMode</var>. The call mode. This determines under
-    Which circumstances a property will be changed or a method or
-    function will be called.  The values are:
-    <UL>
-      <li><var>onImageChange</var>. The event occurs when an image is
-	changed.
-      <li><var>onOverridden</var>. The event occurs when an image is
-	changed and a per-image  value exists.
-      <li><var>onNotOverridden</var>. The event occurs when an image is
-	changed and a per-image value does not exist.
-      <li><var>onSlideshowStart</var>. The event occurs when a slideshow
-	starts.
-      <li><var>onSlideshowEnd</var>. The event occurs when a slideshow
-	ends.
-      <li><var>asSlideshowTest</var>. A function is called as a test to
-	determine if a slideshow is permitted to  start (even if it will not
-	start instantaneously). The function will not have an argument.
-      <li><var>asSlideshowEnabledTest</var>. A function is
-	called as a test to see if a slideshow is enabled. The function will
-	not have an argument.
-    </UL>
-  <li><var>defaultValue</var>. Provides the default value of the
-    Javascript property.  Javascript special characters should not be
-    escaped.
-  <li><var>defaultArgument</var>. Provides the default value of a
-    method or function argument.  It is expected to be a Javascript
-    object or primitive.  If it is a function call, the function will be
-    evaluated during loading.
-</ul>
-<P>
-The following table contains entries that are defined as follows:
-</P>
-<UL>
-  <li><var>no argument</var>. This indicates that a function does
-    not have an argument when called.
-  <li><var>either</var>. This indicates that a function or
-    method could be called, or a property set, either with an
-    image-specific argument or property value (if defined for that
-    image) or with a default argument or property value.
-  <li><var>entry</var>.  This indicates that a function or
-    method could be called, or a property set, with an
-    image-specific argument or property value (if defined for that
-    image). If an image-specific value is not defined, no operation is
-    performed.
-  <li><var>default</var>. This indicates that a function or
-    method could be called, or a property set, with a
-    default argument or property value.  If overridden, no operation will
-    be performed.
-</UL>
-<P>
-The table indicates when or if a property value is updated or a method or
-function called, with a missing entry indicating that this combination is
-ignored.
-</P>
-
-<TABLE BORDER=1>
-  <TR><TH rowspan=2>condMode</TH><TH colspan=6  align="center">Mode</TH></TR>
-  <TR>
-    <TH><CODE>property</CODE></TH><TH><CODE>attribute</CODE></TH>
-    <TH><CODE>method0</CODE></TH><TH><CODE>method1</CODE></TH>
-    <TH><CODE>function</CODE></TH><TH><CODE>test</CODE></TH>
-  </TR>
-  <TR>
-    <TH><CODE>onImageChange</CODE></TH>
-    <TD>either</TD><TD>either</TD><TD>no argument</TD><TD>either</TD>
-    <TD>either</TD><TD>&nbsp;</TD>
-  </TR>
-  <TR>
-    <TH><CODE>onOverridden</CODE></TH>
-    <TD>entry</TD><TD>entry</TD><TD>no argument</TD><TD>entry</TD>
-    <TD>entry</TD><TD>&nbsp;</TD>
-  </TR>
-  <TR>
-    <TH><CODE>onNotOverridden</CODE></TH>
-    <TD>default</TD><TD>default</TD><TD>no argument</TD>
-    <TD>default</TD><TD>default</TD><TD>&nbsp;</TD>
-  </TR>
-  <TR>
-    <TH><CODE>onSlideshowStart</CODE></TH>
-    <TD>either</TD><TD>either</TD><TD>no argument</TD><TD>either</TD>
-    <TD>either</TD><TD>&nbsp;</TD>
-  </TR>
-  <TR>
-    <TH><CODE>onSlideshowEnd</CODE></TH>
-    <TD>either</TD><TD>either</TD><TD>no argument</TD><TD>either</TD>
-    <TD>either</TD><TD>&nbsp;</TD>
-  </TR>
-  <TR>
-    <TH><CODE>asSlideshowTest</CODE></TH>
-    <TD>&nbsp;</TD><TD>&nbsp;</TD><TD>&nbsp;</TD><TD>&nbsp;</TD>
-    <TD>&nbsp;</TD><TD>no argument</TD>
-  </TR>
-  <TR>
-    <TH><CODE>asSlideshowEnabledTest</CODE></TH>
-    <TD>&nbsp;</TD><TD>&nbsp;</TD><TD>&nbsp;</TD><TD>&nbsp;</TD>
-    <TD>&nbsp;</TD><TD>no argument</TD>
-  </TR>
-</TABLE>
-
-<P>
-For example, a mapping might be defined as
-</P>
-<blockquote>
-<pre><code>
-&lt;mapping key="foo" id="div1", prop="style"  mode="property"
-         condMode="onImageChange" defaultValue="background-color: white" /&gt;
-</code></pre>
-</blockquote>
-This mapping defines a default background color, white, for an element whose
-ID is <strong>div1</strong>.  This color will be used unless an image
-overrides it via an enclosed <strong>property</strong> element (provided that
-Javascript is enabled).
 
 <H3><A name="dtdTitle">The Title Element</A></H3>
 
@@ -1969,16 +1600,16 @@ The following directives are used to set Javascript variables.
     expected.
   <li><var>waitOnError</var>. When <code>true</code>, if there is
     an error, the previous image will be displayed for the duration of the
-    missing image in addition to the previous image's own duration.
+    missing image in addition to the previous image's <!-- ' --> own duration.
   <li><var>highResDir</var>. The name of the subdirectory containing
     the highest resolution images available.  Values are either
     <code>medium</code> or <code>high</code>.
   <li><var>wOffset</var>. Amount to subtract from a browser
-    window's inner width to obtain the width of the bounding box for
-    images that will be displayed.
+    window's  <!-- ' --> inner width to obtain the width of the bounding
+    box for  images that will be displayed.
   <li><var>hOffset</var>. Amount to subtract from a browser
-    window's inner hieght to obtain the heigh of the bounding box for
-    images that will be displayed.
+    window's  <!-- ' --> inner hieght to obtain the heigh of the
+    bounding box for images that will be displayed.
   <li><var>wPercent</var>. After using <var>wOffset</var>, scale
     the image's bounding box's width by this amount, given as a percentage.
   <li><var>hPercent</var>. After using <var>wOffset</var>, scale
@@ -2010,100 +1641,5 @@ during iteration over images in a <var>repeatrows</var> block.
   <li><var>height</var>. The medium resolution image height.
 </UL>
 <P>
-The <var>repeatDomEntries</var> iteration directive (by convention
-terminated by <var>endDomEntries</var>) sets the following directives
-on a per-DOM-entry basis:
-</P>
-<UL>
-  <li><var>domKey</var>. An identifier providing a key for a DOM entry.
-    The key should be a Javascript identifier and contain only ASCII
-    alphanumeric characters.
-  <li><var>domIDs</var>. A comma-separated list of ID attribute values
-    of HTML elements.
-  <li><var>domIDsQuoted</var>. A comma-separated list of quoted ID
-    attribute values of HTML elements.
-  <li><var>domIDsInsert</var>. The value of the
-    <var>domIDsQuoted</var> directive prefaced by
-    "<code>, ids = [</code>" and followed by "<code>]</code>"
-  <li><var>domMode</var>. The value is either
-    <code>property</code>, <code>method0</code>,
-    <code>method1</code>, <code>function</code>, or
-    <code>test</code>.
-  <li><var>domModeCode</var>. The value is either
-    0 when <var>domMode</var> is <code>property</code>,
-    1 when <var>domMode</var> is <code>method0</code>,
-    2 when <var>domMode</var> is <code>method1</code>,
-    3 when <var>domMode</var> is <code>function</code>, or
-    or 4 when <var>domMode</var> is   <code>test</code>.
-  <li><var>domCondMode</var>. The value is either
-    <code>onImageChange</code>,
-    <code>onOverridden</code>,
-    <code>onNotOverridden</code>,
-    <code>onSlideshowStart</code>,
-    <code>onSlideshowEnd</code>,
-    <code>asSlideshowTest</code>, or
-    <code>asSlideshowEnabledTest</code>.
-  <li><var>domCondModeInsert</var>. The value is the string
-    "<code>, condMode: </code>" followed by
-    0 when <var>domCondMode</var> is <code>onImageChange</code>,
-    1 when <var>domCondMode</var> is <code>onOverridden</code>,
-    2 when <var>domCondMode</var> is <code>onNotOverridden</code>,
-    3 when <var>domCondMode</var> is <code>onSlideshowStart</code>,
-    4 when <var>domCondMode</var> is <code>onSlideshowEnd</code>,
-    5 when <var>domCondMode</var> is <code>asSlideshowTest</code>, or
-    6 when <var>domCondMode</var> is
-    <code>asSlideshowEnabledTest</code>.
-  <li><var>domProp</var>. When <var>domMode</var> has the value,
-    <code>property</code>, the value is a string naming a DOM property;
-    otherwise the value is an empty string.
-  <li><var>domDefaultValue</var>. When <var>domMode</var> has
-    the value, <code>property</code>, the value is a string containing the
-    default value for the property; otherwise the value is an empty string.
-  <li><var>domDefaultValueQuoted</var>. When <var>domMode</var> has
-    the value, <code>property</code>, the value of
-    <var>domDefaultValue</var> encoded so it can appear inside a
-    Javascript string; an empty string otherwise.
-  <li><var>domPropInsert</var>. When <var>domMode</var> has
-    the value, <code>property</code>, the value is the value of
-    <var>domProp</var> prefaced by  '<code>, prop: "</code>' and
-    followed by 'scode>"</code>'.
-  <li><var>domDefaultValueInsert</var>. When <var>domMode</var> has
-    the value, <code>property</code>, the value is the value of
-    <var>domDefaultValueQuoted</var> prefaced by
-    '<code>, prop: "</code>' and followed by '<code>"</code>'.
-  <li><var>domMethod</var>. When <var>domMode</var> is
-    <code>method0</code> or <code>method1</code>,
-    <var>domMethod</var> has a value that gives the name of a Javascript
-    method; otherwise its value is an empty string.
-  <li><var>domMethodInsert</var>. When <var>domMode</var> is
-    <code>method0</code> or <code>method1</code>,
-    <var>domMethodInsert</var> has the value
-    '<code>, method: "<var>domMethod</var>"</code>';
-    otherwise its value is an empty string.
-  <li><var>domFunction</var>.  When <var>domMode</var> has the
-    value <code>function</code> or <code>test</code>, the value of
-    <var>domFunction</var> is the name of a function of 1 or 0
-    arguments respectively.
-  <li><var>domFunctionInsert</var> .When <var>domMode</var> has the
-    value <code>function</code> or <code>test</code>,
-    <var>domFunctionInsert</var> has a value of
-    '<code>, funct: "<var>domFunction<var>"</code>'; otherwise
-    the value is an empty string.
-  <li><var>domDefaultArgument</var>. If <var>domMode</var> has the
-    value <code>test</code>, the value is an empty string; otherwise the
-    value is a default argument.
-  <li><var>domDefaultArgumentInsert</var>. If <var>domMode</var>
-    has the value <code>test</code>, the value is an empty string;
-    otherwise the value is
-    '<code>, defaultArgument: "<var>domDefaultArgument<var>"</code>'
-  <li><var>commaSeparator</var>.  The value is "<code>,</code>"
-    except for the last item in a <var>repeatDomEntries</var> iteration,
-    for which the value is an empty string.
-</UL>
-<P>
-Different layouts may use different template files.  The following gives
-some examples.
-</P>
-
 </body>
 </html>

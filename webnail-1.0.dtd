@@ -1,6 +1,6 @@
 <?xml version="1.0" encoding="UTF-8"?>
 
-<!ELEMENT webnail (domMap?, title?, descr?, head?, header?, 
+<!ELEMENT webnail (title?, descr?, head?, header?,
 	  image*, trailer?, finalHtml?)>
 <!ATTLIST webnail
 	  xmlns CDATA #FIXED "http://bzdev.org/DTD/webnail-1.0"
@@ -20,24 +20,6 @@
 	  width   CDATA #IMPLIED
 	  hrefToOrig (true|false) #IMPLIED
 	  layout CDATA #IMPLIED>
-
-<!ELEMENT domMap (mapping)*>
-
-<!ELEMENT mapping  EMPTY>
-<!ATTLIST mapping
-	  key CDATA #REQUIRED
-	  mode (property|attribute|method0|method1|function|test) #IMPLIED
-	  ids  CDATA #IMPLIED
-	  prop CDATA #IMPLIED
-	  name CDATA #IMPLIED
-	  method CDATA #IMPLIED
-	  function CDATA #IMPLIED
-	  condMode (onImageChange|onOverridden|onNotOverridden
-	            |onSlideshowStart|onSlideshowEnd
-	            |asSlideshowTest|asSlideshowEnabledTest) #IMPLIED
-	  defaultValue CDATA #IMPLIED
-	  defaultArgument CDATA #IMPLIED>
-
 
 <!ELEMENT title (#PCDATA)>
 <!ATTLIST title
@@ -66,10 +48,6 @@
 	  
 <!ELEMENT filename  (#PCDATA)>
 <!ELEMENT url  (#PCDATA)>
-
-<!ELEMENT property (#PCDATA)>
-<!ATTLIST property
-	  key CDATA #REQUIRED>
 
 <!ELEMENT trailer (#PCDATA)>
 <!ATTLIST trailer

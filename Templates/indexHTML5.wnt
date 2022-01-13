@@ -42,15 +42,10 @@ $(audio)$(header)<TABLE id="imagesTable">
     </Script>
     <TR>
       <TD>
-	<SCRIPT type="text/javascript">
-	  createImageIframe();
-	</SCRIPT>
-	<NOSCRIPT>
 	<IFRAME marginwidth=$(marginw) marginheight=$(marginh) width=$(iWidth) height=$(iHeight)
-		frameborder=0
+		frameborder=0 scrolling="no"
 		src="controls/initial.html" name="images">
 	</IFRAME>
-	</NOSCRIPT>
       </TD>
     </TR>
   </TABLE>
@@ -68,7 +63,7 @@ $(audio)$(header)<TABLE id="imagesTable">
   </TR>
   <TR>
     <TD width=$(tWidth)><IMG src="controls/strut.gif" width=2 height="20"></TD>
-    <TD align="center" valign="top" id="descr">$(description)</TD>
+    <TD align="left" valign="top" id="descr">$(description)</TD>
   </TR>
 </TABLE>
 $(trailer)<SCRIPT type="text/javascript" charset="UTF-8" src="controls/slideshow2.js"></SCRIPT>
