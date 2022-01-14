@@ -11,6 +11,7 @@
 	  flatMode (true|false) #IMPLIED
 	  highResMode (true|false) #IMPLIED
 	  webArchiveMode (true|false) #IMPLIED
+	  zipped (true|false) #IMPLIED
 	  syncMode (true|false) #IMPLIED
 	  waitOnError (true|false) #IMPLIED
 	  imageTime CDATA #IMPLIED

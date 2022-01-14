@@ -79,7 +79,6 @@ public class EditImagesPane extends JComponent {
 	    }
 	}
 	inputPane.setSelectionMode(mode);
-	// imgListTransferHandler.setSelectionMode(mode);
 	extObjListTransferHandler.setMultiEntryMode
 	    ((mode == InputPane.SelectionMode.MULTI), true);
     }
@@ -88,21 +87,14 @@ public class EditImagesPane extends JComponent {
     public void setLimitedMode(boolean lmode) {
 	limitedMode = lmode;
 	setControls();
-	// setLimited();
     }
     private void setLimited() {
 	if (limitedMode) {
-	    // descrLabel.setEnabled(false);
-	    // descrTextArea.setEnabled(false);
-	    // propertyButton.setEnabled(false);
 	    imageTimeLabel.setEnabled(false);
 	    imageTimeTF.setEnabled(false);
 	    minImageTimeLabel.setEnabled(false);
 	    minImageTimeTF.setEnabled(false);
 	} else {
-	    // descrLabel.setEnabled(true);
-	    // descrTextArea.setEnabled(true);
-	    // propertyButton.setEnabled(true);
 	    imageTimeLabel.setEnabled(true);
 	    imageTimeTF.setEnabled(true);
 	    minImageTimeLabel.setEnabled(true);
@@ -159,66 +151,6 @@ public class EditImagesPane extends JComponent {
 	JScrollPane(titleTextArea,
 		    JScrollPane.VERTICAL_SCROLLBAR_AS_NEEDED,
 		    JScrollPane.HORIZONTAL_SCROLLBAR_AS_NEEDED);
-    // JLabel descrLabel = new JLabel(localeString("descrLabel") + ":");
-
-    /*
-    URLTextAreaPane descrTextArea = 
-	new URLTextAreaPane(4, 50, Gui.localeString("descrErrorTitle"));
-    JScrollPane descrScrollPane = new
-	JScrollPane(descrTextArea,
-		    JScrollPane.VERTICAL_SCROLLBAR_AS_NEEDED,
-		    JScrollPane.HORIZONTAL_SCROLLBAR_AS_NEEDED);
-    */
-    /*
-    PropertyButton propertyButton = 
-	new PropertyButton(localeString("propertyButton"), this,
-			   localeString("editProperties")) {
-	    protected void doOutput(LinkedList<TemplateProcessor.KeyMap> list) {
-		MapElement element = 
-		    (MapElement)EditImagesPane.this.model.get(currentIndex);
-		String ns =(String)element.get("nProps");
-		int n = (ns == null)? 0: Integer.parseInt(ns);
-		int i;
-		for (i = 0; i < n; i++) {
-		    element.remove("propKey" + i);
-		    element.remove("propValue" + i);
-		}
-		element.remove("nProps");
-		i = 0;
-		for (TemplateProcessor.KeyMap map: list) {
-		    String key = (String) map.get("domKey");
-		    String value = (String) map.get("propertyValue");
-		    element.put("propKey" + i, key);
-		    element.put("propValue" + i, value);
-		    i++;
-		}
-		element.put("nProps", "" + i);
-		
-	    }
-	    protected TemplateProcessor.KeyMap[] getPropertyInput() 
-	    {
-		MapElement element = 
-		    (MapElement)EditImagesPane.this.model.get(currentIndex);
-		String ns =(String)element.get("nProps");
-		int n = (ns == null)? 0: Integer.parseInt(ns);
-		TemplateProcessor.KeyMap[] array =
-		    new TemplateProcessor.KeyMap[n];
-		for (int i = 0; i < n; i++) {
-		    String key = (String) element.get("propKey" + i);
-		    String value = (String) element.get("propValue" + i);
-		    TemplateProcessor.KeyMap map =
-			new TemplateProcessor.KeyMap();
-		    map.put("domKey", key);
-		    map.put("propertyValue", value);
-		    array[i] = map;
-		}
-		return array;
-	    }
-	    protected LinkedList<TemplateProcessor.KeyMap> getDomListInput() {
-		return domMapList;
-	    }
-	};
-    */
     String[] linkOptions = {
 	localeString("linkComboBox0"), // default
 	localeString("linkComboBox1"), // no link
@@ -264,12 +196,10 @@ public class EditImagesPane extends JComponent {
 	String text = (String)element.get("title");
 	String url = (String)element.get("titleURL");
 	boolean isInUse = (url != null);
-	// titleTextArea.init(url, isInUse, ((text == null)? "":text));
 	titleTextArea.init((isInUse? url: text), isInUse);
 	text = (String)element.get("descr");
 	url = (String) element.get("descrURL");
 	isInUse = (url != null);
-	// descrTextArea.init((isInUse? url: text), isInUse);
 	String linkMode = (String)element.get("linkMode");
 	if (linkMode == null) {
 	    linkComboBox.setSelectedIndex(0);
@@ -298,7 +228,6 @@ public class EditImagesPane extends JComponent {
 
     private void saveElement(MapElement element) {
 	String text = titleTextArea.getText();
-	// System.out.println("(save) text = " + text);
 	String url = null;
 	if (titleTextArea.urlInUse()) {
 	    url = titleTextArea.getURL().trim();
@@ -316,25 +245,6 @@ public class EditImagesPane extends JComponent {
 	    // System.out.println("set title to \"" + text + "\"");
 	    element.put("title", text);
 	}
-	/*
-	text = descrTextArea.getText();
-	url = null;
-	if (descrTextArea.urlInUse()) {
-	    url = descrTextArea.getURL().trim();
-	    if (url != null || url.length() > 0) {
-		element.put("descrURL", url);
-	    } else {
-		element.remove("descrURL");
-	    }
-	} else {
-	    element.remove("descrURL");
-	}
-	if (text.length() == 0) {
-	    element.remove("descr");
-	} else {
-	    element.put("descr", text);
-	}
-	*/
 	int ind = linkComboBox.getSelectedIndex();
 	if (ind == 0) {
 	    element.remove("linkMode");
@@ -385,9 +295,6 @@ public class EditImagesPane extends JComponent {
 		titleLabel.setEnabled(false);
 		titleTextArea.init(null, false, "");
 		titleTextArea.setEnabled(false);
-		//  descrLabel.setEnabled(false);
-		// descrTextArea.init(null, false, "");
-		// descrTextArea.setEnabled(false);
 		linkComboBox.setSelectedItem(linkOptions[0]);
 		linkComboBox.setEnabled(false);
 		mimeTypeLabel.setEnabled(false);
@@ -408,7 +315,6 @@ public class EditImagesPane extends JComponent {
 		urlLabel.setEnabled(false);
 		currentURL.setEnabled(false);
 		currentURL.setText("");
-		// propertyButton.setEnabled(false);
     }
     
     void setControls() {
@@ -437,8 +343,6 @@ public class EditImagesPane extends JComponent {
 		    loadElement(currentElement);
 		    titleLabel.setEnabled(true);
 		    titleTextArea.setEnabled(true);
-		    // descrLabel.setEnabled(true); - done in setLimited()
-		    // descrTextArea.setEnabled(true); - done in setLimited()
 		    linkComboBox.setEnabled(true);
 		    mimeTypeLabel.setEnabled(true);
 		    mimeTypeComboBox.setEnabled(true);
@@ -452,7 +356,6 @@ public class EditImagesPane extends JComponent {
 		    minImageTimeTF.setEnabled(true);
 		    urlLabel.setEnabled(true);
 		    currentURL.setEnabled(true);
-		    // propertyButton.setEnabled(true); - done in setLimited()
 		    setLimited();
 		    setLinkModeControls();
 		} else {
@@ -510,8 +413,6 @@ public class EditImagesPane extends JComponent {
 
     public EditImagesPane(DefaultListModel<Object> theModel) {
 	model = theModel;
-	// domMapList = dml;
-	//rlist = new ReorderableJList(model);
 	rlist = new JList<Object>(model);
 
 	inputPane = new InputPane(rlist) {
@@ -550,10 +451,6 @@ public class EditImagesPane extends JComponent {
 		}
 	    };
 	Gui.setComponentBackground(inputPane, Gui.COLOR1);
-	/*
-	extObjListTransferHandler = new 
-	    ExtObjListTransferHandler(this, inputPane, rlist);
-	*/
 	extObjListTransferHandler = new 
 	    org.bzdev.swing.ExtObjListTransferHandler(rlist, 
 						      inputPane.icurrentDir) 
@@ -799,15 +696,6 @@ public class EditImagesPane extends JComponent {
 	tdpanel.add(titleLabel);
 	tdgridbag.setConstraints(titleScrollPane, cccc);
 	tdpanel.add(titleScrollPane);
-	/*
-	JLabel lab1 = new JLabel(" ");
-	tdgridbag.setConstraints(lab1, c);
-	tdpanel.add(lab1);
-	tdgridbag.setConstraints(descrLabel, cccc);
-	tdpanel.add(descrLabel);
-	tdgridbag.setConstraints(descrScrollPane, cccc);
-	tdpanel.add(descrScrollPane);
-	*/
 	JLabel lab2 = new JLabel(" ");
 	tdgridbag.setConstraints(lab2, c);
 	tdpanel.add(lab2);
@@ -816,14 +704,12 @@ public class EditImagesPane extends JComponent {
 	gridbag.setConstraints(doneButton, c);
 	subpanel.add(doneButton);
 
-	// descrTextArea.setToolTipText(localeString("descrTextAreaToolTip"));
 	titleTextArea.setToolTipText(localeString("titleTextAreaToolTip"));
 	imageTimeTF.setToolTipText(localeString("imageTimeTFToolTip"));
 	minImageTimeTF.setToolTipText(localeString("minImageTimeTFToolTip"));
 	hrefTargetComboBox.setToolTipText
 	    (localeString("hrefTargetComboBoxToolTip"));
 	hrefTextField.setToolTipText(localeString("hrefTextFieldToolTip"));
-	// propertyButton.setToolTipText(localeString("propertyButtonToolTip"));
 	linkComboBox.setToolTipText(localeString("linkComboBoxToolTip"));
 	panel.setLayout(new BorderLayout());
 	panel.add(scrollPane, "West");
@@ -841,7 +727,6 @@ public class EditImagesPane extends JComponent {
 	    new ImageMapElement ("file:///home/wtz/Misc/thumb/redo.gif", model);
 	    new ImageMapElement("file:///home/wtz/Misc/thumb/right.gif", model);
 	    new ImageMapElement("file:///home/wtz/Misc/thumb/fright.gif",model);
-	    // System.out.println("model.size() = " + model.size());
 
 	    EditImagesPane pane = new EditImagesPane(model);
 	    pane.setSelectionMode(InputPane.SelectionMode.MULTI);

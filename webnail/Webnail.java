@@ -75,11 +75,6 @@ public class Webnail {
     static final String T_IFRAME_WIDTH = ""
 	+ (TWIDTH + 2 * MARGINW + MARGIN_HPAD);
 
-    /*
-    static final String T_IFRAME_HEIGHT = ""
-	+ (((THEIGHT + (2 * T_VPAD)) * NUM_T_IMAGES) + (2 * MARGINH)
-	   + T_VCORRECTION);
-    */
     static final String T_IFRAME_HEIGHT = ""
 	+ (((THEIGHT + (2 * T_VPAD)) * NUM_T_IMAGES) + (2 * MARGINH)
 	   + MARGIN_VPAD + T_VCORRECTION);
@@ -188,6 +183,7 @@ public class Webnail {
 	// System.out.println("warmode = " +warmode);
 	int index = 0;
 	boolean webmode = parser.getWebMode();
+	boolean zipped = parser.getZipped();
 
 	LayoutParms lparms = parser.getLayoutParms();
 	// wait if we are loading over the network.
@@ -202,18 +198,12 @@ public class Webnail {
 	    throw new Exception("lparmsNotValid");
 	}
 
-	/*
-	if (lparms == null) System.out.println("lparms == null");
-	else System.out.println(lparms.toString());
-	*/
 	boolean multi = lparms.isMulti();
 	boolean single = lparms.isSingle();
-	// boolean normalLayout = (parser.getLayoutIndex() == 0);
-	// boolean tiledImages = (parser.getLayoutIndex() == 1);
 	boolean tiledImages = lparms.isTiled();
 	int tiledWidth = lparms.getTiledWidth();
-	if (n == 0 && multi /*normalLayout*/) return;
-	if (single /*!normalLayout*/) {
+	if (n == 0 && multi) return;
+	if (single) {
 	    if (maxThumbWidth == 0) {
 		maxThumbWidth = lparms.getMaxThumbWidth();
 	    }
@@ -240,8 +230,6 @@ public class Webnail {
 	    flat = false;
 	}
 
-	// boolean hasAllImages = parser.getHighResMode()
-	//    && multi /*(parser.getLayoutIndex() == 0)*/;
 	boolean hasAllImages = parser.getHighResMode() || single;
 
 	String head = parser.getValue("head");
@@ -295,7 +283,7 @@ public class Webnail {
 	    tdir = new File(dir, "thumbnails");
 	    mdir = new File(dir, "medium");
 	    cdir = new File(dir, "controls");
-	    if (multi /*parser.getLayoutIndex() == 0*/) {
+	    if (multi) {
 		if (tdir.exists()) {
 		    if (!tdir.isDirectory()) {
 			ErrorMessage.display(String.format
@@ -333,7 +321,7 @@ public class Webnail {
 				      dir.toString()));
 		if (pm == null) System.exit(1); else return;
 	    }
-	    if (multi /*parser.getLayoutIndex() == 0*/) {
+	    if (multi) {
 		if (cdir.exists()) {
 		    if (!cdir.isDirectory()) {
 			ErrorMessage.display(String.format
@@ -396,28 +384,11 @@ public class Webnail {
 	    rmap.put("hOffset", "20");
 	    rmap.put("wPercent", "100");
 	    rmap.put("hPercent", "100");
-	    // rmap.put("scrollIncr", "" + SCROLL_INCR);
-	    /*
-	    rmap.put("thumbStrutHeight",THUMB_STRUT_HEIGHT);
-	    rmap.put("marginw", "" + MARGINW);
-	    rmap.put("marginh", "" + MARGINH);
-	    */
 	    rmap.put("thumbStrutHeight",lparms.getThumbStrutHeight());
 	    rmap.put("marginw", "" + lparms.getMarginW());
 	    rmap.put("marginh", "" + lparms.getMarginH());
-	    /*
-	    rmap.put("mWidth", "" + MWIDTH);
-	    rmap.put("mHeight", "" + MHEIGHT);
-	    */
 	    rmap.put("mWidth", "" + lparms.getMWidth());
 	    rmap.put("mHeight", "" + lparms.getMHeight());
-	    /*
-	    rmap.put("tWidth", T_IFRAME_WIDTH);
-	    rmap.put("tHeight", T_IFRAME_HEIGHT);
-	    rmap.put("iWidth", I_IFRAME_WIDTH);
-	    rmap.put("iHeight", I_IFRAME_HEIGHT);
-	    rmap.put("tdWidth", TD_TABLE_WIDTH);
-	    */
 	    rmap.put("tWidth", lparms.getTIFrameWidth());
 	    rmap.put("tHeight", lparms.getTIFrameHeight());
 	    rmap.put("iWidth", lparms.getIIFrameWidth());
@@ -432,7 +403,7 @@ public class Webnail {
 	    if (trailer != null) rmap.put("trailer", trailer);
 	    if (finalHtml != null) rmap.put("finalHtml", finalHtml);
 	    rmap.put("iFrameWindowTitle", iFrameWindowTitle);
-	    if (single /*!normalLayout*/) {
+	    if (single) {
 		rmap.put("width", "" + maxThumbWidth);
 		rmap.put("height", "" + maxThumbHeight);
 		rmap.put("txtwidth", "" +(700-maxThumbWidth));
@@ -595,7 +566,7 @@ public class Webnail {
 			Exception("input and output file(s)"
 				  +"identical");
 		}
-		if (!webmode || hasAllImages || single/*!normalLayout*/) {
+		if (!webmode || hasAllImages || single) {
 		    if (copying) {
 			if (urlmode) {
 			    if (linkmode == false) {
@@ -620,10 +591,6 @@ public class Webnail {
 			}
 		    }
 		}
-		/*
-		System.out.println ("webmode = " + webmode
-				    +", fname = " + fname);
-		*/
 		if (webmode && (fname != null)) {
 		    TemplateProcessor.KeyMap map =
 			new TemplateProcessor.KeyMap();
@@ -645,8 +612,7 @@ public class Webnail {
 			    + URLEncoder.encode(fname, "UTF-8"));
 		    map.put("hrefTarget", hrefTarget);
 		    map.put("hrefURL", ((hrefURL == null)?
-					(multi/*normalLayout*/?
-					 map.get("highImageURL"):
+					(multi? map.get("highImageURL"):
 					 map.get("fsImageURL")):
 					WebEncoder.quoteEncode(hrefURL)));
 		    map.put("imageFile",
@@ -662,11 +628,7 @@ public class Webnail {
 		    String otherProps = parser.getValue("otherProps", ind);
 		    String x = parser.getValue("title", ind);
 		    if (x != null) {
-			/*
-			System.out.println((String)parser.getValue("url", ind)
-					   + " title is \"" + x + "\"");
-			*/
-			if (single/*!normalLayout*/) {
+			if (single) {
 			    map.put("title", WebEncoder.htmlEncode(x));
 			} else {
 			    map.put("imgTitle", WebEncoder.htmlEncode(x));
@@ -677,11 +639,6 @@ public class Webnail {
 			} else {
 			    otherProps = otherProps + ", title: \"" + x + "\"";
 			}
-		    } else {
-			/*
-			System.out.println((String)parser.getValue("url", ind)
-					   + " title is null");
-			*/
 		    }
 		    x = parser.getValue("descr", ind);
 		    if (x != null) {
@@ -695,7 +652,6 @@ public class Webnail {
 		    x = parser.getValue("imageTime", ind);
 		    if (x != null) {
 			long lx = parser.getImageTime(ind);
-			// System.out.println(x + "->" + lx);
 			if (lx > -1) {
 			    x = "" + lx;
 			}
@@ -729,10 +685,6 @@ public class Webnail {
 				", hrExt: \"" +hrExt + "\"";
 			}
 		    }
-		    /*
-		    System.out.println("ind " +ind +": otherProps = "
-				       +otherProps);
-		    */
 		    if (otherProps != null) {
 			map.put("otherProps", otherProps);
 		    }
@@ -748,7 +700,7 @@ public class Webnail {
 		    }
 
 		    flist.add(map);
-		    if (multi /*normalLayout*/) {
+		    if (multi) {
 			odir = tdir;
 			if (lind == -1) {
 			    outputFile = new File(odir,
@@ -762,21 +714,11 @@ public class Webnail {
 					 + extension);
 			}
 			if (urlmode) {
-			    /*
-			    scaler.scaleImage(TWIDTH, THEIGHT,
-					    url, outputFile,
-					    type);
-			    */
 			    scaler.scaleImage(lparms.getTWidth(),
 					    lparms.getTHeight(),
 					    url, outputFile,
 					    type);
 			} else {
-			    /*
-			    scaler.scaleImage(TWIDTH, THEIGHT,
-					    inputFileStr, outputFile,
-					    type);
-			    */
 			    scaler.scaleImage(lparms.getTWidth(),
 					    lparms.getTHeight(),
 					    inputFileStr, outputFile,
@@ -802,21 +744,11 @@ public class Webnail {
 					 + ".html");
 			}
 			if (urlmode) {
-			    /*
-			    scaler.scaleImage(MWIDTH, MHEIGHT,
-					    url, outputFile,
-					    type);
-			    */
 			    scaler.scaleImage(lparms.getMWidth(),
 					    lparms.getMHeight(),
 					    url, outputFile,
 					    type);
 			} else {
-			    /*
-			    scaler.scaleImage(MWIDTH, MHEIGHT,
-					    inputFileStr, outputFile,
-					    type);
-			    */
 			    scaler.scaleImage(lparms.getMWidth(),
 					    lparms.getMHeight(),
 					    inputFileStr, outputFile,
@@ -844,16 +776,16 @@ public class Webnail {
 		}
 		if (lind == -1) {
 		    fname = ifn +"." + extension;
-		    ofn = (webmode? "high/": "" /*"./"*/)
+		    ofn = (webmode? "high/": "")
 			+ ifn +"." + extension;
 		    name = URLEncoder.encode(ifn, "UTF-8");
 		} else {
 		    name = ifn.substring(0, lind);
 		    fname = name +"." + extension;
 		    name = URLEncoder.encode(name, "UTF-8");
-		    ofn = (webmode? "high/": ""/*"./"*/) + fname;
+		    ofn = (webmode? "high/": "") + fname;
 		}
-		if (!webmode || hasAllImages || single/*!normalLayout*/) {
+		if (!webmode || hasAllImages || single) {
 		    zos.setLevel(0);
 		    zos.setMethod(ZipOutputStream.STORED);
 		    ZipEntry ze = new ZipEntry(ofn);
@@ -936,11 +868,7 @@ public class Webnail {
 		    String otherProps = parser.getValue("otherProps", ind);
 		    String x = parser.getValue("title", ind);
 		    if (x != null) {
-			/*
-			System.out.println((String)parser.getValue("url", ind)
-					   + " title is \"" + x + "\"");
-			*/
-			if (single /*!normalLayout*/) {
+			if (single) {
 			    map.put("title", WebEncoder.htmlEncode(x));
 			} else {
 			    map.put("imgTitle", WebEncoder.htmlEncode(x));
@@ -951,11 +879,6 @@ public class Webnail {
 			} else {
 			    otherProps = otherProps + ", title: \"" + x + "\"";
 			}
-		    } else {
-			/*
-			System.out.println((String)parser.getValue("url", ind)
-					   + " title is null");
-			*/
 		    }
 		    x = parser.getValue("descr", ind);
 		    if (x != null) {
@@ -994,27 +917,16 @@ public class Webnail {
 				", hrExt: \"" +hrExt + "\"";
 			}
 		    }
-		    /*
-		    System.out.println("ind " +ind +": otherProps = "
-				       +otherProps);
-		    */
 		    if (otherProps != null) {
 			map.put("otherProps", otherProps);
 		    }
 		    map.put("commaSeparator", ",");
 		    if (tiledImages) {
 			int modulus = tiledWidth / maxThumbWidth;
-			/*
-			System.out.println((ind+1) + "%" + modulus +" = "
-					   + ((ind + 1) % modulus)
-					   +", maxThumbWidth = "
-					   + maxThumbWidth);
-			*/
 			if ((ind+1) < n && ((ind + 1) % modulus) == 0) {
 			    map.put("newTableRow", "</tr><tr>");
 			}
 		    }
-		    // System.out.println("adding map for " + inputFileStr);
 		    flist.add(map);
 		    if (lind == -1) {
 			ofn = "thumbnails/"
@@ -1025,25 +937,17 @@ public class Webnail {
 			    + "." + extension;
 		    }
 
-		    if (multi /*normalLayout*/) {
+		    if (multi) {
 			zos.setLevel(0);
 			zos.setMethod(ZipOutputStream.STORED);
 			ZipEntry ze = new ZipEntry(ofn);
 			ByteArrayOutputStream bos =
 			    new ByteArrayOutputStream(2<<16);
 			if (urlmode) {
-			    /*
-			    scaler.scaleImage(TWIDTH, THEIGHT,
-					    url, bos, type);
-			    */
 			    scaler.scaleImage(lparms.getTWidth(),
 					    lparms.getTHeight(),
 					    url, bos, type);
 			} else {
-			    /*
-			    scaler.scaleImage(TWIDTH, THEIGHT,
-					    inputFileStr, bos, type);
-			    */
 			    scaler.scaleImage(lparms.getTWidth(),
 					    lparms.getTHeight(),
 					    inputFileStr, bos, type);
@@ -1076,18 +980,10 @@ public class Webnail {
 			ze = new ZipEntry(ofn);
 			bos = new ByteArrayOutputStream(2<<16);
 			if (urlmode) {
-			    /*
-			    scaler.scaleImage(MWIDTH, MHEIGHT,
-					    url, bos, type);
-			    */
 			    scaler.scaleImage(lparms.getMWidth(),
 					    lparms.getMHeight(),
 					    url, bos, type);
 			} else {
-			    /*
-			    scaler.scaleImage(MWIDTH, MHEIGHT,
-					    inputFileStr, bos, type);
-			    */
 			    scaler.scaleImage(lparms.getMWidth(),
 					    lparms.getMHeight(),
 					    inputFileStr, bos, type);
@@ -1137,7 +1033,6 @@ public class Webnail {
 
 	    if (dir != null) {
 		File indexFile = new File(dir, "index.html");
-		// System.out.println("using template " +parser.getTemplateURL());
 		tp.processURL(parser.getTemplateURL(), "UTF-8", indexFile);
 		if (multi /*parser.getLayoutIndex() == 0*/) {
 		    File strutFile = new File(cdir, "strut.gif");
@@ -1167,12 +1062,6 @@ public class Webnail {
 		    CopyUtilities.copyResourceToFile("webnail/slideshow2.js",
 						     slideshow2);
 		    File params = new File(cdir, "params.js");
-		    /*
-		      if (rmap.get("repeatImageArrayEntries") == null) {
-		      System.out.println
-		      ("[2] repeatImageArrayEntries has a null entry");
-		      }
-		    */
 		    tp.processSystemResource("webnail/params.wnt", "UTF-8",
 					     params);
 		    File tindex = new File(tdir, "index.html");
@@ -1303,9 +1192,10 @@ public class Webnail {
      */
     public static void main(String[] argv) {
 
-	if (argv.length == 0 || argv[0].equals("--gui")) {
+	if (argv.length == 0 || (argv.length == 1 && !argv[0].startsWith("-"))
+	    || argv[0].equals("--gui")) {
 	    Gui.configureGui();
-	    if (argv.length == 2) {
+	    if (argv.length == 1 || argv.length == 2) {
 		/*
 		 * We have a single argument - an xml file or
 		 * a wnl file (Webnail xml input file).  With
@@ -1314,7 +1204,7 @@ public class Webnail {
 		 * for supporting window systems (e.g., the Gnome
 		 * desktop files).
 		 */
-		final String name = argv[1];
+		final String name = argv[argv.length - 1];
 		SwingUtilities.invokeLater(new Runnable() {
 			public void run() {
 			    try {
@@ -1369,6 +1259,7 @@ public class Webnail {
 	boolean warmode = false;
 	int index = 0;
 	boolean webmode = false;
+	boolean zipped = false;
 	boolean urlmode = false;
 	boolean linkmode = false;
 	String user = null;
@@ -1474,6 +1365,7 @@ public class Webnail {
 		    }
 		} else if (argv[index].equals("-z")) {
 		    index++;
+		    zipped = true;
 		    if (index == argv.length) {
 			System.err.println(localeString("arg-z-missing"));
 			System.exit(1);
@@ -1762,7 +1654,7 @@ public class Webnail {
 		    Parser parser = new Parser();
 		    if (xmlFile == null && xmlURL == null) {
 			parser.setAttributes(mtype, hasAllImages,
-					     webmode, warmode,
+					     webmode, warmode, zipped,
 					     linkmode, flat,
 					     syncMode, waitOnError,
 					     imageTime, minImageTime,

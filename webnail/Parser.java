@@ -39,46 +39,6 @@ public class Parser {
 
     SAXParser parser;
 
-    /*
-    public void setAuthenticationParams(final String user, 
-					final String password) 
-    {
-	if (user != null) {
-	    Authenticator.setDefault(new Authenticator() {
-		    protected PasswordAuthentication 
-			getPasswordAuthentication() {
-			return 
-			    new PasswordAuthentication(user,
-						       password.toCharArray());
-		    }
-            });
-	} else {
-	    Authenticator.setDefault(null);
-	}
-    }
-
-    private String epassword = null;
-    private String dpassword = null;
-
-    public void setEncryptionPassword(String pw) {
-	epassword = pw;
-    }
-
-    public void setDecryptionPassword(String pw) {
-	dpassword = pw;
-    }
-
-
-    private String decrypt(String password) {
-	// add decryption later
-	return password;
-    }
-
-    private String encrypt(String password) {
-	// add encryption later
-	return password;
-    }
-    */
     public Parser() throws ParserConfigurationException, SAXException {
         SAXParserFactory factory = SAXParserFactory.newInstance();
         factory.setValidating(true);
@@ -89,9 +49,11 @@ public class Parser {
         OurDefaultHandler handler = new OurDefaultHandler();
 	webmode = false;
 	linkmode = false;
+	zipped = false;
 	flatmode = false;
 	highResMode = true;
 	webArchiveMode = false;
+	zipped = false;
 	syncMode = false;
 	waitOnError = false;
 	rmap = new TemplateProcessor.KeyMap();
@@ -136,16 +98,18 @@ public class Parser {
     int propIndex = 0;
 
 
-    public void setAttributes (String mtype, boolean hrmode, 
-			       boolean webMode, boolean webArchiveMode,
-			       boolean linkMode, boolean flatMode,
-			       boolean syncMode, boolean waitOnError,
-			       long imageTime, long minImageTime,
-			       String bgcolor, int width, int height,
-			       boolean hrefToOrig)
+    public void setAttributes(String mtype, boolean hrmode, 
+			      boolean webMode, boolean webArchiveMode,
+			      boolean zipped,
+			      boolean linkMode, boolean flatMode,
+			      boolean syncMode, boolean waitOnError,
+			      long imageTime, long minImageTime,
+			      String bgcolor, int width, int height,
+			      boolean hrefToOrig)
     {
 	mimeType = (mtype == null)? "image/jpeg": mtype;
 	webmode = webMode;
+	this.zipped = zipped;
 	linkmode = linkMode;
 	flatmode = flatMode;
 	highResMode = hrmode;
@@ -190,7 +154,6 @@ public class Parser {
 				 String.format
 				 (localeString("malformedURL2"),
 				  titleURL.toString()));
-	    // System.err.println(urle.getMessage());
 	} catch (IOException eio) {
 	    SwingErrorMessage.display(comp,
 				 localeString("titleErrorTitle"),
@@ -198,7 +161,6 @@ public class Parser {
 				 (localeString("ioErrorURL"),
 				  eio.getMessage(),
 				  titleURL.toString()));
-	    // System.err.println(eio.getMessage());
 	}
     }
     public void setTitle(String title) {
@@ -217,7 +179,6 @@ public class Parser {
 				 String.format
 				 (localeString("malformedURL2"),
 				  descrURL.toString()));
-	    // System.err.println(urle.getMessage());
 	} catch (IOException eio) {
 	    SwingErrorMessage.display(comp,
 				 localeString("descrErrorTitle"),
@@ -225,7 +186,6 @@ public class Parser {
 				 (localeString("ioErrorURL"),
 				  eio.getMessage(),
 				  descrURL.toString()));
-	    // System.err.println(eio.getMessage());
 	}
     }
     public void setDescr(String descr) {
@@ -283,7 +243,6 @@ public class Parser {
 	return condModesInv.get(mode).toString();
     }
 
-    // static public final  String defaultLayout = "normal";
     static public final  String defaultLayout =
 	"sresource:/webnail/normalLayout.xml";
     static public final String html5Layout =
@@ -315,26 +274,12 @@ public class Parser {
 
     static {
 	setLayouts(null);
-	/*
-	try {
-	    lp = new LayoutParser();
-	    layouts.add(lp.parse("sresource:/normalLayout.xml"));
-	    for (int i = 1; i < 6; i++) {
-		String url = "sresource:/single" + i + ".xml";
-		layouts.add(lp.parse(url));
-	    }
-	} catch (Exception e) {
-	    // e.printStackTrace(System.err);
-	    SwingErrorMessage.display(e.getMessage());
-	}
-	*/
     }
     
     String layout = defaultLayout;
     int layoutIndex = 0;
     LayoutParms layoutParms = layouts.get(0);
     LayoutParms customParms = null;
-    // LayoutParser cplp = new LayoutParser();
 
     public LayoutParms getCustomParms() {
 	return customParms;
@@ -403,17 +348,6 @@ public class Parser {
 	    // System.out.println(layouts.get(index).getName());
 	    return layouts.get(index).getName();
 	}
-	/*
-	switch (index) {
-	case 0: return defaultLayout;
-	case 1: return "headerThenImagesThenTrailer";
-	case 2: return "headerThenImagesAndTrailer";
-	case 3: return "headerThenTrailerAndImages";
-	case 4: return "imagesAndHeaderWithTrailer";
-	case 5: return "headerWithTrailerAndImages";
-	}
-	return null;
-	*/
     }
 
     public String getLayout() {return layout;}
@@ -437,39 +371,7 @@ public class Parser {
 		layoutIndex = index;
 	    }
 	}
-	/*
-	switch (index) {
-	case 0:
-	    layout = defaultLayout;
-	    layoutIndex = 0;
-	    break;
-	case 1:
-	    layout = "headerThenImagesThenTrailer";
-	    layoutIndex = 1;
-	    break;
-	case 2:
-	    layout = "headerThenImagesAndTrailer";
-	    layoutIndex = 2;
-	    break;
-	case 3:
-	    layout = "headerThenTrailerAndImages";
-	    layoutIndex = 3;
-	    break;
-	case 4:
-	    layout = "imagesAndHeaderWithTrailer";
-	    layoutIndex = 4;
-	    break;
-	case 5:
-	    layout = "headerWithTrailerAndImages";
-	    layoutIndex = 5;
-	    break;
-	default:
-	    throw new IllegalArgumentException("index out of range");
-	}
-	*/
     }
-
-
 
     public void setLayout(String layout) {
 	if (layout == null) {
@@ -487,8 +389,6 @@ public class Parser {
 	}
 	try {
 	    setCustomParms(layout);
-	    // layoutParms = cplp.parse(layout);
-	    // customParms = layoutParms;
 	    layoutParms = customParms;
 	    layoutIndex = layouts.size();
 	    this.layout = layoutParms.getCanonicalName();
@@ -501,54 +401,10 @@ public class Parser {
 	} catch (SAXException se) {
 	    throw new IllegalArgumentException("unknown layout");
 	}
-	/*
-	if (layout == null) {
-	    this.layout = defaultLayout;
-	    layoutIndex = 0;
-	} else if (layout.equals("normal")) {
-	    this.layout = layout;
-	    layoutIndex = 0;
-	} else if (layout.equals("headerThenImagesThenTrailer")) {
-	    this.layout = layout;
-	    layoutIndex = 1;
-	} else if (layout.equals("headerThenImagesAndTrailer")) {
-	    this.layout = layout;
-	    layoutIndex = 2;
-	} else if (layout.equals("headerThenTrailerAndImages")) {
-	    this.layout = layout;
-	    layoutIndex = 3;
-	} else if (layout.equals("imagesAndHeaderWithTrailer")) {
-	    this.layout = layout;
-	    layoutIndex = 4;
-	} else if (layout.equals("headerWithTrailerAndImages")) {
-	    this.layout = layout;
-	    layoutIndex = 5;
-	} else {
-	    throw new IllegalArgumentException("unknown layout");
-	}
-	*/
     }
 
     public URL getTemplateURL() {
 	return layoutParms.getURL(hrefToOrig);
-	/*
-	switch (layoutIndex) {
-	case 0:
-	    return "indexHTML.wnt";
-	case 1:
-	    return "singleHTML1" + (hrefToOrig? "link": "") + ".wnt";
-	case 2:
-	    return "singleHTML2" + (hrefToOrig? "link": "") + ".wnt";
-	case 3:
-	    return "singleHTML3" + (hrefToOrig? "link": "") + ".wnt";
-	case 4:
-	    return "singleHTML4" + (hrefToOrig? "link": "") + ".wnt";
-	case 5:
-	    return "singleHTML5" + (hrefToOrig? "link": "") + ".wnt";
-	default:
-	    throw new IllegalStateException("unknown layout index");
-	}
-	*/
     }
 
     public void setHrefTarget(String target) {
@@ -560,17 +416,6 @@ public class Parser {
 	}
     }
 
-
-
-    /*
-    public void setUser(String user) {
-	((map == null)? rmap: map).put("user", user);
-    }
-
-    public void setPassword(String password) {
-	((map == null)? rmap: map).put("password", password);
-    }
-    */
     StringBuilder text = new StringBuilder();
     java.nio.CharBuffer cb = java.nio.CharBuffer.allocate(4096);
 
@@ -634,7 +479,6 @@ public class Parser {
 			    }
 	}
 	String contentType = c.getContentType();
-	// System.out.println(contentType);
 	String charset = getCharset(contentType);
 	if (charset == null) {
 	    if ((path.endsWith(".shtml") || path.endsWith(".SHTML"))
@@ -662,7 +506,6 @@ public class Parser {
 				 String.format
 				 (localeString("malformedURL2"),
 				  headURL.toString()));
-	    // System.err.println(urle.getMessage());
 	} catch (IOException eio) {
 	    SwingErrorMessage.display(comp,
 				 localeString("headErrorTitle"),
@@ -670,7 +513,6 @@ public class Parser {
 				 (localeString("ioErrorURL"),
 				  eio.getMessage(),
 				  headURL.toString()));
-	    // System.err.println(eio.getMessage());
 	}
     }
     public void setHead(String head) {
@@ -689,7 +531,6 @@ public class Parser {
 				 String.format
 				 (localeString("malformedURL2"),
 				  headerURL.toString()));
-	    // System.err.println(urle.getMessage());
 	} catch (IOException eio) {
 	    SwingErrorMessage.display(comp,
 				 localeString("headerErrorTitle"),
@@ -697,7 +538,6 @@ public class Parser {
 				 (localeString("ioErrorURL"),
 				  eio.getMessage(),
 				  headerURL.toString()));
-	    // System.err.println(eio.getMessage());
 	}
     }
     public void setHeader(String header) {
@@ -716,7 +556,6 @@ public class Parser {
 				 String.format
 				 (localeString("malformedURL2"),
 				  trailerURL.toString()));
-	    // System.err.println(urle.getMessage());
 	} catch (IOException eio) {
 	    SwingErrorMessage.display(comp,
 				 localeString("trailerErrorTitle"),
@@ -724,7 +563,6 @@ public class Parser {
 				 (localeString("ioErrorURL"),
 				  eio.getMessage(),
 				  trailerURL.toString()));
-	    // System.err.println(eio.getMessage());
 	}
     }
     public void setTrailer(String trailer) {
@@ -743,7 +581,6 @@ public class Parser {
 				 String.format
 				 (localeString("malformedURL2"),
 				  finalHtmlURL.toString()));
-	    // System.err.println(urle.getMessage());
 	} catch (IOException eio) {
 	    SwingErrorMessage.display(comp,
 				 localeString("finalHTMLErrorTitle"),
@@ -751,7 +588,6 @@ public class Parser {
 				 (localeString("ioErrorURL"),
 				  eio.getMessage(),
 				  finalHtmlURL.toString()));
-	    // System.err.println(eio.getMessage());
 	}
     }
     public void setAfterScript(String finalHtml) {
@@ -822,15 +658,6 @@ public class Parser {
     }
 
     String props = "";
-    /*
-    public void addProperty(String key, String value) {
-	String propValue = value.trim();
-	props =  props + ", " + key + ": \"" +propEncode(propValue) + "\"";
-	map.put("propKey" + propIndex, key);
-	map.put("propValue" + propIndex, propValue);
-	propIndex++;
-    }
-    */
 
     public void imageComplete() {
 	ilist.add(map);
@@ -841,9 +668,6 @@ public class Parser {
 	props = "";
     }
    
-    
-
-
     public void imagesComplete() {
 	// System.out.println("ilist.size() = " + ilist.size());
 	iArray = ilist.toArray(new TemplateProcessor.KeyMap[ilist.size()]);
@@ -857,7 +681,6 @@ public class Parser {
     public void addMapping(TemplateProcessor.KeyMap map) {
 	TemplateProcessor.KeyMap newmap = (TemplateProcessor.KeyMap)map.clone();
 	String mode = (String)map.get("domMode");
-	// newmap.remove("domCallAsDefaultInsert");
 	newmap.remove("domPropInsert");
 	newmap.remove("domMethodInsert");
 	newmap.remove("domFunctionInsert");
@@ -996,12 +819,6 @@ public class Parser {
 	} else if (mode.equals("method0")) {
 	    domMap.put("domMethod", prop);
 	    domMap.put("domMethodInsert", ", method: \"" + prop + "\"");
-	    /*
-	    if (defaultValue == null) defaultValue="false";
-	    domMap.put("domCallAsDefault", defaultValue);
-	    domMap.put("domCallAsDefaultInsert", 
-		       ", callAsDefault: \"" + defaultValue  + "\"");
-	    */
 	} else if (mode.equals("method1")) {
 	    domMap.put("domMethod", prop);
 	    domMap.put("domMethodInsert", ", method: \"" + prop + "\"");
@@ -1034,30 +851,7 @@ public class Parser {
 	}
 	domArray = domlist.toArray(new 
 				   TemplateProcessor.KeyMap[domlist.size()]);
-	/*
-	for(TemplateProcessor.KeyMap map: domArray) {
-	    System.out.println((String)map.get("domKey")
-			       + " " + (String)map.get("domMode")
-			       + " " + (String)map.get("domCondMode")
-			       +" " + map.hashCode());
-	}
-	*/
     }
-
-    /*
-    public TemplateProcessor.KeyMap[] getDomArray() {
-	if (domArray != null) {
-	    return domArray;
-	} else {
-	    return new TemplateProcessor.KeyMap[0];
-	}
-    }
-    public List<TemplateProcessor.KeyMap> getDomList() {
-	List<TemplateProcessor.KeyMap> list =
-	    Collections.unmodifiableList(domlist);
-	return list;
-    }
-    */
 
     public String getValue(String key) {
 	Object value = rmap.get(key);
@@ -1106,6 +900,9 @@ public class Parser {
 
     boolean webmode = false;
     public boolean getWebMode() {return webmode;}
+
+    boolean zipped = false;
+    public boolean getZipped() {return zipped;}
 
     boolean linkmode = false;
     public boolean getLinkMode() {return linkmode;}
@@ -1236,7 +1033,6 @@ public class Parser {
 		throw new SAXParseException(localeString("timeExpected"),
 					    locator);
 	    String values[] = value.split(":");
-	    // String val = values[0];
 	    long time = 0;
 	    for (i = 0; i < values.length-1; i++) {
 		time *=60;
@@ -1292,24 +1088,6 @@ public class Parser {
     public int getHeight() {return height;}
     public int getWidth() {return width;}
     
-    // boolean usePasswordEncryption = false;
-
-    /*
-    static String propEncode(String string) {
-	StringTokenizer tk = new StringTokenizer(string, "\"\n", true);
-	StringBuilder sb = new StringBuilder(64);
-
-	while (tk.hasMoreTokens()) {
-	    String s = tk.nextToken();
-	    if (s.equals("\"")) sb.append("\\\"");
-	    else if (s.equals("\n")) sb.append("\\n");
-	    else if (s.equals("\f")) sb.append("\\f");
-	    else if (s.equals("\r")) sb.append("\\r");
-	    else sb.append(s);
-	}
-	return sb.toString();
-    }
-    */
     static String formatTime(String tstring) {
 	return formatTime(Long.parseLong(tstring));
     }
@@ -1364,9 +1142,10 @@ public class Parser {
 		    + " "
 		    + "\"" + SYSTEMID + "\">");
 	out.printf("<webnail xmlns=\"%s\"\n"
-		   + "         webMode=\"%b\" linkMode=\"%b\"\n",
+		   + "         webMode=\"%b\" zipped=\"%b\""
+		   + " linkMode=\"%b\"\n",
 		   "http://bzdev.org/DTD/webnail-1.0",
-		   getWebMode(), getLinkMode());
+		   getWebMode(), getZipped(), getLinkMode());
 	out.printf("        mimeType=\"%s\" windowTitle=\"%s\"\n", 
 		   xmlEncode(getMimeType()), 
 		   xmlEncode(getValue("windowTitle")));
@@ -1387,11 +1166,6 @@ public class Parser {
 	out.printf("        height=\"%d\" width=\"%d\"",
 		   getHeight(), getWidth());
 	out.printf("\n        layout=\"%s\"", layoutParms.getCanonicalName());
-	/*
-	if (epassword != null) {
-	    out.printf("\n        usePasswordEncryption=\"true\"");
-	}
-	*/
 	out.printf(">\n");
 	
 	if (domlist.size() > 0) {
@@ -1466,18 +1240,6 @@ public class Parser {
 		out.printf("  <descr>%s</descr>\n", descr);
 	    }
 	}
-	/*
-	String user = xmlEncode((String)rmap.get("user"));
-	String password = (String)rmap.get("password");
-	if (epassword != null) {
-	    password = encrypt(password);
-	}
-	password = xmlEncode(password);
-	if (user != null && password != null) {
-	    out.printf("  <user>%s</user>\n", user);
-	    out.printf("  <password>%s</password>\n", password);
-	}
-	*/
 	String headURL = xmlEncode((String)rmap.get("headURL"));
 	if (headURL != null) {
 		out.printf("  <head url=\"%s\"/>\n", 
@@ -1515,15 +1277,6 @@ public class Parser {
 		String iurl = xmlEncode((String)imap.get("url"));
 		String ititle = xmlEncode((String)imap.get("title"));
 		String idescr = xmlEncode((String)imap.get("descr"));
-		// String iuser = xmlEncode((String)imap.get("user"));
-		// String ipw = (String)imap.get("password");
-		// String idigest = null;
-		/*
-		if (epassword != null) {
-		    ipw = encrypt(ipw);
-		}
-		ipw = xmlEncode(ipw);
-		*/
 		String npString = (String)imap.get("nProps");
 		int np = (npString == null)? 0: Integer.parseInt(npString);
 
@@ -1675,6 +1428,13 @@ public class Parser {
 		} else {
 		    webmode = webmodeStr.equals("true");
 		}
+		String zippedStr = attr.getValue("zipped");
+		if (zippedStr == null) {
+		    zipped = false;
+		} else {
+		    zipped = zippedStr.equals("true");
+		}
+
 		String linkmodeStr = attr.getValue("linkMode");
 		if (linkmodeStr == null) {
 		    linkmode = false;
@@ -1776,99 +1536,7 @@ public class Parser {
 		}
 		String layoutString = attr.getValue("layout");
 		setLayout(layoutString);
-		/*
-		String usePasswordEncryptionStr = 
-		    attr.getValue("usePasswordEncryption");
-		if (usePasswordEncryptionStr != null && 
-		    usePasswordEncryptionStr.equals("true")) {
-		    usePasswordEncryption = true;
-		}
-		*/  
 		processingXML = true;
-		/*
-	    } else if (qName.equals("domMap")) {
-		startDomMappings();
-	    } else if (qName.equals("mapping")) {
-		String mode = attr.getValue("mode");
-		if (mode == null) mode = "property";
-		String condMode = attr.getValue("condMode");
-		if (condMode == null) condMode = "onImageChange";
-		String key = attr.getValue("key");
-		String ids = null;
-		String prop = null;
-		String defaultValue = null;
-		if (mode.equals("property")) {
-		    ids = attr.getValue("ids");
-		    if (ids == null) ids="";
-		    prop = attr.getValue("prop");
-		    defaultValue = attr.getValue("defaultValue");
-		    if (key == null || ids == null || 
-			prop == null || defaultValue == null) {
-			error(new SAXParseException(localeString("missingAttr"),
-						    locator));
-		    }
-		} else if (mode.equals("attribute")) {
-		    ids = attr.getValue("ids");
-		    if (ids == null) ids="";
-		    prop = attr.getValue("name");
-		    defaultValue = attr.getValue("defaultValue");
-		    if (key == null || ids == null || 
-			prop == null || defaultValue == null) {
-			error(new SAXParseException(localeString("missingAttr"),
-						    locator));
-		    }
-		} else if (mode.equals("method0")) {
-		    ids = attr.getValue("ids");
-		    if (ids == null) ids="";
-		    prop = attr.getValue("method");
-		    // defaultValue = attr.getValue("callAsDefault");
-		    defaultValue = null;
-		    if (key == null || ids == null || 
-			prop == null) {
-			error(new SAXParseException(localeString("missingAttr"),
-						    locator));
-		    }
-		    // if (defaultValue == null) defaultValue = "true";
-		} else if (mode.equals("method1")) {
-		    ids = attr.getValue("ids");
-		    if (ids == null) ids="";
-		    prop = attr.getValue("method");
-		    defaultValue = attr.getValue("defaultArgument");
-		    if (key == null || ids == null || 
-			prop == null || defaultValue == null) {
-			error(new SAXParseException(localeString("missingAttr"),
-						    locator));
-		    }
-		} else if (mode.equals("function")) {
-		    ids = null; 
-		    prop = attr.getValue("function");
-		    defaultValue = attr.getValue("defaultArgument");
-		    if (key == null || prop == null) {
-			error(new SAXParseException(localeString("missingAttr"),
-						    locator));
-		    }
-		    if (defaultValue == null) defaultValue="";
-		    
-		} else if (mode.equals("test")) {
-		    ids = null;
-		    prop = attr.getValue("function");
-		    if (key == null || prop == null) {
-			error(new SAXParseException(localeString("missingAttr"),
-						    locator));
-		    }
-		    defaultValue = null;
-			
-		}
-		if (key == null) {
-		    error (new SAXParseException(localeString("missingKey"),
-						 locator));
-		}
-		if (!key.matches("[\\p{L}_$][\\p{L}_$0-9]*")) {
-		    error (new SAXParseException(localeString("invalidKey"),
-						 locator));
-		}
-		addMapping(key, mode, condMode, ids, prop, defaultValue);
-		*/
 	    } else if (qName.equals("image")) {
 		map = new TemplateProcessor.KeyMap();
 		String mimeTypeStr = attr.getValue("mimeType");
@@ -1967,10 +1635,6 @@ public class Parser {
         {
 	    if (qName.equals("webnail")) {
 		processingXML = false;
-		/*
-	    } else if (qName.equals("domMap")) {
-		endDomMappings();
-		*/
 	    } else if (qName.equals("title")) {
 		if (theURL != null) {
 		    try {
@@ -2031,78 +1695,6 @@ public class Parser {
 		    }
 		}
 		text.setLength(0);
-		/*
-	    } else if (qName.equals("user")) {
-		if (processingImage) {
-		    map.put("user", text.toString().trim());
-		} else if (processingXML) {
-		    rmap.put("user", text.toString().trim());
-		}
-		text.setLength(0);
-	    } else if (qName.equals("password")) {
-		String pw = text.toString().trim();
-		String digest = (String)(processingImage? map.get("digest"):
-					 rmap.get("digest"));
-
-		if (usePasswordEncryption) {
-		    pw = decrypt(pw);
-		}
-		if (processingImage) {
-		    map.put("password", pw);
-		} else if (processingXML) {
-		    rmap.put("password", pw);
-		}
-		text.setLength(0);
-		*/
-		/*
-	    } else if (qName.equals("property")) {
-		if (processingImage) {
-		    String otherProps = (String)map.get("otherProps");
-		    boolean firsttime = false;
-		    if (otherProps == null) {
-			otherProps = ", dom: {";
-			firsttime = true;
-		    }
-		    TemplateProcessor.KeyMap dmap = null;
-		    for (TemplateProcessor.KeyMap dm: domlist) {
-			String k = (String)dm.get("domKey");
-			if (k != null && imageKey.equals(k)) {
-			    dmap = dm;
-			    break;
-			}
-		    }
-		    String mode = (dmap == null)? null:
-			(String) dmap.get("domMode");
-		    String propValue = text.toString();
-		    if (mode != null && mode.equals("property")) {
-			String val = "\""
-			    + WebEncoder.quoteEncode(propValue) + "\"";
-			map.put("otherProps",
-				otherProps
-				+ (firsttime? "": ", ") + imageKey + ": \""
-				+ WebEncoder.quoteEncode(val) + "\"");
-		    } else if (mode != null && mode.equals("attribute")) {
-			map.put("otherProps",
-				otherProps
-				+ (firsttime? "": ", ") + imageKey + ": \""
-				+ WebEncoder.quoteEncode(propValue) + "\"");
-		    } else if (mode != null &&
-			   (mode.equals("function")
-			    || mode.equals("method1"))) {
-			propValue = propValue.trim();
-			if (propValue.length() == 0) propValue = "null";
-			map.put("otherProps",
-				otherProps
-				+ (firsttime? "": ",") + imageKey + ": "
-				+ propValue);
-		    }
-		    map.put("propKey" + propIndex, imageKey);
-		    map.put("propValue" + propIndex, propValue);
-		    propIndex++;
-		}
-		imageKey = null;
-		text.setLength(0);
-		*/
 	    } else if (qName.equals("head")) {
 		if (theURL != null) {
 		    try {
@@ -2318,8 +1910,6 @@ public class Parser {
     public void printState(PrintStream out) {
 	    out.println("title: " + getValue("title"));
 	    out.println("descr: " + getValue("descr"));
-	    // out.println("user: " + getValue("user"));
-	    // out.println("password: " + getValue("password"));
 	    out.println("mimeType: " + getMimeType());
 	    out.println("webMode: " + getWebMode());
 	    out.println("linkMode: " + getLinkMode());
@@ -2359,14 +1949,8 @@ public class Parser {
 		out.println("titleURL: " + getValue("titleURL", i));
 		out.println("descr: " + getValue("descr", i));
 		out.println("descrURL: " + getValue("descrURL", i));
-		// out.println("user: " + getValue("user", i));
-		/*
-		out.println("password: " 
-				   + getValue("password", i));
-		*/
 	    }
     }
-
 
     static public void main(String argv[]) {
 	try {

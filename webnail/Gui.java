@@ -41,7 +41,23 @@ public class Gui {
     static final Color COLOR1 = new Color(220, 220, 255);
     static final Color COLOR2 = new Color(220, 220, 220);
 
-    static final Color COLOR1DM = new Color(40,35,40);
+    // static final Color COLOR1DM = new Color(40,35,40);
+    // static final Color COLOR1DM = new Color(0x663399).darker();
+    private static final Color tmpcolor = new Color(0x663399).darker();
+    private static final double tmpcolorAv = (tmpcolor.getRed()
+					      + tmpcolor.getGreen()
+					      + tmpcolor.getBlue()) / 3.0;
+    private static final double tmpcolorU = 0.3;
+    private static final double tmpcolor1mU = (1.0 - tmpcolorU);
+    static final Color COLOR1DM =
+	new Color((int)Math.round(tmpcolor.getRed()*tmpcolorU
+				  + tmpcolorAv*tmpcolor1mU),
+		  (int)Math.round(tmpcolor.getGreen()*tmpcolorU
+				  + tmpcolorAv*tmpcolor1mU),
+		  (int)Math.round(tmpcolor.getBlue()*tmpcolorU
+				  + tmpcolorAv*tmpcolor1mU));
+
+
     static final Color COLOR2DM = null;
 
     static void setComponentBackground(JComponent c, Color color1) {
@@ -189,8 +205,7 @@ public class Gui {
 	    editImagesPane.setWebpageMode(false);
 	}
 	if (layoutComboBox.isEnabled() 
-	    && layoutParms.isSingle()
-	    /*&& layoutComboBox.getSelectedIndex() != 0*/) {
+	    && layoutParms.isSingle()) {
 	    linkCheckBox.setEnabled(false);
 	    flatCheckBox.setEnabled(false);
 	    hrCheckBox.setEnabled(false);
@@ -310,6 +325,7 @@ public class Gui {
 	    console.addSeparatorIfNeeded();
 	    p.parse(is);
 	    boolean webmode = p.getWebMode();
+	    boolean zipped = p.getZipped();
 	    String wt = p.getValue("windowTitle");
 	    String mtype = p.getMimeType();
 	    boolean linkmode = p.getLinkMode();
@@ -352,11 +368,23 @@ public class Gui {
 				   minImageTime);
 
 	    if (webmode && !warmode) {
-		oftrbWebZip.setSelected(true);
+		if (zipped) {
+		    oftrbWebZip.setSelected(true);
+		} else {
+		    oftrbWebDir.setSelected(true);
+		}
 	    } else if (warmode) {
-		oftrbWar.setSelected(true);
+		if (zipped) {
+		    oftrbWar.setSelected(true);
+		} else {
+		    oftrbWarDir.setSelected(true);
+		}
 	    } else {
-		oftrbZip.setSelected(true);
+		if (zipped) {
+		    oftrbZip.setSelected(true);
+		} else {
+		    oftrbDir.setSelected(true);
+		}
 	    }
 	    setEnableds();
 			    
@@ -419,15 +447,9 @@ public class Gui {
 	} catch (ParserConfigurationException epc) {
 	    SwingErrorMessage.display(epc);
 	} catch (SAXException es) {
-	    SwingErrorMessage.
-		display(es /*, 
-					 localeString("parseErrorTitle"),
-					 frame*/);
+	    SwingErrorMessage.display(es);
 	} catch (IOException eio) {
-	    SwingErrorMessage.
-		display(eio /*,
-					  localeString("parseErrorTitle"),
-					  frame*/);
+	    SwingErrorMessage.display(eio);
 	} finally {
 	    if (console.hasNewTextToDisplay()) {
 		showConsole();
@@ -481,10 +503,6 @@ public class Gui {
                     System.exit(0);
                 }
             });
-	/*
-	quit.setAccelerator(KeyStroke.getKeyStroke(KeyEvent.VK_Q,
-						   InputEvent.CTRL_DOWN_MASK));
-	*/
 	quit.setAccelerator(KeyStroke.getKeyStroke("control Q"));
 
 	final AbstractAction saveAsActionListener =  new AbstractAction() {
@@ -616,9 +634,7 @@ public class Gui {
 				 localeString("malformedURLTitle"),
 				 JOptionPane.ERROR_MESSAGE);
 			    retry = true;
-			} /* catch (Exception e1) {
-			    SwingErrorMessage.display(e1);
-			    }*/
+			}
 		    } while (retry);
 		    return;
 		}
@@ -702,110 +718,6 @@ public class Gui {
 			    InputStream is = new FileInputStream(ofile);
 			    fileToSave = ofile;
 			    load(ofile.getCanonicalPath(), is);
-			    /*
-			      Parser p = new Parser();
-			      p.setXMLFilename(ofile.getCanonicalPath());
-			      console.addSeparatorIfNeeded();
-			      p.parse(is);
-			      boolean webmode = p.getWebMode();
-			      String wt = p.getValue("windowTitle");
-			      String mtype = p.getMimeType();
-			      boolean linkmode = p.getLinkMode();
-			      boolean flatmode = p.getFlatMode();
-			      boolean hrmode = p.getHighResMode();
-			      boolean warmode = p.getWebArchiveMode();
-			      String bgColor = p.getValue("bgcolor");
-			      boolean syncmode = p.getSyncMode();
-			      boolean waitOnError = p.getWaitOnError();
-			      String imageTime = p.getImageTime();
-			      String minImageTime = p.getMinImageTime();
-			      boolean hrefToOrig = p.getHrefToOrig();
-
-			      windowTitle = (wt == null)? "": wt;
-			      linkCheckBox.setSelected(linkmode);
-			      flatCheckBox.setSelected(flatmode);
-			      hrCheckBox.setSelected(hrmode);
-			      syncCheckBox.setSelected(syncmode);
-			      waitOnErrCheckBox.setSelected(waitOnError);
-			      hrefToOrigCheckBox.setSelected(hrefToOrig);
-			      layoutComboBox.setSelectedIndex
-			      (p.getLayoutIndex());
-			      bgcolor = (bgColor == null)?
-			      Webnail.DEFAULT_BGCOLOR : bgColor;
-			      imageTimeTF.setText((imageTime == null)? "": 
-			      imageTime);
-			      minImageTimeTF.setText((minImageTime == null)? "":
-			      minImageTime);
-
-			      if (webmode && !warmode) {
-			      oftrbWebZip.setSelected(true);
-			      } else if (warmode) {
-			      oftrbWar.setSelected(true);
-			      } else {
-			      oftrbZip.setSelected(true);
-			      }
-			      setEnableds();
-			    
-			      int height = p.getHeight();
-			      int width = p.getWidth();
-
-			      if (height == 0) {
-			      mtnhtf.setValue(0, "");
-			      } else {
-			      mtnhtf.setValue(height);
-			      }
-			      if (width == 0) {
-			      mtnwtf.setValue(0, "");
-			      } else {
-			      mtnwtf.setValue(width);
-			      }
-
-			      domMapList.clear();
-			      domMapList.addAll(p.getDomList());
-			      titleURL = p.getValue("titleURL");
-			      titleURLInUse = (titleURL != null);
-			      title = p.getValue("title");
-			      // System.out.println("titleURL = " + titleURL);
-			      // System.out.println("title = " + title);
-			      descrURL = p.getValue("descrURL");
-			      descrURLInUse = (descrURL != null);
-			      descr = p.getValue("descr");
-			      headURL = p.getValue("headURL");
-			      headURLInUse = (headURL != null);
-			      head = p.getValue("head");
-			      headerURL = p.getValue("headerURL");
-			      headerURLInUse = (headerURL != null);
-			      header = p.getValue("header");
-			      trailerURL = p.getValue("trailerURL");
-			      trailerURLInUse = (trailerURL != null);
-			      trailer = p.getValue("trailer");
-			      finalHtmlURL = p.getValue("finalHtmlURL");
-			      finalHtmlURLInUse = (finalHtmlURL != null);
-			      finalHtml = p.getValue("finalHtml");
-			      for (TemplateProcessor.KeyMap map: 
-			           p.getImageArray()) {
-			      // add images by creating new MapElement 
-			      // instances
-			      String url = (String)map.get("url");
-			      if (url == null) {
-			      String filename = (String)
-			      map.get("filename");
-			      if (filename != null) {
-			      url = (new File(filename)).toURI()
-			      .toURL().toString();
-			      map.remove("filename");
-			      map.put("url", url);
-			      } else {
-			      // error - no url, no filename
-			      }
-			      }
-			      new ImageMapElement(map, imageListModel);
-			      }
-			      } catch (ParserConfigurationException epc) {
-			      } catch (SAXException es) {
-			      SwingErrorMessage.
-			      display(es.getMessage());
-			    */
 			} catch (Exception e2) {
 			    SwingErrorMessage.display(e2);
 			} finally {
@@ -822,13 +734,7 @@ public class Gui {
 		}
 	    });
 
-	
-	/*
-	save.setAccelerator(KeyStroke.getKeyStroke(KeyEvent.VK_S,
-						   InputEvent.CTRL_DOWN_MASK));
-	*/
 	save.setAccelerator(KeyStroke.getKeyStroke("control S"));
-	
 
 	about.addActionListener(new AbstractAction() {
 		private String createAboutText() {
@@ -1035,9 +941,8 @@ public class Gui {
 		    URL xurl = null;
 		    try {
 			xurl = new URL((String)
-				       ((/*Image*/MapElement)
-					imageListModel.get(0)).
-				       get("url"));
+				       ((MapElement)
+					imageListModel.get(0)).get("url"));
 		    } catch(MalformedURLException mue) {
 			SwingErrorMessage.display("Malformed URL");
 		    }
@@ -1071,6 +976,9 @@ public class Gui {
 			|| oftrbWebZip.isSelected()
 			|| oftrbWarDir.isSelected()
 			|| oftrbWar.isSelected();
+		    boolean zipped =oftrbZip.isSelected()
+			|| oftrbWebZip.isSelected()
+			|| oftrbWar.isSelected();
 		    boolean warmode = oftrbWarDir.isSelected()
 			|| oftrbWar.isSelected();
 		    boolean linkmode = linkCheckBox.isSelected()
@@ -1094,7 +1002,7 @@ public class Gui {
 		    long minImageTime = minImageTimeTF.getValue();
 
 		    p.setAttributes(mtype, hrmode,
-				    webmode, warmode,
+				    webmode, warmode, zipped,
 				    linkmode, flatmode,
 				    syncMode, waitOnError,
 				    imageTime, minImageTime,
@@ -1138,13 +1046,6 @@ public class Gui {
 		    } else {
 			p.setAfterScript(finalHtml);
 		    }
-		    /*
-		    p.startDomMappings();
-		    for (TemplateProcessor.KeyMap map: domMapList) {
-			p.addMapping(map);
-		    }
-		    p.endDomMappings();
-		    */
 		    for (Object obj: imageListModel.toArray()) {
 			MapElement entry = (MapElement) obj;
 			// System.out.println(entry.get("url"));
@@ -1201,7 +1102,10 @@ public class Gui {
 					SwingErrorMessage.display(e);
 					// e.printStackTrace();
 				    }
+				    /*
 				} else if (savedFileName != null) {
+				    // should never happen.
+				    */
 				} else if (xofile.getName()
 					   .endsWith(".zip")) {
 				    try {
@@ -1295,21 +1199,12 @@ public class Gui {
     static LayoutParms customParms = null;
     static int lastLayoutIndex = 0;
     static Object[] layoutChoices = {
-	/*
-	  localeString(Parser.getLayoutName(0)),
-	  localeString(Parser.getLayoutName(1)),
-	  localeString(Parser.getLayoutName(2)),
-	  localeString(Parser.getLayoutName(3)),
-	  localeString(Parser.getLayoutName(4)),
-	  localeString(Parser.getLayoutName(5))
-	*/
 	Parser.getLayoutParms(0),
 	Parser.getLayoutParms(1),
 	Parser.getLayoutParms(2),
 	Parser.getLayoutParms(3),
 	Parser.getLayoutParms(4),
 	Parser.getLayoutParms(5),
-	//	Parser.getLayoutParms(6),
 	localeString("custom"),
 	localeString("setCustomLayout")
     };
@@ -1320,7 +1215,7 @@ public class Gui {
 
     static DefaultComboBoxModel<Object> lcbmodel =
 	new DefaultComboBoxModel<>(layoutChoices);
-    static JComboBox<Object> layoutComboBox = new JComboBox<>(lcbmodel);
+    static JComboBox<Object> layoutComboBox = null; 
     static boolean layoutComboBoxBeingModified = false;
 
     static LayoutPane layoutPane = null;
@@ -1392,13 +1287,6 @@ public class Gui {
     static JButton editButton;
     static JButton runButton;
     static JButton cancelButton;
-
-    /*
-    static TimeTextField iimageTimeTF;
-    static TimeTextField iminImageTimeTF;
-    */
-
-    // JFileChooser inputChooser = null;
 
     static boolean canceled = false;
 
@@ -1654,28 +1542,6 @@ public class Gui {
 				return false;
 			    }
 			};
-		    /*
-		    iimageTimeTF = new TimeTextField(15) {
-			    protected boolean handleError() {
-				JOptionPane.showMessageDialog
-				    (this,
-				     localeString("timeFormatError"),
-				     localeString("Error"),
-				     JOptionPane.ERROR_MESSAGE);
-				return false;
-			    }
-			};
-		    iminImageTimeTF = new TimeTextField(15) {
-			    protected boolean handleError() {
-				JOptionPane.showMessageDialog
-				    (this,
-				     localeString("timeFormatError"),
-				     localeString("Error"),
-				     JOptionPane.ERROR_MESSAGE);
-				return false;
-			    }
-			};
-		    */
 		    ofnb = new JButton(localeString("choose"));
 		}
 
@@ -1700,11 +1566,6 @@ public class Gui {
 				    lcbmodel.addElement(Parser
 							.getLayoutParms(i));
 				}
-				/*
-				  for (Object value: map.values()) {
-				  lcbmodel.addElement(value);
-				  }
-				*/
 				lcbmodel.addElement(Gui.localeString("custom"));
 				lcbmodel
 				    .addElement(Gui.localeString
@@ -1871,14 +1732,6 @@ public class Gui {
 		    hrefToOrigCheckBox = 
 			new JCheckBox(localeString("hrefToOrigCheckBox"));
 		     
-		    /*
-		      for (int li = 0; li < 6; li++) {
-		      LayoutParms parms = Parser.getLayoutParms(li);
-		      System.out.println(parms);
-		      }
-		    */
-		     
-		    // layoutComboBox = new JComboBox(lcbmodel);
 		    layoutPane.init(true);
 		    layoutParms = Parser.getLayoutParms(0);
 		    customParms = null;
@@ -1888,27 +1741,6 @@ public class Gui {
 		    cancelButton = new JButton(localeString("cancel"));
 		    cancelButton.setEnabled(false);
 
-		    /*
-		    domMapButton = 
-			new DomMapButton (localeString("domMapButton"), 
-					  frame,
-					  localeString
-					  ("domMapButtonDialogTitle")) {
-			    protected TemplateProcessor.KeyMap[] getInput() {
-				int n = domMapList.size();
-				TemplateProcessor.KeyMap[] array = 
-				    new TemplateProcessor.KeyMap[n];
-				array = domMapList.toArray(array);
-				return array;
-			    }
-			    protected void doOutput
-				(LinkedList<TemplateProcessor.KeyMap> list)
-			    {
-				domMapList.clear();
-				domMapList.addAll(0, list);
-			    }
-			};
-		    */
 		    titleButton = new 
 			URLTextAreaButton(localeString("titleButton"), 10, 50,
 					  frame,
@@ -2316,6 +2148,7 @@ public class Gui {
 
 		    configureFields();
 		    configurePanes();
+		    layoutComboBox = new JComboBox<>(lcbmodel);
 		    configureButtons();
 		    SwingErrorMessage.setComponent(frame);
 		    SwingErrorMessage.setAppendable(console);
@@ -2380,8 +2213,7 @@ public class Gui {
 		    npfl.setHgap(10);
 		    mtPanel.setLayout(npfl);
 		    setComponentBackground(mtPanel, COLOR1);
-		    /*final String[]*/ mtarray = 
-			ImageMimeInfo.getMimeTypes().toArray
+		    mtarray = ImageMimeInfo.getMimeTypes().toArray
 			(new String[ImageMimeInfo.getMimeTypes().size()]);
 		    String[] cbmtarray = mtarray.clone();
 		    for (int i = 0; i < mtarray.length; i++) {
@@ -2392,17 +2224,8 @@ public class Gui {
 		    }
 		    JLabel cbLabel = 
 			new JLabel(localeString("outputImageMIMEtype"));
-		    /*final JComboBox<String>*/ mtcomboBox =
-			new JComboBox<>(cbmtarray);
+		    mtcomboBox = new JComboBox<>(cbmtarray);
 		    mtcomboBox.setSelectedIndex(mtcomboBoxDefaultIndex);
-		    /*
-		    for (int i = 0; i < mtarray.length; i++) {
-			if (mtarray[i].equals("image/jpeg")) {
-			    mtcomboBox.setSelectedItem(cbmtarray[i]);
-			}
-		    }
-		    */
-
 		    ActionListener cbal = new ActionListener() {
 			    public void actionPerformed(ActionEvent e) {
 				int ind = mtcomboBox.getSelectedIndex();
@@ -2730,9 +2553,6 @@ public class Gui {
 				    return;
 				}
 				canceled = false;
-				/*
-				  System.out.println("runButton Action Listener");
-				*/
 				processFiles(imageListModel, (String)null);
 				final Thread w = worker;
 				if (w != null) {
@@ -2901,14 +2721,4 @@ public class Gui {
 		}
 	    });
     }
-
-    /*
-    static public void main(String argv[]) {
-	if (argv.length > 0) {
-	    Webnail.main(argv);
-	} else {
-	    configureGui();
-	}
-    }
-    */
 }

@@ -5,6 +5,9 @@ webnail \- create a webnail image
 .B webnail
 .br
 .B webnail
+[\fIXML_INPUT_FILE\fR]
+.br
+.B webnail
 [\fB-\fR[\fBuU\fR] [\fB-a \fIUSER PASSWORD\fR]]
 [\fB-t \fIIMAGE_TYPE\fR]
 .br
@@ -65,8 +68,11 @@ webnail \- create a webnail image
 Webnail is a program that scales an image to create a thumbnail of the
 image, typically for use in web pages that show multiple images, or
 that alternatively creates a full web page.  With no arguments, the
-program is run from a GUI (Graphical User Interface). Otherwise the
-arguments other than options are as follows.
+program is run from a GUI (Graphical User Interface). With a single
+argument that does not start with "\-", the argument is assumed to be the
+name of an XML input file, as described below, that will preconfigure the GUI.
+The GUI has an option to save its state in a file using this XML format.
+Otherwise the arguments other than options are as follows.
 .TP 
 .I WIDTH
 The maximum width of an thumbnail image in pixels.
