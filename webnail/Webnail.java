@@ -93,6 +93,7 @@ public class Webnail {
     static final long DEFAULT_MIN_IMAGE_TIME = 4000;
 
     static final String DEFAULT_BGCOLOR = "#c0c0c0";
+    static final String DEFAULT_FGCOLOR = "#000000";
 
     static ImageScaler scaler = new ImageScaler();
 
@@ -239,14 +240,15 @@ public class Webnail {
 	boolean syncMode = parser.getSyncMode();
 	boolean waitOnError = parser.getWaitOnError();
 	String bgcolor = parser.getValue("bgcolor");
+	String fgcolor = parser.getValue("fgcolor");
+	boolean rvmode = parser.getRVMode();
 	bgcolor = WebEncoder.htmlEncode(bgcolor);
+	fgcolor = WebEncoder.htmlEncode(fgcolor);
 	String mtype = parser.getMimeType();
 	String type = ImageMimeInfo.getFormatNameForMimeType(mtype);
 	String extension = ImageMimeInfo.getExtensionForMimeType(mtype);
 	mtype = WebEncoder.htmlEncode(mtype);
 	boolean hrefToOrig = parser.getHrefToOrig();
-
-
 
 	File tdir = null; File mdir = null; File cdir = null;
 	File idir = null;
@@ -371,6 +373,8 @@ public class Webnail {
 	if (webmode) {
 	    rmap.put("bgcolor",
 		     ((bgcolor == null)? DEFAULT_BGCOLOR: bgcolor));
+	    rmap.put("fgcolor",
+		     ((fgcolor == null)? DEFAULT_FGCOLOR: fgcolor));
 	    rmap.put("hasAllImages",
 		     (hasAllImages? "true": "false"));
 	    rmap.put("imageTime", parser.getValue("imageTime"));
@@ -1042,18 +1046,29 @@ public class Webnail {
 		    CopyUtilities.copyResourceToFile("webnail/initImage.png",
 						     initImage);
 		    File fleft = new File(cdir, "fleft.gif");
-		    CopyUtilities.copyResourceToFile("webnail/fleft.gif",
+		    CopyUtilities.copyResourceToFile(rvmode?
+						     "webnail/fleftRV.gif":
+						     "webnail/fleft.gif",
 						     fleft);
 		    File left = new File(cdir, "left.gif");
-		    CopyUtilities.copyResourceToFile("webnail/left.gif", left);
+		    CopyUtilities.copyResourceToFile(rvmode?
+						     "webnail/leftRV.gif":
+						     "webnail/left.gif",
+						     left);
 		    File expand = new File(cdir, "expand.png");
-		    CopyUtilities.copyResourceToFile("webnail/expand.png",
+		    CopyUtilities.copyResourceToFile(rvmode?
+						     "webnail/expandRV.png":
+						     "webnail/expand.png",
 						     expand);
 		    File right = new File(cdir, "right.gif");
-		    CopyUtilities.copyResourceToFile("webnail/right.gif",
+		    CopyUtilities.copyResourceToFile(rvmode?
+						     "webnail/rightRV.gif":
+						     "webnail/right.gif",
 						     right);
 		    File fright = new File(cdir, "fright.gif");
-		    CopyUtilities.copyResourceToFile("webnail/fright.gif",
+		    CopyUtilities.copyResourceToFile(rvmode?
+						     "webnail/frightRV.gif":
+						     "webnail/fright.gif",
 						     fright);
 		    File slideshow1 = new File(cdir, "slideshow1.js");
 		    CopyUtilities.copyResourceToFile("webnail/slideshow1.js",
@@ -1085,7 +1100,6 @@ public class Webnail {
 		    CopyUtilities.copyResourceToFile("webnail/error.jsp",
 						     errorFile);
 		}
-
 	    } else if (zos != null) {
 		zos.setMethod(ZipOutputStream.DEFLATED);
 		zos.setLevel(9);
@@ -1274,6 +1288,8 @@ public class Webnail {
 	boolean syncMode = false;
 	boolean waitOnError = false;
 	String bgcolor = null;
+	String fgcolor = null;
+	boolean rvmode = false;
 	boolean hrefToOrig = false;
 
 	long imageTime = DEFAULT_IMAGE_TIME;
@@ -1317,6 +1333,14 @@ public class Webnail {
 		    index++;
 		    checkForMissingArg(index, argv.length);
 		    bgcolor = argv[index];
+		} else if (argv[index].equals("-X")) {
+		    noXML(xmlFile, xmlURL);
+		    index++;
+		    checkForMissingArg(index, argv.length);
+		    fgcolor = argv[index];
+		} else if (argv[index].equals("-r")) {
+		    noXML(xmlFile, xmlURL);
+		    rvmode = true;
 		} else if (argv[index].equals("-t")) {
 		    noXML(xmlFile, xmlURL);
 		    index++;
@@ -1658,7 +1682,7 @@ public class Webnail {
 					     linkmode, flat,
 					     syncMode, waitOnError,
 					     imageTime, minImageTime,
-					     bgcolor,
+					     bgcolor, fgcolor, rvmode,
 					     maxThumbWidth, maxThumbHeight,
 					     hrefToOrig);
 			if (title != null) parser.setTitle(title);
@@ -1730,4 +1754,5 @@ public class Webnail {
 	}
 	System.exit(0);
     }
+
 }

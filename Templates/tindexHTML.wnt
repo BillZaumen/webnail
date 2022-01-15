@@ -7,7 +7,7 @@ $(!M.T application/x.webnail-template)<!DOCTYPE HTML PUBLIC "-//W3C//DTD HTML 4.
 <META http-equiv="Content-Script-Type" content="text/javascript">
 <TITLE>$(windowTitle)</TITLE>
 </HEAD>
-<BODY style="background-color: lightgray">
+<BODY style="background-color: $(bgcolor); color: $(fgcolor)">
 <SCRIPT>
   var position = 0;
   function updatePosition(current) {

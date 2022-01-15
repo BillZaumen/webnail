@@ -9,6 +9,7 @@ import java.util.Map.Entry;
 import java.util.LinkedList;
 import java.util.HashMap;
 import javax.swing.*;
+import javax.swing.colorchooser.*;
 import java.io.*;
 import java.io.IOException;
 import javax.swing.filechooser.*;
@@ -29,6 +30,60 @@ import org.bzdev.imageio.ImageMimeInfo;
 import org.bzdev.net.WebEncoder;
 
 public class Gui {
+
+    static private final String resourceBundleName = "webnail.Gui";
+    static ResourceBundle bundle =
+	ResourceBundle.getBundle(resourceBundleName);
+    static String localeString(String name) {
+	return bundle.getString(name);
+    }
+
+    private static class ColorChooser {
+        JColorChooser cc;
+        JDialog dialog;
+        Color orig;
+        Color result;
+        public ColorChooser(Component parent, String title) {
+	    String swatchName =
+		UIManager.getString("ColorChooser.swatchesNameText",
+				    java.util.Locale.getDefault());
+	    AbstractColorChooserPanel swatchPanel = null;
+	    for (AbstractColorChooserPanel ccp:
+		     ColorChooserComponentFactory.getDefaultChooserPanels()) {
+		if(ccp.getDisplayName().equals(swatchName)) {
+		    swatchPanel = ccp;
+		    break;
+		}
+	    }
+
+            cc = new JColorChooser();
+	    boolean hasSwatch = false;
+	    for (AbstractColorChooserPanel ccp: cc.getChooserPanels()) {
+		if(ccp.getDisplayName().equals(swatchName)) {
+		    hasSwatch = true;
+		    break;
+		}
+	    }
+	    if (hasSwatch == false && swatchPanel != null) {
+		cc.addChooserPanel(swatchPanel);
+	    }
+            cc.addChooserPanel(new CSSColorChooserPanel());
+            dialog = JColorChooser.createDialog
+                (parent, title, true, cc,
+                 (e) -> {
+                    result = cc.getColor();
+                 },
+                 (e) -> {
+                     result = orig;
+                 });
+        }
+        public Color showDialog(Color c) {
+            orig = c;
+            cc.setColor(orig);
+            dialog.setVisible(true);
+            return result;
+        }
+    }
 
     static {
 	try {
@@ -73,7 +128,7 @@ public class Gui {
 	DarkmodeMonitor.addPropertyChangeListener(evnt -> {
 		if (DarkmodeMonitor.getDarkmode()) {
 		    Color pc = (Color)UIManager.get("Panel.background");
-		    pc = isColor1? pc.darker(): pc.darker().darker();
+		    pc = isColor1? COLOR1DM: pc.darker().darker();
 		    c.setBackground(pc);
 		} else {
 		    c.setBackground(isColor1? COLOR1: COLOR2);
@@ -85,13 +140,6 @@ public class Gui {
     // Extends ImageIcon so we'll have an image to display in
     // a JList.
 
-    static private final String resourceBundleName = "webnail.Gui";
-    static ResourceBundle bundle = 
-	ResourceBundle.getBundle(resourceBundleName);
-    static String localeString(String name) {
-	return bundle.getString(name);
-    }
-    
     static File currentDir = new File(System.getProperty("user.dir"));
     static File icurrentDir = currentDir;
     static File ocurrentDir = currentDir;
@@ -114,8 +162,10 @@ public class Gui {
     static private SimpleConsole console;
 
     static DefaultListModel<Object> imageListModel = new DefaultListModel<>();
+    /*
     static LinkedList<TemplateProcessor.KeyMap>domMapList = 
 	new LinkedList<TemplateProcessor.KeyMap>();
+    */
 
     // static EditImagesPane editImagesPane =
     //    new EditImagesPane(imageListModel, domMapList);
@@ -162,7 +212,9 @@ public class Gui {
 	    mtnhtf.setEnabled(selected);
 	    mtnhtf.setEnabled(selected);
 
-	    colorButton.setEnabled(hrCheckBox.isSelected());
+	    colorButton.setEnabled(true);
+	    fgcolorButton.setEnabled(true);
+	    rvmodeCheckbox.setEnabled(true);
 	    imageTimeLabel.setEnabled(true);
 	    imageTimeTF.setEnabled(true);
 	    minImageTimeLabel.setEnabled(true);
@@ -194,6 +246,8 @@ public class Gui {
 	    minImageTimeLabel.setEnabled(false);
 	    minImageTimeTF.setEnabled(false);
 	    colorButton.setEnabled(false);
+	    fgcolorButton.setEnabled(false);
+	    rvmodeCheckbox.setEnabled(false);
 	    editLabel.setEnabled(false);
 	    // domMapButton.setEnabled(false);
 	    titleButton.setEnabled(false);
@@ -209,7 +263,9 @@ public class Gui {
 	    linkCheckBox.setEnabled(false);
 	    flatCheckBox.setEnabled(false);
 	    hrCheckBox.setEnabled(false);
-	    colorButton.setEnabled(false);
+	    colorButton.setEnabled(true);
+	    fgcolorButton.setEnabled(true);
+	    rvmodeCheckbox.setEnabled(true);
 	    syncCheckBox.setEnabled(false);
 	    waitOnErrCheckBox.setEnabled(false);
 	    descrButton.setEnabled(false);
@@ -333,6 +389,8 @@ public class Gui {
 	    boolean hrmode = p.getHighResMode();
 	    boolean warmode = p.getWebArchiveMode();
 	    String bgColor = p.getValue("bgcolor");
+	    String fgColor = p.getValue("fgcolor");
+	    boolean rvmode = p.getRVMode();
 	    boolean syncmode = p.getSyncMode();
 	    boolean waitOnError = p.getWaitOnError();
 	    String imageTime = p.getImageTime();
@@ -362,6 +420,9 @@ public class Gui {
 
 	    bgcolor = (bgColor == null)?
 		Webnail.DEFAULT_BGCOLOR : bgColor;
+	    fgcolor = (fgColor == null)?
+		Webnail.DEFAULT_FGCOLOR : fgColor;
+
 	    imageTimeTF.setText((imageTime == null)? "": 
 				imageTime);
 	    minImageTimeTF.setText((minImageTime == null)? "":
@@ -829,11 +890,23 @@ public class Gui {
                 });
             URL url = 
                 ClassLoader.getSystemClassLoader()
-		.getResource(localeString("manualToc"));
+		.getResource(DarkmodeMonitor.getDarkmode()?
+			     localeString("manualTocDM"):
+			     localeString("manualToc"));
             if (url != null) {
                 try {
                     helpPane.setToc(url, true, false);
                     helpPane.setSelectionWithAction(0);
+		    DarkmodeMonitor.addPropertyChangeListener( evnt -> {
+			    try {
+				URL url2 = ClassLoader.getSystemClassLoader()
+				    .getResource(DarkmodeMonitor.getDarkmode()?
+						 localeString("manualTocDM"):
+						 localeString("manualToc"));
+				helpPane.setToc(url2, true, false);
+				helpPane.setSelectionWithAction(0);
+			    } catch (Exception e) {}
+			});
                 } catch (IOException e) {
 		    SwingErrorMessage.display(e);
                     helpframe = null;
@@ -1006,7 +1079,8 @@ public class Gui {
 				    linkmode, flatmode,
 				    syncMode, waitOnError,
 				    imageTime, minImageTime,
-				    bgcolor, mtw, mth, hrefToOrig);
+				    bgcolor, fgcolor, rvmode,
+				    mtw, mth, hrefToOrig);
 		    p.setCustomParms(customParms);
 
 		    int layoutIndex = layoutComboBox.isEnabled()?
@@ -1170,7 +1244,11 @@ public class Gui {
     static JButton ofnb = null;
 
     static String bgcolor = Webnail.DEFAULT_BGCOLOR;
+    static String fgcolor = Webnail.DEFAULT_FGCOLOR;
+    static boolean rvmode = false;
     static JButton colorButton;
+    static JButton fgcolorButton;
+    static JCheckBox rvmodeCheckbox;
 
     static JLabel imageTimeLabel;
 
@@ -1717,6 +1795,10 @@ public class Gui {
 		    oftbg = new ButtonGroup();
 		    colorButton = 
 			new JButton (localeString("colorButton"));
+		    fgcolorButton =
+			new JButton (localeString("fgcolorButton"));
+		    rvmodeCheckbox =
+			new JCheckBox(localeString("rvmodeCheckbox"), rvmode);
 		    windowTitleButton =
 			new JButton(localeString("windowTitleButton"));
 		    linkCheckBox = 
@@ -2363,46 +2445,57 @@ public class Gui {
 		    webPanel1.setLayout(webfl1);
 		    setComponentBackground(webPanel1, COLOR2);
 		    webPanel1.add(colorButton);
+		    webPanel1.add(fgcolorButton);
+		    webPanel1.add(rvmodeCheckbox);
 		    colorButton.setToolTipText
 			(localeString("colorButtonToolTip"));
-		    webPanel1.add(imageTimeLabel);
-		    webPanel1.add(imageTimeTF);
+		    fgcolorButton.setToolTipText
+			(localeString("fgcolorButtonToolTip"));
+		    rvmodeCheckbox.setToolTipText
+			(localeString("rvmodeCheckboxTip"));
+		    gridbag2.setConstraints(webPanel1, c);
+		    webOptPanel.add(webPanel1);
+		    JPanel webPanel2 = new JPanel();
+		    FlowLayout webfl2 = new FlowLayout(FlowLayout.LEADING);
+		    setComponentBackground(webPanel2, COLOR2);
+		    webPanel2.add(imageTimeLabel);
+		    webPanel2.add(imageTimeTF);
 		    imageTimeTF.setToolTipText
 			(localeString("imageTimeTFToolTip"));
-		    webPanel1.add(minImageTimeLabel);
+		    webPanel2.add(minImageTimeLabel);
 		    imageTimeTF.setDefaultValue(10000);
-		    webPanel1.add(minImageTimeTF);
+		    webPanel2.add(minImageTimeTF);
 		    minImageTimeTF.setDefaultValue(4000);
 		    minImageTimeTF.setToolTipText
 			(localeString("minImageTimeTFToolTip"));
-		    gridbag2.setConstraints(webPanel1, c);
-		    webOptPanel.add(webPanel1);
+		    gridbag2.setConstraints(webPanel2, c);
+		    webOptPanel.add(webPanel2);
 
-		    JPanel webPanel2 = new JPanel();
-		    FlowLayout webfl2 = new FlowLayout(FlowLayout.LEADING);
-		    webPanel2.setLayout(webfl2);
-		    setComponentBackground(webPanel2, COLOR2);
-		    webPanel2.add(hrCheckBox);
+		    JPanel webPanel2a = new JPanel();
+		    FlowLayout webfl2a = new FlowLayout(FlowLayout.LEADING);
+		    webPanel2a.setLayout(webfl2a);
+		    setComponentBackground(webPanel2a, COLOR2);
+		    webPanel2a.add(hrCheckBox);
 		    hrCheckBox.setSelected(true);
 		    setComponentBackground(hrCheckBox, COLOR2);
 		    hrCheckBox.setToolTipText
 			(localeString("hrCheckBoxToolTip"));
-		    webPanel2.add(syncCheckBox);
+		    webPanel2a.add(syncCheckBox);
 		    setComponentBackground(syncCheckBox, COLOR2);
 		    syncCheckBox.setToolTipText
 			(localeString("syncCheckBoxToolTip"));
-		    webPanel2.add(waitOnErrCheckBox);
+		    webPanel2a.add(waitOnErrCheckBox);
 		    setComponentBackground(waitOnErrCheckBox, COLOR2);
 		    waitOnErrCheckBox.setToolTipText
 			(localeString("waitOnErrCheckBoxToolTip"));
-		    webPanel2.add(linkCheckBox);
+		    webPanel2a.add(linkCheckBox);
 		    setComponentBackground(linkCheckBox, COLOR2);
-		    webPanel2.add(flatCheckBox);
+		    webPanel2a.add(flatCheckBox);
 		    setComponentBackground(flatCheckBox, COLOR2);
-		    webPanel2.add(hrefToOrigCheckBox);
+		    webPanel2a.add(hrefToOrigCheckBox);
 		    setComponentBackground(hrefToOrigCheckBox, COLOR2);
-		    gridbag2.setConstraints(webPanel2, c);
-		    webOptPanel.add(webPanel2);
+		    gridbag2.setConstraints(webPanel2a, c);
+		    webOptPanel.add(webPanel2a);
 
 		    gridbag.setConstraints(webOptPanel, c);
 		    pane.add(webOptPanel);
@@ -2626,11 +2719,18 @@ public class Gui {
 			    }
 			});
 
+		    final ColorChooser colorChooser = new ColorChooser
+			(frame, localeString("colorDialogTitle"));
+
 		    colorButton.addActionListener(new ActionListener() {
 			    public void actionPerformed(ActionEvent e) {
+				/*
 				Color color = JColorChooser.showDialog
 				    (frame, localeString("colorDialogTitle"),
 				     Color.decode(bgcolor));
+				*/
+				Color color = colorChooser.showDialog
+				    (Color.decode(bgcolor));
 				if (color != null) {
 				    bgcolor = 
 					String.format("#%06X", 
@@ -2640,6 +2740,34 @@ public class Gui {
 				}
 				// System.out.println(bgcolor);
 			    }
+			});
+
+		    final ColorChooser fgcolorChooser = new ColorChooser
+			(frame, localeString("fgcolorDialogTitle"));
+
+		    fgcolorButton.addActionListener(new ActionListener() {
+			    public void actionPerformed(ActionEvent e) {
+				/*
+				Color color = JColorChooser.showDialog
+				    (frame, localeString("fgcolorDialogTitle"),
+				     Color.decode(fgcolor));
+				*/
+				Color color = fgcolorChooser.showDialog
+				    (Color.decode(fgcolor));
+
+				if (color != null) {
+				    fgcolor =
+					String.format("#%06X",
+						      color.getRGB()
+						      & 0xFFFFFF)
+					.toLowerCase();
+				}
+				// System.out.println(fgcolor);
+			    }
+			});
+
+		    rvmodeCheckbox.addItemListener(evt -> {
+			    rvmode = rvmodeCheckbox.isSelected();
 			});
 
 		    ofnb.addActionListener(new ActionListener() {

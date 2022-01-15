@@ -56,6 +56,7 @@ public class Parser {
 	zipped = false;
 	syncMode = false;
 	waitOnError = false;
+	rvmode = false;
 	rmap = new TemplateProcessor.KeyMap();
 	map = null;
         parser.parse(is, handler);
@@ -104,7 +105,8 @@ public class Parser {
 			      boolean linkMode, boolean flatMode,
 			      boolean syncMode, boolean waitOnError,
 			      long imageTime, long minImageTime,
-			      String bgcolor, int width, int height,
+			      String bgcolor, String fgcolor, boolean rvmode,
+			      int width, int height,
 			      boolean hrefToOrig)
     {
 	mimeType = (mtype == null)? "image/jpeg": mtype;
@@ -129,6 +131,9 @@ public class Parser {
 	rmap.put("minImageTime", "" + minImageTime);
 	rmap.put("bgcolor", 
 		 ((bgcolor == null)? Webnail.DEFAULT_BGCOLOR: bgcolor));
+	rmap.put("fgcolor",
+		 ((fgcolor == null)? Webnail.DEFAULT_FGCOLOR: fgcolor));
+	this.rvmode = rvmode;
 
 	this.width = width;
 	this.height = height;
@@ -933,6 +938,9 @@ public class Parser {
     public boolean getHrefToOrig() {return hrefToOrig;}
 
     
+    // reverse-video mode for icons
+    boolean rvmode = false;
+    public boolean getRVMode() {return rvmode;}
 
 
     static String formatTime(long time) {
@@ -1153,6 +1161,8 @@ public class Parser {
 		   getFlatMode(), getHighResMode());
 	out.printf("        webArchiveMode=\"%b\" bgcolor=\"%s\"\n",
 		   getWebArchiveMode(), xmlEncode(getValue("bgcolor")));
+	out.printf("        fgcolor=\"%s\" rvmode=\"%b\"\n",
+		   xmlEncode(getValue("fgcolor")), getRVMode());
 	out.printf("        syncMode=\"%b\" waitOnError=\"%b\"\n",
 		   getSyncMode(), getWaitOnError());
 	String t1 = getValue("imageTime");
@@ -1497,6 +1507,15 @@ public class Parser {
 		} else {
 		    rmap.put("bgcolor", Webnail.DEFAULT_BGCOLOR);
 		}
+		String fgcolorStr = attr.getValue("fgcolor");
+		if (fgcolorStr != null) {
+		    rmap.put("fgcolor", fgcolorStr);
+		} else {
+		    rmap.put("fgcolor", Webnail.DEFAULT_FGCOLOR);
+		}
+		String rvmodeStr = attr.getValue("rvmode");
+		rvmode = (rvmodeStr != null && rvmodeStr.equals("true"));
+
 		String widthStr = attr.getValue("width");
 		if (widthStr == null) {
 		    width = 0;

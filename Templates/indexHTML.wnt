@@ -9,7 +9,7 @@ $(!M.T application/x.webnail-template)<!DOCTYPE HTML PUBLIC "-//W3C//DTD HTML 4.
 <SCRIPT type="text/javascript" charset="UTF-8" src="controls/slideshow1.js"></SCRIPT>
 <TITLE>$(windowTitle)</TITLE>
 $(head)</HEAD>
-<BODY  style="background-color: lightgray"
+<BODY  style="background-color: $(bgcolor); color: $(fgcolor)"
        onload="configure()" id="body" class="webnailIndexHTML">
 $(header)<TABLE id="imagesTable">
 <TR>
@@ -68,5 +68,5 @@ $(header)<TABLE id="imagesTable">
   </TR>
 </TABLE>
 $(trailer)<SCRIPT type="text/javascript" charset="UTF-8" src="controls/slideshow2.js"></SCRIPT>
-$(afterScript)</BODY>
+$(finalHtml)</BODY>
 </HTML>

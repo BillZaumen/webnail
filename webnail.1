@@ -180,72 +180,83 @@ to use for authorization for HTTP or HTTPS requests.
 .SH WEB OPTIONS
 .PP
 The following options are used only when the
-.B -w
+.B /-w
 option was selected explicitly or implicitly by using the
-.B -i
+.B /-i
 option.
 .TP
-.B -C
+.B /-C
 The following argument,
 .IR COLOR ,
-gives the background color to use when the full-screen option on the
-web page is selected.  The color is specified by any form acceptable as
-a color by CSS1 (Cascading Style Sheets version 1).
+gives the background color to use for web pages.  The color is
+specified by any form acceptable as a color by CSS1 (Cascading Style
+Sheets version 1).
 .TP
-.B -W
+.B \-X
+The following argument,
+.IR COLOR
+give the foreground (or text) color to use for web pages.  The color is
+specified by any form acceptable as a color by CSS1 (Cascading Style
+Sheets version 1).
+.TP
+.B \-r
+Icons used for controls will use a light color suitable for a dark
+background.
+.TP
+.B /-W
 When a slideshow is running in full-screen mode, if there is an error
 loading an image, the previous image will be displayed until the time
 interval for the image that caused the error has expired.
 .TP
-.B -S
+.B /-S
 When a slideshow is running in full-screen mode, and an image arrives
 late, the time interval for that image (and perhaps subsequent ones) will
 be shortened with a goal of synchronizing the display time with the
 sequence of times indicated by the image-Time interval.
 .TP
-.B -I
+.B /-I
 The following argument,
 .IR IMAGE_TIME ,
 gives the time interval for displaying an image in a slideshow.
 .TP
-.B -L
+.B /-L
 The following argument,
 .IR MIN_IMAGE_TIME ,
 gives the minimal time interval for displaying an image in a slideshow,
 and is used when the image's time interval has to be shortened for time
 synchronization.
 .TP
-.B -T
+.B /-T
 The following argument,
 .IR TITLE ,
 is a string giving the default  title to display on the web page for the
 images.
 .TP
-.B -X
+.B /-X
 The following argument,
 .IR WINDOW_TITLE ,
 is a string giving the default window title to display on the web page for the
 images. This title will typically appear in frame surrounding a browser's
 window.
 .TP
-.B -D
+.B /-D
 The following argument,
 .IR DESCRIPTION ,
 is a string giving a default description to display on the web page for the
 images.
 .TP
-.B -M
+.B /-M
 This option configures the web page to disable full-screen mode for
 slideshows, and eliminates the presence of high-resolution images.
 .TP 
-.B -F
+.B /-F
 Normally when the
-.B -w
+.B /-w
 option is selected, all high-resolution images go into a subdirectory
 named
 .BR high .
 The
-.B -F
+.B /-F
 option places the high-resolution images in the top level directory
 for the web page.  This is useful if you want the web files built
 around existing images (e.g., the images in a
@@ -255,7 +266,7 @@ or
 directory created by software that downloads images from a digital
 camera) as existing files will used rather than copied.
 .TP
-.B -H
+.B /-H
 This option sets up the web page so that when you click on the larger
 image (not one of the thumbnail images), one will follow a link to the
 original image.  The image arguments should in this case preferably be

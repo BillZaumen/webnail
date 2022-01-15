@@ -1,0 +1,68 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<toc>
+<node title="Help" uri="sresource:/webnail/manualDM.html">
+    <node title="Introduction" uri="sresource:/webnail/manualDM.html#intro" />
+    <node title="Basic Usage"  uri="sresource:/webnail/manualDM.html#basic" >
+      <node title="Scale a Single Image"
+	    uri="sresource:/webnail/manualDM.html#scaleOneImage" />
+      <node title="Scale Multiple Images"
+	    uri="sresource:/webnail/manualDM.html#scaleMultipleImages" />
+      <node title="Create a Web Page"
+	    uri="sresource:/webnail/manualDM.html#createWebpage" />
+    </node>
+    <node title="Using a GUI" uri="sresource:/webnail/manualDM.html#gui">
+      <node title="Webnail Window"
+	    uri="sresource:/webnail/manualDM.html#guiMain" >
+	<node title="Menu Bar"
+	      uri = "sresource:/webnail/manualDM.html#menubar"/>
+	<node title="Controls"
+	      uri="sresource:/webnail/manualDM.html#mainControls"/>
+      </node>
+      <node title="The DOM Map Panel"
+	    uri="sresource:/webnail/manualDM.html#guiDOM"/>
+      <node title="The Image Editor"
+	    uri="sresource:/webnail/manualDM.html#guiEdit">
+	<node title="Properties Editor" 
+	      uri="sresource:/webnail/manualDM.html#guiProperties" />
+      </node>
+      <node title="Layout Editor"
+	    uri="sresource:/webnail/manualDM.html#layoutEdit" />
+      <node title="Proxy Configuration"
+	    uri="sresource:/webnail/manualDM.html#proxies"/>
+    </node>
+    <node title="Running from a terminal"
+	  uri="sresource:/webnail/manualDM.html#terminal">
+      <node title="Web Options"
+	    uri="sresource:/webnail/manualDM.html#weboptions"/>
+    </node>
+    <node title="Reserved HTML IDs"
+	  uri="sresource:/webnail/manualDM.html#reservedIDs"/>
+    <node title="XML Syntax" uri="sresource:/webnail/manualDM.html#xml">
+      <node title="XML Elements"
+	    uri="sresource:/webnail/manualDM.html#dtdElements">
+	<node title="Images" uri="sresource:/webnail/manualDM.html#dtdImages"/>
+	<node title="Title" uri="sresource:/webnail/manualDM.html#dtdTitle"/>
+	<node title="Descr" uri="sresource:/webnail/manualDM.html#dtdDescr"/>
+	<node title="Head" uri="sresource:/webnail/manualDM.html#dtdHead"/>
+	<node title="Header" uri="sresource:/webnail/manualDM.html#dtdHeader"/>
+	<node title="Image" uri="sresource:/webnail/manualDM.html#dtdImage"/>
+	<node title="Filename"
+	      uri="sresource:/webnail/manualDM.html#dtdFilename"/>
+	<node title="URL" uri="sresource:/webnail/manualDM.html#dtdURL"/>
+	<node title="Trailer" uri="sresource:/webnail/manualDM.html#dtdTrailer"/>
+	<node title="After Script"
+	      uri="sresource:/webnail/manualDM.html#dtdAfterScript"/>
+      </node>
+    </node>
+    <node title="Layout XML Syntax"
+	  uri="sresource:/webnail/manualDM.html#layoutXML">
+      <node title="Layout XML Elements"
+	    uri="sresource:/webnail/manualDM.html#layoutXMLElements">
+      </node>
+    </node>
+    <node title="Template Files"
+	  uri="sresource:/webnail/manualDM.html#templateFiles">
+    </node>
+</node>
+</toc>
+

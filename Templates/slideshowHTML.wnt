@@ -7,7 +7,7 @@ $(!M.T application/x.webnail-template)<!DOCTYPE HTML PUBLIC "-//W3C//DTD HTML 4.
 <META http-equiv="Content-Script-Type" content="text/javascript">
 <TITLE>Slideshow - $(windowTitle)</TITLE>
 </HEAD>
-<BODY STYLE="background-color: $(bgcolor)" id="body">
+<BODY STYLE="background-color: $(bgcolor); color: $(fgcolor)" id="body">
   <div style="background-color: $(bgcolor); text-align: center; font-size: 1pt">
     <img src="strut.gif" width="100" height="1" id="spacer">
   </div>

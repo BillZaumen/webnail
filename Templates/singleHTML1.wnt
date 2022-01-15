@@ -6,7 +6,7 @@ $(!M.T application/x.webnail-template)<!DOCTYPE HTML PUBLIC "-//W3C//DTD HTML 4.
 <META http-equiv="Content-Style-Type" content="text/css">
 <TITLE>$(windowTitle)</TITLE>
 $(head)</HEAD>
-<BODY  style="background-color: white" id="body">
+<BODY  style="background-color: $(bgcolor); color: $(fgcolor)" id="body">
 $(header)
 <TABLE frame="border" border="1" rules="all" cellpadding="5"
        style="border-style: inset; border-color: #909090" id="imagesTable">
@@ -18,5 +18,5 @@ $(header)
     $(newTableRow)$(endRows)
   </TR>
 </TABLE>
-$(trailer)$(afterScript)
+$(trailer)$(finalHtml)
 </BODY>

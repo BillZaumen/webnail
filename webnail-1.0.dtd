@@ -17,6 +17,8 @@
 	  imageTime CDATA #IMPLIED
 	  minImageTime CDATA #IMPLIED
 	  bgcolor  CDATA #IMPLIED
+	  fgcolor  CDATA #IMPLIED
+	  rvmode (true|false) #IMPLIED
 	  height  CDATA #IMPLIED
 	  width   CDATA #IMPLIED
 	  hrefToOrig (true|false) #IMPLIED

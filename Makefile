@@ -120,7 +120,9 @@ HELPICONS = WebFiles/fleft.gif  WebFiles/fright.gif  \
 	WebFiles/left.gif  WebFiles/redo.gif \
 	WebFiles/right.gif  WebFiles/rlredo.gif
 ICONS = $(SOURCEICON) $(HELPICONS) Icons/dndTarget.png Icons/blank.png \
-	WebFiles/expand.png \
+	WebFiles/expand.png WebFiles/expandRV.png \
+	WebFiles/fleftRV.gif WebFiles/frightRV.gif  \
+	WebFiles/leftRV.gif WebFiles/rightRV.gif \
 	Icons/webnailicon16.png	Icons/webnailicon24.png \
 	Icons/webnailicon32.png	Icons/webnailicon48.png \
 	Icons/webnailicon64.png	Icons/webnailicon96.png \
@@ -131,7 +133,9 @@ HELPFILES = Manual/manual.xml Manual/manual.html Manual/browser.png \
 	Manual/gui-main.png Manual/gui-edit.png Manual/gui-proxy.png \
 	Manual/gui-dom.png Manual/gui-properties.png Manual/gui-title.png \
 	Manual/editFields.png Manual/editImages.png Manual/input.png \
-	Manual/maxhw.png Manual/output.png Manual/run.png
+	Manual/maxhw.png Manual/output.png Manual/run.png \
+	Manual/manualDM.xml Manual/manualDM.html
+
 WEBFILES = WebFiles/strut.gif WebFiles/initImage.png WebFiles/initial.html \
 	WebFiles/slideshow1.js WebFiles/slideshow2.js \
 	WebFiles/medium.html WebFiles/error.jsp

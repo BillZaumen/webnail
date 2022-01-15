@@ -109,6 +109,9 @@ and it is defined as follows:
 	  webArchiveMode (true|false) #IMPLIED
 .br
 .B
+	  zipped (true|false) #IMPLIED
+.br
+.B
 	  syncMode (true|false) #IMPLIED
 .br
 .B
@@ -122,6 +125,12 @@ and it is defined as follows:
 .br
 .B
 	  bgcolor  CDATA #IMPLIED
+.br
+.B
+	  fgcolor  CDATA #IMPLIED
+.br
+.B
+	  rvmode  CDATA #IMPLIED
 .br
 .B
 	  height  CDATA #IMPLIED
@@ -186,6 +195,11 @@ When set to true (the default is false), the output will be a web-archive
 file, or a directory with the same structure.  There will be a
 WEB-INFO/web.xml entry that specifies how a web server should be configured.
 .TP
+.B zipped
+When set to true (the default is false) the output will be a ZIP file
+instead of a directory.  This option is ignored when a single image is
+being scaled.
+.TP
 .B syncMode
 This attribute has a default value of false.  When it is true, if an
 image (e.g., one obtained from a web server) arrives late, the
@@ -213,10 +227,20 @@ This attribute specifies the minimum duration for which an image should be
 shown when syncMode is true.  The default value is 4 seconds.
 .TP
 .B bgcolor
-This attribute specifies the background color used in full-screen
-mode.  See the CSS specification for the syntax.  The default value is
+This attribute specifies the background color used on HTML pages.
+See the CSS specification for the syntax.  The default value is
 "gray".
 .TP
+.B fgcolor
+This attribute specifies the foreground (or text) color used on HTML pages.
+See the CSS specification for the syntax.  The default value is
+"black".
+.TP
+.TP
+.B rvmode
+When the value is "true", icons will use a light color suitable for
+a dark background. When "false", icons will use a dark color. The
+default is "false".
 .B height
 This attribute specifies the height of a bounding box for
 full-resolution images in pixels.
