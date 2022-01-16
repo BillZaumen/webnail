@@ -134,7 +134,7 @@ HELPFILES = Manual/manual.xml Manual/manual.html Manual/browser.png \
 	Manual/gui-dom.png Manual/gui-properties.png Manual/gui-title.png \
 	Manual/editFields.png Manual/editImages.png Manual/input.png \
 	Manual/maxhw.png Manual/output.png Manual/run.png \
-	Manual/manualDM.xml Manual/manualDM.html
+	Manual/manualDM.xml
 
 WEBFILES = WebFiles/strut.gif WebFiles/initImage.png WebFiles/initial.html \
 	WebFiles/slideshow1.js WebFiles/slideshow2.js \
@@ -200,6 +200,10 @@ $(JROOT_JARDIR)/webnail-$(VERSION).jar: $(FILES)
 		webnail/helpers.txt \
 		$(WEBFILES) $(TEMPLATES) $(CLASSES)/webnail
 	cp webnail-1.0.dtd webnail-layout-info-1.0.dtd $(CLASSES)
+	sed -e 's/<!-- line1 -->/A {color: rgb(65,225,128);}/' \
+	    -e 's/<!-- line2 -->/A:link {color: rgb(65,225,128);}/' \
+	    -e 's/<!-- line3 -->/A:visited {color: rgb(65,164,128);}/' \
+	    Manual/manual.html > $(CLASSES)/webnail/manualDM.html
 	mkdir -p $(JROOT_JARDIR)
 	rm -f $(JROOT_JARDIR)/webnail-*.jar
 	jar cfm $(JROOT_JARDIR)/webnail-$(VERSION).jar webnail.mf \

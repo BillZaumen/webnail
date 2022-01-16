@@ -102,6 +102,7 @@ public class Gui {
     private static final double tmpcolorAv = (tmpcolor.getRed()
 					      + tmpcolor.getGreen()
 					      + tmpcolor.getBlue()) / 3.0;
+    /*
     private static final double tmpcolorU = 0.3;
     private static final double tmpcolor1mU = (1.0 - tmpcolorU);
     static final Color COLOR1DM =
@@ -111,6 +112,8 @@ public class Gui {
 				  + tmpcolorAv*tmpcolor1mU),
 		  (int)Math.round(tmpcolor.getBlue()*tmpcolorU
 				  + tmpcolorAv*tmpcolor1mU));
+    */
+    static final Color COLOR1DM = new Color(0x644c0f);
 
 
     static final Color COLOR2DM = null;
@@ -881,13 +884,13 @@ public class Gui {
             Container hpane = helpframe.getContentPane();
 	    HtmlWithTocPane helpPane = new HtmlWithTocPane();
 
-            helpframe.setSize(920, 700);
 	    helpframe.setIconImages(iconList);
             helpframe.addWindowListener(new WindowAdapter () {
                     public void windowClosing(WindowEvent e) {
                         helpframe.setVisible(false);
                     }
                 });
+            helpframe.setSize(900, 700);
             URL url = 
                 ClassLoader.getSystemClassLoader()
 		.getResource(DarkmodeMonitor.getDarkmode()?
