@@ -44,6 +44,10 @@ function log(str) {
     setTimeout("appendError('" + str + "')", 1);
 }
 
+var fselem = null;
+var fscnt = 0;
+
+
 var readyToDisplaySSW = false;
 
 function updateWindow(ind) {
@@ -66,12 +70,14 @@ function updateExpand() {
     if (index < 0) return;
     var link = document.getElementById("expand");
     link.href = imageArray[index].fsImageURL;
-    if (slideshowWindow != null) {
+    if (fselem /*slideshowWindow*/ != null) {
 	var sswurl = imageArray[index].fsImageURL;
 	if (sswurl.startsWith("./")) {
-	    slideshowWindow.location = (new URL(sswurl, document.URL)).href;
+	    fselem.src = (new URL(sswurl, document.URL)).href;
+	    /*slideshowWindow.location = (new URL(sswurl, document.URL)).href;*/
 	} else {
-	    slideshowWindow.location = imageArray[index].highImageURL;
+	    fselem.src = imageArray[index].highImageURL;
+	    /*slideshowWindow.location = imageArray[index].highImageURL;*/
 	}
     }
 }
@@ -95,6 +101,20 @@ function escapeHandler(e) {
 }
 
 function closeSlideshowWindow() {
+
+    if(fselem != null) {
+	if (fselem.exitFullscreen) {
+	    fselem.exitFullscreen();
+	} else if (fselem.webkitExitFullscreen) { /* Safari */
+	    fselem.webkitExitFullscreen();
+	} else if (fselem.msExitFullscreen) { /* IE11 */
+	    fselem.msExitFullscreen();
+	}
+	document.body.removeChild(fselem);
+	fselem = null;
+	fscnt = 0;
+    }
+    /*
     if (slideshowWindow != null) {
 	if (!slideshowWindow.closed) {
 	    try {
@@ -113,6 +133,7 @@ function closeSlideshowWindow() {
 	}
 	slideshowWindow = null;
     }
+    */
     return;
 }
 
@@ -120,9 +141,32 @@ function closeSlideshowWindow() {
 // is called from within the window we create.
 var ourwindow = window;
 
-
-
 function displayWindow() {
+    if (fselem == null) {
+	fselem = document.createElement("IMG");
+	document.body.appendChild(fselem);
+	if (fselem.requestFullscreen) {
+	    fselem.requestFullscreen();
+	} else if (fselem.webkitRequestFullscreen) { /* Safari */
+	    fselem.webkitRequestFullscreen();
+	} else if (fselem.msRequestFullscreen) { /* IE11 */
+	    fselem.msRequestFullscreen();
+	}
+	cnt = 0;
+	fselem.onfullscreenchange = function() {
+	    if (cnt > 0) {
+		document.body.removeChild(fselem);
+		fselem = null;
+		cnt = 0;
+		stopSlideshow();
+		return;
+	    }
+	    cnt++;
+	};
+    } else {
+	alert("fselem not null");
+    }
+    return;
     var parms = "width=" + screen.availWidth;
     parms += ",height=" + screen.availHeight;
     parms += ",top=0,left=0";
@@ -210,8 +254,9 @@ function onCacheError(evt, source, line) {
 
 function updateCache() {
     cacheID = 0;
-    if ((loop || (index + cacheOffset) <= maxIndex) && hasAllImages 
-	&& slideshowWindow != null && !slideshowWindow.closed) {
+    if ((loop || (index + cacheOffset) <= maxIndex) && hasAllImages
+	&& fselem != null
+	/*&& slideshowWindow != null && !slideshowWindow.closed*/) {
 	var ind = index + cacheOffset;
 	if (loop) {
 	    while (ind < 0) ind += imageArray.length;
@@ -220,7 +265,7 @@ function updateCache() {
 	}
 	var w = imageArray[ind].width;
 	var h = imageArray[ind].height;
-	if (slideshowWindow != null) {
+	if (fselem /*slideshowWindow*/ != null) {
 	    // estimate bacause of security constraints
 	    var sw = screen.availWidth - 20;
 	    var sh = screen.availHeight - 50;
