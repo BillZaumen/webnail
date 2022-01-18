@@ -204,10 +204,16 @@ public class LayoutParser {
 		    parms.margin_vpad = Integer.parseInt(value);
 		    value = attr.getValue("t_vpad");
 		    parms.t_vpad = Integer.parseInt(value);
+		    value = attr.getValue("t_hpad");
+		    parms.t_hpad = Integer.parseInt(value);
 		    value = attr.getValue("num_t_images");
 		    parms.num_t_images = Integer.parseInt(value);
 		    value = attr.getValue("t_vcorrection");
-		    parms.t_vcorrection = Integer.parseInt(value);
+		    parms.t_vcorrection = (value == null)? 0:
+			Integer.parseInt(value);
+		    value = attr.getValue("t_hcorrection");
+		    parms.t_hcorrection = (value == null)? 0:
+			Integer.parseInt(value);
 		    parms.name = attr.getValue("name");
 		    value = attr.getValue("url");
 		    parms.url = new URL(value);

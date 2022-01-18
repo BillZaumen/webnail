@@ -10,7 +10,7 @@ $(!M.T application/x.webnail-template)<!DOCTYPE HTML>
 $(head)</HEAD>
 <BODY  style="background-color: $(bgcolor); color: $(fgcolor)"
        onload="configure()" id="body" class="webnailIndexHTML">
-$(audio)$(header)<TABLE id="imagesTable">
+$(header)<TABLE id="imagesTable">
 <TR>
 <TD valign="top">
   <TABLE border=1 frame="border" id="thumbnailTable">
@@ -39,7 +39,7 @@ $(audio)$(header)<TABLE id="imagesTable">
     </NOSCRIPT>
     <SCRIPT type="text/javascript">
       createControls(); 
-    </Script>
+    </SCRIPT>
     <TR>
       <TD>
 	<IFRAME marginwidth=$(marginw) marginheight=$(marginh) width=$(iWidth) height=$(iHeight)

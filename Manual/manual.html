@@ -1393,8 +1393,10 @@ suitable for printing or other uses.
 	  margin_hpad CDATA #REQUIRED
 	  margin_vpad CDATA #REQUIRED
 	  t_vpad  CDATA #REQUIRED
+	  t_hpad  CDATA #REQUIRED
 	  num_t_images CDATA #REQUIRED
-	  t_vcorrection CDATA #REQUIRED
+	  t_vcorrection CDATA #IMPLIED
+	  t_hcorrection CDATA #IMPLIED
 	  name CDATA #REQUIRED
 	  url CDATA #REQUIRED&gt;
 </pre>
@@ -1429,12 +1431,22 @@ The multi element's attributes are defined as follows:
     around an image and allows space for a border around selectable images.
   <li><var>t_vpad</var>. The vertical separation from a thumbnail
     image's bounding box to the midpoint between adjacent thumbnail images,
-    measured from the center of each image's bounding box.
+    measured from the center of each image's bounding box. This is used
+    when the thrumbnail images are stacked vertically.
+  <li><var>t_hpad</var>. The horizontal  separation from a thumbnail
+    image's bounding box to the midpoint between adjacent thumbnail images,
+    measured from the center of each image's bounding box.  This is used
+    when the thrumbnail images are stacked horizationally.
   <li><var>num_t_images</var>. The number of thumbnail images
     visible in a scrollable frame.
   <li><var>t_vcorrection</var>. Correction term in pixels for the
     thumbnail-frame height. This value is added to the frame height that
-    would be computed from the other parameters.
+    would be computed from the other parameters. The default is zero.
+    This is not used unless the thumbnails are stacked vertically.
+  <li><var>t_hcorrection</var>. Correction term in pixels for the
+    thumbnail-frame width. This value is added to the frame width that
+    would be computed from the other parameters. The default is zero.
+    This is not used unless the thumbnails are stacked horizontally.
   <li><var>name</var>.  This is the default print name for the
     layout as displayed in a combo box. Multiple
     <var>name</var> elements can also be provided to
@@ -1629,16 +1641,6 @@ The following directives are used to set Javascript variables.
   <li><var>highResDir</var>. The name of the subdirectory containing
     the highest resolution images available.  Values are either
     <code>medium</code> or <code>high</code>.
-  <li><var>wOffset</var>. Amount to subtract from a browser
-    window's  <!-- ' --> inner width to obtain the width of the bounding
-    box for  images that will be displayed.
-  <li><var>hOffset</var>. Amount to subtract from a browser
-    window's  <!-- ' --> inner hieght to obtain the heigh of the
-    bounding box for images that will be displayed.
-  <li><var>wPercent</var>. After using <var>wOffset</var>, scale
-    the image's bounding box's width by this amount, given as a percentage.
-  <li><var>hPercent</var>. After using <var>wOffset</var>, scale
-    the image's bounding box's height by this amount, given as a percentage.
 </UL>
 <P>
 The following directives are also available, used by a Javascript template
@@ -1647,6 +1649,9 @@ during iteration over images in a <var>repeatrows</var> block.
 <UL>
   <li><var>highImageURL</var>. The URL of high resolution images
     relative to a subdirectory.
+  <li><var>fsImageURL</var>.
+  <li><var>hrefTarget</var>.
+  <li><var>hrefURL</var>.
   <li><var>imageFile</var>. The file name for an image - the last
     component in a pathname.
   <li><var>name</var>. The name of an image without the file extension.
@@ -1658,12 +1663,10 @@ during iteration over images in a <var>repeatrows</var> block.
     directory.
   <li><var>imageHtmlURL</var>. The name of an image in the 'medium'
     directory.
-  <li><var>otherProps</var>. Additional properties to define as part
-    of a Javascript initializer.
-  <li><var>commaSeparator</var>. Either the empty string or a comma
-    as needed for a Javascript initializer.
-  <li><var>width</var>. The medium resolution image width.
-  <li><var>height</var>. The medium resolution image height.
+  <li><var>imgTitle</var>. The title for an image (for 'multi' layouts)
+  <li><var>title</var>. The ttle for an image (for 'single' layouts)
+  <li><var>width</var>. The medium-resolution image width.
+  <li><var>height</var>. The medium-resolution image height.
 </UL>
 <P>
 </body>

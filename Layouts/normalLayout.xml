@@ -11,8 +11,9 @@
 	 margin_hpad="30"
 	 margin_vpad="40"
 	 t_vpad="4"
+	 t_hpad="4"
 	 num_t_images="5"
-	 t_vcorrection="-30"
+	 t_vcorrection="0"
 	 name="Default Layout"
 	 url="sresource:/webnail/indexHTML.wnt">
   </multi>

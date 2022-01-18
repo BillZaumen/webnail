@@ -44,11 +44,13 @@ $(!M.T application/x.webnail-template)<!DOCTYPE HTML PUBLIC "-//W3C//DTD HTML 4.
   }
 </SCRIPT>
 <TABLE rules="none" border="0" style="padding: 0px">
-$(repeatRows:endRows)<TR>
-  <TD style="padding: 0px"><IMG SRC="../controls/strut.gif" width=1 height=$(thumbStrutHeight) ID="Strut$(index)"></TD>
-  <TD ALIGN="center" style="padding: 0px"><A NAME="$(index)" HREF="../medium/$(imageHtmlURL)" TARGET="images"><IMG SRC="$(imageURL)" onclick="updatePosition($(index))"></A></TD>
-</TR>
+<TR>$(repeatRows:endRows)<TD>
+<TABLE rules="none" border="0" style="padding: 0px">
+  <TR><TD style="padding: 0px"><IMG SRC="../controls/strut.gif" height="1" width=$(thumbStrutWidth90) ID="Strut$(index)"></TD></TR>
+  <TR><TD ALIGN="center" style="padding: 0px"><A NAME="$(index)" HREF="../medium/$(imageHtmlURL)" TARGET="images"><IMG SRC="$(imageURL)" onclick="updatePosition($(index))"></A></TD></TR>
+</TABLE></TD>
 $(endRows)
+</TR>
 </TABLE>
 </BODY>
 </HTML>

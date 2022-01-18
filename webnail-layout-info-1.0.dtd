@@ -15,8 +15,10 @@
 	  margin_hpad CDATA #REQUIRED
 	  margin_vpad CDATA #REQUIRED
 	  t_vpad  CDATA #REQUIRED
+	  t_hpad  CDATA #REQUIRED
 	  num_t_images CDATA #REQUIRED
-	  t_vcorrection CDATA #REQUIRED
+	  t_vcorrection CDATA #IMPLIED
+	  t_hcorrection CDATA #IMPLIED
 	  name CDATA #REQUIRED
 	  url CDATA #REQUIRED>
 

@@ -14,5 +14,18 @@ $(!M.T application/x.webnail-template)<!DOCTYPE HTML PUBLIC "-//W3C//DTD HTML 4.
   <div style="background-color: $(bgcolor); text-align: center">
     <img src="strut.gif" width="100" height="100" id="img">
   </div>
+  <SCRIPT>
+    try {
+	var docelem = document.documentElement;
+	if (docelem.requestFullscreen) {
+	    docelem.requestFullscreen();
+	} else if (elem.webkitRequestFullscreen) {
+	    docelem.webkitRequestFullscreen();
+	} else if (elem.msRequestFullscreen) {
+	    docelem.msRequestFullscreen();
+	}
+    } catch (err) {
+    }
+  </SCRIPT>
 </BODY>
 </HTML>

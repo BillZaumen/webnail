@@ -1,0 +1,54 @@
+$(!M.T application/x.webnail-template)<!DOCTYPE HTML>
+<HTML>
+<HEAD>
+<META http-equiv="Content-Type" content="text/html; charset=UTF-8">
+<META http-equiv="Content-Style-Type" content="text/css">
+<META http-equiv="Content-Script-Type" content="text/javascript">
+<SCRIPT type="text/javascript" charset="UTF-8" src="controls/params.js"></SCRIPT>
+<SCRIPT type="text/javascript" charset="UTF-8" src="controls/slideshow1.js"></SCRIPT>
+<TITLE>$(windowTitle)</TITLE>
+$(head)</HEAD>
+<BODY  style="background-color: $(bgcolor); color: $(fgcolor)"
+       onload="configure()" id="body" class="webnailIndexHTML">
+$(header)<TABLE id="imagesTable" style="caption-side: bottom">
+<CAPTION>
+  <span style="font-size: larger; font-weight: bold">$(title)</span>
+</CAPTION>
+<TR>
+<TD align="center">
+    <NOSCRIPT>
+      <TABLE>
+	<TR>
+	  <TD style="color: red" id="noJavascriptMsg">
+	    (Javascript required for nagivation controls)
+	  </TD>
+	</TR>
+      </TABLE>
+    </NOSCRIPT>
+    <SCRIPT type="text/javascript">
+      createControls(); 
+    </SCRIPT>
+</TD>
+</TR>
+<TR>
+<TD align="center">
+  <IFRAME marginwidth=$(marginw) marginheight=$(marginh) width=$(tWidth90) height=$(tHeight90)
+		frameborder=0
+		name ="thumbnails" src="thumbnails/index90.html">
+	</IFRAME>
+</TD>
+</TR>
+<TR>
+<TD align="center">
+  <IFRAME marginwidth=$(marginw) marginheight=$(marginh) width=$(iWidth) height=$(iHeight)
+	frameborder=0 scrolling="no"
+	src="controls/initial.html" name="images">
+  </IFRAME>
+</TD>
+</TR>
+</TABLE>
+<DIV style="margin-left: 100px">$(description)</DIV>
+
+$(trailer)<SCRIPT type="text/javascript" charset="UTF-8" src="controls/slideshow2.js"></SCRIPT>
+$(finalHtml)</BODY>
+</HTML>

@@ -1279,6 +1279,16 @@ public class Gui {
     static LayoutParms layoutParms;
     static LayoutParms customParms = null;
     static int lastLayoutIndex = 0;
+    static Object[] layoutChoices = new Object[Parser.getNumberOfLayouts() + 2];
+    static {
+	for (int i = 0; i < layoutChoices.length-2; i++) {
+	    layoutChoices[i] = Parser.getLayoutParms(i);
+	}
+	layoutChoices[layoutChoices.length - 2] = localeString("custom");
+	layoutChoices[layoutChoices.length - 1] =
+	    localeString("setCustomLayout");
+    }
+    /*
     static Object[] layoutChoices = {
 	Parser.getLayoutParms(0),
 	Parser.getLayoutParms(1),
@@ -1286,10 +1296,12 @@ public class Gui {
 	Parser.getLayoutParms(3),
 	Parser.getLayoutParms(4),
 	Parser.getLayoutParms(5),
+	Parser.getLayoutParms(6),
+	Parser.getLayoutParms(7),
 	localeString("custom"),
 	localeString("setCustomLayout")
     };
-	
+    */
     static String[] mtarray = null;
     static JComboBox<String> mtcomboBox = null;
     static int mtcomboBoxDefaultIndex;

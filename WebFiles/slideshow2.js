@@ -96,7 +96,21 @@ function escapeHandler(e) {
 
 function closeSlideshowWindow() {
     if (slideshowWindow != null) {
-	if (!slideshowWindow.closed) {slideshowWindow.close();}
+	if (!slideshowWindow.closed) {
+	    try {
+		var docelem = slideshowWindow.document.documentElement;
+		if (docelem.exitFullscreen) {
+		    docelem.exitFullscreen();
+		} else if (elem.webkitExitFullscreen) {
+		    docelem.webkitExitFullscreen();
+		} else if (elem.msExitFullscreen) {
+		    docelem.msExitFullscreen();
+		}
+    } catch (err) {
+    }
+
+	    slideshowWindow.close();
+	}
 	slideshowWindow = null;
     }
     return;
@@ -132,6 +146,17 @@ function displayWindow() {
 
     slideshowWindow = window.open("controls/slideshow.html", "slideshow",
 				  parms);
+    try {
+	var docelem = slideshowWindow.document.documentElement;
+	if (docelem.requestFullscreen) {
+	    docelem.requestFullscreen();
+	} else if (elem.webkitRequestFullscreen) {
+	    docelem.webkitRequestFullscreen();
+	} else if (elem.msRequestFullscreen) {
+	    docelem.msRequestFullscreen();
+	}
+    } catch (err) {
+    }
     return;
 }
 

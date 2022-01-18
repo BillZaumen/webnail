@@ -252,6 +252,8 @@ public class Parser {
 	"sresource:/webnail/normalLayout.xml";
     static public final String html5Layout =
 	"sresource:/webnail/html5Layout.xml";
+    static public final String horizontalLayout =
+	"sresource:/webnail/html590Layout.xml";
     static ArrayList<LayoutParms> layouts = new ArrayList<LayoutParms>();
 
     static public int getNumberOfLayouts() {return layouts.size();}
@@ -262,6 +264,7 @@ public class Parser {
 	    LayoutParser lp = new LayoutParser();
 	    layouts.add(lp.parse(defaultLayout));
 	    layouts.add(lp.parse(html5Layout));
+	    layouts.add(lp.parse(horizontalLayout));
 	    for (int i = 1; i < 6; i++) {
 		String url = "sresource:/webnail/single" + i + ".xml";
 		layouts.add(lp.parse(url));

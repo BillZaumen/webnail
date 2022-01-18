@@ -384,20 +384,25 @@ public class Webnail {
 	    rmap.put("highResDir", (hasAllImages?
 				    (flat? ".": "high"):
 				    "medium"));
-	    rmap.put("wOffset", "20");
-	    rmap.put("hOffset", "20");
-	    rmap.put("wPercent", "100");
-	    rmap.put("hPercent", "100");
+	    // rmap.put("wOffset", "20");
+	    // rmap.put("hOffset", "20");
+	    // rmap.put("wPercent", "100");
+	    // rmap.put("hPercent", "100");
 	    rmap.put("thumbStrutHeight",lparms.getThumbStrutHeight());
+	    rmap.put("thumbStrutWidth90", lparms.getThumb90StrutWidth());
 	    rmap.put("marginw", "" + lparms.getMarginW());
 	    rmap.put("marginh", "" + lparms.getMarginH());
 	    rmap.put("mWidth", "" + lparms.getMWidth());
 	    rmap.put("mHeight", "" + lparms.getMHeight());
 	    rmap.put("tWidth", lparms.getTIFrameWidth());
 	    rmap.put("tHeight", lparms.getTIFrameHeight());
+	    rmap.put("tWidth90", lparms.getT90IFrameWidth());
+	    rmap.put("tHeight90", lparms.getT90IFrameHeight());
 	    rmap.put("iWidth", lparms.getIIFrameWidth());
 	    rmap.put("iHeight", lparms.getIIFrameHeight());
 	    rmap.put("tdWidth", lparms.getTDTableWidth());
+	    rmap.put("tdHeight90", lparms.getTD90TableHeight());
+	    rmap.put("numTImages", "" + lparms.getNumTImages());
 	    rmap.put("windowTitle", windowTitle);
 	    rmap.put("title", title);
 	    rmap.put("description", descr);
@@ -884,6 +889,7 @@ public class Webnail {
 			    otherProps = otherProps + ", title: \"" + x + "\"";
 			}
 		    }
+		    /*
 		    x = parser.getValue("descr", ind);
 		    if (x != null) {
 			x = WebEncoder.quoteEncode(x);
@@ -893,6 +899,7 @@ public class Webnail {
 			    otherProps = otherProps + ", descr: \"" + x + "\"";
 			}
 		    }
+		    */
 		    x = parser.getValue("imageTime", ind);
 		    if (x != null) {
 			if (otherProps == null) {
@@ -1082,6 +1089,9 @@ public class Webnail {
 		    File tindex = new File(tdir, "index.html");
 		    tp.processSystemResource("webnail/tindexHTML.wnt", "UTF-8",
 					     tindex);
+		    File tindex90 = new File(tdir, "index90.html");
+		    tp.processSystemResource("webnail/tindex90HTML.wnt",
+					     "UTF-8", tindex90);
 		    File initial = new File(cdir, "initial.html");
 		    CopyUtilities.copyResourceToFile("webnail/initial.html",
 						     initial);

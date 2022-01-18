@@ -45,8 +45,10 @@ public class LayoutParms {
 	margin_hpad = parms.margin_hpad;
 	margin_vpad = parms.margin_vpad;
 	t_vpad = parms.t_vpad;
+	t_hpad = parms.t_hpad;
 	num_t_images = parms.num_t_images;
 	t_vcorrection = parms.t_vcorrection;
+	t_hcorrection = parms.t_hcorrection;
 	url = parms.url;
 	max_thumbwidth = parms.max_thumbwidth;
 	max_thumbheight = parms.max_thumbheight;
@@ -98,11 +100,17 @@ public class LayoutParms {
     int t_vpad = 0;
     public int getTVPad() {return t_vpad;}
 
+    int t_hpad = 0;
+    public int getTHPad() {return t_hpad;}
+
     int num_t_images = 0;
     public int getNumTImages() {return num_t_images;}
 
     int t_vcorrection = 0;
     public int getTVCorrection() {return t_vcorrection;}
+
+    int t_hcorrection = 0;
+    public int getTHCorrection() {return t_hcorrection;}
 
     String name = null;
     public String getName() {return name;}
@@ -163,8 +171,10 @@ public class LayoutParms {
 	    + "\n    margin_hpad=" + margin_hpad
 	    + " margin_vpad=" + margin_vpad
 	    + " t_vpad=" + t_vpad
+	    + " t_hpad=" + t_hpad
 	    + "\n    num_t_images=" + num_t_images
 	    + "\n    t_vcorrection=" + t_vcorrection
+	    + "\n    t_hcorrection=" + t_hcorrection
 	    + ((url == null)? "": "\n    url=" + url)
 	    + "\n    name=\"" + name + "\""
 	    + "\n    max_thumbwidth=" + max_thumbwidth
@@ -181,13 +191,26 @@ public class LayoutParms {
 	return "" + (theight + (2 * t_vpad));
     }
 
+    public String getThumb90StrutWidth() {
+	return "" + (twidth + (2 * t_hpad));
+    }
+
     public String getTIFrameWidth() {
 	return "" + (twidth + 2 * marginw + margin_hpad);
     }
 
+    public String getT90IFrameHeight() {
+	return "" + (theight + 2 * marginh + margin_vpad);
+    }
+
     public String getTIFrameHeight() {
 	return "" + (((theight + (2 * t_vpad)) * num_t_images) +
-		     (2 * marginh) + margin_vpad + t_vcorrection);
+		     marginh + margin_vpad/2 + t_vcorrection);
+    }
+
+    public String getT90IFrameWidth() {
+	return "" + (((twidth + (2 * t_hpad)) * num_t_images) +
+		     marginw + margin_hpad/2 + t_hcorrection);
     }
 
     public String getIIFrameWidth() {
@@ -201,6 +224,11 @@ public class LayoutParms {
     public String getTDTableWidth() {
 	return "" + ((twidth + 2 * marginw + margin_hpad) 
 		     + (mwidth + 2 * marginw));
+    }
+
+    public String getTD90TableHeight() {
+	return "" + ((theight + 2 * marginh + margin_vpad)
+		     + (mheight + 2 * marginh));
     }
 
 }
