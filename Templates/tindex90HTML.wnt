@@ -32,12 +32,12 @@ $(!M.T application/x.webnail-template)<!DOCTYPE HTML PUBLIC "-//W3C//DTD HTML 4.
 	  current = current + 1;
 	  var strut = document.getElementById("Strut" + current);
 	  if (strut != null) {
-	      strut.scrollIntoView(false);
+	      strut.scrollIntoView(true);
 	      position = current - numTImagesM1;
 	  } else {
 	      current = current - 1;
 	      strut = document.getElementById("Strut" + current);
-	      strut.scrollIntoView(false);
+	      strut.scrollIntoView(true);
 	      position = current - numTImagesM1;
 	  }
       }

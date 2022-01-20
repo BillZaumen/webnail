@@ -14,7 +14,7 @@
 	 t_vpad="4"
 	 num_t_images="5"
 	 t_hcorrection="0"
-	 name="Horizonatal Layout"
+	 name="Horizonatal Layout (HTML 5)"
 	 url="sresource:/webnail/indexHTML590.wnt">
   </multi>
 </layout>

@@ -14,7 +14,7 @@
 	 t_hpad="4"
 	 num_t_images="5"
 	 t_vcorrection="0"
-	 name="Default Layout"
+	 name="Default Layout (HTML 4)"
 	 url="sresource:/webnail/indexHTML.wnt">
   </multi>
 </layout>

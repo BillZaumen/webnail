@@ -5,16 +5,16 @@
   <multi twidth="100"
 	 theight="100"
 	 mwidth="500"
-	 mheight="450"
+	 mheight="500"
 	 marginw="10"
 	 marginh="10"
-	 margin_hpad="30"
+	 margin_hpad="40"
 	 margin_vpad="40"
-	 t_vpad="4"
 	 t_hpad="4"
+	 t_vpad="4"
 	 num_t_images="5"
-	 t_vcorrection="0"
-	 name="Default Layout (HTML 5)"
-	 url="sresource:/webnail/indexHTML5.wnt">
+	 t_hcorrection="0"
+	 name="Default Layout (No Thumbnails)"
+	 url="sresource:/webnail/indexHTML590NT.wnt">
   </multi>
 </layout>

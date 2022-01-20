@@ -5,6 +5,7 @@ import javax.xml.parsers.*;
 import org.xml.sax.helpers.*;
 import org.xml.sax.*;
 import java.util.*;
+import java.util.prefs.*;
 import java.net.*;
 import java.io.*;
 import java.text.MessageFormat;
@@ -248,12 +249,23 @@ public class Parser {
 	return condModesInv.get(mode).toString();
     }
 
+    /*
     static public final  String defaultLayout =
 	"sresource:/webnail/normalLayout.xml";
-    static public final String html5Layout =
+    */
+    public static final String html5Layout =
 	"sresource:/webnail/html5Layout.xml";
-    static public final String horizontalLayout =
+    public static final String horizontalLayout =
 	"sresource:/webnail/html590Layout.xml";
+    public static final String html5LayoutNS =
+	"sresource:/webnail/html5NSLayout.xml";
+    public static final String horizontalLayoutNS =
+	"sresource:/webnail/html590NSLayout.xml";
+    public static final String html5LayoutNT =
+	"sresource:/webnail/html5NTLayout.xml";
+
+   public static final String defaultLayout = html5Layout;
+
     static ArrayList<LayoutParms> layouts = new ArrayList<LayoutParms>();
 
     static public int getNumberOfLayouts() {return layouts.size();}
@@ -262,9 +274,12 @@ public class Parser {
 	try {
 	    layouts.clear();
 	    LayoutParser lp = new LayoutParser();
-	    layouts.add(lp.parse(defaultLayout));
 	    layouts.add(lp.parse(html5Layout));
+	    // layouts.add(lp.parse(defaultLayout));
 	    layouts.add(lp.parse(horizontalLayout));
+	    layouts.add(lp.parse(html5LayoutNS));
+	    layouts.add(lp.parse(horizontalLayoutNS));
+	    layouts.add(lp.parse(html5LayoutNT));
 	    for (int i = 1; i < 6; i++) {
 		String url = "sresource:/webnail/single" + i + ".xml";
 		layouts.add(lp.parse(url));
@@ -275,13 +290,32 @@ public class Parser {
 		}
 	    }
 	} catch (Exception e) {
-	    // e.printStackTrace(System.err);
+	    e.printStackTrace(System.err);
 	    SwingErrorMessage.display(e);
 	}
     }
 
     static {
-	setLayouts(null);
+	Map<String,LayoutParms> map = new LinkedHashMap<String,LayoutParms>();
+	try {
+	    for (String nm: LayoutPane.userPrefs.childrenNames()) {
+		Preferences pref = LayoutPane.userPrefs.node(nm);
+		String url = pref.get("url", null);
+		String name = pref.get("name", url);
+		// System.out.println("loading " + url +" " + name);
+		if (url != null) {
+		    try {
+			URL u = new URL(url);
+			LayoutPane.processURL(map, u, name);
+		    } catch (Exception e) {
+			SwingErrorMessage.display(e);
+		    }
+		}
+	    }
+	} catch(BackingStoreException e) {
+	    SwingErrorMessage.display(e);
+	}
+	setLayouts(map.isEmpty()? null: map);
     }
     
     String layout = defaultLayout;

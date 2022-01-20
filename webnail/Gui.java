@@ -113,7 +113,8 @@ public class Gui {
 		  (int)Math.round(tmpcolor.getBlue()*tmpcolorU
 				  + tmpcolorAv*tmpcolor1mU));
     */
-    static final Color COLOR1DM = new Color(0x644c0f);
+    // static final Color COLOR1DM = new Color(0x644c0f);
+    static final Color COLOR1DM = new Color(0x3e1319);
 
 
     static final Color COLOR2DM = null;

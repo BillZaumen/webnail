@@ -19,10 +19,7 @@ graphical user interface or as a command-line program, the latter
 allowing Webnail to be used conveniently in scripts.
 </p>
 <P>
-While Webnail can be used as a web design tool and
-includes capabilities for dynamic HTML, in particular a table-driven
-maniupation of a Document Object Model (DOM), it can also be used
-easily for simpler tasks.  This simpler tasks include
+Webnail can perform the following tasks:
 </P>
 <UL>
   <li> Scaling an individual image to fit inside a bounding box.
@@ -37,7 +34,7 @@ easily for simpler tasks.  This simpler tasks include
 <P>
 A typical web page that Webnail creates is shown
 <A href="#browser">below</A>.  With the layout selected for this
-example, Webnail can add optional HTML-formated text before and after
+example, Webnail can add optional HTML-formatted text before and after
 the images.  The images are shown in thumbnail form in a scroll pane
 to make searching and selecting a particular image easy and
 fast. There are also navigation controls to move to the first and last
@@ -165,7 +162,7 @@ the following sections.  A few controls are common to all of these:
     title for all images that do not provide their own title.
   <li>Provide the duration (Image Time) to use when images are displayed
     as a slideshow. The time should be a decimal number in units of
-    seconds. Other formats are descibed below.
+    seconds. Other formats are described below.
   <li>Provide the input images, either by dragging the files from a
     file-browser window into the red target icon, dragging URLs (shown
     as plain text) into the red target icon, or using the File Input
@@ -187,7 +184,8 @@ An example of how the web page might look appears <A href="#browser">above</A>.
 <p>To run Webnail with a Graphical User Interface
 (GUI), either type the command <strong>webnail</strong> in a
 terminal window or find it in a menu of installed programs (how to do
-this is window-system dependent). 
+  this is window-system dependent, as is the visual apperance of the graphical
+  user interface). 
 
 <h2><a name="giuMain">Top-level Window</a></h2>
 
@@ -220,7 +218,7 @@ This window contains a menu bar and a number of controls.
     </UL>
   <li><strong>Edit</strong> menu with 2 options:
     <UL>
-      <li><var>Proxies</var> to edit the current proxy configutation
+      <li><var>Proxies</var> to edit the current proxy configuration
 	as described in <A HREF="#proxies"> Proxy Configuration/A> section.
       <li><var>Additional Layouts</var> to add additional
 	layouts to Webnail (a layout controls the appearance of HTML
@@ -320,8 +318,9 @@ There are a number of controls:
       the page, after the last script that the webnail program
       provides (for the default layout). These additional options are
       <UL>
-	<li><var>HTML5 Layout</var>A default layout that will
-	  generate an HTML 5 web page.
+	<li><var>Horizontal Layout</var>A layout similar to the default
+	  layout but with thrumbnail images arranged horizontally rather
+	  than vertically.
 	<li><var>Header, Images, Trailer</var>. The header appears
 	  at the start of the page, followed by the images, which are laid
 	  out in a grid, followed by the trailer.
@@ -823,7 +822,7 @@ Several options are applicable only when the <strong>-w</strong> command-line
 argument is present.
 <ul>
   <li><strong>-C</strong> specifies the background color to use on
-    HTML pasges.  The color is specified by any form acceptable as a
+    HTML pages.  The color is specified by any form acceptable as a
     color by CSS1 (Cascading Style Sheets version 1).  The color is
     provided in the following argument.
   <li><strong>-X</strong> specifies the foreground (or text) color to
@@ -998,12 +997,7 @@ The top level element is named webnail, and it is defined as follows:
 	  height  CDATA #IMPLIED
 	  width   CDATA #IMPLIED
 	  hrefToOrig (true|false) #IMPLIED
-	  layout (normal
-	          | headerThenImagesThenTrailer
-	          | headerThenImagesAndTrailer
-	          | headerThenTrailerAndImages
-	          | imagesAndHeaderWithTrailer
-                  | headerWithTrailerAndImages) #IMPLIED&gt;
+	  layout CDATA #IMPLIED&gt;
 </pre>
 </blockquote>
 <P>
@@ -1037,39 +1031,41 @@ as follows:
       specifies how a web server should be configured.
   <li><var>zipped</var> has a default value of false. When true, the
     output will be a ZIP file (or WAR file, which uses ZIP).
-  <li><var>syncMode</var> has a default value of
+  <li><var><A name="syncMode">syncMode</A></var> has a default value of
     false. When it is true, if an image (e.g., one obtained
     from a web server) arrives late, the duration over the
     image and subsequent ones are shown will be adjusted to
     compensate for the delay.
-  <li><var>waitOnError</var> has a default value of false.  When
-    true, if images were skipped because errors were detected while
-    attempting to download them, the skipped images'
+  <li><var><A name="waitOnError">waitOnError</A></var> has a default
+    value of false.  When true, if images were skipped because errors
+    were detected while attempting to download them, the skipped
+    images'
     <!-- ' --> imageTime (the duration for which an image should be
     displayed) will be added to the imageTime of the currently
     displayed image.
-  <li><var>imageTime</var> has a default value of 10 seconds. It gives
-    the duration for which an image should be displayed in seconds (three digits
-    pass a decimal point are allowed to specify time in milliseconds).  To
-    specify times in minutes and seconds, separate minutes and seconds with a
-    colon. To specify the duration in hours, minutes and seconds, separate
-    hours and minutes, and minutes and seconds, with a colon.  Thus,
+  <li><var><A name="imageTime">imageTime</A></var> has a default value
+    of 10 seconds. It gives the duration for which an image should be
+    displayed in seconds (three digits pass a decimal point are
+    allowed to specify time in milliseconds).  To specify times in
+    minutes and seconds, separate minutes and seconds with a colon. To
+    specify the duration in hours, minutes and seconds, separate hours
+    and minutes, and minutes and seconds, with a colon.  Thus,
     1:0:20.5, 60:20.5, and 80.5 all represent the same value.
-  <li><var>minImageTime</var> has a default value of 4
-    seconds. It gives the minimum duration for which an image should
-    be shown when syncMode is true.
-  <li><var>bgcolor</var> has a default value of "gray".  It
-    specifies the background color used on HTML pages.  See the
-    CSS specification for the syntax.
-  <li><var>fgcolor</var> has a default value of "black".  It specifies
-    the foreground (or text) color used on HTML pages.  See the
-    CSS specification for the syntax.
-  <li><var>height</var> the height of a bounding box for 
-    high-resolution images in pixels.  The default value is 0, indicating the
-    width in pixels of the original image.
-  <li><var>width</var> the width of a bounding box for 
-    high-resolution images in pixels.  The default value is 0, indicating the
-    width in pixels of the original image.
+  <li><var><A name="minImageTime">minImageTime</A></var> has a default
+    value of 4 seconds. It gives the minimum duration for which an
+    image should be shown when syncMode is true.
+  <li><var><A name="bgcolor">bgcolor</A></var> has a default value of
+    "gray".  It specifies the background color used on HTML pages.
+    See the CSS specification for the syntax.
+  <li><var><A name="fgcolor">fgcolor</A></var> has a default value of
+    "black".  It specifies the foreground (or text) color used on HTML
+    pages.  See the CSS specification for the syntax.
+  <li><var><A name="height">height</A></var> the height of a bounding
+    box for high-resolution images in pixels.  The default value is 0,
+    indicating the width in pixels of the original image.
+  <li><var><A name="width">width</A></var> the width of a bounding box
+    for high-resolution images in pixels.  The default value is 0,
+    indicating the width in pixels of the original image.
   <li><var>hrefToOrig</var>. This attribute has a value of true
     or false.  When true, a default value for the hrefURL attribute of
     each image element is provided, the URL of the original unscaled
@@ -1270,28 +1266,6 @@ Its content is a URL indicating the location of the original image.
 The filename and url elements are mutually exclusive within an image.
 </P>
 
-<H3><A name="dtdProperty">The Property Element</A></H3>
-
-
-<P>
-The <strong>property</strong>element is defined as follows:
-</P>
-<blockquote>
-<pre>
-&lt;!ELEMENT property (#PCDATA)*&gt;
-&lt;!ATTLIST property
-	  key CDATA #REQUIRED&gt;
-</pre>
-</blockquote>
-<P>
-The key attribute contains the name of a key provided in a
-mapping element, which specifies an HTML element ID,
-and the Javascript property for the matching DOM element.  The contents of
-a property element gives the value to assign to the
-corresponding property of an HTML element in the DOM.  If a
-property element is not provided,
-</P>
-
 <H3><A name="dtdTrailer">The Trailer Element</A></H3>
 
 <P>
@@ -1355,15 +1329,16 @@ start with the following two lines:
                            "sresource:webnail-layout-1.0.dtd"&gt;
 </small></pre>
 </blockquote>
-Whitespace in the DOCTYPE elemement must consist of a single space, not
+Whitespace in the DOCTYPE element must consist of a single space, not
 two or more successive spaces or tabs: while the XML parser will not
-accept multiple spaces, the rules used to determine the file's MIME
+accept multiple spaces, the rules used to determine the file's
+<!-- ' --> MIME
 type are more strict.
 
 <H2><A name="layoutXMLElements">Layout XML Elements</A></H2>
 
 The top-level element in a Webnail layout file is an element named
-"layout", and must specify a default XML namespace. The DTD for
+"layout", and must specify a default XML name space. The DTD for
 this element is
 <blockquote>
 <pre>
@@ -1401,16 +1376,17 @@ suitable for printing or other uses.
 	  url CDATA #REQUIRED&gt;
 </pre>
 </blockquote>
-The multi element's attributes are defined as follows:
+The multi element's
+<!-- ' --> attributes are defined as follows:
 <ul>
   <li><var>twidth</var>. The width of each thumbnail image's
-    bounding box in pixels.
+    <!-- ' --> bounding box in pixels.
   <li><var>theight</var>. The height of each thumbnail image's
-    bounding box in pixels.
+    <!-- ' --> bounding box in pixels.
   <li><var>mwidth</var>. The width of each medium image's
-    bounding box in pixels.
+    <!-- ' --> bounding box in pixels.
   <li><var>mheight</var>. The height of each medium image's
-    bounding box in pixels.
+    <!-- ' --> bounding box in pixels.
   <li><var>marginw</var>. The margin padding on each horizontal
     side of the frame containing thumbnails or the medium-sized image.
     This is the marginwidth attribute for a thumbnail and medium-image
@@ -1468,11 +1444,20 @@ template parameters:
     from the twidth, marginw and margin_hpad using the expression
     <code>twidth</code> + 2 * <code>marginw</code> + <code>margin_hpad</code>.
   <li><var><A name="tHeight">tHeight</A></var>. The value is computed
-    from the theight, t_vpad, _t_images, margin_vpad, and _vcorrection
+    from the theight, t_vpad, num_t_images, margin_vpad, and _vcorrection
     using the expression ((<code>theight</code> + (2
     * <code>t_vpad</code>)) * <code>num_t_images</code>) + (2
     * <code>marginh</code>) + <code>margin_vpad</code>
     + <code>t_vcorrection</code>.
+  <li><var><A name="tHeight90">tWidth</A></var>. The value is computed
+    from the theight, marginh and margin_vpad using the expression
+    <code>theight</code> + 2 * <code>marginh</code> + <code>margin_vpad</code>.
+  <li><var><A name="tWidth90">tHeight</A></var>. The value is computed
+    from the twidth, t_hpad, num_t_images, margin_hpad, and t_hcorrection
+    using the expression (<code>twidth</code> + (2
+    * <code>t_hpad</code>)) * <code>num_t_images</code> +
+    * <code>marginw</code>) + <code>margin_vpad</code>/2
+    + <code>t_hcorrection</code>.
   <li><var><A name="iWidth">iWidth</A></var>. The value is computed
     from the mwidth, marginw, and margin_hpad attributes using the
     expression <code>mwidth</code> + 2 * <code>marginw</code> +
@@ -1486,6 +1471,11 @@ template parameters:
     the expression
     <code>twidth</code> + 4 * <code>marginw</code> +
     <code>margin_hpad</code> + <code>mwidth</code>.
+  <li><var><A name="tdHeight90">tdHeight90</A></var>. The value is computed
+    from the theight, marginh, margin_vpad, and mheight atributes using
+    the expression
+    <code>theight</code> + 4 * <code>marginh</code> +
+    <code>margin_vpad</code>) + (<code>mheight</code>.
 </ul>
 <blockquote>
 <pre>
@@ -1571,19 +1561,24 @@ Template files use the following escapes and directives.
     iteration to the next.
 </UL>
 <P>
-The following directives are recognized for toplevel HTML files:
+The following directives are recognized for top-level HTML files:
 </P>
 <UL>
-  <li><var>marginw</var>. Defined <A href="#marginw">above</A>.
-  <li><var>marginh</var>. Defined <A href="#marginh">above</A>.
-  <li><var>tWidth</var>. Defined <A href="#tWidth">above</A>.
-  <li><var>tHeight</var>. Defined <A href="#tHeight">above</A>.
-  <li><var>iWidth</var>. Defined <A href="#iWidth">above</A>.
-  <li><var>iHeight</var>. Defined <A href="#iHeight">above</A>.
-  <li><var>tdWidth</var>. Defined <A href="#tdWidth">above</A>.
+  <li><var>bgcolor</var>. Defined by <A href="#bgcolor">above</A>.
+  <li><var>fgcolor</var>. Defined by <A href="#fgcolor">above</A>.
+  <li><var>marginw</var>. Defined by <A href="#marginw">above</A>.
+  <li><var>marginh</var>. Defined by <A href="#marginh">above</A>.
+  <li><var>tWidth</var>. Defined by <A href="#tWidth">above</A>.
+  <li><var>tHeight</var>. Defined by <A href="#tHeight">above</A>.
+  <li><var>tWidth90</var>. Defined by <A href="#tWidth90">above</A>.
+  <li><var>tHeight90</var>. Defined by <A href="#tHeight90">above</A>.
+  <li><var>iWidth</var>. Defined by <A href="#iWidth">above</A>.
+  <li><var>iHeight</var>. Defined by <A href="#iHeight">above</A>.
+  <li><var>tdWidth</var>. Defined by <A href="#tdWidth">above</A>.
+  <li><var>tdHeight90</var>. Defined by <A href="#tdHeight90">above</A>.
   <li><var>windowTitle</var>. The TITLE element in the HTML head.
   <li><var>head</var>. HTML elements to add just before the end of
-    the HEAD elment.
+    the HEAD element.
   <li><var>header</var>. HTML elements to add after the start of
     the BODY element.  The exact position is template dependent, but these
     elements should appear before the trailer elements.
@@ -1653,10 +1648,10 @@ during iteration over images in a <var>repeatrows</var> block.
   <li><var>hrefTarget</var>.
   <li><var>hrefURL</var>.
   <li><var>imageFile</var>. The file name for an image - the last
-    component in a pathname.
+    component in a path name.
   <li><var>name</var>. The name of an image without the file extension.
   <li><var>mediumFile</var>. The name of a file in the
-    <var>medium</var> diretory.
+    <var>medium</var> directory.
   <li><var>ext</var>. The file extension.
   <li><var>index</var>. The index number.
   <li><var>imageURL</var>. The name of an image in the thumbnail
@@ -1664,10 +1659,53 @@ during iteration over images in a <var>repeatrows</var> block.
   <li><var>imageHtmlURL</var>. The name of an image in the 'medium'
     directory.
   <li><var>imgTitle</var>. The title for an image (for 'multi' layouts)
-  <li><var>title</var>. The ttle for an image (for 'single' layouts)
-  <li><var>width</var>. The medium-resolution image width.
-  <li><var>height</var>. The medium-resolution image height.
+  <li><var>title</var>. The title for an image (for 'single' layouts)
+  <li><var>mWidth</var>. The medium-resolution image width.
+  <li><var>mHeight</var>. The medium-resolution image height.
 </UL>
 <P>
 </body>
 </html>
+
+<!--  LocalWords:  Webnail ARchive webnail Webnail's EditImages html
+ -->
+<!--  LocalWords:  SaveAs xml scrollable FullScreen HREF HTTPS HHTP
+ -->
+<!--  LocalWords:  IFILE OFILE ZIPFILE gui subdirectory wnl lightgray
+ -->
+<!--  LocalWords:  imagesTable webnailTable IFRAME imageTable descr
+ -->
+<!--  LocalWords:  titleDescrTable noJavascriptMsg Javascript DOM UTF
+ -->
+<!--  LocalWords:  DOCTYPE Whitespace URL's domMap finalHtml ATTLIST
+ -->
+<!--  LocalWords:  xmlns CDATA windowTitle mimeType webMode linkMode
+ -->
+<!--  LocalWords:  flatMode highResMode webArchiveMode syncMode jpeg
+ -->
+<!--  LocalWords:  waitOnError imageTime minImageTime bgcolor fgcolor
+ -->
+<!--  LocalWords:  rvmode hrefToOrig hrefURL unscaled sresource url
+ -->
+<!--  LocalWords:  PCDATA lt clickURL clickTarget hrefTarget DTD hpad
+ -->
+<!--  LocalWords:  iframe twidth theight mwidth mheight marginw vpad
+ -->
+<!--  LocalWords:  marginh num vcorrection hcorrection marginwidth
+ -->
+<!--  LocalWords:  marginheight selectable thrumbnail horizationally
+ -->
+<!--  LocalWords:  tWidth tHeight iWidth iHeight tdWidth atributes
+ -->
+<!--  LocalWords:  tdHeight thumbwidth thumbheight tiledWidth lang
+ -->
+<!--  LocalWords:  linkedURL noLinkURL tildedWidth xEF xBB xBF wnt
+ -->
+<!--  LocalWords:  subdirectives subdirective repeatrows initializer
+ -->
+<!--  LocalWords:  fsImageURL newTableRow endrows hasAllImages mWidth
+ -->
+<!--  LocalWords:  highResDir highImageURL imageFile mediumFile
+ -->
+<!--  LocalWords:  imageURL imageHtmlURL imgTitle mHeight
+ -->

@@ -4,12 +4,11 @@ $(!M.T application/x.webnail-template)<!DOCTYPE HTML>
 <META http-equiv="Content-Type" content="text/html; charset=UTF-8">
 <META http-equiv="Content-Style-Type" content="text/css">
 <META http-equiv="Content-Script-Type" content="text/javascript">
-<SCRIPT type="text/javascript" charset="UTF-8" src="controls/params.js"></SCRIPT>
-<SCRIPT type="text/javascript" charset="UTF-8" src="controls/slideshow1.js"></SCRIPT>
 <TITLE>$(windowTitle)</TITLE>
+<SCRIPT type="text/javascript" charset="UTF-8" src="controls/params.js"></SCRIPT>
 $(head)</HEAD>
 <BODY  style="background-color: $(bgcolor); color: $(fgcolor)"
-       onload="configure()" id="body" class="webnailIndexHTML">
+        onload="configureNS()" id="body" class="webnailIndexHTML">
 $(header)<TABLE id="imagesTable">
 <TR>
 <TD valign="top">
@@ -24,22 +23,6 @@ $(header)<TABLE id="imagesTable">
 </TD>
 <TD>
   <TABLE width=545 id="imageTable">
-    <TR>
-      <TD align="center">
-        <NOSCRIPT>
-	  <TABLE>
-	    <TR>
-	      <TD style="color: red" id="noJavascriptMsg">
-		(Javascript required for nagivation controls)
-	      </TD>
-	    </TR>
-	  </TABLE>
-        </NOSCRIPT>
-	<SCRIPT type="text/javascript">
-	  createControls();
-	</Script>
-      </TD>
-    </TR>
     <TR>
       <TD>
 	<IFRAME marginwidth=$(marginw) marginheight=$(marginh) width=$(iWidth) height=$(iHeight)

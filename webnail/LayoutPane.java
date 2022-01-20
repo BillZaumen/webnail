@@ -43,7 +43,13 @@ public class LayoutPane extends JComponent {
     final static Object syncObject = new Object();
     static int processCount = 0;
 
-    void processURL(final URL url, final String name) {
+    void processURL(final URL url,String name) {
+	processURL(map, url, name);
+    }
+
+    static void processURL(Map<String,LayoutParms> map,
+			   URL url, final String name)
+    {
 	if (url == null) return;
 	final String urlString = url.toString();
 	if (!map.containsKey(urlString)) {
@@ -79,6 +85,7 @@ public class LayoutPane extends JComponent {
 					});
 				}
 			    } catch (Exception e) {
+				parms.downloadFailed = true;
 				SwingErrorMessage.display(e);
 			    } finally {
 				synchronized(syncObject) {processCount--;}

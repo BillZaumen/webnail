@@ -140,13 +140,17 @@ WEBFILES = WebFiles/strut.gif WebFiles/initImage.png WebFiles/initial.html \
 	WebFiles/slideshow1.js WebFiles/slideshow2.js \
 	WebFiles/medium.html WebFiles/error.jsp
 
-LAYOUTFILES = Layouts/normalLayout.xml Layouts/html5Layout.xml \
+LAYOUTFILES = Layouts/html5Layout.xml Layouts/html590Layout.xml \
+	Layouts/html5NSLayout.xml Layouts/html5NTLayout.xml \
+	Layouts/html590NSLayout.xml \
 	Layouts/single1.xml Layouts/single2.xml Layouts/single3.xml \
 	Layouts/single4.xml Layouts/single5.xml Layouts/html590Layout.xml
 
-TEMPLATES = Templates/indexHTML.wnt Templates/indexHTML5.wnt \
-	Templates/mediumHTML.wnt Templates/params.wnt  Templates/web.wnt \
-	Templates/slideshowHTML.wnt Templates/tindexHTML.wnt \
+TEMPLATES = Templates/indexHTML5.wnt Templates/indexHTML590.wnt \
+	Templates/indexHTML5NS.wnt Templates/indexHTML590NS.wnt \
+	Templates/indexHTML590NT.wnt \
+	Templates/mediumHTML.wnt Templates/params.wnt \
+	Templates/web.wnt Templates/tindexHTML.wnt \
 	Templates/tindex90HTML.wnt Templates/indexHTML590.wnt \
 	Templates/singleHTML1.wnt Templates/singleHTML2.wnt \
 	Templates/singleHTML3.wnt Templates/singleHTML4.wnt \

@@ -8,8 +8,6 @@ var maxIndex = imageArray.length - 1;
 var index = -1;
 var firstTwo = true;
 
-var slideshowWindow = null;
-
 var actualTime = 0;
 var desiredTime = 0;
 
@@ -34,6 +32,10 @@ function configure() {
     configured = true;
 }
 
+function configureNS() {
+    index = 0;
+    updateLocations(".");
+}
 
 if (minImageTime < 0) minImageTime = 0;
 
@@ -70,14 +72,12 @@ function updateExpand() {
     if (index < 0) return;
     var link = document.getElementById("expand");
     link.href = imageArray[index].fsImageURL;
-    if (fselem /*slideshowWindow*/ != null) {
+    if (fselem != null) {
 	var sswurl = imageArray[index].fsImageURL;
 	if (sswurl.startsWith("./")) {
 	    fselem.src = (new URL(sswurl, document.URL)).href;
-	    /*slideshowWindow.location = (new URL(sswurl, document.URL)).href;*/
 	} else {
 	    fselem.src = imageArray[index].highImageURL;
-	    /*slideshowWindow.location = imageArray[index].highImageURL;*/
 	}
     }
 }
@@ -88,16 +88,6 @@ function updateLocations(cdir) {
 	cdir + "/medium/" + imageArray[index].name + ".html";
     updateExpand();
     return;
-}
-
-function escapeHandler(e) {
-    if (slideshowWindow != null) {
-	var ee = e || slideshowWindow.event;
-	var kc = ee.keyCode || ee.which || ee.charCode;
-	if (kc == 27) {
-	    stopSlideshow();
-	}
-    }
 }
 
 function closeSlideshowWindow() {
@@ -114,26 +104,6 @@ function closeSlideshowWindow() {
 	fselem = null;
 	fscnt = 0;
     }
-    /*
-    if (slideshowWindow != null) {
-	if (!slideshowWindow.closed) {
-	    try {
-		var docelem = slideshowWindow.document.documentElement;
-		if (docelem.exitFullscreen) {
-		    docelem.exitFullscreen();
-		} else if (elem.webkitExitFullscreen) {
-		    docelem.webkitExitFullscreen();
-		} else if (elem.msExitFullscreen) {
-		    docelem.msExitFullscreen();
-		}
-    } catch (err) {
-    }
-
-	    slideshowWindow.close();
-	}
-	slideshowWindow = null;
-    }
-    */
     return;
 }
 
@@ -163,47 +133,9 @@ function displayWindow() {
 	    }
 	    cnt++;
 	};
-    } else {
-	alert("fselem not null");
-    }
-    return;
-    var parms = "width=" + screen.availWidth;
-    parms += ",height=" + screen.availHeight;
-    parms += ",top=0,left=0";
-    // parms += ",fullscreen=yes"; (no longer supported)
-    parms += ",toolbar=no";
-    parms += ",directories=no";
-    parms += ",location=no";
-    parms += ",menubar=no";
-    parms += ",personalbar=no";
-    parms += ",status=no";
-    parms += ",scrollbar=no";
-    parms += ",resizable=yes";
-
-    if (slideshowWindow != null) {
-	if (slideshowWindow.closed) {
-	    slideshowWindow = null;
-	} else {
-	    closeSlideshowWindow();
-	}
-    }
-
-    slideshowWindow = window.open("controls/slideshow.html", "slideshow",
-				  parms);
-    try {
-	var docelem = slideshowWindow.document.documentElement;
-	if (docelem.requestFullscreen) {
-	    docelem.requestFullscreen();
-	} else if (elem.webkitRequestFullscreen) {
-	    docelem.webkitRequestFullscreen();
-	} else if (elem.msRequestFullscreen) {
-	    docelem.msRequestFullscreen();
-	}
-    } catch (err) {
     }
     return;
 }
-
 
 var timeoutID = 0;
 
@@ -219,8 +151,6 @@ function imageComplete(image) {
 	    && image.naturalHeight == 0)) {
 	if (errorHandlingBroken && image.complete) {
 	    onCacheError();
-	    // setTimeout("onCacheError()", 0);
-	    // return true; (want false so doSlideshow will try again)
 	}
 	return false;
     }
@@ -255,8 +185,7 @@ function onCacheError(evt, source, line) {
 function updateCache() {
     cacheID = 0;
     if ((loop || (index + cacheOffset) <= maxIndex) && hasAllImages
-	&& fselem != null
-	/*&& slideshowWindow != null && !slideshowWindow.closed*/) {
+	&& fselem != null) {
 	var ind = index + cacheOffset;
 	if (loop) {
 	    while (ind < 0) ind += imageArray.length;
@@ -265,7 +194,7 @@ function updateCache() {
 	}
 	var w = imageArray[ind].width;
 	var h = imageArray[ind].height;
-	if (fselem /*slideshowWindow*/ != null) {
+	if (fselem != null) {
 	    // estimate bacause of security constraints
 	    var sw = screen.availWidth - 20;
 	    var sh = screen.availHeight - 50;
@@ -313,9 +242,7 @@ function httpStepSlideshow(ind) {
 function doSlideshow() {
     var co = cacheOffset;
     var ourindex = index + cacheOffset;
-    // alert("ourindex = " + ourindex +" for index = " + index);
     if (caching && !imageComplete(nextImage)) {
-	// index -= co;
 	if (timeoutID != 0) clearTimeout(timeoutID);
 	timeoutID = setTimeout("doSlideshow()", 200);
 	actualTime += 200;
@@ -337,7 +264,6 @@ function doSlideshow() {
 	    timeoutID = setTimeout("stopSlideshow()", dur);
 	} else {
 	    if (dur == "?") {
-		// alert("duration = " + duration);
 		httpStepSlideshow(index);
 	    }
 	}
@@ -450,7 +376,6 @@ function controlSlideshow() {
 }
 
 function runSlideshow() {
-
     var button = document.getElementById("slideshow");
     var canRun = (button.value == "slideshow");
     if (canRun == false) return;

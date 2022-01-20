@@ -195,7 +195,7 @@ public class Webnail {
 		return;
 	    }
 	}
-	if (lparms == null || !lparms.isValid()) {
+	if (lparms == null || !lparms.isValid() || lparms.downloadFailed()) {
 	    throw new Exception("lparmsNotValid");
 	}
 
@@ -1098,10 +1098,12 @@ public class Webnail {
 		    File medium = new File(cdir, "medium.html");
 		    CopyUtilities.copyResourceToFile("webnail/medium.html",
 						     medium);
+		    /*
 		    File slideshow = new File(cdir, "slideshow.html");
 		    tp.processSystemResource("webnail/slideshowHTML.wnt",
 					     "UTF-8",
 					     slideshow);
+		    */
 		}
 		if (warmode) {
 		    File webxml = new File(wdir, "web.xml");

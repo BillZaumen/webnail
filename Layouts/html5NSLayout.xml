@@ -14,7 +14,7 @@
 	 t_hpad="4"
 	 num_t_images="5"
 	 t_vcorrection="0"
-	 name="Default Layout (HTML 5)"
-	 url="sresource:/webnail/indexHTML5.wnt">
+	 name="Default Layout (No Slideshow)"
+	 url="sresource:/webnail/indexHTML5NS.wnt">
   </multi>
 </layout>

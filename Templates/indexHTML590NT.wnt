@@ -33,12 +33,6 @@ $(header)
       createControls(); 
     </SCRIPT>
 </DIV>
-<DIV>
-  <IFRAME marginwidth=$(marginw) marginheight=$(marginh) width=$(tWidth90) height=$(tHeight90)
-		frameborder=0
-		name ="thumbnails" src="thumbnails/index90.html">
-  </IFRAME>
-</DIV>
 <DIV id="imagesTable">
   <IFRAME marginwidth=$(marginw) marginheight=$(marginh) width=$(iWidth) height=$(iHeight)
 	frameborder=0 scrolling="no"

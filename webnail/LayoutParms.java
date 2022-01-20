@@ -8,6 +8,9 @@ public class LayoutParms {
     boolean valid = false;
     public boolean isValid() {return valid;}
 
+    volatile boolean downloadFailed = false;
+    public boolean downloadFailed() {return downloadFailed;}
+
     public LayoutParms() {
 	valid = false;
     }
