@@ -40,7 +40,7 @@
 	  url CDATA #IMPLIED>
 
 
-<!ELEMENT image ((filename | url), title?, descr?, property*)>
+<!ELEMENT image ((filename | url), title?)>
 <!ATTLIST image
 	  mimeType  CDATA #IMPLIED
 	  linkMode (true|false) #IMPLIED

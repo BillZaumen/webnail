@@ -24,7 +24,7 @@ This file starts with the following lines:
 <!DOCTYPE images PUBLIC "-//BZDev//Webnail_Layout_Info 1.0//EN" 
 .br
 .B
-                        "sresource:webnail-1.0.dtd">
+\ \ \ \ \ \ \ \ \ "sresource:webnail-1.0.dtd">
 .PP
 All spaces after
 .B !DOCTYPE
@@ -58,7 +58,7 @@ command-line interface.  The file must start with the following two lines:
 <!DOCTYPE images PUBLIC "-//BZDev//Webnail 1.0//EN" 
 .br
 .B
-                        "sresource:webnail-1.0.dtd">
+\ \ \ \ \ \ \ \ \ /"sresource:webnail-1.0.dtd">
 .PP
 The first line indicates the version of XML and the character set encoding.
 The second line specifies the DTD file giving the input syntax for the
@@ -76,89 +76,73 @@ The top level element is named
 and it is defined as follows:
 .PP
 .B
-<!ELEMENT webnail (title?, descr?, (user, password)?,
+<!ELEMENT webnail (title?, descr?, head?,
 .br
 .B
-	  head?, header?, image*, trailer?, finalHtml?)>
+\ \ \ \ \ \ \ \ \ \ header?, image*, trailer?, finalHtml?)>
 .br
 .B
 <!ATTLIST webnail
 .br
 .B
-	  xmlns CDATA #FIXED "http://bzdev.org/DTD/webnail-1.0"
+\ \ \ \ \ \ \ \ \ \ xmlns CDATA #FIXED "http://bzdev.org/DTD/webnail-1.0"
 .br
 .B
-	  windowTitle CDATA #IMPLIED
+\ \ \ \ \ \ \ \ \ \ windowTitle CDATA #IMPLIED
 .br
 .B
-	  mimeType  CDATA #IMPLIED
+\ \ \ \ \ \ \ \ \ \ mimeType  CDATA #IMPLIED
 .br
 .B
-	  webMode (true|false) #IMPLIED
+\ \ \ \ \ \ \ \ \ \ webMode (true|false) #IMPLIED
 .br
 .B
-	  linkMode (true|false) #IMPLIED
+\ \ \ \ \ \ \ \ \ \ linkMode (true|false) #IMPLIED
 .br
 .B
-	  flatMode (true|false) #IMPLIED
+\ \ \ \ \ \ \ \ \ \ flatMode (true|false) #IMPLIED
 .br
 .B
-	  highResMode (true|false) #IMPLIED
+\ \ \ \ \ \ \ \ \ \ highResMode (true|false) #IMPLIED
 .br
 .B
-	  webArchiveMode (true|false) #IMPLIED
+\ \ \ \ \ \ \ \ \ \ webArchiveMode (true|false) #IMPLIED
 .br
 .B
-	  zipped (true|false) #IMPLIED
+\ \ \ \ \ \ \ \ \ \ zipped (true|false) #IMPLIED
 .br
 .B
-	  syncMode (true|false) #IMPLIED
+\ \ \ \ \ \ \ \ \ \ syncMode (true|false) #IMPLIED
 .br
 .B
-	  waitOnError (true|false) #IMPLIED
+\ \ \ \ \ \ \ \ \ \ waitOnError (true|false) #IMPLIED
 .br
 .B
-	  imageTime CDATA #IMPLIED
+\ \ \ \ \ \ \ \ \ \ imageTime CDATA #IMPLIED
 .br
 .B
-	  minImageTime CDATA #IMPLIED
+\ \ \ \ \ \ \ \ \ \ minImageTime CDATA #IMPLIED
 .br
 .B
-	  bgcolor  CDATA #IMPLIED
+\ \ \ \ \ \ \ \ \ \ bgcolor  CDATA #IMPLIED
 .br
 .B
-	  fgcolor  CDATA #IMPLIED
+\ \ \ \ \ \ \ \ \ \ fgcolor  CDATA #IMPLIED
 .br
 .B
-	  rvmode  CDATA #IMPLIED
+\ \ \ \ \ \ \ \ \ \ rvmode  CDATA #IMPLIED
 .br
 .B
-	  height  CDATA #IMPLIED
+\ \ \ \ \ \ \ \ \ \ height  CDATA #IMPLIED
 .br
 .B
-	  width   CDATA #IMPLIED
+\ \ \ \ \ \ \ \ \ \ width   CDATA #IMPLIED
 .br
 .B
-	  hrefToOrig (true|false) #IMPLIED
+\ \ \ \ \ \ \ \ \ \ hrefToOrig (true|false) #IMPLIED
 .br
 .B
-	  layout (normal
-.br
-.B
-	          | headerThenImagesThenTrailer
-.br
-.B
-	          | headerThenImagesAndTrailer
-.br
-.B
-	          | headerThenTrailerAndImages
-.br
-.B
-	          | imagesAndHeaderWithTrailer
-.br
-.B
-                  | headerWithTrailerAndImages) #IMPLIED>
-.R
+\ \ \ \ \ \ \ \ \ \ layout CDATA #IMPLIED>
 .PP
 The child elements are described below.  The attributes are defined
 as follows:
@@ -257,43 +241,119 @@ defaults to a scaled copy whose bounding box is the height and width
 attributes above.
 .TP
 .BR layout
-This attribute specifies a layout for the web page (index.html): the
-attribute value are as follows (in all cases, the HTML text from the
-.B finalHtml
-element will appear at the bottom of the page, just before the end of the
-document):
+This attribute specifies a layout for the web page. The value is an
+a URL.  URLs that with the scheme
+.B sresource
+refer to standard layouts provided by
+.B webnail
+and indicate the location in the JAR file. Each layout has a name
+that
+.B webnail
+will display in a Java "combo box", but the URL will appear in the
+intput file.  The URLS and names are the following:
 .br
-.B normal
-indicates the images will be displayed in a scrollbar with a larger view
+.br
+.B sresource:/webnail/html5Layout.xml
+.br
+.RB [ Default\ Layout\ (HTML\ 5) ]
+.br
+indicates the images will be displayed vertically with a larger view
 in an adjacent frame, and provides navigation buttons and the ability to
 show the images in a slideshow, with HTML text provided by the header and
 trailer elements above and below the images respectively.
+.ls 2
 .br
-.B headerThenImagesThenTrailer 
+.ls 1
+.B sresource:/webnail/html5NSLayout.xml
+.br
+.RB [ Default\ Layout\ (No\ Slideshow) ]
+.br
+indicates the images will be displayed vertically with a larger view
+in an adjacent frame, with HTML text provided by the header and
+trailer elements above and below the images respectively.
+.br
+\
+.br
+.B sresource:/webnail/html5Layout.xml
+.br
+.RB [ Default\ Layout\ (No\ Thumbnails) ]
+.br
+indicates that there will be a navigation bar followed by a single
+image. The navigation button provides the ability to
+show the images in a slideshow, with HTML text provided by the header and
+trailer elements above and below the images respectively.
+.ls 2
+.br
+.ls 1
+.B sresource:/webnail/html590Layout.xml
+.br
+.RB [ Horizontal\ Layout\ (HTML\ 5) ]
+.br
+indicates the images will be displayed horizontally with a larger view
+below, and provides navigation buttons and the ability to
+show the images in a slideshow, with HTML text provided by the header and
+trailer elements above and below the images respectively.
+.ls 2
+.br
+.ls 1
+.B sresource:/webnail/html590Layout.xml
+.br
+.RB [ Horizontal\ Layout\ (No Slideshow) ]
+.br
+indicates the images will be displayed horizontally with a larger view
+below, with HTML text provided by the header and
+trailer elements above and below the images respectively.
+.ls 2
+.br
+.ls 1
+.B sresource:/webnail/single1.xml
+.br
+.RB [ Header,\ Images,\ Trailer ]
+.br
 indicates that the images are placed in a
 table whose number of columns is chosen based on the image size, with the
 header and trailer elements providing HTML text above and belows the images
 respectively.
+.ls 2
 .br
-.B headerThenImagesAndTrailer
+.ls 1
+.B sresoruce:/webnail/single2.xml
+.br
+.RB [ Header,\ (Images\ &\ Trailer) ]
+.br
 indicates that the HTML text from the header element
 appears first on the page, followed by two columns, the first showing
 the images (one image per row) and the second the HTML text provided
 by the trailer element.
+.ls 2
 .br
-.B headerThenTrailerAndImages
+.ls 1
+.B sresource:/webnail/single3.xml
+.br
+.RB [ Header, \ (Trailer\ &\ Images) ]
+.br
 indicates that the HTML text from the header element
 appears first on the page, followed by two columns, the first showing
 the HTML text provided by the trailer element and the second showing
 the images (one image per row).
+.ls 2
 .br
-.B imagesAndHeaderWithTrailer
+.ls 1
+.B sresource:/webnail/single4.xml
+.br
+.RB [ Images\ &\ (Header,\ Trailer) ]
+.br
 indicates that the web page should contain two columns, the first containing the images
 (one image per row) and the second containing the HTML text from the
 header element followed by the HTML text from the trailer
 element. 
+.ls 2
 .br
-.B headerWithTrailerAndImages
+.ls 1
+.B sresource:/webnail/single5.xml
+.br
+.RB [ (Header,\ Trailer)\ &\ Images ]
+.br
 indicates that the web page contains two columns, the first containing
 the HTML text from the header element followed by the HTML text from
 the trailer element, and the second containing the images (one image
@@ -342,7 +402,7 @@ element is defined as follows:
 <!ATTLIST descr
 .br
 .B
-	  url CDATA #IMPLIED>
+\ \ \ \ \ \ \ \ \ \ url CDATA #IMPLIED>
 .R
 .PP
 The
@@ -365,24 +425,6 @@ ignored when a
 .B url
 attribute is provided.
 .PP
-The elements
-.PP
-.B
-<!ELEMENT user (#PCDATA)*>
-.PP
-and
-.PP
-.B
-<!ELEMENT password (#PCDATA)*>
-.PP
-provide a user name and password when authentication is required. When
-these elements appear as a child of an
-.B images
-element, they provide the default user name and password for any HTTP
-request requiring authentication.  When they appear as a child of an
-.B image
-element, they provide the user name and password for a specific URL.
-.PP
 The
 .B head
 element is defined by
@@ -394,7 +436,7 @@ element is defined by
 <!ATTLIST head
 .br
 .B
-	  url CDATA #IMPLIED>
+\ \ \ \ \ \ \ \ \ \ url CDATA #IMPLIED>
 .R
 .PP
 and its content will appear in the HEAD section of an HTML document.
@@ -419,7 +461,7 @@ element is defined by
 <!ATTLIST header
 .br
 .B
-	  url CDATA #IMPLIED>
+\ \ \ \ \ \ \ \ \ \ url CDATA #IMPLIED>
 .R
 .PP
 and its content will appear at the start of the
@@ -440,35 +482,32 @@ The
 element is defined by
 .PP
 .B
-<!ELEMENT image ((filename | url), title?, descr?, (user, password)?,
-.br
-.B
-	  property*)>
+<!ELEMENT image ((filename | url), title?)>
 .br
 .B
 <!ATTLIST image
 .br
 .B
-	  mimeType  CDATA #IMPLIED
+\ \ \ \ \ \ \ \ \ \ mimeType  CDATA #IMPLIED
 .br
 .B
-	  linkMode (true|false) #IMPLIED
+\ \ \ \ \ \ \ \ \ \ linkMode (true|false) #IMPLIED
 .br
 .B
-	  hrefURL  CDATA #IMPLIED
+\ \ \ \ \ \ \ \ \ \ hrefURL  CDATA #IMPLIED
 .br
 .B
-	  hrefTarget (_blank|_top) #IMPLIED
+\ \ \ \ \ \ \ \ \ \ hrefTarget (_blank|_top) #IMPLIED
 .br
 .B
-	  imageTime CDATA #IMPLIED
+\ \ \ \ \ \ \ \ \ \ imageTime CDATA #IMPLIED
 .br
 .B
-	  minImageTime CDATA #IMPLIED>
+\ \ \ \ \ \ \ \ \ \ minImageTime CDATA #IMPLIED>
 .R
 .PP
 The children define a file name or URL for an image, and optionally a
-title, description, user name and password, and a list of properties.
+title and description.
 The attributes,
 .BR mimeType ,
 .BR linkMode ,
@@ -476,7 +515,7 @@ The attributes,
 and
 .B minImageTime
 have the same meaning as the attributes with the same name do for the
-.B images
+.B webnail
 element, but apply to a specific image.  The attribute
 .B hrefURL
 (if present) gives the URL to load when the image (not the thumbnail) is
@@ -525,7 +564,7 @@ elements allow additional HTML to be added.  These are defined by
 <!ATTLIST trailer
 .br
 .B
-	  url CDATA #IMPLIED>
+\ \ \ \ \ \ \ \ \ \ url CDATA #IMPLIED>
 .R
 .br
 .B
@@ -535,7 +574,7 @@ elements allow additional HTML to be added.  These are defined by
 <!ATTLIST finalHtml
 .br
 .B
-	  url CDATA #IMPLIED>
+\ \ \ \ \ \ \ \ \ \ url CDATA #IMPLIED>
 .R
 .PP
 The contents of both give the HTML to insert into an HTML document.
@@ -547,18 +586,459 @@ attribute can be used.  This attribute provides a URL that points to a
 resource containing the element's content.  The element's content will be
 ignored when a
 .B url
-attribute is provided. The content of
+attribute is provided. For standard layouts, the content of
 the
 .B trailer
 element will appear before the final
 .B script
 element, that appears in the HTML document by default and which loads
 the file
-.PP
+.IP
 .BR controls/slideshow2.js ,
 .PP
- and the content of the
+and the content of the
 .B finalHtml
 element will follow that script.
+.SH LAYOUT SYNTAX
+.PP
+Layouts are defined by XML files that should start with the following
+lines:
+.PP
+.B
+<?xml version="1.0" encoding="UTF-8"?>
+.br
+.B
+<!DOCTYPE layout PUBLIC "-//BZDev//Webnail_Layout_Info 1.0//EN"
+.br
+.B
+\ \ \ \ \ \ \ \ \ \ "sresource:webnail-layout-info-1.0.dtd">
+.br
+.B
+<layout xmlns="http://bzdev.org/DTD/webnail-layout-info-1.0">
+.PP
+The DTD starts with the
+.B layout
+element:
+.PP
+.B
+<!ELEMENT layout (multi | single)>
+.br
+.B
+<!ATTLIST layout
+	  xmlns CDATA #FIXED "http://bzdev.org/DTD/webnail-layout-info-1.0">
+.PP
+This element merely provides a choice between two elements. The
+.B multi
+element indicates that images are displayed dynamically by using
+navigation controls or running a slideshow, whereas the
+.B single
+element indicates that all the images are on a single page.
+.PP
+The
+.B multi
+element is defined as follows:
+.PP
+.B
+<!ELEMENT multi (name)*>
+.br
+.B
+<!ATTLIST multi
+.br
+.B
+\ \ \ \ \ \ \ \ \ \ twidth CDATA #REQUIRED
+.br
+.B
+\ \ \ \ \ \ \ \ \ \ theight CDATA #REQUIRED
+.br
+.B
+\ \ \ \ \ \ \ \ \ \ mwidth CDATA #REQUIRED
+.br
+.B
+\ \ \ \ \ \ \ \ \ \ mheight CDATA #REQUIRED
+.br
+.B
+\ \ \ \ \ \ \ \ \ \ marginw CDATA #REQUIRED
+.br
+.B
+\ \ \ \ \ \ \ \ \ \ marginh CDATA #REQUIRED
+.br
+.B
+\ \ \ \ \ \ \ \ \ \ margin_hpad CDATA #REQUIRED
+.br
+.B
+\ \ \ \ \ \ \ \ \ \ margin_vpad CDATA #REQUIRED
+.br
+.B
+\ \ \ \ \ \ \ \ \ \ t_vpad  CDATA #REQUIRED
+.br
+.B
+\ \ \ \ \ \ \ \ \ \ t_hpad  CDATA #REQUIRED
+.br
+.B
+\ \ \ \ \ \ \ \ \ \ num_t_images CDATA #REQUIRED
+.br
+.B
+\ \ \ \ \ \ \ \ \ \ t_vcorrection CDATA #IMPLIED
+.br
+.B
+\ \ \ \ \ \ \ \ \ \ t_hcorrection CDATA #IMPLIED
+.br
+.B
+\ \ \ \ \ \ \ \ \ \ name CDATA #REQUIRED
+.br
+.B
+\ \ \ \ \ \ \ \ \ \ url CDATA #REQUIRED>
+.PP
+.TP
+.B twidth
+The maximum width of each thumbnail image's bounding box in pixels.
+.TP
+.B theight
+The maximum height of each thumbnail imge's bounding box in pixels.
+.TP
+.B mwidth
+The maximum width of each medium image's bounding box in pixels.
+.TP
+.B mheight
+The maximum height of each medium image's bounding box in pixels.
+.TP
+.B marginw
+The margin padding on each horizontal side of the frame containing
+thumbnails or the medium-sized image.  This is the marginwidth
+attribute for a thumbnail and medium-image IFRAME.
+.TP
+.B marginh
+The margin padding on each vertical side of the frame containing
+thumbnails or the medium-sized image. This is the marginheight
+attribute for a thumbnail and medium-image IFRAME>.
+.TP
+.B margin_vpad
+Additional vertical padding for thumbnails and the medium-sized image
+beyond that expected from the marginh attribute (twice its value).
+This additional separation prevents some browsers from placing a
+scroll pane around an image and allows space for a border around
+selectable images.
+.TP
+.B margin_hpad
+.TP
+.B t_vpad
+Additional vertical padding for thumbnails and the medium-sized image
+beyond that expected from the marginh attribute (twice its value).
+This additional separation prevents some browsers from placing a
+scroll pane around an image and allows space for a border around
+selectable images.
+.TP
+.B t_hpad
+Additional horizontal padding for thumbnails and the medium-sized
+image beyond the amount expected from the marginw attribute (twice its
+value). This additional separation prevents some browsers from placing
+a scroll pane around an image and allows space for a border around
+selectable images.
+.TP
+.B num_t_images
+The number of thumbnail images visible in a scrollable frame.
+.TP
+.B t_vcorrection
+Correction term in pixels for the thumbnail-frame height. This value
+is added to the frame height that would be computed from the other
+parameters. The default is zero.  This is not used unless the
+thumbnails are stacked vertically.
+.TP
+.B t_hcorrection
+Correction term in pixels for the thumbnail-frame width. This value is
+added to the frame width that would be computed from the other
+parameters. The default is zero.  This is not used unless the
+thumbnails are stacked horizontally.
+.TP
+.B name
+This is the default print name for the layout as displayed in a combo
+box. Multiple
+.B name
+elements can also be provided to give locale-specific alternatives..TP
+.B url
+The URL of the template for the top-level HTML page being generated.
+.PP
+.B
+<!ELEMENT single (name)*>
+.br
+.B
+<!ATTLIST single
+.br
+.B
+\ \ \ \ \ \ \ \ \ \ max_thumbwidth CDATA #REQUIRED
+.br
+.B
+\ \ \ \ \ \ \ \ \ \ max_thumbheight CDATA #REQUIRED
+.br
+.B
+\ \ \ \ \ \ \ \ \ \ tiled (true | false) #IMPLIED
+.br
+.B
+\ \ \ \ \ \ \ \ \ \ tiledWidth CDATA #IMPLIED
+.br
+.B
+\ \ \ \ \ \ \ \ \ \ name CDATA #REQUIRED
+.br
+.B
+\ \ \ \ \ \ \ \ \ \ linkedURL CDATA #REQUIRED
+.br
+.B
+\ \ \ \ \ \ \ \ \ \ noLinkURL CDATA #REQUIRED>
+.PP
+.TP
+.B max_thumbwidth
+The maximum width of a thumbnail image in pixels. If the images are
+tiled, this value must not be larger than the value of the tildedWidth
+attribute and will be reduced to that width if necessary.
+.TP
+.B max_thumbHeight
+ The maximum height of a thumbnail image in pixels.
+.TP
+.B tiled
+The value is
+.B true
+if the images are tiled (arranged in a grid);
+.B false
+if the images arranged vertically.
+.TP
+.B tileWidth
+The width of the bounding box surrounding tiled images in units of
+pixels.  The default value is 670.
+.TP
+.B name
+This is the default print name for the layout as displayed in a combo
+box. Multiple name elements can also be provided to give
+locale-specific alternatives.
+.TP
+.B linkedURL
+URL of the template for the HTML file to generate when the HTML file
+contains absolute links for each image to a corresponding
+higher-resolution image.
+.TP
+.B noLinkURL
+URL of the template for the HTML file to generate when the HTML file
+does not contains relative links for each image to a corresponding
+higher-resolution image.
+.PP
+Finally, the
+.B name
+element provides a locale-specific name for the enclosing
+.B multi
+or
+.B single
+element:
+.PP
+.B
+<!ELEMENT name (#PCDATA)>
+.br
+.B
+<!ATTLIST name
+.br
+.B
+\ \ \ \ \ \ \ \ \ \ lang CDATA #REQUIRED>
+.PP
+The contents of this element is the locale-specific name, and the
+.B lang
+attribute should be the locale as specified in RFCs 4647 and 5646.
+.SH TEMPLATES
+.PP
+The attributes
+.BR url ,
+.BR linkedURL ,
+and
+.B nolLinkURL
+defined above are references to templates. These URLs should end in a
+name with the extension
+.B .wnt
+and the corresponding file should start with the string
+.IP
+.B $(!M.T\ application/x.webnail-template)
+.PP
+This string allows the file's mediat type to be determined from its
+contents and will otherwise be ignored. It may be prefaced by a
+byte-order mark, and should be UTF-8 encoded.
+.PP
+Template files use the following escapes and directives:
+.TP
+.B $$
+The character
+.B $
+is represented
+.BR $$ .
+.TP
+.B Directives
+directives start with
+.BR  $( ,
+end with the following
+.BR ) .
+.TP
+.B Comments
+A directive whose contents start with
+.B !
+is a comment
+.TP
+.B Simple\ Directives
+A directive whose contents contain letters, digits, and periods will
+be replaced  with a value.
+.TP
+.B Iteration\ Directives
+A directive consisting of two subdirectives, separated by a colon
+.RB ( : )
+with each subdirective consisting of letters, digits, and periods,
+indicates iteration.  The first subdirective indicates a replacement
+table to use and the second subdirective names a directive that ends
+the iteration.  The text in between will be repeated N times, with
+directives in the replacement table possibly changing from one
+iteration to the next.
+.TP
+.B Conditional\ Directives
+A directive consisting of two subdirectives, separated by a colon
+.RB ( : )
+with each subdirective consisting of letters, digits,
+ and periods, with the first subdirective prefaced by
+ .B +
+r
+.BR - ,
+is a conditional directive. It is treated like
+an iterative directive but with a single iteration that will occur
+for the
+.B +
+case if the first subdirective matches a directive that is defined,
+and for the
+.B -
+case if the the first subdirective does not match a directive that is
+defined.
+While some directives are used internally, the following ones are used
+in templates explicitly defined for layouts, all of which are used to
+create HTML files:
+.TP
+.B bgcolor
+This directive has a default value of
+"gray".  It specifies the background color used on HTML pages.
+See the CSS specification for the syntax.
+.TP
+.B fgcolor
+This directive has a default value of
+"black".  It specifies the foreground (or text) color used on HTML
+pages.  See the CSS specification for the syntax.
+.TP
+.B marginw
+This directive provides the additional horizontal padding for
+thumbnails and the medium-sized image beyond the amount expected from
+the marginw attribute (twice its value). This additional separation
+prevents some browsers from placing a scroll pane around an image and
+allows space for a border around selectable images.  The value is
+identical to that provided by the marginw attribute.
+.TP
+.B marginh
+This directive provides the margin padding on each vertical side of
+the frame containing thumbnails or the medium-sized image. This is the
+marginheight attribute for a thumbnail and medium-image IFRAME>.
+.TP
+.B tWidth
+This directive provides the a value computed
+from the twidth, marginw and margin_hpad using the expression
+twidth + 2 * marginw + margin_hpad.
+.TP
+.B tHeight
+This directive provides the a value computed from the theight, t_vpad,
+num_t_images, margin_vpad, and _vcorrection using the expression
+((theight + (2 * t_vpad)) * num_t_images) + (2 * marginh) +
+margin_vpad + t_vcorrection.
+.TP
+.B tWidth
+This directive provides a value computed from the theight, marginh and
+margin_vpad using the expression theight + 2 * marginh + margin_vpad.
+.TP
+.B tHeight
+This directive provides a value computed from the twidth, t_hpad,
+num_t_images, margin_hpad, and t_hcorrection using the expression
+(twidth + (2 * t_hpad)) * num_t_images + * marginw) + margin_vpad/2 +
+t_hcorrection.
+.TP
+.B iWidth
+This directive provides a value computed from the mwidth, marginw, and
+margin_hpad attributes using the expression mwidth + 2 * marginw +
+margin_hpad.
+.TP
+.B iHeight
+This directive provides a value computed from the mheight, marginh,
+and margin_vpad attributes using the expression mheight + 2 * marginh
++ margin_vpad.
+.TP
+.B tdWidth
+This directive provides a value computed from the twidth, marginw,
+margin_hpad, and mwidth atributes using the expression twidth + 4 *
+marginw + margin_hpad + mwidth.
+.TP
+.B tdHeight90
+This directive provides a value computed from the theight, marginh,
+margin_vpad, and mheight atributes using the expression theight + 4 *
+marginh + margin_vpad) + mheight.
+.TP
+.B windowTitle
+This directive provides the TITLE element in the HTML head.
+.TP
+.B head
+This directive provides the HTML elements to add just before the end
+of the HEAD element.
+.TP
+.B header
+This directive provides the HTML elements to add after the start of
+the BODY element.  The exact position is template dependent, but these
+elements should appear before the trailer elements.
+.TP
+.B title
+This directive provides the HTML elements to place as a title for a
+medium-sized image.  There may be a default title and per-image titles
+that can override the default.
+.TP
+.B description
+This directive provides the HTML elements to place as a description of
+a medium-sized image.  This will usually be below the title.  There
+may be a default description and per-image descriptions that can
+override the default.
+.TP
+.B trailer
+This directive provides the HTML elements to place in the trailer,
+whose exact position is template dependent, but suchelements should
+appear after the header elements.
+.TP
+.B finalHtml
+This directive provides the finalHtml elements. These appear after the
+final script element in the HTML file and immediately before the end
+of the BODY element.  This can be used to add additional
+scripts. Putting scripts at the end of an HTML file when feasible
+improves performance: a browser runs scripts sequentially and will not
+load an image or style sheet while a script is running. As a result,
+putting scripts near the start of an HTML file can increase the delay
+before images referenced in the file are loaded.
+.TP
+.B repeatrows
+This directive iterates over images.  The name reflects its use in a
+template that generates Javascript, where a
+.B repeatrows
+block is used to construct an array initializer.
+.TP
+.B hrefURL
+This directive provides the URL that will be visited when a medium-scale
+image is clicked.  The value is changed during iteration.
+.TP
+.B hrefTarget
+This directive provides a URL that points to the target frame
+corresponding to the
+.B hrefURL
+directive.  The value is changed during iteration.
+.TP
+.B fsImageURL
+This directive provides the URL of a full-scale image relative to
+the top-level URL.
+.TP
+.B newTableRow
+This directivive provides the HTML sequence needed to start a new row
+in a table:
+.B &lt;/TR&gt;&lt;TR&gt;
+if a row should end and an empty string otherwise.
+
 .SH SEE ALSO
 .BR webnail (1)

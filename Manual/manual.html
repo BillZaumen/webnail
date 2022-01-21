@@ -1379,13 +1379,13 @@ suitable for printing or other uses.
 The multi element's
 <!-- ' --> attributes are defined as follows:
 <ul>
-  <li><var>twidth</var>. The width of each thumbnail image's
+  <li><var>twidth</var>. The maximum width of each thumbnail image's
     <!-- ' --> bounding box in pixels.
-  <li><var>theight</var>. The height of each thumbnail image's
+  <li><var>theight</var>. The maximum height of each thumbnail image's
     <!-- ' --> bounding box in pixels.
-  <li><var>mwidth</var>. The width of each medium image's
+  <li><var>mwidth</var>. The maximum width of each medium image's
     <!-- ' --> bounding box in pixels.
-  <li><var>mheight</var>. The height of each medium image's
+  <li><var>mheight</var>. The maximum height of each medium image's
     <!-- ' --> bounding box in pixels.
   <li><var>marginw</var>. The margin padding on each horizontal
     side of the frame containing thumbnails or the medium-sized image.
@@ -1397,14 +1397,16 @@ The multi element's
     medium-image IFRAME>.
   <li><var>margin_hpad</var>. Additional horizontal padding for
     thumbnails and the medium-sized image beyond the amount expected
-    from the marginw attribute (twice its value). This
-    additional separation prevents some browsers from placing a scroll pane
-    around an image and allows space for a border around selectable images.
+    from the marginw attribute (twice its value). This additional
+    separation prevents some browsers from placing a scroll pane
+    around an image and allows space for a border around selectable
+    images.
   <li><var>margin_vpad</var>. Additional vertical padding for
     thumbnails and the medium-sized image beyond that expected from
-    the marginh attribute (twice its value).  This
-    additional separation prevents some browsers from placing a scroll pane
-    around an image and allows space for a border around selectable images.
+    the marginh attribute (twice its value).  This additional
+    separation prevents some browsers from placing a scroll pane
+    around an image and allows space for a border around selectable
+    images.
   <li><var>t_vpad</var>. The vertical separation from a thumbnail
     image's bounding box to the midpoint between adjacent thumbnail images,
     measured from the center of each image's bounding box. This is used
@@ -1427,8 +1429,8 @@ The multi element's
     layout as displayed in a combo box. Multiple
     <var>name</var> elements can also be provided to
     give locale-specific alternatives.
-  <li><var>url</var>. The URL of the top-level HTML page
-    generated.
+  <li><var>url</var>. The URL of the template for the top-level HTML page
+    being generated.
 </ul>
 <P>
 These attributes are used to determine the values of the following
@@ -1475,7 +1477,7 @@ template parameters:
     from the theight, marginh, margin_vpad, and mheight atributes using
     the expression
     <code>theight</code> + 4 * <code>marginh</code> +
-    <code>margin_vpad</code>) + (<code>mheight</code>.
+    <code>margin_vpad</code>) + <code>mheight</code>.
 </ul>
 <blockquote>
 <pre>
@@ -1492,11 +1494,12 @@ template parameters:
 </blockquote>
 The single element's attributes are defined as follows:
 <ul>
-  <li><var>max_thumbwidth</var>. The width of a thumbnail image in pixels.
-  <li><var>max_thumbheight</var>. The height of a thumbnail image in
-    pixels.  If the images are tiled, this value must not be larger
-    than the value of the tildedWidth attribute and will be reduced to
-    that width if necessary.
+  <li><var>max_thumbwidth</var>. The maximum width of a thumbnail
+    image in pixels. If the images are tiled, this value must not be
+    larger than the value of the tildedWidth attribute and will be
+    reduced to that width if necessary.
+  <li><var>max_thumbheight</var>. The maximum height of a thumbnail
+    image in pixels.
   <li><var>tiled</var>. The value is <code>true</code> if the
     images are tiled (arranged in a grid); <code>false</code> if the
     images arranged vertically.
@@ -1506,11 +1509,11 @@ The single element's attributes are defined as follows:
     as displayed in a combo box. Multiple name elements can also be
     provided to give locale-specific alternatives.
   <li><var>linkedURL</var>. URL of the template for the HTML file to
-    generate when the HTML file contain links for each image to a
-    corresponding higher-resolution image.
+    generate when the HTML file contains absolute links for each image
+    to a corresponding higher-resolution image.
   <li><var>noLinkURL</var>. URL of the template for the HTML file to
-    generate when the HTML file does not contain links for each image to a
-    corresponding higher-resolution image.
+    generate when the HTML file does not contains relative
+    links for each image to a  corresponding higher-resolution image.
 </ul>
 
 
@@ -1551,7 +1554,7 @@ Template files use the following escapes and directives.
   <li> A directive starting with "<code>!</code>" indicates a comment,
     which will be removed.
   <li> A directive containing letters, digits, and periods will be replaced
-       with a value, the same value for each use.
+       with a value.
   <li> A directive consisting of two subdirectives, separated by a colon
     (<code>:</code>) with each subdirective consisting of letters, digits,
     and periods, indicates iteration.  The first subdirective indicates
@@ -1559,6 +1562,14 @@ Template files use the following escapes and directives.
     that ends the iteration.  The text in between will be repeated N times,
     with directives in the replacement table possibly changing from one
     iteration to the next.
+  <li> A directive consisting of two subdirectives, separated by a colon
+    (<code>:</code>) with each subdirective consisting of letters, digits,
+    and periods, with the first subdirective prefaced by <CODE>+</CODE>
+    or <CODE>-</CODE>, is a conditional directive. It is treated like
+    an iterative directive but with a single iteration that will occur
+    for the <CODE>+</CODE> case if the first subdirective matches a
+    directive that is defined, and for the <CODE>-</CODE> case if the
+    the first subdirective does not match a directive that is defined.
 </UL>
 <P>
 The following directives are recognized for top-level HTML files:
@@ -1606,7 +1617,7 @@ The following directives are recognized for top-level HTML files:
   <li><var>hrefURL</var>. The URL that will be visited when a medium-scale
     image is clicked.  The value is changed during iteration.
   <li><var>hrefTarget</var>. The target frame corresponding to the
-    <var>hrefURL</var>directive.  The value is changed during iteration.
+    <var>hrefURL</var> directive.  The value is changed during iteration.
   <li><var>fsImageURL</var>. The URL of a full-scale image relative to
     the top-level URL.
   <li><var>newTableRow</var>. The HTML sequence needed to start a new

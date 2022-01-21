@@ -8,8 +8,8 @@ webnail \- create a webnail image
 [\fIXML_INPUT_FILE\fR]
 .br
 .B webnail
-[\fB-\fR[\fBuU\fR] [\fB-a \fIUSER PASSWORD\fR]]
-[\fB-t \fIIMAGE_TYPE\fR]
+[\fB\-\fR[\fBuU\fR] [\fB\-a \fIUSER PASSWORD\fR]]
+[\fB\-t \fIIMAGE_TYPE\fR]
 .br
 \ \ \ \ \ \ \ \ \ 
 .I WIDTH
@@ -17,12 +17,12 @@ webnail \- create a webnail image
 [\fIINPUTFILE OUTPUTFILE\fR]...
 .br
 .B webnail
-[\fB-\fR[\fBuU\fR] [\fB-a \fIUSER PASSWORD\fR]]
-[\fB-t \fIIMAGE_TYPE\fR]
+[\fB\-\fR[\fBuU\fR] [\fB\-a \fIUSER PASSWORD\fR]]
+[\fB\-t \fIIMAGE_TYPE\fR]
 .br
 \ \ \ \ \ \ \ \ \ 
-[\fB -w\fR [\fB-i\fR] [\fIWEB_OPTIONS\fR]]
-.B -d
+[\fB \-w\fR [\fB\-i\fR] [\fIWEB_OPTIONS\fR]]
+.B \-d
 .I TARGET_DIRECTORY
 .br
 \ \ \ \ \ \ \ \ \ 
@@ -32,11 +32,11 @@ webnail \- create a webnail image
 .br
 .B webnail
 [\fB-\fR[\fBuU\fR] [\fB-a \fIUSER PASSWORD\fR]]
-[\fB-t \fIIMAGE_TYPE\fR]
+[\fB\-t \fIIMAGE_TYPE\fR]
 .br
 \ \ \ \ \ \ \ \ \ 
-[\fB -w\fR [\fB-i\fR] [\fIWEB_OPTIONS\fR]]
-.B -z
+[\fB \-w\fR [\fB\-i\fR] [\fIWEB_OPTIONS\fR]]
+.B \-z
 .I ZIPFILE
 .br
 \ \ \ \ \ \ \ \ \ 
@@ -45,22 +45,22 @@ webnail \- create a webnail image
 [\fIINPUTFILE\fR]...
 .br
 .B webnail
-.B -f 
+.B \-f
 .I XML_INPUT_FILE
-.B -d 
+.B \-d
 .I TARGET_DIRECTORY
 .br
 .B webnail
-.B -f 
+.B \-f
 .I XML_INPUT_FILE
-.B -z 
+.B \-z
 .I ZIPFILE
 .br
 .B webnail
-.B -l
+.B \-l
 .br
 .B webnail
-.B --gui
+.B \-\-gui
 [\fIXML_INPUT_FILE\fR]
 .br
 .SH DESCRIPTION
@@ -73,24 +73,24 @@ argument that does not start with "\-", the argument is assumed to be the
 name of an XML input file, as described below, that will preconfigure the GUI.
 The GUI has an option to save its state in a file using this XML format.
 Otherwise the arguments other than options are as follows.
-.TP 
+.TP
 .I WIDTH
 The maximum width of an thumbnail image in pixels.
-.TP 
+.TP
 .I HEIGHT
 The maximum height of a thumbnail image in pixels.
-.TP 
+.TP
 .I INPUTFILE
 The path name or file name of an input file containing the full-sized image.
-.TP 
+.TP
 .I OUTPUTFILE
 The path name or file name of the thumbnail file to be created.
 .PP
 Any number of pairs of input and output files can be passed, up to
 system imposed limits on the length of a command line.
-.SH OPTIONS
+.SH GENERAL OPTIONS
 .TP
-.B --gui
+.B \-\-gui
 Webnail will use a GUI. If there is a following argument,
 .IR FILE_NAME ,
 an XML file with the default extension (xml) or the extension wnl,
@@ -106,37 +106,37 @@ menu.  On Linux or Unix systems, it is also described in part 5 of
 the Linux/Unix manual. On Windows systems, it will typically be in
 found at %PROGRAMDATA%/webnail/doc/webnail-files.html.
 .TP
-.B -i
+.B \-i
 The target directory or zip file will contain a WEB-INF subdirectory
 that contains a web.xml file, as required by the web archive standard.
 This option simplifies deployment to a web server.
 .TP
-.B -w
+.B \-w
 The target directory or zip file will contain the files needed for
 a web page displaying the images. Within this directory or zip file,
 the file named index.html specifies the web page to display.
 .TP
-.B -d
-The following argument, 
+.B \-d
+The following argument,
 .IR TARGET_DIRECTORY ,
 gives a directory to put the output files.
 .TP
-.B -z
-The following argument, 
+.B \-z
+The following argument,
 .IR ZIPFILE ,
-gives the name of a zip file in which to put thumbnail images or the 
-directory tree for a web page.  Thumbnail images 
-will have the same name as the original files, but may have a different 
+gives the name of a zip file in which to put thumbnail images or the
+directory tree for a web page.  Thumbnail images
+will have the same name as the original files, but may have a different
 suffix. The last component of a path name should be unique among all of
-those  given as otherwise a thumbnail image will be overridden.  If 
+those  given as otherwise a thumbnail image will be overridden.  If
 .I ZIPFILE
 refers to an existing zip file, that file will be overridden.
 If the zip file's name ends in the suffix ".war", The file will be
-formatted as a web-archive JAR file, in which case the -w and -i options
+formatted as a web-archive JAR file, in which case the \-w and \-i options
 are turned on.  If the name of the file is "-", standard output is used
 instead.
 .TP
-.B -f 
+.B \-f
 The following argument,
 .IR XML_INPUT_FILE ,
 gives the name of an XML input file that specifies additional details
@@ -149,43 +149,43 @@ file is described in Part 5 of this manual. It is also described in the
 on-line manual provided with Webnail that is accessible from the "Help"
 menu when the GUI is used.
 .TP
-.B -l
+.B \-l
 lists the acceptable image types of the output files (these are MIME types).
 .TP
-.B -t
+.B \-t
 The following argument,
 .IR IMAGE_TYPE ,
 specifies an image type for files that will be created  by giving their
 MIME types.
 .TP
-.B -u
+.B \-u
 The
 .I FILENAME
 arguments are URLs instead of system-dependent file names. This allows images to be fetched from a server, file, etc.  If this argument precedes the "-f"
 option, the argument of the "-f" option is a URL.
 .TP
-.B -U
+.B \-U
 The
 .I Filename
 arguments are URLs instead of system-dependent file names. This allows images to be fetched from a server, file, etc.  In addition, for full-sized images, a link to the image instead of a local copy will be used.
 .TP
-.B -a
+.B \-a
 .I USERNAME
 .I PASSWORD
-specifies a user name 
+specifies a user name
 .I USERNAME
-and password 
+and password
 .I PASSWORD
 to use for authorization for HTTP or HTTPS requests.
 .SH WEB OPTIONS
 .PP
 The following options are used only when the
-.B /-w
+.B \-w
 option was selected explicitly or implicitly by using the
-.B /-i
+.B \-i
 option.
 .TP
-.B /-C
+.B \-C
 The following argument,
 .IR COLOR ,
 gives the background color to use for web pages.  The color is
@@ -203,60 +203,60 @@ Sheets version 1).
 Icons used for controls will use a light color suitable for a dark
 background.
 .TP
-.B /-W
+.B \-W
 When a slideshow is running in full-screen mode, if there is an error
 loading an image, the previous image will be displayed until the time
 interval for the image that caused the error has expired.
 .TP
-.B /-S
+.B \-S
 When a slideshow is running in full-screen mode, and an image arrives
 late, the time interval for that image (and perhaps subsequent ones) will
 be shortened with a goal of synchronizing the display time with the
 sequence of times indicated by the image-Time interval.
 .TP
-.B /-I
+.B \-I
 The following argument,
 .IR IMAGE_TIME ,
 gives the time interval for displaying an image in a slideshow.
 .TP
-.B /-L
+.B \-L
 The following argument,
 .IR MIN_IMAGE_TIME ,
 gives the minimal time interval for displaying an image in a slideshow,
 and is used when the image's time interval has to be shortened for time
 synchronization.
 .TP
-.B /-T
+.B \-T
 The following argument,
 .IR TITLE ,
 is a string giving the default  title to display on the web page for the
 images.
 .TP
-.B /-X
+.B \-X
 The following argument,
 .IR WINDOW_TITLE ,
 is a string giving the default window title to display on the web page for the
 images. This title will typically appear in frame surrounding a browser's
 window.
 .TP
-.B /-D
+.B \-D
 The following argument,
 .IR DESCRIPTION ,
 is a string giving a default description to display on the web page for the
 images.
 .TP
-.B /-M
+.B \-M
 This option configures the web page to disable full-screen mode for
 slideshows, and eliminates the presence of high-resolution images.
-.TP 
-.B /-F
+.TP
+.B \-F
 Normally when the
-.B /-w
+.B \-w
 option is selected, all high-resolution images go into a subdirectory
 named
 .BR high .
 The
-.B /-F
+.B \-F
 option places the high-resolution images in the top level directory
 for the web page.  This is useful if you want the web files built
 around existing images (e.g., the images in a
@@ -266,7 +266,7 @@ or
 directory created by software that downloads images from a digital
 camera) as existing files will used rather than copied.
 .TP
-.B /-H
+.B \-H
 This option sets up the web page so that when you click on the larger
 image (not one of the thumbnail images), one will follow a link to the
 original image.  The image arguments should in this case preferably be
