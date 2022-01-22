@@ -104,7 +104,11 @@ file is described in the on-line manual accessible from webnail's
 .B help
 menu.  On Linux or Unix systems, it is also described in part 5 of
 the Linux/Unix manual. On Windows systems, it will typically be in
-found at %PROGRAMDATA%/webnail/doc/webnail-files.html.
+found at %PROGRAMDATA%/webnail/doc/webnail-files.html.  When there is
+a following argument - either a file name or a
+.B file
+URL, webnail will set its current working directory to the parent
+directory if that file, provided one exists.
 .TP
 .B \-i
 The target directory or zip file will contain a WEB-INF subdirectory

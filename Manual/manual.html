@@ -57,12 +57,16 @@ include standard components (e.g., a logo at the top of the page).
 
 <h1><a name="basic">Basic use of Webnail</a></h1>
 <P>
-To start Webnail, either type the command <strong>webnail</strong> in a
-terminal window or find it in a menu of installed programs (how to do
-this is window-system dependent).  While there are a number of options,
-only a few are needed for basic usage. While Webnail's window has a
-number of controls, only a few are needed for basic use, as outlined in
-the following sections.  A few controls are common to all of these:
+To start Webnail, either type the command <strong>webnail</strong> in
+a terminal window, find it in a menu of installed programs (how to do
+this is window-system dependent), or open a <strong>webnail</strong>
+saved-state file by double-clicking it.  When a saved-state file is
+opened using the window system, the current working directory will be
+set to that file's parent directory. Once started, there are a number
+of options, but only a few are needed for basic usage. While Webnail's
+window has a number of controls, only a few are needed for basic use,
+as outlined in the following sections.  A few controls are common to
+all of these:
 </P>
 <DL>
   <DT><strong>Output Controls</strong>
@@ -598,7 +602,7 @@ The controls in this window are the following:
       the time an image is displayed may be reduced if the image
       arrives late (e.g., due to network delays) and this value
       ensures that reductions in display time will be shared by
-      multiple following images. The value is specified as SECONDS,
+       multiple following images. The value is specified as SECONDS,
       MINUTES:SECONDS, or HOURS:MINUTES:SECONDS, where SECONDS can
       either be an integer or a decimal number with up to three digits
       past the decimal point (comma in European notation). When not
@@ -809,12 +813,15 @@ The options are as follows:
     that require that a user be authenticated. The following arguments
     <em>USERNAME</em> and <em>PASSWORD</em> provide the user name and
     password respectively.
-  <li><strong>--gui</strong> indicates that the GUI should start. A subsequent
-    optional argument is either a file name or URL providing an input
-    configuration in XML format. This option is provided to allow
-    Webnail to fit into various desktop environments (e.g.,
-    the GNOME desktop, where a Desktop file can specify how to start a
-    program).
+  <li><strong>--gui</strong> indicates that the GUI should start. A
+    subsequent optional argument is either a file name or URL
+    providing an input configuration in XML format. This option is
+    provided to allow Webnail to fit into various desktop environments
+    (e.g., the GNOME desktop, where a Desktop file can specify how to
+    start a program). When there is a file-name argumnt,
+    or a <strong>file</strong> URL, following this option, that file's
+    <!-- ' --> parent directory will be used as <strong>webnail</strong>'s
+    <!-- ' --> current working directory.
 </ul>
 <h2><a name="weboptions"> Web Options</a></h2>
 <p>

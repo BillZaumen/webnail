@@ -171,6 +171,11 @@ public class Webnail {
 	return leading;
     }
 
+    private static Object dirOptions[] = {
+	localeString("clear"),
+	localeString("abort"),
+    };
+
 
     public static void generate(Parser parser, File dir, ZipOutputStream zos,
 				ProgMonitor pm)
@@ -254,7 +259,6 @@ public class Webnail {
 	File idir = null;
 	File wdir = null;
 
-
 	if (dir != null && webmode) {
 	    // already tested that dir is a directory, etc.
 	    idir = (hasAllImages? ((flat)? dir: new File(dir, "high")):
@@ -267,13 +271,42 @@ public class Webnail {
 					      dir.toString()));
 			if (pm == null) System.exit(1); else return;
 		    } else if (!flat && idir.list().length != 0) {
-			ErrorMessage.display(String.format
-					     ((hasAllImages?
-					       localeString("idirError2"):
-					       localeString
-					       ("mdirError2")),
-					      dir.toString()));
-			if (pm == null) System.exit(1); else return;
+			if (pm == null) {
+			    ErrorMessage.display(String.format
+						 ((hasAllImages?
+						   localeString("idirError2"):
+						   localeString
+						   ("mdirError2")),
+						  dir.toString()));
+			    System.exit(1);
+			} else {
+			    if (0 != JOptionPane
+				.showOptionDialog(Gui.frame,
+						  String.format
+						  ((hasAllImages?
+						    localeString("idirError2"):
+						    localeString
+						    ("mdirError2")),
+						   dir.toString()),
+						  localeString("dirError"),
+						  JOptionPane.YES_NO_OPTION,
+						  JOptionPane.QUESTION_MESSAGE,
+						  null,
+						  dirOptions, dirOptions[0])) {
+				return;
+			    } else {
+				// clear the directory.
+				for (File f: idir.listFiles()) {
+				    if (!f.delete()) {
+					ErrorMessage.display
+					    (String.format
+					     (localeString("canNotDelete"),
+					      f.getAbsolutePath()));
+					return;
+				    }
+				}
+			    }
+			}
 		    }
 		} else if (!idir.mkdir()) {
 		    ErrorMessage.display(String.format
@@ -293,10 +326,36 @@ public class Webnail {
 					      dir.toString()));
 			if (pm == null) System.exit(1); else return;
 		    } else if (tdir.list().length != 0) {
-			ErrorMessage.display(String.format
-					     (localeString("tdirError2"),
-					      dir.toString()));
-			if (pm == null) System.exit(1); else return;
+			if (pm == null) {
+			    ErrorMessage.display(String.format
+						 (localeString("tdirError2"),
+						  dir.toString()));
+			    System.exit(1);
+			} else {
+			    if (0 != JOptionPane
+				.showOptionDialog(Gui.frame,
+						  String.format
+						  (localeString("tdirError2"),
+						   dir.toString()),
+						  localeString("dirError"),
+						  JOptionPane.YES_NO_OPTION,
+						  JOptionPane.QUESTION_MESSAGE,
+						  null,
+						  dirOptions, dirOptions[0])) {
+				return;
+			    } else {
+				// clear the directory.
+				for (File f: tdir.listFiles()) {
+				    if (!f.delete()) {
+					ErrorMessage.display
+					    (String.format
+					     (localeString("canNotDelete"),
+					      f.getAbsolutePath()));
+					return;
+				    }
+				}
+			    }
+			}
 		    }
 		} else if (!tdir.mkdir()) {
 		    ErrorMessage.display(String.format
@@ -312,10 +371,36 @@ public class Webnail {
 					  dir.toString()));
 		    if (pm == null) System.exit(1); else return;
 		} else if (mdir.list().length != 0) {
-		    ErrorMessage.display(String.format
-					 (localeString("mdirError2"),
-					  dir.toString()));
-		    if (pm == null) System.exit(1); else return;
+		    if (pm == null) {
+			ErrorMessage.display(String.format
+					     (localeString("mdirError2"),
+					      dir.toString()));
+			System.exit(1);
+		    } else {
+			if (0 != JOptionPane
+				.showOptionDialog(Gui.frame,
+						  String.format
+						  (localeString("mdirError2"),
+						   dir.toString()),
+						  localeString("dirError"),
+						  JOptionPane.YES_NO_OPTION,
+						  JOptionPane.QUESTION_MESSAGE,
+						  null,
+						  dirOptions, dirOptions[0])) {
+				return;
+			    } else {
+				// clear the directory.
+				for (File f: mdir.listFiles()) {
+				    if (!f.delete()) {
+					ErrorMessage.display
+					    (String.format
+					     (localeString("canNotDelete"),
+					      f.getAbsolutePath()));
+					return;
+				    }
+				}
+			    }
+		    }
 		}
 	    } else if (!mdir.mkdir()) {
 		ErrorMessage.display(String.format
@@ -331,10 +416,36 @@ public class Webnail {
 					      dir.toString()));
 			if (pm == null) System.exit(1); else return;
 		    } else if (cdir.list().length != 0) {
-			ErrorMessage.display(String.format
-					     (localeString("cdirError2"),
-					      dir.toString()));
-			System.exit(1);
+			if (pm == null) {
+			    ErrorMessage.display(String.format
+						 (localeString("cdirError2"),
+						  dir.toString()));
+			    System.exit(1);
+			} else {
+			    if (0 != JOptionPane
+				.showOptionDialog(Gui.frame,
+						  String.format
+						  (localeString("cdirError2"),
+						   dir.toString()),
+						  localeString("dirError"),
+						  JOptionPane.YES_NO_OPTION,
+						  JOptionPane.QUESTION_MESSAGE,
+						  null,
+						  dirOptions, dirOptions[0])) {
+				return;
+			    } else {
+				// clear the directory.
+				for (File f: cdir.listFiles()) {
+				    if (!f.delete()) {
+					ErrorMessage.display
+					    (String.format
+					     (localeString("canNotDelete"),
+					      f.getAbsolutePath()));
+					return;
+				    }
+				}
+			    }
+			}
 		    }
 		} else if (!cdir.mkdir()) {
 		    ErrorMessage.display(String.format
@@ -352,10 +463,36 @@ public class Webnail {
 					      dir.toString()));
 			if (pm == null) System.exit(1); else return;
 		    } else if (wdir.list().length != 0) {
-			ErrorMessage.display(String.format
-					     (localeString("wdirError2"),
-					      dir.toString()));
-			if (pm == null) System.exit(1); else return;
+			if (pm == null) {
+			    ErrorMessage.display(String.format
+						 (localeString("wdirError2"),
+						  dir.toString()));
+			    System.exit(1);
+			} else {
+			    if (0 != JOptionPane
+				.showOptionDialog(Gui.frame,
+						  String.format
+						  (localeString("wdirError2"),
+						   dir.toString()),
+						  localeString("dirError"),
+						  JOptionPane.YES_NO_OPTION,
+						  JOptionPane.QUESTION_MESSAGE,
+						  null,
+						  dirOptions, dirOptions[0])) {
+				return;
+			    } else {
+				// clear the directory.
+				for (File f: wdir.listFiles()) {
+				    if (!f.delete()) {
+					ErrorMessage.display
+					    (String.format
+					     (localeString("canNotDelete"),
+					      f.getAbsolutePath()));
+					return;
+				    }
+				}
+			    }
+			}
 		    }
 		} else if (!wdir.mkdir()) {
 		    ErrorMessage.display(String.format
@@ -1230,6 +1367,9 @@ public class Webnail {
 		 * for supporting window systems (e.g., the Gnome
 		 * desktop files).
 		 */
+		if (argv[0].equals("--gui")) {
+		    Gui.checkCdir = true;
+		}
 		final String name = argv[argv.length - 1];
 		SwingUtilities.invokeLater(new Runnable() {
 			public void run() {

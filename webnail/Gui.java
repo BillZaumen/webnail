@@ -287,6 +287,8 @@ public class Gui {
 	}
     }
 
+    static boolean checkCdir = false;
+
     static File fileToSave = null;
 
     static void load(final URL url) {
@@ -380,6 +382,16 @@ public class Gui {
 
     static void load(String fileName, InputStream is) {
 	try {
+	    if (checkCdir && fileName != null) {
+		File f = new File(fileName);
+		String parent = f.getParent();
+		if (parent != null) {
+		    System.setProperty("user.dir", parent);
+		}
+		currentDir = new File(System.getProperty("user.dir"));
+		icurrentDir = currentDir;
+		ocurrentDir = currentDir;
+	    }
 	    Parser p = new Parser();
 	    if (fileName != null) p.setXMLFilename(fileName);
 	    console.addSeparatorIfNeeded();
