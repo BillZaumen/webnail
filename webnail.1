@@ -60,6 +60,9 @@ webnail \- create a webnail image
 .B \-l
 .br
 .B webnail
+.RB [ \-\-port\ \fIPORT\fR ] \ \-\-browse \ \fIFILE\fR
+.br
+.B webnail
 .B \-\-gui
 [\fIXML_INPUT_FILE\fR]
 .br
@@ -276,6 +279,20 @@ image (not one of the thumbnail images), one will follow a link to the
 original image.  The image arguments should in this case preferably be
 URLs, not file names (a file name would be converted to a "file" URL,
 but this is appropriate only for use on a single computer system).
+.SH SERVER OPTIONS
+.TP
+.BI \-\-port \ PORT
+Set the TCP port to use when webnail is used as a web server. When
+the port is zero, or not provided, a port will be automatically
+chosen.
+.TP
+.BI \-\-browse \ FILE
+Start webnail as a web server. The argument
+.I FILE
+is either a directory, a zip file, or a WAR (Web ARchive) file that
+was generated with
+.IR webnail ,
+although it can be used with other files or directories as well.
 .SH FILES
 .TP
 .I /usr/share/java/webnail-VERSION.jar

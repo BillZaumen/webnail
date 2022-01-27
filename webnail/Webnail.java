@@ -22,7 +22,9 @@ import org.bzdev.imageio.ImageScaler;
 import org.bzdev.imageio.ImageMimeInfo;
 import org.bzdev.util.CopyUtilities;
 import org.bzdev.net.WebEncoder;
-
+import org.bzdev.ejws.*;
+import org.bzdev.ejws.maps.*;
+import org.xml.sax.SAXException;
 
 /*
  * Webnail main program, constants, and 'generate' function.
@@ -1345,6 +1347,51 @@ public class Webnail {
     }
 
 
+    public static EmbeddedWebServer openBrowser(String fname, int port)
+	throws Exception
+    {
+	File cdir = new File(System.getProperty("user.dir"));
+	File f = new File(fname);
+	if (!f.isAbsolute()) {
+	    f = new File (cdir, fname);
+	}
+	EmbeddedWebServer ews = new EmbeddedWebServer(port, 48, 2, null);
+	if (port == 0) port = ews.getPort();
+	if (f.isDirectory()) {
+	    File wx = new File(f, "WEB-INF" + File.separator + "web.xml");
+	    boolean noWebxml = !wx.isFile() || !wx.canRead();
+	    ews.add("/", DirWebMap.class, f, null, noWebxml, true, false);
+	} else {
+	    String name = f.getName();
+	    if (name.endsWith(".zip")) {
+		boolean noWebxml = false;
+		ZipFile zf = null;
+		try {
+		    zf = new ZipFile(f);
+		    ZipEntry ze = zf.getEntry("WEB-INF/web.xml");
+		    noWebxml = (ze == null);
+		} catch (IOException e) {
+		    noWebxml = true;
+		    // System.out.println("IOException in checking ZIP files");
+		} finally {
+		    if (zf != null) zf.close();
+		}
+		ews.add("/", ZipWebMap.class, f,
+			null, noWebxml, true, !noWebxml);
+	    } else if (name.endsWith(".war")) {
+		    ews.add("/", ZipWebMap.class, f, null, false, true, true);
+	    } else {
+		throw new IOException(localeString("notDirZipWar"));
+	    }
+	}
+	WebMap wmap = ews.getWebMap("/");
+	if (wmap != null) wmap.addWelcome("index.html");
+	ews.start();
+	URI uri = new URL("http://localhost:" + port + "/").toURI();
+	Desktop.getDesktop().browse(uri);
+	return ews;
+    }
+
     /*
      * main program.
      * @param argv command-line arguments consisting of the maximum
@@ -1448,6 +1495,10 @@ public class Webnail {
 	long minImageTime = DEFAULT_MIN_IMAGE_TIME;
 
 	String mtype = "image/jpeg";
+
+	int port = 0;
+	String bfile = null;
+
 	type = ImageMimeInfo.getFormatNameForMimeType(mtype);
 	extension = ImageMimeInfo.getExtensionForMimeType(mtype);
 	while (index < argv.length) {
@@ -1654,6 +1705,24 @@ public class Webnail {
 		    noXML(xmlFile, xmlURL);
 		    // index++;
 		    hrefToOrig = true;
+		} else if (argv[index].equals("--port")) {
+		    noXML(xmlFile, xmlURL);
+		    index++;
+		    checkForMissingArg(index, argv.length);
+		    try {
+			port = Integer.parseInt(argv[index]);
+			if (port < 0 || port >= (1<<16)) {
+			    System.err.println(localeString("badRange"));
+			}
+		    } catch (Exception eport) {
+			System.err.println("badPort");
+			System.exit(1);
+		    }
+		} else if (argv[index].equals("--browse")) {
+		    noXML(xmlFile, xmlURL);
+		    index++;
+		    checkForMissingArg(index, argv.length);
+		    bfile = argv[index];
 		} else {
 		    System.err.println(String.format
 				       (localeString("unknownOption"),
@@ -1664,6 +1733,16 @@ public class Webnail {
 		break;
 	    }
 	    index++;
+	}
+
+	if (bfile != null) {
+	    try {
+		openBrowser(bfile, port);
+		return;
+	    } catch (Exception be) {
+		System.err.println(be.getMessage());
+		System.exit(1);
+	    }
 	}
 
 	if (user != null && password != null) {

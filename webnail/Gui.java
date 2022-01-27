@@ -2,32 +2,33 @@ package webnail;
 
 import java.awt.*;
 import java.awt.event.*;
-import java.util.ResourceBundle;
-import java.util.MissingResourceException;
-import java.util.Map;
-import java.util.Map.Entry;
-import java.util.LinkedList;
-import java.util.HashMap;
-import javax.swing.*;
-import javax.swing.colorchooser.*;
 import java.io.*;
 import java.io.IOException;
+import java.net.*;
+import java.util.HashMap;
+import java.util.LinkedList;
+import java.util.Map.Entry;
+import java.util.Map;
+import java.util.MissingResourceException;
+import java.util.ResourceBundle;
+import java.util.jar.*;
+import java.util.zip.*;
+import javax.swing.*;
+import javax.swing.colorchooser.*;
 import javax.swing.filechooser.*;
 import javax.swing.plaf.ColorUIResource;
-import java.util.zip.*;
-import java.util.jar.*;
-import java.net.*;
 
 import javax.xml.parsers.*;
-import org.xml.sax.helpers.*;
 import org.xml.sax.*;
+import org.xml.sax.helpers.*;
 
-import org.bzdev.swing.*;
-import org.bzdev.util.TemplateProcessor;
-import org.bzdev.util.TemplateProcessor.KeyMap;
-import org.bzdev.imageio.ImageScaler;
+import org.bzdev.ejws.EmbeddedWebServer;
 import org.bzdev.imageio.ImageMimeInfo;
+import org.bzdev.imageio.ImageScaler;
 import org.bzdev.net.WebEncoder;
+import org.bzdev.swing.*;
+import org.bzdev.util.TemplateProcessor.KeyMap;
+import org.bzdev.util.TemplateProcessor;
 
 public class Gui {
 
@@ -285,6 +286,7 @@ public class Gui {
 	    editImagesPane.setLimitedMode(false);
 	    editImagesPane.setLinkMode(true);
 	}
+	setupServerControlsEnabled();
     }
 
     static boolean checkCdir = false;
@@ -535,6 +537,12 @@ public class Gui {
 	return;
     }
 
+    static int port = 0;
+    static PortTextField portTextField = null;
+    static JMenuItem startHTTP = null;
+    static JMenuItem stopHTTP = null;
+    static EmbeddedWebServer ews = null;
+
     static void configureMenus() {
 	JMenuBar menubar = new JMenuBar();
 	JMenu fileMenu = new JMenu(localeString("fileMenu"));
@@ -547,6 +555,51 @@ public class Gui {
 	JMenuItem save = new JMenuItem(localeString("saveMenuItem"));
 	JMenuItem saveAs = new JMenuItem(localeString("saveAsMenuItem"));
 
+	portTextField = new PortTextField(5) {
+		public void onAccepted() throws Exception {
+		    super.onAccepted();
+		    port = getValue();
+		}
+	    };
+	portTextField.setAllowEmptyTextField(true);
+	portTextField.setDefaultValue(0);
+	JMenuItem portMenuItem = new JMenuItem(localeString("httpPort"));
+
+	portMenuItem.addActionListener(evnt -> {
+		JOptionPane.showMessageDialog(frame, portTextField,
+					      localeString("httpPortTitle"),
+					      JOptionPane.PLAIN_MESSAGE,
+					      null);
+	    });
+
+
+	startHTTP = new JMenuItem(localeString("startHttp"));
+	stopHTTP = new JMenuItem(localeString("stopHttp"));
+	startHTTP.setEnabled(false);
+	stopHTTP.setEnabled(false);
+
+	startHTTP.addActionListener(evnt1 -> {
+		try {
+		    if (ews == null) {
+			ews = Webnail.openBrowser(ofntf.getText().trim(), port);
+			stopHTTP.setEnabled(true);
+			startHTTP.setEnabled(false);
+		    }
+		} catch (Exception startException) {
+		    SwingErrorMessage.display(startException);
+		    showConsole();
+		}
+	    });
+	stopHTTP.addActionListener(evnt1 -> {
+		if (ews != null) {
+		    ews.shutdown(1);
+		    ews = null;
+		    stopHTTP.setEnabled(false);
+		    setupServerControlsEnabled();
+		}
+	    });
+
+
 	JMenuItem proxies = new ProxyMenuItem(localeString("proxyMenuItem"),
 					      frame,
 					      localeString("proxyTitle"));
@@ -557,6 +610,7 @@ public class Gui {
 	JMenuItem manual = new JMenuItem(localeString("manualMenuItem"));
 	JMenuItem about = new JMenuItem(localeString("aboutMenuItem"));
 
+
 	final JCheckBoxMenuItem stackTraceButtonMenuItem =
 	    new JCheckBoxMenuItem(localeString("showStackTraceMenuItem"),
 				     false);
@@ -564,6 +618,9 @@ public class Gui {
 	fileMenu.add(open);
 	fileMenu.add(save);
 	fileMenu.add(saveAs);
+	fileMenu.add(portMenuItem);
+	fileMenu.add(startHTTP);
+	fileMenu.add(stopHTTP);
 	fileMenu.add(quit);
 	editMenu.add(proxies);
 	editMenu.add(layouts);
@@ -685,6 +742,8 @@ public class Gui {
 				    runButton.setEnabled(false);
 				    (new Thread() {
 					    public void run() {
+						final boolean prevrun
+						    = runButton.isEnabled();
 						cancelButton.setEnabled(true);
 						try {
 						    w.join();
@@ -697,7 +756,7 @@ public class Gui {
 								    (false);
 								runButton
 								    .setEnabled
-								    (true);
+								    (prevrun);
 								checkConsole();
 							    }
 							});
@@ -1557,6 +1616,32 @@ public class Gui {
 	}
     }
 
+    static void  setupServerControlsEnabled() {
+	if (ews == null) {
+	    String path = ofntf.getText().trim();
+	    if (path.length() > 0) {
+		boolean needDir = oftrbWebDir.isSelected()
+		    || oftrbWarDir.isSelected();
+		boolean needFile = oftrbWebZip.isSelected()
+		    || oftrbWar.isSelected();
+		File target = new File(path);
+		if (!target.isAbsolute()) {
+		    target = new File(currentDir, path);
+		}
+		if (target.isDirectory()) {
+		    needFile = false;
+		} else if (target.isFile()) {
+		    needDir = false;
+		}
+		if (needFile || needDir) {
+		    startHTTP.setEnabled(true);
+		} else {
+		    startHTTP.setEnabled(false);
+		}
+	    }
+	}
+    }
+
 
     /* Called in Webnail's main program */
     static void configureGui() {
@@ -1624,6 +1709,11 @@ public class Gui {
 			    }
 			};
 		    ofntf = new JTextField(60);
+		    ofntf.addActionListener(ofntfEvent -> {
+			    setupServerControlsEnabled();
+			    runButton.setEnabled(ofntf.getText().trim()
+						 .length() > 0);
+			});
 		    imageTimeLabel = 
 			new JLabel(localeString("imageTime") + ":");
 		    imageTimeTF = new TimeTextField(15) {
@@ -1848,6 +1938,7 @@ public class Gui {
 			 
 		    editButton = new JButton(localeString("editImages"));
 		    runButton = new JButton(localeString("run"));
+		    runButton.setEnabled(false);
 		    cancelButton = new JButton(localeString("cancel"));
 		    cancelButton.setEnabled(false);
 

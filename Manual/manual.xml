@@ -34,6 +34,8 @@
 	  uri="sresource:/webnail/manual.html#terminal">
       <node title="Web Options"
 	    uri="sresource:/webnail/manual.html#weboptions"/>
+      <node title="Web-Server Options"
+	    uri="sresource:/webnail/manual.html#server">
     </node>
     <node title="Reserved HTML IDs"
 	  uri="sresource:/webnail/manual.html#reservedIDs"/>

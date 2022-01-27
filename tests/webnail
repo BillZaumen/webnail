@@ -5,6 +5,8 @@ path=$path:/usr/share/bzdev/libbzdev-math.jar
 path=$path:/usr/share/bzdev/libbzdev-obnaming.jar
 path=$path:/usr/share/bzdev/libbzdev-graphics.jar
 path=$path:/usr/share/bzdev/libbzdev-desktop.jar
+path=$path:/usr/share/bzdev/libbzdev-ejws.jar
 
 java -p $path --add-modules org.bzdev.desktop \
+     --add-modules org.bzdev.ejws \
      -classpath ../jar/webnail-$version.jar webnail/Webnail "$@"

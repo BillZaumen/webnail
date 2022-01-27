@@ -27,9 +27,38 @@ function configure() {
     defaultDescr = (element == null)? "": element.innerHTML;
     index = 0;
     updateLocations(".");
+    // Sometimes we don't get to the right image, possibly
+    // due to a race condition.
+    if (!window.frames["images"].location.href
+	.endsWith(imageArray[index].name + ".html")) {
+	setTimeout(function() {	updateLocations(".");}, 4500);
+    }
+
     var button = window.document.getElementById("slideshow");
     button.disabled = false;
     configured = true;
+    // console.log("configured, index = " + index);
+}
+
+function syncIndex() {
+    try {
+	var loc = window.frames["images"].location.href;
+	if (index < 0) index = 0;
+	var tail = imageArray[index].name + ".html";
+	if (loc != null && tail != null) {
+	    if (!loc.endsWith(tail)) {
+		for (var i = 0; i < imageArray.length; i++) {
+		    tail = imageArray[i].name + ".html";
+		    if (loc.endsWith(tail)) {
+			index = i;
+			break;
+		    }
+		}
+	    }
+	}
+    } catch (err) {
+        console.log("syncIndex() failed: " + err);
+    }
 }
 
 function configureNS() {
@@ -70,23 +99,40 @@ function ensureImageFrameLocation(cdir) {
 
 function updateExpand() {
     if (index < 0) return;
-    var link = document.getElementById("expand");
-    link.href = imageArray[index].fsImageURL;
-    if (fselem != null) {
-	var sswurl = imageArray[index].fsImageURL;
-	if (sswurl.startsWith("./")) {
-	    fselem.src = (new URL(sswurl, document.URL)).href;
-	} else {
-	    fselem.src = imageArray[index].highImageURL;
+    try {
+	var link = document.getElementById("expand");
+	link.href = imageArray[index].fsImageURL;
+	if (fselem != null) {
+	    var sswurl = imageArray[index].fsImageURL;
+	    if (sswurl.startsWith("./")) {
+		fselem.src = (new URL(sswurl, document.URL)).href;
+	    } else {
+		fselem.src = imageArray[index].highImageURL;
+	    }
 	}
+    } catch (err) {
+	console.log("updateExpand() failed: " + err);
     }
 }
 
 var hrefCount = 0;
 function updateLocations(cdir) {
+    if (index == -1) {
+	console.log("updateLocations called when index == -1");
+    }
     window.frames["images"].location =
 	cdir + "/medium/" + imageArray[index].name + ".html";
     updateExpand();
+    var tnails = window.frames["thumbnails"];
+    if (tnails != null) {
+	try {
+	    if (index >= 0) {
+		tnails.frameElement.contentWindow.updatePosition(index);
+	    }
+	} catch (err) {
+	    console.log("cannot update thumbnails: " + err);
+	}
+    }
     return;
 }
 

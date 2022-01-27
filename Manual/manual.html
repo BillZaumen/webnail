@@ -206,7 +206,7 @@ This window contains a menu bar and a number of controls.
 <p>The menu bar contains four items: the
 </p>
 <ul>
-  <li><strong>File</strong> menu with 5 options:
+  <li><strong>File</strong> menu with 8 options:
     <UL>
       <li><var>Load URL</var> to load a previously saved
     configuration from a URL.
@@ -218,6 +218,11 @@ This window contains a menu bar and a number of controls.
 	name to use.
       <li><var>SaveAs</var> to save the current configuration
 	under a new file name.
+      <li><var>HTTP Port</var> to opens a dialog box to set the HTTP port
+	number. An empty value or 0 results in <var>webnail</var> choosing
+	a port.
+      <li><var>start HTTP Server</var> to start the HTTP server.
+      <li><var>Stop HTTP Server</var> to stop the HTTP server.
       <li><var>Quit</var> to exit from Webnail.
     </UL>
   <li><strong>Edit</strong> menu with 2 options:
@@ -851,14 +856,16 @@ argument is present.
     in a slideshow.  The following argument gives the time in units of
     milliseconds.
   <li><strong>-L</strong> gives the minimal time interval for displaying
-    an image in a slideshow, and is used when the image's time interval
-    has to be shortened for time synchronization.  The following argument
-    contains the value in units of milliseconds.
+    an image in a slideshow, and is used when the image's
+    <!-- ' --> time interval has to be shortened for time
+    synchronization.  The following argument contains the value in
+    units of milliseconds.
   <li><strong>-T</strong> indicates that the following argument contains
     a title to display below the image.
   <li><strong>-X</strong> indicates that the following argument contains
-    a title for the browser's window (this sets the TITLE element in the
-    HTML HEAD element.  If not present, a default will be used.
+    a title for the browser's
+    <!-- ' -> window (this sets the TITLE element in the HTML HEAD
+    element.  If not present, a default will be used.
   <li><strong>-D</strong> indicates that the following argument contains
     a description that will appear immediately below the title.
   <li><strong>-M</strong> configures the web page to disable full-screen
@@ -878,6 +885,16 @@ argument is present.
     computer system).
 </ul>
 </p>
+<h2><a name="server">Web Server Options</a></h2>
+<ul>
+  <li><strong>--port</strong> <I>PORT</I>. This option specifies the
+    TCP port to use for an internal web server (HTTP server). A value of
+    0 indicates that the program should choose an unused port.
+  <li><strong>--browse </strong> <I>FILE</I>. This option specifies the
+    file or directory containing the web pages. This should be a file or
+    directory created by <strong>webnail</strong>.  A web server will be
+    started, as will a browser connecting to that server.
+</ul>
 
 <h1><a name="reservedIDs">Reserved HTML IDs</a></h1>
 <P>
