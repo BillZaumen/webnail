@@ -22,6 +22,7 @@ import org.bzdev.imageio.ImageScaler;
 import org.bzdev.imageio.ImageMimeInfo;
 import org.bzdev.util.CopyUtilities;
 import org.bzdev.net.WebEncoder;
+import org.bzdev.net.HttpMethod;
 import org.bzdev.ejws.*;
 import org.bzdev.ejws.maps.*;
 import org.xml.sax.SAXException;
@@ -1352,6 +1353,13 @@ public class Webnail {
     public static EmbeddedWebServer openBrowser(String fname, int port)
 	throws Exception
     {
+	return openBrowser(fname, port, null);
+    }
+
+    public static EmbeddedWebServer openBrowser(String fname, int port,
+						String password)
+	throws Exception
+    {
 	File cdir = new File(System.getProperty("user.dir"));
 	File f = new File(fname);
 	if (!f.isAbsolute()) {
@@ -1385,6 +1393,23 @@ public class Webnail {
 	    } else {
 		throw new IOException(localeString("notDirZipWar"));
 	    }
+	}
+	if (password != null && password.length() > 0) {
+	    WebnailServletAdapter sa = new WebnailServletAdapter();
+	    ews.setTracer("webnail: ", System.out);
+	    try {
+	    ews.add("/sync/", ServletWebMap.class,
+		    new ServletWebMap.Config(sa, null, false,
+					     HttpMethod.POST,
+					     HttpMethod.HEAD,
+					     HttpMethod.OPTIONS,
+					     HttpMethod.TRACE),
+		    new WebnailAuthenticator(password),
+		    false, false, true);
+	    } catch (Exception e) {
+		e.printStackTrace();
+	    }
+	    System.out.println("got here");
 	}
 	WebMap wmap = ews.getWebMap("/");
 	if (wmap != null) wmap.addWelcome("index.html");
@@ -1498,6 +1523,7 @@ public class Webnail {
 
 	String mtype = "image/jpeg";
 
+	String pword = null;	// password when remotes are used
 	int port = 0;
 	String bfile = null;
 
@@ -1707,6 +1733,14 @@ public class Webnail {
 		    noXML(xmlFile, xmlURL);
 		    // index++;
 		    hrefToOrig = true;
+		} else if (argv[index].equals("--password")) {
+		    noXML(xmlFile, xmlURL);
+		    index++;
+		    checkForMissingArg(index, argv.length);
+		    pword = argv[index];
+		    if (pword.length() == 0) {
+			pword = null;
+		    }
 		} else if (argv[index].equals("--port")) {
 		    noXML(xmlFile, xmlURL);
 		    index++;
@@ -1739,7 +1773,7 @@ public class Webnail {
 
 	if (bfile != null) {
 	    try {
-		openBrowser(bfile, port);
+		openBrowser(bfile, port, pword);
 		return;
 	    } catch (Exception be) {
 		System.err.println(be.getMessage());

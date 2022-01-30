@@ -18,6 +18,47 @@ var loop = false;
 
 var configured = false;
 
+
+var remotesConfiguredSet = false;
+var remotesConfigured = false;
+var isMaestro = false;
+
+function  checkRemoteModes() {
+    console.log("starting request");
+    var request = new XMLHttpRequest();
+    request.onreadystatechange = function() {
+	console.log("readyState = " + this.readyState);
+	if (this.readyState == 4) {
+	    var stat = this.status;
+	    if (stat == 200) {
+		remotesConfigured = true;
+		if (this.responseText.trim() == "true") {
+		    isMaestro = true;
+		} else {
+		    isMaestro = false;
+		}
+		console.log("remote slideshow status: " + isMaestro);
+		remotesConfiguredSet = true;
+	    } else {
+		if (stat == 0) {
+		    // we couldn't complete the request
+		    console.log("checkRemoteModes: try again (status = 0)");
+		    remotesConfigured = false;
+		    remotesConfiguredSet = false;
+		} else {
+		    console.log("no remote slideshow, response code = "
+				+ stat);
+		    remotesConfigured = false;
+		    isMaestro = false;
+		    remotesConfiguredSet = true;
+		}
+	    }
+	}
+    };
+    request.open("POST", "/sync/status", true);
+    request.send();
+}
+
 function configure() {
     var button = window.document.getElementById("slideshow");
     button.disabled = true;
@@ -26,6 +67,23 @@ function configure() {
     element = window.document.getElementById("descr");
     defaultDescr = (element == null)? "": element.innerHTML;
     index = 0;
+    try {
+	checkRemoteModes();
+    } catch (err) {
+	console.log("XMLHttpRequest failed: " + err);
+    }
+
+    if (!remotesConfiguredSet) {
+	setTimeout(function() {
+	    // just in case the first attempt fails.
+	    try {
+		checkRemoteModes();
+	    } catch (err) {
+		console.log("XMLHttpRequest failed: " + err);
+	    }
+	}, 2000);
+    }
+
     updateLocations(".");
     // Sometimes we don't get to the right image, possibly
     // due to a race condition.
@@ -96,6 +154,65 @@ function ensureImageFrameLocation(cdir) {
     }
     return href;
 }
+
+function updateClient() {
+    var request = new XMLHttpRequest();
+    request.onreadystatechange = function() {
+	if (this.readyState == 4) {
+	    var stat = this.status;
+	    if (stat == 200) {
+		var data = JSON.parse(this.responseText);
+		if (data.cont) {
+		    if (index < 0) {
+			resetClient();
+		    } else {
+			if (data.delay < 0) {
+			    setTimeout(updateClient, 2000);
+			} else {
+			    var sswurl = imageArray[index].fsImageURL;
+			    if (sswurl.startsWith("./")) {
+				fselem.src = (new URL(sswurl,
+						      document.URL))
+				    .href;
+			    } else {
+				fselem.src = imageArray[index].highImageURL;
+			    }
+			    setTimeout(updateClient, data.delay);
+			}
+		    } else if (index >= data.maxIndex) {
+			var sswurl = imageArray[data.maxIndex].fsImageURL;
+			if (sswurl.startsWith("./")) {
+			    fselem.src = (new URL(sswurl,document.URL)).href;
+			} else {
+			    fselem.src = imageArray[data.maxIndex].highImageURL;
+			}
+			setTimeout(resetClient, data.delay);
+		    }
+		} else {
+		    // We failed - try again.
+		    setTimeout(updateClient, 2000);
+		}
+	    }
+	}
+    };
+    request.open("POST", "/sync/get", true);
+    request.send();
+}
+
+function startClient() {
+    displayWindow();
+    if (fselem != null) {
+	fselem.src = new URL("./controls/initial.png").href;
+    }
+}
+
+function resetClient() {
+    if (fselem != null) {
+	fselem.src = new URL("./controls/initial.png").href;
+	setTimeout(updateClient, 2000);
+    }
+}
+
 
 function updateExpand() {
     if (index < 0) return;
@@ -284,6 +401,18 @@ function httpStepSlideshow(ind) {
     timeoutID = setTimeout("stepSlideshow()", 7000);
 }
 
+function updateServer(dur) {
+    updateServerAux(index, dur);
+}
+
+function updateServerAux(ind, dur) {
+    var request = new XMLHttpRequest();
+    request.open("POST", "/sync/set", true);
+    request.setRequestHeader("Content-type",
+			     "application/x-www-form-urlencoded");
+    request.send("index=" + ind + "&delay=" + dur
+		 +"&loop=" + loop + "&maxIndex=" + maxIndex);
+}
 
 function doSlideshow() {
     var co = cacheOffset;
@@ -307,6 +436,7 @@ function doSlideshow() {
 	    imageTime: imageArray[index].duration;
 	if (dur != "*" && dur != "?") {
 	    if (cacheOffset > 1) dur = 0;
+	    if (remotesConfigured && isMaestro) updateServer(dur);
 	    timeoutID = setTimeout("stopSlideshow()", dur);
 	} else {
 	    if (dur == "?") {
@@ -352,6 +482,7 @@ function doSlideshow() {
 	}
 	cacheOffset = 1;
 	if (timeoutID != 0) clearTimeout(timeoutID);
+	if (remotesConfigured && isMaestro) updateServer(duration);
 	timeoutID = setTimeout("doSlideshow()", duration);
     } else {
 	index = ourindex;
@@ -384,6 +515,7 @@ function doSlideshow() {
 	    }
 	    actualTime += duration;
 	    if (timeoutID != 0) clearTimeout(timeoutID);
+	    if (remotesConfigured && isMaestro) updateServer(duration);
 	    timeoutID = setTimeout("doSlideshow()", duration);
 	} else {
 	    // we can't adjust if timing is indefinite.
@@ -410,6 +542,9 @@ function stopSlideshow() {
 	}
     }
     document.getElementById("loop").disabled = false;
+    if (isMaestro) {
+	updateServerAux(-1, 0);
+    }
 }
 
 function controlSlideshow() {
@@ -461,3 +596,15 @@ function runSlideshow() {
 }
 
 ensureImageFrameLocation(".");
+
+function startRemotesIfNeeded() {
+    if (remotesConfiguredSet) {
+	if (remotesConfigured && isMaestro == false) {
+	    startClient();
+	}
+    } else {
+	setTimeout(startRemotesIfNeeded, 200);
+    }
+}
+
+startRemotesIfNeeded();
