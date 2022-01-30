@@ -1308,13 +1308,15 @@ public class Webnail {
 			("webnail/medium.html", "controls/medium.html",
 			 zos, false);
 		    zos.setMethod(ZipOutputStream.DEFLATED);
-		    zos.setLevel(9);
+		    /*
+		     zos.setLevel(9);
 		    ze = new ZipEntry("controls/slideshow.html");
 		    zos.putNextEntry(ze);
 		    tp.processSystemResource("webnail/slideshowHTML.wnt",
 					     "UTF-8",
 					     zos);
 		    zos.closeEntry();
+		    */
 		}
 		if (warmode) {
 		    zos.setMethod(ZipOutputStream.DEFLATED);
