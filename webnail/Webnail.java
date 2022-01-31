@@ -1192,6 +1192,10 @@ public class Webnail {
 		    File initImage = new File(cdir, "initImage.png");
 		    CopyUtilities.copyResourceToFile("webnail/initImage.png",
 						     initImage);
+		    File initialImage = new File(cdir, "initial.png");
+		    CopyUtilities.copyResourceToFile("webnail/initial.png",
+						     initialImage);
+
 		    File fleft = new File(cdir, "fleft.gif");
 		    CopyUtilities.copyResourceToFile(rvmode?
 						     "webnail/fleftRV.gif":
@@ -1266,6 +1270,9 @@ public class Webnail {
 		    CopyUtilities.copyResourceToZipStream
 			("webnail/initImage.png",
 			 "controls/initImage.png", zos, true);
+		    CopyUtilities.copyResourceToZipStream
+			("webnail/initial.png",
+			 "controls/initial.png", zos, true);
 		    CopyUtilities.copyResourceToZipStream("webnail/fleft.gif",
 							  "controls/fleft.gif",
 							  zos, true);

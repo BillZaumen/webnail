@@ -24,10 +24,9 @@ var remotesConfigured = false;
 var isMaestro = false;
 
 function  checkRemoteModes() {
-    console.log("starting request");
+    // console.log("starting request");
     var request = new XMLHttpRequest();
     request.onreadystatechange = function() {
-	console.log("readyState = " + this.readyState);
 	if (this.readyState == 4) {
 	    var stat = this.status;
 	    if (stat == 200) {
@@ -37,17 +36,19 @@ function  checkRemoteModes() {
 		} else {
 		    isMaestro = false;
 		}
-		console.log("remote slideshow status: " + isMaestro);
+		// console.log("remote slideshow status: " + isMaestro);
 		remotesConfiguredSet = true;
 	    } else {
 		if (stat == 0) {
 		    // we couldn't complete the request
-		    console.log("checkRemoteModes: try again (status = 0)");
+		    // console.log("checkRemoteModes: try again (status = 0)");
 		    remotesConfigured = false;
 		    remotesConfiguredSet = false;
 		} else {
+		    /*
 		    console.log("no remote slideshow, response code = "
 				+ stat);
+		    */
 		    remotesConfigured = false;
 		    isMaestro = false;
 		    remotesConfiguredSet = true;
@@ -162,36 +163,61 @@ function updateClient() {
 	    var stat = this.status;
 	    if (stat == 200) {
 		var data = JSON.parse(this.responseText);
+		/*
+		console.log("data.index = " + data.index
+			    + ", data.delay = " + data.delay
+			    + ", data.loop = " + data.loop
+			    + ", data.cont = " + data.cont
+			    + ", data.maxIndex = " + data.maxIndex);
+		*/
 		if (data.cont) {
-		    if (index < 0) {
+		    if (data.index < 0) {
 			resetClient();
 		    } else {
 			if (data.delay < 0) {
 			    setTimeout(updateClient, 2000);
 			} else {
-			    var sswurl = imageArray[index].fsImageURL;
-			    if (sswurl.startsWith("./")) {
-				fselem.src = (new URL(sswurl,
-						      document.URL))
-				    .href;
+			    if (fselem != null) {
+				var sswurl = imageArray[data.index].fsImageURL;
+				if (sswurl.startsWith("./")) {
+				    fselem.src = (new URL(sswurl,
+							  document.URL))
+					.href;
+				} else {
+				    fselem.src = imageArray[data.index]
+					.highImageURL;
+				}
 			    } else {
-				fselem.src = imageArray[index].highImageURL;
+				console.log("full-screen image is null");
 			    }
 			    setTimeout(updateClient, data.delay);
 			}
-		    } else if (index >= data.maxIndex) {
-			var sswurl = imageArray[data.maxIndex].fsImageURL;
+		    }
+		} else if (data.index >= data.maxIndex) {
+		    if (fselem != null) {
+			var sswurl = (data.maxIndex == -1)?
+			    "./controls/initial.png":
+			    imageArray[data.maxIndex].fsImageURL;
 			if (sswurl.startsWith("./")) {
 			    fselem.src = (new URL(sswurl,document.URL)).href;
 			} else {
 			    fselem.src = imageArray[data.maxIndex].highImageURL;
 			}
-			setTimeout(resetClient, data.delay);
+		    } else {
+			console.log("full-screen image is null");
+		    }
+		    if (data.index == -1) {
+			resetClient();
+		    } else {
+			setTimeout(updateClient, data.delay);
 		    }
 		} else {
-		    // We failed - try again.
-		    setTimeout(updateClient, 2000);
+		    // console.log("will reset client");
+		    setTimeout(resetClient, 2000);
 		}
+	    } else {
+		// We failed - try again.
+		setTimeout(updateClient, 2000);
 	    }
 	}
     };
@@ -199,18 +225,25 @@ function updateClient() {
     request.send();
 }
 
+var clientStarted = false;
+
 function startClient() {
     displayWindow();
     if (fselem != null) {
-	fselem.src = new URL("./controls/initial.png").href;
+	fselem.src = new URL("./controls/initial.png", document.URL).href;
     }
+    clientStarted = true;
+    updateClient();
 }
 
 function resetClient() {
     if (fselem != null) {
-	fselem.src = new URL("./controls/initial.png").href;
+	fselem.src = new URL("./controls/initial.png", document.URL).href;
 	setTimeout(updateClient, 2000);
     }
+    // for testing when fselem always is null.
+    // console.log("resetting client");
+    // setTimeout(updateClient, 2000);
 }
 
 
@@ -266,6 +299,7 @@ function closeSlideshowWindow() {
 	document.body.removeChild(fselem);
 	fselem = null;
 	fscnt = 0;
+	clientStarted = null;
     }
     return;
 }
@@ -545,6 +579,7 @@ function stopSlideshow() {
     if (isMaestro) {
 	updateServerAux(-1, 0);
     }
+    clientStarted = false;
 }
 
 function controlSlideshow() {
@@ -560,6 +595,14 @@ function runSlideshow() {
     var button = document.getElementById("slideshow");
     var canRun = (button.value == "slideshow");
     if (canRun == false) return;
+    if (remotesConfigured && isMaestro == false) {
+	// console.log("runSlideshow: isMeastro = " + isMaestro);
+	if (clientStarted == false) {
+	    startClient();
+	}
+	return;
+    }
+
     var fsCheckbox = document.getElementById("fullscreen");
     readyToDisplaySSW = false;
     caching = false;
@@ -596,15 +639,3 @@ function runSlideshow() {
 }
 
 ensureImageFrameLocation(".");
-
-function startRemotesIfNeeded() {
-    if (remotesConfiguredSet) {
-	if (remotesConfigured && isMaestro == false) {
-	    startClient();
-	}
-    } else {
-	setTimeout(startRemotesIfNeeded, 200);
-    }
-}
-
-startRemotesIfNeeded();

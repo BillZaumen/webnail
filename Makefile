@@ -138,7 +138,7 @@ HELPFILES = Manual/manual.xml Manual/manual.html Manual/browser.png \
 
 WEBFILES = WebFiles/strut.gif WebFiles/initImage.png WebFiles/initial.html \
 	WebFiles/slideshow1.js WebFiles/slideshow2.js \
-	WebFiles/medium.html WebFiles/error.jsp
+	WebFiles/medium.html WebFiles/error.jsp WebFiles/initial.png
 
 LAYOUTFILES = Layouts/html5Layout.xml Layouts/html590Layout.xml \
 	Layouts/html5NSLayout.xml Layouts/html5NTLayout.xml \
