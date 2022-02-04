@@ -132,7 +132,7 @@ all of these:
 
 <h2><a name="createWebpage"></a>Create a Web Page</h2>
 <P>
-  For this option, select the Web Dir, Web ZIP, Web-Archive Dir, or
+  To create a web page, select the Web Dir, Web ZIP, Web-Archive Dir, or
   Web-Archive output file type and provide a file or directory name.
   The Web Dir and Web ZIP options should be used for a basic web page.
   The Web-Archive Dir and Web-Archive options layout are use to create
@@ -142,7 +142,7 @@ all of these:
   remove web applications easily, and for these servers, a WAR file may be
   a convenient format.  With the use of a WAR file, "welcome" or "home"
   pages, MIME type mappings, etc. can be configured automatically.
-  Some additional controls may be will may be used in addition to those
+  Some additional controls  may be used in addition to those
   described above:
 </P>
 <BLOCKQUOTE>
@@ -183,6 +183,24 @@ all of these:
 <P>
 An example of how the web page might look appears <A href="#browser">above</A>.
 </P>
+When a WAR file or directory is created, a servlet will be included. This
+servlet recognizes two roles:
+<UL>
+  <LI><B>writer</B>.  When a user is logged in and has the role
+    <B>writer</B>, the user can tell the servlet its current position
+    in a slideshow, the duration for that position, and whether or not
+    the slideshow automatically repeats itself. Only a single user should
+    have this role in the servlet's realm as  the servlet does not check
+    that there is only a single active user with this role.
+  <LI><B>remote</B>. When a user is logged in and has the role
+    <B>remote</B>, a slideshow will appear in full-screen mode and will
+    show the same image as the user with the <B>writer</B> role.
+</UL>
+The servlet does not track user names or realms, and is not designed to
+handle an arbitrarily large number of users.  Besided installing the WAR
+file, authentication should be enabled with the roles described above
+if multiple browsers will show the same slideshow at the same time.
+
 <h1><a name="gui">Running webnail with a GUI</a></h1>
 
 <p>To run Webnail with a Graphical User Interface
@@ -221,6 +239,18 @@ This window contains a menu bar and a number of controls.
       <li><var>HTTP Port</var> to opens a dialog box to set the HTTP port
 	number. An empty value or 0 results in <var>webnail</var> choosing
 	a port.
+      <li><var>Password</var> to open a dialog box to provide a password.
+	This password will be used by for a user named <var>maestro</var>,
+	and two additional users will be defined:
+	<UL>
+	  <li><var>remote></var> with <var>remote</var> as its password.
+	    In this case, the browser will run in full-screen mode and
+	    show the same image that is shown for the <var>maestro</var>
+	    user.
+	  <li><var>standalone</var> with <var>standalone</var> as its
+	    password.  In this case, the browser will be controlled
+	    locally.
+	</UL>
       <li><var>start HTTP Server</var> to start the HTTP server.
       <li><var>Stop HTTP Server</var> to stop the HTTP server.
       <li><var>Quit</var> to exit from Webnail.
@@ -889,11 +919,29 @@ argument is present.
 <ul>
   <li><strong>--port</strong> <I>PORT</I>. This option specifies the
     TCP port to use for an internal web server (HTTP server). A value of
-    0 indicates that the program should choose an unused port.
+    0 (the default) indicates that the program should choose an unused port.
   <li><strong>--browse </strong> <I>FILE</I>. This option specifies the
     file or directory containing the web pages. This should be a file or
     directory created by <strong>webnail</strong>.  A web server will be
     started, as will a browser connecting to that server.
+  <li><strong>--password</strong> <I>PASSWORD</I>. This option sets a
+    password to use for the user name <strong>maestro</strong>. When a
+    user is logged in as <strong>maestro</strong>, that user acts as
+    the conductor of an orchestra and determines the timing of a slideshow.
+    Other user names are:
+    <UL>
+      <LI><strong>remote</strong>. For a user logged in
+	as <strong>remote</strong>, (the password is also
+	<strong>remote</strong>), that user's
+	<!--'--> slideshow will track the slideshow of the user logged in as
+	<strong>maestro</strong>.
+      <LI><strong>standalone</strong>. For a user logged in as
+	<strong>standalone</strong> (the passord is also
+	<strong>standalone</strong>), that user's
+	<!--'--> slideshow is run independently from any other.
+    </UL>
+    If the <strong>--password</strong> option is missing, the server
+    is configured without any user authentication.
 </ul>
 
 <h1><a name="reservedIDs">Reserved HTML IDs</a></h1>

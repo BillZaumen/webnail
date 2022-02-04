@@ -110,7 +110,7 @@ JROOT_BIN = $(JROOT)/bin
 
 EXTDIR = $(SYS_JARDIRECTORY)
 
-EXTLIBS=$(EXTDIR)/libbzdev.jar
+EXTLIBS=$(EXTDIR)/libbzdev.jar:$(EXTDIR)/libbzdev-servlets.jar:$(EXTDIR)/servlet-api.jar
 
 
 MANS = $(JROOT_MANDIR)/man1/webnail.1.gz \

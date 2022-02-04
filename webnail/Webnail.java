@@ -179,6 +179,20 @@ public class Webnail {
 	localeString("abort"),
     };
 
+    static boolean deleteAll(File f) {
+	if (f.isDirectory()) {
+	    for (File f2: f.listFiles()) {
+		if (!deleteAll(f2)) {
+		    return false;
+		}
+	    }
+	   return f.delete();
+	} else if (f.exists()){
+	    return f.delete();
+	}
+	return true;
+    }
+
 
     public static void generate(Parser parser, File dir, ZipOutputStream zos,
 				ProgMonitor pm)
@@ -486,7 +500,7 @@ public class Webnail {
 			    } else {
 				// clear the directory.
 				for (File f: wdir.listFiles()) {
-				    if (!f.delete()) {
+				    if (!deleteAll(f)) {
 					ErrorMessage.display
 					    (String.format
 					     (localeString("canNotDelete"),
@@ -503,6 +517,17 @@ public class Webnail {
 					  dir.toString()));
 		    if (pm == null) System.exit(1); else return;
 		}
+	    } else {
+		// not warmode but we have an old WEB_INF directory.
+		wdir = new File(dir, "WEB-INF");
+		if (!deleteAll(wdir)) {
+		    ErrorMessage.display
+			(String.format(localeString("canNotDelete"),
+				       wdir.getAbsolutePath()));
+		    wdir = null;
+		    return;
+		}
+		wdir = null;
 	    }
 	}
 
@@ -1255,6 +1280,13 @@ public class Webnail {
 		    File errorFile = new File(cdir, "error.jsp");
 		    CopyUtilities.copyResourceToFile("webnail/error.jsp",
 						     errorFile);
+		    File cldir = new File(wdir, "classes");
+		    cldir.mkdir();
+		    File pkgdir = new File (cldir, "webnail");
+		    pkgdir.mkdir();
+		    File servlet = new File(pkgdir, "WebnailServlet.class");
+		    CopyUtilities.copyResourceToFile
+			("webnail/WebnailServlet.class", servlet);
 		}
 	    } else if (zos != null) {
 		zos.setMethod(ZipOutputStream.DEFLATED);
@@ -1328,6 +1360,15 @@ public class Webnail {
 		}
 		if (warmode) {
 		    zos.setMethod(ZipOutputStream.DEFLATED);
+		    ze = new ZipEntry("WEB-INF/");
+		    zos.putNextEntry(ze);
+		    zos.closeEntry();
+		    ze = new ZipEntry("WEB-INF/classes/");
+		    zos.putNextEntry(ze);
+		    zos.closeEntry();
+		    ze = new ZipEntry("WEB-INF/classes/webnail/");
+		    zos.putNextEntry(ze);
+		    zos.closeEntry();
 		    zos.setLevel(9);
 		    ze = new ZipEntry("WEB-INF/web.xml");
 		    zos.putNextEntry(ze);
@@ -1336,6 +1377,10 @@ public class Webnail {
 		    CopyUtilities.copyResourceToZipStream("webnail/error.jsp",
 							  "controls/error.jsp",
 							  zos, false);
+		    CopyUtilities.copyResourceToZipStream
+			("webnail/WebnailServlet.class",
+			 "WEB-INF/classes/webnail/WebnailServlet.class",
+			 zos, true);
 		}
 	    }
 	}

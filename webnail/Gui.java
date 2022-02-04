@@ -539,6 +539,7 @@ public class Gui {
 
     static int port = 0;
     static PortTextField portTextField = null;
+    static String pword = null;	// password for web-sever 'maestro' account
     static JMenuItem startHTTP = null;
     static JMenuItem stopHTTP = null;
     static EmbeddedWebServer ews = null;
@@ -572,6 +573,20 @@ public class Gui {
 					      null);
 	    });
 
+	JMenuItem pwordMenuItem = new JMenuItem(localeString("password"));
+	pwordMenuItem.addActionListener(envt -> {
+		pword = (String) JOptionPane
+		    .showInputDialog(frame,
+				     localeString("password") + ":",
+				     localeString("password"),
+				     JOptionPane.PLAIN_MESSAGE,
+				     null, null, pword);
+		if (pword != null) {
+		    pword = pword.trim();
+		    if (pword.length() == 0) pword = null;
+		}
+	    });
+
 
 	startHTTP = new JMenuItem(localeString("startHttp"));
 	stopHTTP = new JMenuItem(localeString("stopHttp"));
@@ -581,7 +596,8 @@ public class Gui {
 	startHTTP.addActionListener(evnt1 -> {
 		try {
 		    if (ews == null) {
-			ews = Webnail.openBrowser(ofntf.getText().trim(), port);
+			ews = Webnail.openBrowser(ofntf.getText().trim(),
+						  port, pword);
 			stopHTTP.setEnabled(true);
 			startHTTP.setEnabled(false);
 		    }
@@ -619,6 +635,7 @@ public class Gui {
 	fileMenu.add(save);
 	fileMenu.add(saveAs);
 	fileMenu.add(portMenuItem);
+	fileMenu.add(pwordMenuItem);
 	fileMenu.add(startHTTP);
 	fileMenu.add(stopHTTP);
 	fileMenu.add(quit);
@@ -2948,6 +2965,9 @@ public class Gui {
 					editImagesPane.setSelectionMode
 					    (InputPane.SelectionMode.SINGLE);
 				    }
+				    setupServerControlsEnabled();
+				    runButton.setEnabled(ofntf.getText().trim()
+							 .length() > 0);
 				    if (oftrbFile.isSelected() 
 					|| oftrbDir.isSelected()
 					|| oftrbZip.isSelected()) {

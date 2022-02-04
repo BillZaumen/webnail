@@ -26,6 +26,7 @@ public class WebnailServletAdapter implements ServletAdapter {
     @Override
     public synchronized void doPost(HttpServerRequest req,
 				    HttpServerResponse res)
+	throws IOException, ServletException
     {
 	String cpath = req.getContextPath();
 	// EJWS returns an empty string when getContextPath() is called,

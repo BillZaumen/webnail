@@ -66,4 +66,12 @@ $(endMimeTypes)
     <exception-code>500</exception-code>
     <location>/controls/error.jsp</location>
   </error-page>
+  <servlet>
+    <servlet-name>Synchronizer</servlet-name>
+    <servlet-class>webnail.WebnailServlet</servlet-class>
+  </servlet>
+  <servlet-mapping>
+    <servlet-name>Synchronizer</servlet-name>
+    <url-pattern>/sync</url-pattern>
+  </servlet-mapping>
 </web-app>
