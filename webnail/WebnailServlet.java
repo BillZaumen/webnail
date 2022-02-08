@@ -1,14 +1,14 @@
 package webnail;
+import javax.servlet.*;
+import javax.servlet.http.*;
+
 import java.io.ByteArrayOutputStream;
 import java.io.InputStream;
 import java.io.IOException;
 import java.io.OutputStream;
 import java.io.OutputStreamWriter;
-import java.util.Map;
-import org.bzdev.net.*;
-import org.bzdev.net.ServletAdapter.ServletException;
 
-public class WebnailServletAdapter implements ServletAdapter {
+public class WebnailServlet extends HttpServlet {
 
     volatile int index = -1;
     volatile long nextTime;
@@ -16,16 +16,27 @@ public class WebnailServletAdapter implements ServletAdapter {
     volatile int maxIndex = -1;
 
     @Override
-    public void init(Map<String,String> parameters) {
+    public void init() {
 	index = -1;
 	nextTime = System.currentTimeMillis();
 	loop = false;
 	maxIndex = -1;
     }
 
+    private String getMediaType(HttpServletRequest req) {
+	String mediaType = req.getHeader("content-type").trim();
+	if (mediaType == null) return "application/octet-stream";
+	int firstsc = mediaType.indexOf(';');
+	if (firstsc == -1) {
+	    return mediaType;
+	} else {
+	    return mediaType.substring(0, firstsc).trim();
+	}
+    }
+
     @Override
-    public synchronized void doPost(HttpServerRequest req,
-				    HttpServerResponse res)
+    public synchronized void doPost(HttpServletRequest req,
+				    HttpServletResponse res)
 	throws IOException, ServletException
     {
 	String cpath = req.getContextPath();
@@ -34,7 +45,7 @@ public class WebnailServletAdapter implements ServletAdapter {
 	String path = req.getRequestURI().substring(cpath.length());
 	if (req.getContentLengthLong() > 0) {
 	    if (path.equals("/sync/set") && req.isUserInRole("writer")) {
-		if (req.getMediaType()
+		if (getMediaType(req)
 		    .equals("application/x-www-form-urlencoded")) {
 		    try {
 			index = Integer.parseInt(req.getParameter("index"));
@@ -49,7 +60,9 @@ public class WebnailServletAdapter implements ServletAdapter {
 					  + ", maxIndex = %d\n",
 					  index, delay, loop, maxIndex);
 			*/
-			res.sendResponseHeaders(200, -1);
+			res.setContentLength(0);
+			res.setStatus(200);
+			// res.sendResponseHeaders(200, -1);
 		    } catch (Exception e) {
 			res.sendError(400);
 		    }
@@ -75,7 +88,8 @@ public class WebnailServletAdapter implements ServletAdapter {
 		int len = status.length();
 		var bos = new ByteArrayOutputStream(len);
 		// System.out.println("len = " + len);
-		res.sendResponseHeaders(200, (long)len);
+		res.setContentLength(len);
+		res.setStatus(200);
 		try {
 		    OutputStream os = res.getOutputStream();
 		    // System.out.println("os = " + os);
@@ -110,7 +124,8 @@ public class WebnailServletAdapter implements ServletAdapter {
 		var bos = new ByteArrayOutputStream(len);
 						    
 		res.addHeader("Content-type", "application/json");
-		res.sendResponseHeaders(200, (long)len);
+		res.setContentLength(len);
+		res.setStatus(200);
 		try {
 		    var w = new OutputStreamWriter(res.getOutputStream(),
 						   "UTF-8");

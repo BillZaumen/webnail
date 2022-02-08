@@ -1461,7 +1461,6 @@ public class Webnail {
 	    } catch (Exception e) {
 		e.printStackTrace();
 	    }
-	    System.out.println("got here");
 	}
 	WebMap wmap = ews.getWebMap("/");
 	if (wmap != null) wmap.addWelcome("index.html");
