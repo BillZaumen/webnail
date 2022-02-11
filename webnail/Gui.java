@@ -556,25 +556,59 @@ public class Gui {
 	JMenuItem save = new JMenuItem(localeString("saveMenuItem"));
 	JMenuItem saveAs = new JMenuItem(localeString("saveAsMenuItem"));
 
+	JDialog portDialog = new JDialog(frame,
+					 localeString("httpPortTitle"),
+					 true);
 	portTextField = new PortTextField(5) {
 		public void onAccepted() throws Exception {
 		    super.onAccepted();
 		    port = getValue();
+		    portDialog.setVisible(false);
 		}
 	    };
 	portTextField.setAllowEmptyTextField(true);
 	portTextField.setDefaultValue(0);
+	portDialog.add(new JLabel(localeString("enterPort")),
+				  BorderLayout.NORTH);
+	portDialog.add(portTextField, BorderLayout.CENTER);
+	portDialog.pack();
 	JMenuItem portMenuItem = new JMenuItem(localeString("httpPort"));
 
 	portMenuItem.addActionListener(evnt -> {
+		/*
 		JOptionPane.showMessageDialog(frame, portTextField,
 					      localeString("httpPortTitle"),
 					      JOptionPane.PLAIN_MESSAGE,
 					      null);
+		*/
+		portDialog.setLocationRelativeTo(frame);
+		portDialog.setVisible(true);
 	    });
+
+	JDialog pwDialog = new JDialog(frame, localeString("password"), true);
+	VTextField pwTextField = new VTextField(20) {
+		public void onAccepted() throws Exception {
+		    super.onAccepted();
+		    pword = getText();
+		    if (pword != null) {
+			pword = pword.trim();
+			if (pword.length() == 0) pword = null;
+		    }
+		    pwDialog.setVisible(false);
+		}
+	    };
+	pwTextField.setText("");
+	pwDialog.add(new JLabel(localeString("password") + ":"),
+		     BorderLayout.NORTH);
+	pwDialog.add(pwTextField, BorderLayout.CENTER);
+	pwDialog.pack();
+
 
 	JMenuItem pwordMenuItem = new JMenuItem(localeString("password"));
 	pwordMenuItem.addActionListener(envt -> {
+		pwDialog.setLocationRelativeTo(frame);
+		pwDialog.setVisible(true);
+		/*
 		pword = (String) JOptionPane
 		    .showInputDialog(frame,
 				     localeString("password") + ":",
@@ -585,6 +619,7 @@ public class Gui {
 		    pword = pword.trim();
 		    if (pword.length() == 0) pword = null;
 		}
+		*/
 	    });
 
 

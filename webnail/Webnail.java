@@ -109,6 +109,7 @@ public class Webnail {
 	System.err.println(localeString("Usage3"));
 	System.err.println(localeString("Usage4"));
 	System.err.println(localeString("Usage5"));
+	System.err.println(localeString("Usage6"));
     }
 
     static void createWebXml(String title, File webxmlFile)
@@ -1466,7 +1467,62 @@ public class Webnail {
 	if (wmap != null) wmap.addWelcome("index.html");
 	ews.start();
 	URI uri = new URL("http://localhost:" + port + "/").toURI();
-	Desktop.getDesktop().browse(uri);
+	boolean ok = false;
+	if (Desktop.isDesktopSupported()) {
+	    Desktop desktop = Desktop.getDesktop();
+	    ok = true;
+	    if (desktop.isSupported(Desktop.Action.BROWSE)) {
+		Desktop.getDesktop().browse(uri);
+	    } else {
+		ok = false;
+	    }
+	}
+	if (ok == false || password != null) {
+	    if (Gui.frame != null) {
+		// In this case, this  method was called on the AWT event
+		// dispatch thread.
+		java.awt.datatransfer.Clipboard cb = Gui.frame.getToolkit()
+		    .getSystemClipboard();
+		java.awt.datatransfer.StringSelection selection
+		    = new java.awt.datatransfer.StringSelection(uri.toString());
+		cb.setContents(selection, selection);
+		if (ok == false) {
+		    JOptionPane.showMessageDialog
+			(Gui.frame,
+			 String.format(localeString("openBrowser"),
+				       uri.toString()),
+			 localeString("openBrowserTitle"),
+			 JOptionPane.PLAIN_MESSAGE, null);
+		} else {
+		    JDialog statusDialog =
+			new JDialog(Gui.frame,
+				    localeString("serverTitle"),
+				    false);
+		    statusDialog.add(new JLabel(localeString("serverMsg1")),
+				     BorderLayout.NORTH);
+		    JTextField tf = new JTextField(uri.toString());
+		    tf.setEditable(false);
+		    statusDialog.add(tf, BorderLayout.CENTER);
+		    statusDialog.add(new JLabel(localeString("serverMsg2")),
+				     BorderLayout.SOUTH);
+		    statusDialog.pack();
+		    statusDialog.setLocationRelativeTo(Gui.frame);
+		    statusDialog.setVisible(true);
+		    (new Thread(() -> {
+			    try {
+				Thread.sleep(60000);
+				SwingUtilities.invokeLater(() -> {
+					statusDialog.setVisible(false);
+					statusDialog.dispose();
+				    });
+			    } catch (Exception e) {}
+		    })).start();
+		}
+	    } else {
+		System.out.println("webnail URI: " + uri.toString());
+	    }
+	}
+
 	return ews;
     }
 
@@ -1583,7 +1639,7 @@ public class Webnail {
 	while (index < argv.length) {
 	    if (argv[index].startsWith("-")) {
 		if (argv[index].equals("-l")) {
-		    System.out.println(localeString("outputFormats"));
+		    System.out.println(localeString("imageFormats"));
 		    for (String name: ImageMimeInfo.getMimeTypes()) {
 			System.out.print("    " + name + " (");
 			boolean ft = true;

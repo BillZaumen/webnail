@@ -240,7 +240,8 @@ This window contains a menu bar and a number of controls.
 	number. An empty value or 0 results in <var>webnail</var> choosing
 	a port.
       <li><var>Password</var> to open a dialog box to provide a password.
-	This password will be used by for a user named <var>maestro</var>,
+	This password, which is trimmed to remove leading and trailing white
+	space, will be used by for a user named <var>maestro</var>,
 	and two additional users will be defined:
 	<UL>
 	  <li><var>remote></var> with <var>remote</var> as its password.
@@ -251,6 +252,19 @@ This window contains a menu bar and a number of controls.
 	    password.  In this case, the browser will be controlled
 	    locally.
 	</UL>
+	If the password menu item is not used or the password is set
+	to an empty string, the server is configured without any user
+	authentication. While <strong>webnail</strong> will try to
+	start a browser directly, an issue was discovered with Firefox
+	96.0 with the NoScript extension on an ubuntu-based system
+	when authentication is enabled: most of the time, NoScript
+	fails to allow a script when asked to allow it. This also
+	happens when right-clicking a URL in a terminal window, but
+	does not happen when firefox is started by double-clicking its
+	icon.  The work-around is to close the browser window and
+	restart Firefox. To make this easier,
+	<strong>webnail</strong> copies the URL to the system
+	clipboard when the server starts.
       <li><var>start HTTP Server</var> to start the HTTP server.
       <li><var>Stop HTTP Server</var> to stop the HTTP server.
       <li><var>Quit</var> to exit from Webnail.
@@ -941,7 +955,17 @@ argument is present.
 	<!--'--> slideshow is run independently from any other.
     </UL>
     If the <strong>--password</strong> option is missing, the server
-    is configured without any user authentication.
+    is configured without any user authentication. While
+    <strong>webnail</strong> will try to start a browser directly, an
+    issue was discovered with Firefox 96.0 with the NoScript extension
+    on an ubuntu-based system when authentication is enabled: most of
+    the time, NoScript fails to allow a script when asked to allow
+    it. This also happens when right-clicking a URL in a terminal
+    window, but does not happen when firefox is started by
+    double-clicking its icon.  The work-around is to close the browser
+    window and restart Firefox. To make this easier,
+    <strong>webnail</strong> copies the URL to the system clipboard
+    when the server starts.
 </ul>
 
 <h1><a name="reservedIDs">Reserved HTML IDs</a></h1>

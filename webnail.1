@@ -157,7 +157,8 @@ on-line manual provided with Webnail that is accessible from the "Help"
 menu when the GUI is used.
 .TP
 .B \-l
-lists the acceptable image types of the output files (these are MIME types).
+lists the supported image types (media/MIME types, with file-name
+extensions).
 .TP
 .B \-t
 The following argument,
@@ -285,6 +286,39 @@ but this is appropriate only for use on a single computer system).
 Set the TCP port to use when webnail is used as a web server. When
 the port is zero, or not provided, a port will be automatically
 chosen.
+.TP
+.BI \-\-password \ PASSWORD
+Set up passwords for user authentication. Three users will be created.
+The user
+.B maestro
+will be configured with the password
+.I PASSWORD
+and will determine the timing of transitions on 'remote' browsers.
+The user
+.B remote
+will be configured with the password
+.B remote
+and, when its slideshow is started, will run in full-screen mode,
+staying in sync with the browser logged in as 'maestro'.
+The user
+.B standalone
+will be configured with the password
+.B standalone
+and its slideshows will run independently of other browsers.
+If the password option is missing, the server is configured
+without any user authentication. While
+.B webnail
+will try to start a browser directly, an issue was discovered with
+Firefox 96.0 with the NoScript extension on an ubuntu-based system
+when authentication is enabled: most of the time, NoScript fails to
+allow a script when asked to allow it. This also happens when
+right-clicking a URL in a terminal window, but does not happen when
+firefox is started by double-clicking its icon.  The work-around is to
+close the browser window and restart Firefox. To make this easier,
+.B webnail
+copies the URL (if possible) to the system clipboard when the server
+starts.
+
 .TP
 .BI \-\-browse \ FILE
 Start webnail as a web server. The argument
