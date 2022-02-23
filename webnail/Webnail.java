@@ -112,20 +112,23 @@ public class Webnail {
 	System.err.println(localeString("Usage6"));
     }
 
-    static void createWebXml(String title, File webxmlFile)
+    static void createWebXml(String title, File webxmlFile, String webxml)
 	throws IOException
     {
 	OutputStream os = new FileOutputStream(webxmlFile);
-	createWebXml(title, os);
+	createWebXml(title, os, webxml);
 	os.close();
     }
 
-    static void createWebXml(String title, OutputStream os)
+    static void createWebXml(String title, OutputStream os, String webxml)
 	throws IOException
     {
 	// System.out.println("createWebXml called");
 	TemplateProcessor.KeyMap wmap = new TemplateProcessor.KeyMap();
 	wmap.put("title", title);
+	if (webxml != null) {
+	    wmap.put("webxmlExtras", webxml);
+	}
 	int sz = ImageMimeInfo.numberOfSuffixes();
 	if (ImageMimeInfo.getMIMETypeForSuffix("js") != null) sz--;
 	if (ImageMimeInfo.getMIMETypeForSuffix("html") != null) sz--;
@@ -260,6 +263,7 @@ public class Webnail {
 	String header = parser.getValue("header");
 	String trailer = parser.getValue("trailer");
 	String finalHtml = parser.getValue("finalHtml");
+	String webxml = parser.getValue("webxml");
 	boolean syncMode = parser.getSyncMode();
 	boolean waitOnError = parser.getWaitOnError();
 	String bgcolor = parser.getValue("bgcolor");
@@ -577,6 +581,7 @@ public class Webnail {
 	    if (header != null) rmap.put("header", header);
 	    if (trailer != null) rmap.put("trailer", trailer);
 	    if (finalHtml != null) rmap.put("finalHtml", finalHtml);
+	    if (webxml != null) rmap.put("webxml", webxml);
 	    rmap.put("iFrameWindowTitle", iFrameWindowTitle);
 	    if (single) {
 		rmap.put("width", "" + maxThumbWidth);
@@ -1276,8 +1281,8 @@ public class Webnail {
 		    */
 		}
 		if (warmode) {
-		    File webxml = new File(wdir, "web.xml");
-		    createWebXml(title, webxml);
+		    File webxmlF = new File(wdir, "web.xml");
+		    createWebXml(title, webxmlF, webxml);
 		    File errorFile = new File(cdir, "error.jsp");
 		    CopyUtilities.copyResourceToFile("webnail/error.jsp",
 						     errorFile);
@@ -1373,7 +1378,7 @@ public class Webnail {
 		    zos.setLevel(9);
 		    ze = new ZipEntry("WEB-INF/web.xml");
 		    zos.putNextEntry(ze);
-		    createWebXml(title, zos);
+		    createWebXml(title, zos, webxml);
 		    zos.closeEntry();
 		    CopyUtilities.copyResourceToZipStream("webnail/error.jsp",
 							  "controls/error.jsp",
@@ -1413,6 +1418,8 @@ public class Webnail {
 						String password)
 	throws Exception
     {
+	EmbeddedWebServer ews = Server.start(fname, port, password);
+	/*
 	File cdir = new File(System.getProperty("user.dir"));
 	File f = new File(fname);
 	if (!f.isAbsolute()) {
@@ -1442,7 +1449,7 @@ public class Webnail {
 		ews.add("/", ZipWebMap.class, f,
 			null, noWebxml, true, !noWebxml);
 	    } else if (name.endsWith(".war")) {
-		    ews.add("/", ZipWebMap.class, f, null, false, true, true);
+		ews.add("/", ZipWebMap.class, f, null, false, true, true);
 	    } else {
 		throw new IOException(localeString("notDirZipWar"));
 	    }
@@ -1451,14 +1458,14 @@ public class Webnail {
 	    WebnailServletAdapter sa = new WebnailServletAdapter();
 	    ews.setTracer("webnail: ", System.out);
 	    try {
-	    ews.add("/sync/", ServletWebMap.class,
-		    new ServletWebMap.Config(sa, null, false,
-					     HttpMethod.POST,
-					     HttpMethod.HEAD,
-					     HttpMethod.OPTIONS,
-					     HttpMethod.TRACE),
-		    new WebnailAuthenticator(password),
-		    false, false, true);
+		ews.add("/sync/", ServletWebMap.class,
+			new ServletWebMap.Config(sa, null, false,
+						 HttpMethod.POST,
+						 HttpMethod.HEAD,
+						 HttpMethod.OPTIONS,
+						 HttpMethod.TRACE),
+			new WebnailAuthenticator(password),
+			false, false, true);
 	    } catch (Exception e) {
 		e.printStackTrace();
 	    }
@@ -1466,6 +1473,7 @@ public class Webnail {
 	WebMap wmap = ews.getWebMap("/");
 	if (wmap != null) wmap.addWelcome("index.html");
 	ews.start();
+	*/
 	URI uri = new URL("http://localhost:" + port + "/").toURI();
 	boolean ok = false;
 	if (Desktop.isDesktopSupported()) {
@@ -1573,9 +1581,11 @@ public class Webnail {
 				    File f = new File(iurl.toURI());
 				    Gui.load(f.getCanonicalPath(),
 					     new FileInputStream(f));
+				    Gui.fileToSave = f;
 				} else if (name.endsWith(".xml")
 					   || name.endsWith(".wnl")) {
 				    Gui.load(name, new FileInputStream(name));
+				    Gui.fileToSave = new File(name);
 				}
 			    } catch (Exception e) {
 				SwingErrorMessage.display(e);

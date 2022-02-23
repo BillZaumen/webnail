@@ -239,14 +239,15 @@ This window contains a menu bar and a number of controls.
       <li><var>HTTP Port</var> to opens a dialog box to set the HTTP port
 	number. An empty value or 0 results in <var>webnail</var> choosing
 	a port.
-      <li><var>Password</var> to open a dialog box to provide a password.
-	This password, which is trimmed to remove leading and trailing white
-	space, will be used by for a user named <var>maestro</var>,
-	and two additional users will be defined:
+      <li><A NAME="password"></A><var>Password</var> to open a dialog
+	box to provide a password.  This password, which is trimmed to
+	remove leading and trailing white space, will be used by for a
+	user named <var>main</var>, and two additional users will be
+	defined:
 	<UL>
 	  <li><var>remote></var> with <var>remote</var> as its password.
 	    In this case, the browser will run in full-screen mode and
-	    show the same image that is shown for the <var>maestro</var>
+	    show the same image that is shown for the <var>main</var>
 	    user.
 	  <li><var>standalone</var> with <var>standalone</var> as its
 	    password.  In this case, the browser will be controlled
@@ -511,12 +512,20 @@ There are a number of controls:
       be used to load additional scripts (for performance reasons,
       scripts should be loaded at the end of an HTML document when
       possible).
+  <DT><strong>Extras (web.xml)</strong><DD>when clicked opens a
+      dialog box for editing additional text inserted into a
+      web archive's
+      <!-- ' --><CODE>WEB-INF/web.xml</CODE> file just before
+      the closing <CODE>&lt;/web-app&gt;</CODE> element. This is
+      useful in cases where the web.xml file has to be extended
+      (e.g., to support authentication).
 </DL>
 </blockquote>
 <P>
 The last 6 buttons, <var>Title</var>, <var> Description</var>,
 <var>Head</var>, <var>Header</var>, <var>Trailer</var>,
-<var>Final HTML</var> open similar dialog boxes. The one for the
+<var>Final HTML</var> and <var>Extras (web.xml)</var> open similar
+dialog boxes. The one for the
 <var>Title</var> button is a suitable example:
 <P>
 <img src="gui-title.png" width="90%">
@@ -939,16 +948,15 @@ argument is present.
     directory created by <strong>webnail</strong>.  A web server will be
     started, as will a browser connecting to that server.
   <li><strong>--password</strong> <I>PASSWORD</I>. This option sets a
-    password to use for the user name <strong>maestro</strong>. When a
-    user is logged in as <strong>maestro</strong>, that user acts as
-    the conductor of an orchestra and determines the timing of a slideshow.
-    Other user names are:
+    password to use for the user name <strong>main</strong>. When a
+    user is logged in as <strong>main</strong>, tha user determines
+    the timing of a slideshow.  Other user names are:
     <UL>
       <LI><strong>remote</strong>. For a user logged in
 	as <strong>remote</strong>, (the password is also
 	<strong>remote</strong>), that user's
 	<!--'--> slideshow will track the slideshow of the user logged in as
-	<strong>maestro</strong>.
+	<strong>main</strong>.
       <LI><strong>standalone</strong>. For a user logged in as
 	<strong>standalone</strong> (the passord is also
 	<strong>standalone</strong>), that user's
@@ -1072,7 +1080,7 @@ The top level element is named webnail, and it is defined as follows:
 <blockquote>
 <pre>
 &lt;!ELEMENT webnail (domMap?, title?, descr?, (user, password)?,
-	  head?, header?, image*, trailer?, finalHtml?)&gt;
+	  head?, header?, image*, trailer?, finalHtml?, webxmlExtras?)&gt;
 &lt;!ATTLIST images
           xmlns CDATA #FIXED "http://bzdev.org/DTD/webnail-1.0"
 	  windowTitle CDATA #IMPLIED
@@ -1387,11 +1395,9 @@ without the need to specially encode "&amp;", "&lt;", "&gt;", or "&quot;").
 </P>
 
 <H3><A name="dtdAfterScript"></A>The After-Script Element</H3>
-
-
 <P>
-The finalHtml element is the final element enclosed in an
-images element.  It is defined as follows:
+The finalHtml element, when present, is the final or next to final
+element.  It is defined as follows:
 </P>
 <blockquote>
 <pre>
@@ -1411,6 +1417,30 @@ section (delimited by "&lt;![CDATA[" and "]]&gt;". If the
 <strong>url</strong> attribute is provided, the content should be empty,
 with the URL referencing a resource that contains the content (as HTML
 without the need to specially encode "&amp;", "&lt;", "&gt;", or "&quot;").
+</P>
+<H3><A name="dtdwebxml"></A>The webxmlExtras Element</H3>
+The webxmlExtras element, when present, is the final element. It is
+defined as follows:
+</P>
+<blockquote>
+<pre>
+&lt;!ELEMENT webxmlExtras  (#PCDATA)*&gt;
+&lt;!ATTLIST webxmlExtras
+             url CDATA #IMPLIED &gt;
+</pre>
+</blockquote>
+<P>
+Its content provides XML to insert in a <CODE>WEB-INF/web.xml</CODE>
+file in a web-application file or directory. The insertion point is
+just before the closing element <CODE>&lt;/webnail&gt;</CODE>.
+The entities "&amp;lt;", "&amp;gt;",
+"&amp;amp;", or "&amp;quot" should be used instead of the
+corresponding characters, or the value should appear in a CDATA
+section (delimited by "&lt;![CDATA[" and "]]&gt;". If the
+<strong>url</strong> attribute is provided, the content should be empty,
+with the URL referencing a resource that contains the content (as HTML
+without the need to specially encode "&amp;", "&lt;", "&gt;", or "&quot;").
+
 </P>
 <H1><A name="layoutXML">Layout XML Syntax</A></H1>
 <P>
@@ -1771,6 +1801,53 @@ during iteration over images in a <var>repeatrows</var> block.
   <li><var>mHeight</var>. The medium-resolution image height.
 </UL>
 <P>
+  <H1><A NAME="server"></A>The Server class</H1>
+<P>
+  The <strong>webnail</strong> JAR file contains a class
+  <CODE>webnail.Server</CODE> with a main program that can start a
+  server without also starting a browser.  This program's options
+  are
+  <UL>
+    <LI><STRONG>--port</STRONG> <I>PORT</I>. The argument <I>PORT</I>
+      is a TCP port number in the range [1, 64353] with a default value
+      of 80.
+    <LI><STRONG>--password</STRONG>  <I>PASSWORD</I>. The argument
+      <I>PASSWORD</I> is the password for the <STRONG>main</STRONG>
+      account as described <A HREF="#password">above</A>).  Leading
+      and trailing whitespace will be removed, and if the remaining
+      string is empty or this option is not present, accounts will not
+      be used.
+  </UL>
+  The remaining non-option argument is a file or directory name for
+  a set of web pages created by <STRONG>webnail</STRONG>.
+<P>
+  To start the server, use the following script:
+  <BLOCKQUOTE><CODE><PRE>
+#!/bin/sh
+WVERSION=`dpkg-query -f '${VERSION}' -W webnail`
+java -p /usr/share/bzdev --add-modules org.bzdev.ejws \
+    -classpath /usr/share/java/webnail-${WVERSION}.jar webnail/Server "$@"
+  </PRE></CODE></BLOCKQUOTE>
+  The server will run until the script's process is killed.
+<P>
+  If Docker is being used, to start the server, you have removed
+  symbolic links in /usr/share/java that refer to a jar file, and the
+  remaining jar files are compatible with Java modules, then you can the
+  java command
+  <BLOCKQUOTE><CODE><PRE>
+java -p /usr/share/java -m webnail/webnail.Server --port PORT \
+     --password PASSWORD FILE_OR_DIRECTORY
+  </PRE></CODE></BLOCKQUOTE>
+  in which case the last linea in <CODE>Dockerfile</CODE> will be
+  <BLOCKQUOTE><CODE><PRE>
+ENV PORT 80
+ENV PASSWORD
+ENV FILE
+CMD "java -p /usr/share/java -m webnail/webnail.Server
+     --port $PORT --password \"$PASSWORD\"  \"$FILE\""
+  </PRE></CODE></BLOCKQUOTE>
+  Ths string in quotes that follows <CODE>CMD</CODE> should be on a
+  single line: a line break was added for readability.
 </body>
 </html>
 

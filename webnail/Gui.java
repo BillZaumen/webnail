@@ -232,6 +232,8 @@ public class Gui {
 	    headerButton.setEnabled(true);
 	    trailerButton.setEnabled(true);
 	    finalHtmlButton.setEnabled(true);
+	    webxmlButton.setEnabled(oftrbWarDir.isSelected()
+				    || oftrbWar.isSelected());
 	    editImagesPane.setWebpageMode(true);
 	} else {
 	    mtnwl.setEnabled(true);
@@ -261,6 +263,7 @@ public class Gui {
 	    headerButton.setEnabled(false);
 	    trailerButton.setEnabled(false);
 	    finalHtmlButton.setEnabled(false);
+	    webxmlButton.setEnabled(false);
 	    editImagesPane.setWebpageMode(false);
 	}
 	if (layoutComboBox.isEnabled() 
@@ -505,6 +508,9 @@ public class Gui {
 	    finalHtmlURL = p.getValue("finalHtmlURL");
 	    finalHtmlURLInUse = (finalHtmlURL != null);
 	    finalHtml = p.getValue("finalHtml");
+	    webxmlURL = p.getValue("webxmlURL");
+	    webxmlURLInUse = (webxmlURL != null);
+	    webxml = p.getValue("webxml");
 	    for (TemplateProcessor.KeyMap map: p.getImageArray()) {
 		// add images by creating new MapElement 
 		// instances
@@ -747,6 +753,7 @@ public class Gui {
 		public void actionPerformed(ActionEvent e) {
 		    if (fileToSave == null) {
 			saveAsActionListener.actionPerformed(null);
+			if (savedFileName == null) return;
 			fileToSave = new File(savedFileName);
 		    } else {
 			try {
@@ -1245,6 +1252,11 @@ public class Gui {
 		    } else {
 			p.setAfterScript(finalHtml);
 		    }
+		    if (webxmlURLInUse && webxmlURL != null) {
+			p.setwebxmlURL(webxmlURL);
+		    } else {
+			p.setwebxml(webxml);
+		    }
 		    for (Object obj: imageListModel.toArray()) {
 			MapElement entry = (MapElement) obj;
 			// System.out.println(entry.get("url"));
@@ -1496,6 +1508,10 @@ public class Gui {
     static String finalHtmlURL = null;
     static String finalHtml = "";
     static JButton finalHtmlButton = null;
+    static boolean webxmlURLInUse = false;
+    static String webxmlURL = null;
+    static String webxml = "";
+    static JButton webxmlButton = null;
 
     static InputPane inputPane;
 
@@ -1764,6 +1780,17 @@ public class Gui {
 			    runButton.setEnabled(ofntf.getText().trim()
 						 .length() > 0);
 			});
+		    ofntf.addFocusListener(new FocusListener() {
+			    public void focusGained(FocusEvent e) {
+				runButton.setEnabled(false);
+			    }
+			    public void focusLost(FocusEvent e) {
+				setupServerControlsEnabled();
+				runButton.setEnabled(ofntf.getText().trim()
+						     .length() > 0);
+			    }
+			});
+
 		    imageTimeLabel = 
 			new JLabel(localeString("imageTime") + ":");
 		    imageTimeTF = new TimeTextField(15) {
@@ -2141,6 +2168,31 @@ public class Gui {
 				finalHtmlURLInUse = inUse;
 			    }
 			};
+		    webxmlButton = new
+			URLTextAreaButton(localeString("webxmlButton"),
+					  10, 50,
+					  frame,
+					  localeString("webxmlTitle"),
+					  localeString("webxmlErrorTitle")) {
+			    protected String inputText() {
+				return webxml;
+			    }
+			    protected String inputURL() {
+				return webxmlURL;
+			    }
+			    protected boolean inputURLInUse() {
+				return webxmlURLInUse;
+			    }
+			    protected void outputText(String value) {
+			        webxml = value;
+			    }
+			    protected void outputURL(String url) {
+				webxmlURL = url;
+			    }
+			    protected void outputURLInUse(boolean inUse) {
+				webxmlURLInUse = inUse;
+			    }
+			};
 		}
 
 		private Component searchContainer(Container ct, Class target) {
@@ -2199,11 +2251,14 @@ public class Gui {
 			    if (mt == null) {
 				// not an image
 				if (!focusComponentOK(c)) {
+				    String mtsuffix =
+					ImageMimeInfo.getExtensionForMimeType
+					(mtype);
 				    JOptionPane.showMessageDialog
 					(frame,
 					 String.format
 					 (localeString("ofNotImage"),
-					  "." + suffix));
+					  "." + mtsuffix));
 				    SwingUtilities.invokeLater
 					(new Runnable() {
 						public void run() {
@@ -2371,8 +2426,9 @@ public class Gui {
 		    return true;
 		}
 
-		void handleOutputFileTextField(FocusEvent fe) {
+		boolean handleOutputFileTextField(FocusEvent fe) {
 		    String path = ofntf.getText();
+		    boolean result = false;
 		    if (old != path) {
 			if (path == null || 
 			    path.trim().length() == 0) {
@@ -2382,10 +2438,11 @@ public class Gui {
 			    // inputChooser.setMultiSelectionEnabled(false);
 			    // webmodeBox.setEnabled(false);
 			} else {
-			    handleOutputFileTextFieldAux(path, fe);
+			    result = handleOutputFileTextFieldAux(path, fe);
 			}
 			old = null;
 		    }
+		    return result;
 		}
 
 		public void run() {
@@ -2597,6 +2654,9 @@ public class Gui {
 		    webPanel4.add(finalHtmlButton);
 		    finalHtmlButton.setToolTipText
 			(localeString("finalHtmlButtonToolTip"));
+		    webPanel4.add(webxmlButton);
+		    finalHtmlButton.setToolTipText
+			(localeString("webxmlButtonToolTip"));
 		    gridbag.setConstraints(webPanel4, c);
 		    pane.add(webPanel4);
 
@@ -2718,7 +2778,12 @@ public class Gui {
 				setEnableds();
 				setOfntfToolTipText();
 				if (ofntf.getText().trim().length() > 0) {
-				    handleOutputFileTextField(null);
+				    if (handleOutputFileTextField(null)) {
+					runButton.setEnabled(ofntf
+							     .getText()
+							     .trim()
+							     .length() > 0);
+				    }
 				}
 			    }
 			};

@@ -47,7 +47,6 @@ ICON_WIDTHS2x = 16 24 32 48 64 128 256
 POPICON_WIDTHS = 8 16 24 32 48 64 128 256
 POPICON_WIDTHS2x = 8 16 24 32 48 64 128 256
 
-
 # Target JARDIRECTORY - where 'make install' actually puts the jar
 # file (DESTDIR is not null when creating packages)
 #
@@ -144,14 +143,14 @@ LAYOUTFILES = Layouts/html5Layout.xml Layouts/html590Layout.xml \
 	Layouts/html5NSLayout.xml Layouts/html5NTLayout.xml \
 	Layouts/html590NSLayout.xml \
 	Layouts/single1.xml Layouts/single2.xml Layouts/single3.xml \
-	Layouts/single4.xml Layouts/single5.xml Layouts/html590Layout.xml
+	Layouts/single4.xml Layouts/single5.xml
 
 TEMPLATES = Templates/indexHTML5.wnt Templates/indexHTML590.wnt \
 	Templates/indexHTML5NS.wnt Templates/indexHTML590NS.wnt \
 	Templates/indexHTML590NT.wnt \
 	Templates/mediumHTML.wnt Templates/params.wnt \
 	Templates/web.wnt Templates/tindexHTML.wnt \
-	Templates/tindex90HTML.wnt Templates/indexHTML590.wnt \
+	Templates/tindex90HTML.wnt \
 	Templates/singleHTML1.wnt Templates/singleHTML2.wnt \
 	Templates/singleHTML3.wnt Templates/singleHTML4.wnt \
 	Templates/singleHTML5.wnt Templates/singleHTML1link.wnt \
@@ -166,8 +165,9 @@ FILES = $(JFILES) $(PROPERTIES) webnail.mf $(ICONS) \
 	$(HELPFILES) $(WEBFILES) $(LAYOUTFILES) $(TEMPLATES) webnail-1.0.dtd \
 	webnail-layout-info-1.0.dtd webnail/helpers.txt
 
-PROGRAM = $(JROOT_BIN)/webnail $(JROOT_JARDIR)/webnail-$(VERSION).jar 
-ALL = $(PROGRAM) webnail.desktop $(MANS) $(JROOT_BIN)/webnail
+PROGRAM = $(JROOT_BIN)/webnail $(JROOT_JARDIR)/webnail-$(VERSION).jar
+SERVER = $(JROOT_JARDIR)/webnail-server-$(VERSION).jar
+ALL = $(PROGRAM) webnail.desktop $(MANS) $(JROOT_BIN)/webnail $(SERVER)
 
 # program: $(JROOT_BIN)/webnail $(JROOT_JARDIR)/webnail-$(VERSION).jar 
 
@@ -210,9 +210,23 @@ $(JROOT_JARDIR)/webnail-$(VERSION).jar: $(FILES)
 	    -e 's/<!-- line3 -->/A:visited {color: rgb(65,164,128);}/' \
 	    Manual/manual.html > $(CLASSES)/webnail/manualDM.html
 	mkdir -p $(JROOT_JARDIR)
-	rm -f $(JROOT_JARDIR)/webnail-*.jar
+	rm -f $(JROOT_JARDIR)/webnail-[0123456789]*.jar
 	jar cfm $(JROOT_JARDIR)/webnail-$(VERSION).jar webnail.mf \
 		-C $(CLASSES) .
+
+$(JROOT_JARDIR)/webnail-server-$(VERSION).jar: modinfo/module-info.java \
+		$(JROOT_JARDIR)/webnail-$(VERSION).jar \
+		Properties/Server.properties
+	echo got here
+	mkdir -p mods/webnail/webnail
+	cp $(CLASSES)/webnail/WebnailServletAdapter.class mods/webnail/webnail
+	cp $(CLASSES)/webnail/WebnailAuthenticator.class mods/webnail/webnail
+	cp $(CLASSES)/webnail/Server.class mods/webnail/webnail
+	cp Properties/Server.properties mods/webnail/webnail
+	javac -d mods/webnail -p /usr/share/bzdev  modinfo/module-info.java
+	rm -f $(JROOT_JARDIR)/webnail-server-*.jar
+	jar --create --file $(SERVER) --main-class=webnail.Server \
+		-C mods/webnail .
 
 $(JROOT_BIN)/webnail: webnail.sh MAJOR MINOR \
 		$(JROOT_JARDIR)/webnail-$(VERSION).jar
@@ -396,3 +410,12 @@ install-pop:
 	    install -m 0644 -T tmp.png $$dir/$(TARGET_TDOC_ICON_PNG); \
 	    rm tmp.png ; \
 	done
+
+install-server:
+	install -d $(JARDIRECTORY)
+	install -m 0644 $(JROOT_JARDIR)/webnail-server-$(VERSION).jar \
+		$(JARDIRECTORY)
+
+uninstall-server:
+	@rm $(JARDIRECTORY)/webnail-server-$(VERSION).jar \
+		|| echo ... rm webnail-server-$(VERSION).jar FAILED

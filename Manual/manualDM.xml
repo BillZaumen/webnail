@@ -52,6 +52,8 @@
 	<node title="Trailer" uri="sresource:/webnail/manualDM.html#dtdTrailer"/>
 	<node title="After Script"
 	      uri="sresource:/webnail/manualDM.html#dtdAfterScript"/>
+	<node title="web.xml File"
+	      uri="sresource:/webnail/manualDM.html#dtdwebxml"/>
       </node>
     </node>
     <node title="Layout XML Syntax"
@@ -62,6 +64,9 @@
     </node>
     <node title="Template Files"
 	  uri="sresource:/webnail/manualDM.html#templateFiles">
+    </node>
+    <node title="The Webnail Server"
+	  uri="sresource:/webnail/manualDM.html#server">
     </node>
 </node>
 </toc>

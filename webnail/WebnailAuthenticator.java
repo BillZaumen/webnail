@@ -7,7 +7,7 @@ public class WebnailAuthenticator extends EjwsBasicAuthenticator {
     public WebnailAuthenticator(String password) {
 	super("webnail");
 	Set<String> roles = Set.of("writer");
-	add("maestro", password, roles);
+	add("main", password, roles);
 	add("remote", "remote", Set.of("remote"));
 	add("standalone", "standalone", Set.of("default"));
     }

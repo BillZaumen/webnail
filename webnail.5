@@ -79,7 +79,7 @@ and it is defined as follows:
 <!ELEMENT webnail (title?, descr?, head?,
 .br
 .B
-\ \ \ \ \ \ \ \ \ \ header?, image*, trailer?, finalHtml?)>
+\ \ \ \ \ \ \ \ \ \ header?, image*, trailer?, finalHtml?, webxmlExtras)>
 .br
 .B
 <!ATTLIST webnail
@@ -551,7 +551,7 @@ ignored when a
 .B url
 attribute is provided.
 .PP
-Finally the
+Next the
 .B trailer
 and
 .B finalHtml
@@ -599,6 +599,35 @@ the file
 and the content of the
 .B finalHtml
 element will follow that script.
+.PP
+Finally, the
+.B webxmlExtras
+element allows a web.xml file to be extended. This is defined by
+.PP
+.B
+<!ELEMENT webxmlExtras (#PCDATA)*
+.br
+.B
+<!ATTLIST webxmlExtras
+.br
+.B
+\ \ \ \ \ \ \ \ \ \ url CDATA #IMPLIED>
+.R
+.PP
+The contents of this element provides the XML to insert into a web
+application's WEB-INF/web.xml file just before that file's closing
+.B
+</web-app>
+element.
+The entities "&lt;", "&gt;", "&amp;", or "&quot" should be used
+instead of the corresponding characters, or the value should appear in
+a CDATA section (delimited by "<![CDATA[" and "]]>".  Alternatively, a
+.B url
+attribute can be used.  This attribute provides a URL that points to a
+resource containing the element's content.  The element's content will be
+ignored when a
+.B url
+attribute is provided.
 .SH LAYOUT SYNTAX
 .PP
 Layouts are defined by XML files that should start with the following

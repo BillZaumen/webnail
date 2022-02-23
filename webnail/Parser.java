@@ -636,6 +636,31 @@ public class Parser {
 	rmap.put("finalHtml", finalHtml);
     }
 
+    public void setwebxmlURL(String webxmlURL) {
+	rmap.put("webxmlURL", webxmlURL);
+	try {
+	    loadText(new URL(webxmlURL));
+	    setwebxml(text.toString());
+	    text.setLength(0);
+	} catch (MalformedURLException urle) {
+	    SwingErrorMessage.display(comp,
+				 localeString("webxmlErrorTitle"),
+				 String.format
+				 (localeString("malformedURL2"),
+				  webxmlURL.toString()));
+	} catch (IOException eio) {
+	    SwingErrorMessage.display(comp,
+				 localeString("webxmlErrorTitle"),
+				 MessageFormat.format
+				 (localeString("ioErrorURL"),
+				  eio.getMessage(),
+				  webxmlURL.toString()));
+	}
+    }
+    public void setwebxml(String webxml) {
+	rmap.put("webxml", webxml);
+    }
+
     public void addImageMap(TemplateProcessor.KeyMap map) {
 	try {
 	    String ns =(String)map.get("nProps");
@@ -1407,6 +1432,15 @@ public class Parser {
 		out.printf("<finalHtml>%s</finalHtml>\n", finalHtml);
 	    }
 	}
+	String webxmlURL = xmlEncode((String)rmap.get("webxmlURL"));
+	if (webxmlURL != null) {
+	    out.printf("  <webxmlExtras url=\"%s\"/>\n", webxmlURL);
+	} else {
+	    String webxml = xmlEncode((String) rmap.get("webxml"));
+	    if (webxml != null && webxml.length() > 0) {
+		out.printf("<webxmlExtras>%s</webxmlExtras>\n", webxml);
+	    }
+	}
 	out.printf("</webnail>\n");
     }
 
@@ -1681,6 +1715,9 @@ public class Parser {
 	    } else if (qName.equals("finalHtml")) {
 		theURL = attr.getValue("url");
 		if (theURL != null) rmap.put("finalHtmlURL", theURL);
+	    } else if (qName.equals("webxmlExtras")) {
+		theURL = attr.getValue("url");
+		if (theURL != null) rmap.put("webxmlURL", theURL);
 	    }
 	}
 
@@ -1825,6 +1862,25 @@ public class Parser {
 		}
 		if (processingXML) {
 		    rmap.put("finalHtml", text.toString());
+		}
+		text.setLength(0);
+	    } else if (qName.equals("webxmlExtras")) {
+		if (theURL != null) {
+		    try {
+			loadText(new URL(theURL));
+		    } catch (MalformedURLException eurl) {
+			error(new SAXParseException
+			      (localeString("urlExpected"), locator));
+		    } catch (IOException eio) {
+			error(new SAXParseException
+			      (String.format(localeString("urlIOError"),
+					     eio.getMessage()),
+			       locator));
+		    }
+		    theURL = null;
+		}
+		if (processingXML) {
+		    rmap.put("webxml", text.toString());
 		}
 		text.setLength(0);
 	    } else if (qName.equals("image")) {

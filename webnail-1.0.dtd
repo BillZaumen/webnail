@@ -1,7 +1,7 @@
 <?xml version="1.0" encoding="UTF-8"?>
 
 <!ELEMENT webnail (title?, descr?, head?, header?,
-	  image*, trailer?, finalHtml?)>
+	  image*, trailer?, finalHtml?, webxmlExtras?)>
 <!ATTLIST webnail
 	  xmlns CDATA #FIXED "http://bzdev.org/DTD/webnail-1.0"
 	  windowTitle CDATA #IMPLIED
@@ -58,4 +58,8 @@
 
 <!ELEMENT finalHtml (#PCDATA)>
 <!ATTLIST finalHtml
+	  url CDATA #IMPLIED>
+
+<!ELEMENT webxmlExtras (#PCDATA)>
+<!ATTLIST webxmlExtras
 	  url CDATA #IMPLIED>

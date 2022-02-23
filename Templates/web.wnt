@@ -74,4 +74,4 @@ $(endMimeTypes)
     <servlet-name>Synchronizer</servlet-name>
     <url-pattern>/sync</url-pattern>
   </servlet-mapping>
-</web-app>
+  $(webxmlExtras)</web-app>
