@@ -1818,8 +1818,22 @@ during iteration over images in a <var>repeatrows</var> block.
       string is empty or this option is not present, accounts will not
       be used.
   </UL>
-  The remaining non-option argument is a file or directory name for
-  a set of web pages created by <STRONG>webnail</STRONG>.
+  The remaining non-option argument is a file or directory name for a
+  set of web pages created by <STRONG>webnail</STRONG>.  As an
+  alternative (that is useful for Docker), <A NAME="envvars"></A> the
+  following environment variables can be set:
+  <UL>
+    <LI><STRONG>PORT</STRONG>. If provided, the value is an integer in the
+      range [1, 64353]. If not provided, the default is 80.
+    <LI><STRONG>PASSWORD</STRONG>. If provided, the value is the password
+      for the <STRONG>main</STRONG> account.
+    <LI><STRONG>FILENAME</STRONG>. When environment variables are used, this
+      variable is required. It's value is the path name for the file or
+      directory containing the web pages genenerated by
+      <STRONG>webnail</STRONG>.
+    </UL>
+    These environment variable will be used when the server is started with
+    no command-line arguments.
 <P>
   To start the server, use the following script:
   <BLOCKQUOTE><CODE><PRE>
@@ -1830,24 +1844,20 @@ java -p /usr/share/bzdev --add-modules org.bzdev.ejws \
   </PRE></CODE></BLOCKQUOTE>
   The server will run until the script's process is killed.
 <P>
-  If Docker is being used, to start the server, you have removed
-  symbolic links in /usr/share/java that refer to a jar file, and the
-  remaining jar files are compatible with Java modules, then you can the
-  java command
+  If Docker is being used and the webnail-server Debian package has been
+  installed, then you can the java command
   <BLOCKQUOTE><CODE><PRE>
-java -p /usr/share/java -m webnail/webnail.Server --port PORT \
+java -p /usr/share/bzdev  -m webnail/webnail.Server --port PORT \
      --password PASSWORD FILE_OR_DIRECTORY
   </PRE></CODE></BLOCKQUOTE>
   in which case the last linea in <CODE>Dockerfile</CODE> will be
   <BLOCKQUOTE><CODE><PRE>
 ENV PORT 80
-ENV PASSWORD
-ENV FILE
-CMD "java -p /usr/share/java -m webnail/webnail.Server
-     --port $PORT --password \"$PASSWORD\"  \"$FILE\""
+CMD ["java", "-p", "/usr/share/bzdev",  "-m", "webnail/webnail.Server"]
   </PRE></CODE></BLOCKQUOTE>
-  Ths string in quotes that follows <CODE>CMD</CODE> should be on a
-  single line: a line break was added for readability.
+  Docker must be started with the appropriate environment variables
+  as described <A HREF="#envvars">above</A>.  The <var>FILENAME</var>
+  variable must use a path name that is valid within the Docker container.
 </body>
 </html>
 

@@ -217,7 +217,6 @@ $(JROOT_JARDIR)/webnail-$(VERSION).jar: $(FILES)
 $(JROOT_JARDIR)/webnail-server-$(VERSION).jar: modinfo/module-info.java \
 		$(JROOT_JARDIR)/webnail-$(VERSION).jar \
 		Properties/Server.properties
-	echo got here
 	mkdir -p mods/webnail/webnail
 	cp $(CLASSES)/webnail/WebnailServletAdapter.class mods/webnail/webnail
 	cp $(CLASSES)/webnail/WebnailAuthenticator.class mods/webnail/webnail

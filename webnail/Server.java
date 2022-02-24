@@ -85,16 +85,13 @@ public class Server {
 	int port = 80;
 	String password = null;
 
-	int index = 0;
-	while (index < argv.length && argv[index].startsWith("-")) {
-	    if (argv[index].equals("--port")) {
-		index++;
-		if (index == argv.length) {
-		    System.err.println(localeString("missingArgument1"));
-		    System.exit(1);
-		}
+	if (argv.length == 0) {
+	    // Configure and run  using environment variables, which
+	    // is more convenient when running inside a Docker container.
+	    String portVar = System.getenv("PORT");
+	    if (portVar != null) {
 		try {
-		    port = Integer.parseInt(argv[index]);
+		    port = Integer.parseInt(portVar);
 		} catch (Exception e) {
 		    System.err.println(localeString("badPort"));
 		    System.exit(1);
@@ -103,27 +100,59 @@ public class Server {
 		    System.err.println(localeString("badPort"));
 		    System.exit(1);
 		}
-	    } else if (argv[index].equals("--password")) {
-		index++;
-		if (index == argv.length) {
-		    System.err.println(localeString("missingArgument2"));
-		    System.exit(1);
-		}
-		password = argv[index].trim();
+	    }
+	    password = System.getenv("PASSWORD");
+	    if (password != null) {
+		password = password.trim();
 		if (password.length() == 0) password = null;
-	    } else {
-		System.err.println(localeString("unknownArg") + ": "
-						+ argv[index]);
+	    }
+	    String fileName = System.getenv("FILENAME");
+	    if (fileName == null) {
+		System.err.println(localeString("missingFileName"));
 		System.exit(1);
 	    }
-	    index++;
+	    start(fileName, port, password);
+	} else {
+	    int index = 0;
+	    while (index < argv.length && argv[index].startsWith("-")) {
+		if (argv[index].equals("--port")) {
+		    index++;
+		    if (index == argv.length) {
+			System.err.println(localeString("missingArgument1"));
+			System.exit(1);
+		    }
+		    try {
+			port = Integer.parseInt(argv[index]);
+		    } catch (Exception e) {
+			System.err.println(localeString("badPort"));
+			System.exit(1);
+		    }
+		    if (port < 1 || port > 65535) {
+			System.err.println(localeString("badPort"));
+			System.exit(1);
+		    }
+		} else if (argv[index].equals("--password")) {
+		    index++;
+		    if (index == argv.length) {
+			System.err.println(localeString("missingArgument2"));
+			System.exit(1);
+		    }
+		    password = argv[index].trim();
+		    if (password.length() == 0) password = null;
+		} else {
+		    System.err.println(localeString("unknownArg") + ": "
+				       + argv[index]);
+		    System.exit(1);
+		}
+		index++;
+	    }
+	    if (index == argv.length) {
+		System.err.println(localeString("missingArgument3"));
+		System.exit(1);
+	    }
+	    String fname = argv[index];
+	    start(fname, port, password);
 	}
-	if (index == argv.length) {
-	    System.err.println(localeString("missingArgument3"));
-	    System.exit(1);
-	}
-	String fname = argv[index];
-	start(fname, port, password);
 	// do not explicitly exit as that would stop the server.
     }
 }
