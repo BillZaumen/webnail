@@ -1835,7 +1835,8 @@ during iteration over images in a <var>repeatrows</var> block.
     These environment variable will be used when the server is started with
     no command-line arguments.
 <P>
-  To start the server, use the following script:
+  To start the server when the webnail Debian package is installed,,
+  use the following script:
   <BLOCKQUOTE><CODE><PRE>
 #!/bin/sh
 WVERSION=`dpkg-query -f '${VERSION}' -W webnail`
@@ -1847,17 +1848,24 @@ java -p /usr/share/bzdev --add-modules org.bzdev.ejws \
   If Docker is being used and the webnail-server Debian package has been
   installed, then you can the java command
   <BLOCKQUOTE><CODE><PRE>
-java -p /usr/share/bzdev  -m webnail/webnail.Server --port PORT \
-     --password PASSWORD FILE_OR_DIRECTORY
+java -p /usr/share/bzdev  -m webnail/webnail.Server
   </PRE></CODE></BLOCKQUOTE>
-  in which case the last linea in <CODE>Dockerfile</CODE> will be
+  with the environment variables <var>PORT</var>, <var>PASSWORD</var>,
+  and <var>FILENAME</var> providing the arguments. In this case,
+  the last line in <CODE>Dockerfile</CODE> will be
   <BLOCKQUOTE><CODE><PRE>
-ENV PORT 80
 CMD ["java", "-p", "/usr/share/bzdev",  "-m", "webnail/webnail.Server"]
   </PRE></CODE></BLOCKQUOTE>
-  Docker must be started with the appropriate environment variables
-  as described <A HREF="#envvars">above</A>.  The <var>FILENAME</var>
-  variable must use a path name that is valid within the Docker container.
+<P>
+  When the Docker image is built, the appropriate TCP port must be
+  exposed and a <var>PORT</var> environment variable must be set if
+  its value is not 80. Otherwise Docker must be started with the
+  appropriate environment variables as
+  described <A HREF="#envvars">above</A>.  The <var>FILENAME</var>
+  environment variable must use a path name that is valid within the
+  Docker container.  The environment variable <var>PASSWORD</var> can
+  be either set but is use is optional&mdash;it turns on the ability
+  to synchronize images on multiple displays.
 </body>
 </html>
 
