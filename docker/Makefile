@@ -7,7 +7,7 @@ FILENAME =
 PASSWORD =
 
 docker:
-	docker build --tag wtzbzdev/webnail:$(VERSION) .
+	docker build --no-cache=true --tag wtzbzdev/webnail:$(VERSION) .
 
 start:
 	docker run --publish 80:80 --detach --name webnail \
