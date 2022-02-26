@@ -6,6 +6,9 @@ FILENAME =
 
 PASSWORD =
 
+#
+# Using --no-cache=true so apt-get will fetch the latest versions.
+#
 docker:
 	docker build --no-cache=true --tag wtzbzdev/webnail:$(VERSION) .
 
