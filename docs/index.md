@@ -29,7 +29,7 @@ file). Then follow the instructions on that page for running an installer.
 
 ## Documentation
 
-There is a [manual](https://billzaumen.github.io/webnail/manual.html),
+There is a [manual](https://billzaumen.github.io/webnail/manual/manual.html),
 also built into webnail as part of its 'help' system.
 
 ## Docker
