@@ -128,11 +128,13 @@ ICONS = $(SOURCEICON) $(HELPICONS) Icons/dndTarget.png Icons/blank.png \
 	Icons/webnailicon128.png Icons/webnailicon256.png \
 	Icons/webnailicon512.png
 
-HELPFILES = Manual/manual.xml Manual/manual.html Manual/browser.png \
-	Manual/gui-main.png Manual/gui-edit.png Manual/gui-proxy.png \
-	Manual/gui-dom.png Manual/gui-properties.png Manual/gui-title.png \
-	Manual/editFields.png Manual/editImages.png Manual/input.png \
-	Manual/maxhw.png Manual/output.png Manual/run.png \
+HELPFILES = Manual/manual.xml Manual/manual.html docs/manual/browser.png \
+	docs/manual/gui-main.png docs/manual/gui-edit.png \
+	docs/manual/gui-proxy.png docs/manual/gui-dom.png \
+	docs/manual/gui-properties.png docs/manual/gui-title.png \
+	docs/manual/editFields.png docs/manual/editImages.png \
+	docs/manual/input.png docs/manual/maxhw.png \
+	docs/manual/output.png docs/manual/run.png \
 	Manual/manualDM.xml
 
 WEBFILES = WebFiles/strut.gif WebFiles/initImage.png WebFiles/initial.html \
@@ -167,11 +169,12 @@ FILES = $(JFILES) $(PROPERTIES) webnail.mf $(ICONS) \
 
 PROGRAM = $(JROOT_BIN)/webnail $(JROOT_JARDIR)/webnail-$(VERSION).jar
 SERVER = $(JROOT_JARDIR)/webnail-server-$(VERSION).jar
-ALL = $(PROGRAM) webnail.desktop $(MANS) $(JROOT_BIN)/webnail $(SERVER)
+ALL = $(PROGRAM) webnail.desktop $(MANS) $(JROOT_BIN)/webnail $(SERVER) \
+	docs/manual/manual.html
 
 # program: $(JROOT_BIN)/webnail $(JROOT_JARDIR)/webnail-$(VERSION).jar 
 
-program: clean $(PROGRAM)
+program: clean $(PROGRAM) docs/manual/manual.html
 
 #
 # Before using, set up a symbolic link for bzdevlib.jar in the ./jar directory.
@@ -248,6 +251,18 @@ $(JROOT_MANDIR)/man5/webnail.5.gz: webnail.5
 	sed s/VERSION/$(VERSION)/g webnail.5 | \
 	gzip -n -9 > $(JROOT_MANDIR)/man5/webnail.5.gz
 
+
+#
+# Genrated and saved in the git repository because the 'docs'
+# subdirectory is used by GitHub to create project documentation.
+#
+docs/manual/manual.html: Manual/manual.html
+	sed -e 's!/[*] START!!' \
+	    -e 's!END [*]/!!' \
+	    -e 's/<!-- line1 -->/A {color: rgb(65,225,128);}/' \
+	    -e 's/<!-- line2 -->/A:link {color: rgb(65,225,128);}/' \
+	    -e 's/<!-- line3 -->/A:visited {color: rgb(65,164,128);}/' \
+	    Manual/manual.html > docs/manual/manual.html
 
 clean:
 	rm -f $(CLASSES)/webnail/* $(JROOT_JARDIR)/webnail-$(VERSION).jar \
