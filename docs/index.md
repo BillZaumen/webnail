@@ -1,6 +1,6 @@
 # Webnail
 
-Webnail
+Webnail can
 
   - scale an image, placing the scaled image in a file.
 
@@ -16,16 +16,17 @@ Webnail
     to allow multiple computers to show the same images concurrently.
 
 To install, visit the [Debian Repository](https://billzaumen.github.io/bzdev/)
-page and follow the instructions for setting up /etc/apt to use the
-appropriate repository, and install libbzdev-base-java, libbzdev-math-java,
+page and follow the instructions for setting up /etc/apt to access that
+repository, and install libbzdev-base-java, libbzdev-math-java,
 libbzdev-obnaming-java, libbzdev-graphics-java, libbzdev-desktop-java,
 webnail, and webnail-pop-icons. For non-Debian Linux systems, there is
 a [direct links](https://billzaumen.github.io/bzdev/packages.html) page
 for downloading Debian packages, which the program `alien` can convert
 into RPM packages, etc.  For other systems, visit the
-[installers](https://billzaumen.github.io/bzdev/installers.html) page and
-use the `bzdev` and `webnail` links to download installers (each is a JAR
-file). Then follow the instructions on that page for running an installer.
+[installers](https://billzaumen.github.io/bzdev/installers.html) page,
+use the `bzdev` and `webnail` links to download installers (each is a
+JAR file), and then follow the instructions on that page for running
+an installer.
 
 ## Documentation
 
