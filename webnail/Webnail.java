@@ -1474,7 +1474,13 @@ public class Webnail {
 	if (wmap != null) wmap.addWelcome("index.html");
 	ews.start();
 	*/
+	if (port == 0) port = ews.getPort();
 	URI uri = new URL("http://localhost:" + port + "/").toURI();
+	try {
+	    // this should cause a short delay, long enough for
+	    // the server to be fully initialized if it isn't already.
+	    uri.toURL().openConnection().connect();
+	} catch (Exception e) {}
 	boolean ok = false;
 	if (Desktop.isDesktopSupported()) {
 	    Desktop desktop = Desktop.getDesktop();

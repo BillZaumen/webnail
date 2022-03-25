@@ -314,7 +314,19 @@ This window contains a menu bar and a number of controls.
 	restart Firefox. To make this easier,
 	<strong>webnail</strong> copies the URL to the system
 	clipboard when the server starts.
-      <li><var>start HTTP Server</var> to start the HTTP server.
+      <li><var>start HTTP Server</var> to start the HTTP server.  In a
+	desktop environment, this option will also open a browser
+	window. Javascript must be enabled. Some versions of Firefox
+	such as 98.0.1 can behave erratically with this option: if
+	Firefox is not already running, the browser window that
+	<strong>webnail</strong> opens may not show either the
+	slideshow controls or a message indicating that scripting has
+	to be enabled.  If this happens, reloading the page may
+	restore the normal behavior.  Another thing to try is to push
+	the 'home page' button and then the back button. This behavior
+	also occurs when Firefox is started by opening a link directly
+	from a terminal window, but does not occur if the link is
+	opened by entering the URL in Firefox's "location" window.
       <li><var>Stop HTTP Server</var> to stop the HTTP server.
       <li><var>Quit</var> to exit from Webnail.
     </UL>
@@ -989,12 +1001,26 @@ argument is present.
 <h2><a name="server"></a>Web Server Options</h2>
 <ul>
   <li><strong>--port</strong> <I>PORT</I>. This option specifies the
-    TCP port to use for an internal web server (HTTP server). A value of
-    0 (the default) indicates that the program should choose an unused port.
-  <li><strong>--browse </strong> <I>FILE</I>. This option specifies the
-    file or directory containing the web pages. This should be a file or
-    directory created by <strong>webnail</strong>.  A web server will be
-    started, as will a browser connecting to that server.
+    TCP port to use for an internal web server (HTTP server). A value
+    of 0 (the default) indicates that the program should choose an
+    unused port.  Unfortunately, with Firefox 98.0.1 (and possibly
+    later), someone decided that the ephemeral port range is verboten
+    and when the port is zero, or not provided, that is the range from
+    which the port will be chosen.
+  <li><strong>--browse </strong> <I>FILE</I>. This option specifies
+    the file or directory containing the web pages. This should be a
+    file or directory created by <strong>webnail</strong>.  A web
+    server will be started, as will a browser connecting to that
+    server.  Some versions of Firefox such as 98.0.1 can behave
+    erratically with this option: if Firefox is not already running,
+    the browser window that <strong>webnail</strong> opens may not
+    show either the slideshow controls or a message indicating that
+    scripting has to be enabled.  If this happens, reloading the page
+    may restore the normal behavior.  Another thing to try is to push
+    the 'home page' button and then the 'back' button. This behavior
+    also occurs when Firefox is started by opening a link directly
+    from a terminal window, but does not occur if the link is opened
+    by entering the URL in Firefox's <!-- ' --> "location" window.
   <li><strong>--password</strong> <I>PASSWORD</I>. This option sets a
     password to use for the user name <strong>main</strong>. When a
     user is logged in as <strong>main</strong>, the user determines
@@ -1992,9 +2018,11 @@ https://github.com/BillZaumen/webnail/tree/main/docker
  -->
 <!--  LocalWords:  highResDir highImageURL imageFile mediumFile TCP
  -->
-<!--  LocalWords:  imageURL imageHtmlURL imgTitle mHeight servlet
+<!--  LocalWords:  imageURL imageHtmlURL imgTitle mHeight servlet rgb
  -->
 <!--  LocalWords:  servlet's NoScript ubuntu webxmlExtras whitespace
  -->
-<!--  LocalWords:  Makefile wtzbzdev DockerHub Dockerfile
+<!--  LocalWords:  Makefile wtzbzdev DockerHub Dockerfile monospace
+ -->
+<!--  LocalWords:  BLOCKQUOTE
  -->

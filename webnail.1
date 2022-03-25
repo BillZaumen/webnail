@@ -73,7 +73,7 @@ image, typically for use in web pages that show multiple images, or
 that alternatively creates a full web page.  With no arguments, the
 program is run from a GUI (Graphical User Interface). With a single
 argument that does not start with "\-", the argument is assumed to be the
-name of an XML input file, as described below, that will preconfigure the GUI.
+name of an XML input file, as described below, that will configure the GUI.
 The GUI has an option to save its state in a file using this XML format.
 Otherwise the arguments other than options are as follows.
 .TP
@@ -285,7 +285,10 @@ but this is appropriate only for use on a single computer system).
 .BI \-\-port \ PORT
 Set the TCP port to use when webnail is used as a web server. When
 the port is zero, or not provided, a port will be automatically
-chosen.
+chosen. Unfortunately, with Firefox 98.0.1 (and possibly
+later), someone decided that the ephemeral port range is verboten,
+and when the port is zero, or not provided, that is the range from
+which the port will be chosen.
 .TP
 .BI \-\-password \ PASSWORD
 Set up passwords for user authentication. Three users will be created.
@@ -313,7 +316,7 @@ Firefox 96.0 with the NoScript extension on an ubuntu-based system
 when authentication is enabled: most of the time, NoScript fails to
 allow a script when asked to allow it. This also happens when
 right-clicking a URL in a terminal window, but does not happen when
-firefox is started by double-clicking its icon.  The work-around is to
+Firefox is started by double-clicking its icon.  The work-around is to
 close the browser window and restart Firefox. To make this easier,
 .B webnail
 copies the URL (if possible) to the system clipboard when the server
@@ -326,7 +329,17 @@ Start webnail as a web server. The argument
 is either a directory, a zip file, or a WAR (Web ARchive) file that
 was generated with
 .IR webnail ,
-although it can be used with other files or directories as well.
+although it can be used with other files or directories as well.  Some
+versions of Firefox such as 98.0.1 can behave erratically with this
+option: if Firefox is not already running, the browser window that
+.B webnail
+opens may not show either the slideshow controls or a message
+indicating that scripting has to be enabled.  If this happens,
+reloading the page may restore the normal behavior.  Another thing to
+try is to push the 'home page' button and then the back button. This
+behavior also occurs when Firefox is started by opening a link
+directly from a terminal window, but does not occur if the link is
+opened by entering the URL in Firefox's "location" window.
 .SH FILES
 .TP
 .I /usr/share/java/webnail-VERSION.jar
@@ -336,3 +349,9 @@ Java archive
 Shell script to start the program
 .SH SEE ALSO
 .BR webnail (5)
+
+\"  LocalWords:  WEBNAIL webnail SYNOPTSIS br fIXML fR fB fBuU fIUSER
+\"  LocalWords:  fIIMAGE fIINPUTFILE OUTPUTFILE fIWEB ZIPFILE fIPORT
+\"  LocalWords:  fIFILE gui TP INPUTFILE xml wnl DTD webnail's html
+\"  LocalWords:  PROGRAMDATA subdirectory HTTPS TCP NoScript ubuntu
+\"  LocalWords:  ARchive
