@@ -380,6 +380,14 @@ install-pop:
 	install -d $(APP_POPICON_DIR)
 	install -d $(MIME_POPICON_DIR)
 	install -m 0644 -T $(SOURCEICON) $(APP_POPICON_DIR)/$(TARGETICON)
+	install -m 0644 -T $(SOURCE_DOC_ICON) \
+		$(MIME_POPICON_DIR)/$(TARGET_DOC_ICON)
+	install -m 0644 -T $(SOURCE_LDOC_ICON) \
+		$(MIME_POPICON_DIR)/$(TARGET_LDOC_ICON)
+	install -m 0644 -T $(SOURCE_TDOC_ICON) \
+		$(MIME_POPICON_DIR)/$(TARGET_TDOC_ICON)
+
+saved-install-pop-actions:
 	for i in $(POPICON_WIDTHS) ; do \
 		install -d $(POPICON_DIR)/$${i}x$${i}/$(APPS_DIR) ; \
 		inkscape -w $$i --export-filename=tmp.png $(SOURCEICON) ; \
@@ -395,12 +403,6 @@ install-pop:
 		install -m 0644 -T tmp.png $$dir/$(TARGETICON_PNG); \
 		rm tmp.png ; \
 	done
-	install -m 0644 -T $(SOURCE_DOC_ICON) \
-		$(MIME_POPICON_DIR)/$(TARGET_DOC_ICON)
-	install -m 0644 -T $(SOURCE_LDOC_ICON) \
-		$(MIME_POPICON_DIR)/$(TARGET_LDOC_ICON)
-	install -m 0644 -T $(SOURCE_TDOC_ICON) \
-		$(MIME_POPICON_DIR)/$(TARGET_TDOC_ICON)
 	for i in $(POPICON_WIDTHS) ; do \
 	    install -d $(POPICON_DIR)/$${i}x$${i}/$(MIMETYPES_DIR) ; \
 	    inkscape -w $$i --export-filename=tmp.png $(SOURCE_DOC_ICON) ; \
@@ -424,6 +426,7 @@ install-pop:
 	    install -m 0644 -T tmp.png $$dir/$(TARGET_TDOC_ICON_PNG); \
 	    rm tmp.png ; \
 	done
+
 
 install-server:
 	install -d $(JARDIRECTORY)
