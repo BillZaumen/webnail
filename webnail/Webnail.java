@@ -1311,21 +1311,33 @@ public class Webnail {
 		    CopyUtilities.copyResourceToZipStream
 			("webnail/initial.png",
 			 "controls/initial.png", zos, true);
-		    CopyUtilities.copyResourceToZipStream("webnail/fleft.gif",
+		    CopyUtilities.copyResourceToZipStream(rvmode?
+							  "webnail/fleftRV.gif":
+							  "webnail/fleft.gif",
 							  "controls/fleft.gif",
 							  zos, true);
-		    CopyUtilities.copyResourceToZipStream("webnail/left.gif",
+		    CopyUtilities.copyResourceToZipStream(rvmode?
+							  "webnail/leftRV.gif":
+							  "webnail/left.gif",
 							  "controls/left.gif",
 							  zos, true);
-		    CopyUtilities.copyResourceToZipStream("webnail/expand.png",
-							  "controls/expand.png",
-							  zos, true);
-		    CopyUtilities.copyResourceToZipStream("webnail/right.gif",
+		    CopyUtilities
+			.copyResourceToZipStream(rvmode?
+						 "webnail/expandRV.png":
+						 "webnail/expand.png",
+						 "controls/expand.png",
+						 zos, true);
+		    CopyUtilities.copyResourceToZipStream(rvmode?
+							  "webnail/rightRV.gif":
+							  "webnail/right.gif",
 							  "controls/right.gif",
 							  zos, true);
-		    CopyUtilities.copyResourceToZipStream("webnail/fright.gif",
-							  "controls/fright.gif",
-							  zos, true);
+		    CopyUtilities
+			.copyResourceToZipStream(rvmode?
+						 "webnail/frightRV.gif":
+						 "webnail/fright.gif",
+						 "controls/fright.gif",
+						 zos, true);
 		    CopyUtilities.copyResourceToZipStream
 			("webnail/slideshow1.js", "controls/slideshow1.js",
 			 zos, false);

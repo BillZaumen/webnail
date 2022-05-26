@@ -12,6 +12,9 @@ PASSWORD =
 docker:
 	docker build --no-cache=true --tag wtzbzdev/webnail:$(VERSION) .
 
+docker-release:
+	docker push wtzbzdev/webnail:$(VERSION)
+
 start:
 	docker run --publish 80:80 --detach --name webnail \
 		-v "$(DIRECTORY)"/:/app/:ro \

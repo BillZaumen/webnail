@@ -411,7 +411,10 @@ public class Gui {
 	    boolean warmode = p.getWebArchiveMode();
 	    String bgColor = p.getValue("bgcolor");
 	    String fgColor = p.getValue("fgcolor");
-	    boolean rvmode = p.getRVMode();
+	    rvmode = p.getRVMode();
+	    if (rvmodeCheckbox != null) {
+		rvmodeCheckbox.setSelected(rvmode);
+	    }
 	    boolean syncmode = p.getSyncMode();
 	    boolean waitOnError = p.getWaitOnError();
 	    String imageTime = p.getImageTime();
