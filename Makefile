@@ -1,5 +1,5 @@
 #
-# GNU Makefile.
+# GNU Makefile
 #
 
 DATE = $(shell date -R)
