@@ -1073,6 +1073,10 @@ public class Webnail {
 		    */
 		    x = parser.getValue("imageTime", ind);
 		    if (x != null) {
+			long lx = parser.getImageTime(ind);
+			if (lx > -1) {
+			    x = "" + lx;
+			}
 			if (otherProps == null) {
 			    otherProps = ", duration: \"" + x + "\"";
 			} else {
@@ -1083,6 +1087,10 @@ public class Webnail {
 
 		    x = parser.getValue("minImageTime", ind);
 		    if (x != null) {
+			long lx = parser.getImageTime(ind);
+			if (lx > -1) {
+			    x = "" + lx;
+			}
 			if (otherProps == null) {
 			    otherProps = ", minImageTime: \"" + x + "\"";
 			} else {
