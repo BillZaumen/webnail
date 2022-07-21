@@ -1352,7 +1352,7 @@ public class Parser {
 		String npString = (String)imap.get("nProps");
 		int np = (npString == null)? 0: Integer.parseInt(npString);
 
-		out.printf("  <image");
+		out.printf("<image");
 		if (imimeType != null) 
 		    out.printf(" mimeType=\"%s\"", imimeType);
 		if (ilinkMode != null) 
@@ -1368,30 +1368,30 @@ public class Parser {
 		if (ihrefTarget != null) {
 		    out.printf(" hrefTarget=\"%s\"", ihrefTarget);
 		}
-		out.printf(">\n");
+		out.printf(">");
 		
 		if (ifilename != null) {
-		    out.printf("<filename>%s</filename>\n", ifilename);
+		    out.printf("<filename>%s</filename>", ifilename);
 		}
 		if (iurl != null) {
-		    out.printf("<url>%s</url>\n", iurl);
+		    out.printf("<url>%s</url>", iurl);
 		}
 		String ititleURL = xmlEncode((String)imap.get("titleURL"));
 		if (ititleURL != null) {
-		    out.printf("  <title url=\"%s\"/>\n", 
+		    out.printf("  <title url=\"%s\"/>",
 			       ititleURL);
 		} else {
 		    if (ititle != null && ititle.length() > 0) {
-			out.printf("<title>%s</title>\n", ititle);
+			out.printf("<title>%s</title>", ititle);
 		    }
 		}
 		String idescrURL = xmlEncode((String)imap.get("descrURL"));
 		if (idescrURL != null) {
-		    out.printf("  <descr url=\"%s\"/>\n", 
+		    out.printf("  <descr url=\"%s\"/>",
 		       idescrURL);
 		} else {
 		    if (idescr != null && idescr.length() > 0) {
-			out.printf("<descr>%s</descr>\n", idescr);
+			out.printf("<descr>%s</descr>", idescr);
 		    }
 		}
 		/*
@@ -1405,7 +1405,7 @@ public class Parser {
 		for (int i = 0; i < np; i++) {
 		    String key = xmlEncode((String)imap.get("propKey" + i));
 		    String value = xmlEncode((String)imap.get("propValue" + i));
-		    out.printf("<property key=\"%s\">%s</property>\n",
+		    out.printf("<property key=\"%s\">%s</property>",
 			       key, value);
 		}
 		out.printf("</image>\n");
