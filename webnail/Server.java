@@ -28,7 +28,7 @@ public class Server {
 	if (!f.isAbsolute()) {
 	    f = new File (cdir, fname);
 	}
-	EmbeddedWebServer ews = new EmbeddedWebServer(port, 48, 2, null);
+	EmbeddedWebServer ews = new EmbeddedWebServer(port, 48, 2);
 	if (port == 0) port = ews.getPort();
 	if (f.isDirectory()) {
 	    File wx = new File(f, "WEB-INF" + File.separator + "web.xml");

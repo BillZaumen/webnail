@@ -201,7 +201,7 @@ $(CLASSES):
 $(JROOT_JARDIR)/webnail-$(VERSION).jar: $(FILES)
 	mkdir -p $(CLASSES)
 	mkdir -p $(CLASSES)/webnail
-	javac -Xlint:unchecked -Xlint:deprecation \
+	javac --release 11 -Xlint:unchecked -Xlint:deprecation \
 		-d $(CLASSES) -classpath $(CLASSES):$(EXTLIBS) -sourcepath . \
 		$(JFILES)
 	cp $(PROPERTIES) $(ICONS) $(HELPFILES) $(LAYOUTFILES) \
@@ -225,7 +225,8 @@ $(JROOT_JARDIR)/webnail-server-$(VERSION).jar: modinfo/module-info.java \
 	cp $(CLASSES)/webnail/WebnailAuthenticator.class mods/webnail/webnail
 	cp $(CLASSES)/webnail/Server.class mods/webnail/webnail
 	cp Properties/Server.properties mods/webnail/webnail
-	javac -d mods/webnail -p /usr/share/bzdev  modinfo/module-info.java
+	javac  --release 11 -d mods/webnail -p /usr/share/bzdev  \
+		modinfo/module-info.java
 	rm -f $(JROOT_JARDIR)/webnail-server-*.jar
 	jar --create --file $(SERVER) --main-class=webnail.Server \
 		-C mods/webnail .
